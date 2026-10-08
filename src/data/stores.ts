@@ -1,0 +1,85 @@
+import type { StoreData } from "../types/street";
+
+export const stores: StoreData[] = [
+  {
+    id: 1,
+    name: "A 덮밥",
+    type: "맛",
+    category: "한식 · 덮밥",
+    description:
+      "인천대 학생들이 부담 없이 식사하기 좋은 타임스페이스의 덮밥집이에요.",
+    menu: "제육덮밥",
+    price: "9,000원",
+    event: "오늘 17~20시 학생 인증 시 음료 서비스",
+    tags: ["학생추천", "저녁", "가성비"],
+    walking: "도보 3분",
+    aiScore: 96,
+  },
+  {
+    id: 2,
+    name: "B 카페",
+    type: "맛",
+    category: "카페 · 디저트",
+    description:
+      "공강 시간이나 약속 전 잠깐 머물기 좋은 밝고 편안한 카페예요.",
+    menu: "아메리카노",
+    price: "4,500원",
+    tags: ["공강", "카페", "조용한"],
+    walking: "도보 4분",
+    aiScore: 89,
+  },
+  {
+    id: 3,
+    name: "C 스튜디오",
+    type: "멋",
+    category: "사진 · 문화",
+    description:
+      "거리 안쪽에서 우연히 발견할 수 있는 작은 촬영·문화 공간이에요.",
+    menu: "사진 촬영",
+    price: "가격 문의",
+    event: "오늘 예약 고객 소품 무료 대여",
+    tags: ["사진", "데이트", "발견"],
+    walking: "도보 6분",
+    aiScore: 91,
+  },
+  {
+    id: 4,
+    name: "D 네일",
+    type: "멋",
+    category: "뷰티 · 네일",
+    description:
+      "타임스페이스에서 만나는 예약 중심의 뷰티 공간이에요.",
+    menu: "젤 네일",
+    price: "35,000원~",
+    tags: ["뷰티", "예약", "분위기"],
+    walking: "도보 5분",
+    aiScore: 84,
+  },
+  {
+    id: 5,
+    name: "E 파스타",
+    type: "맛",
+    category: "양식 · 파스타",
+    description:
+      "타임스페이스 안쪽에서 발견하는 작은 파스타 가게예요.",
+    menu: "토마토 파스타",
+    price: "12,000원",
+    tags: ["데이트", "양식", "저녁"],
+    walking: "도보 7분",
+    aiScore: 88,
+  },
+  {
+    id: 6,
+    name: "F 편집숍",
+    type: "멋",
+    category: "패션 · 소품",
+    description:
+      "개성 있는 소품과 의류를 둘러볼 수 있는 작은 편집숍이에요.",
+    menu: "패션 · 소품",
+    price: "상품별 상이",
+    event: "오늘 일부 소품 10% 할인",
+    tags: ["소품", "쇼핑", "발견"],
+    walking: "도보 8분",
+    aiScore: 87,
+  },
+];

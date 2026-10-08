@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 
 import "./index.css";
 
-import App from "./App.tsx";
-import Owner from "./Owner.tsx";
+import App from "./pages/Customer.tsx";
+import Owner from "./pages/Owner.tsx";
 
 const isOwnerPage =
   window.location.pathname.startsWith(

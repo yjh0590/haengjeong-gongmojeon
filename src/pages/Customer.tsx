@@ -20,285 +20,11 @@ import {
   Zap,
 } from "lucide-react";
 
-import "./App.css";
+import "../styles/Customer.css";
 
-type StoreType = "맛" | "멋";
-type FilterType = "전체" | "맛" | "멋" | "이벤트";
-
-type ViewDirection = "forward" | "back" | "left" | "right";
-
-type StoreData = {
-  id: number;
-  name: string;
-  type: StoreType;
-  category: string;
-  description: string;
-  menu: string;
-  price: string;
-  event?: string;
-  tags: string[];
-  walking: string;
-  aiScore: number;
-};
-
-type ApprovedPromotionData = {
-  storeId: number;
-  storeName: string;
-  category: string;
-  goal: string;
-  constraint: string;
-
-  promotion: {
-    id: number;
-    title: string;
-    summary: string;
-    badge: string;
-    streetCopy: string;
-    snsCopy: string;
-    shortScript: string;
-  };
-
-  approvedAt: string;
-};
-
-type StreetConnection = {
-  direction: ViewDirection;
-  to: string;
-  label: string;
-
-  /*
-    다음 지점으로 이동했을 때
-    처음 바라볼 방향.
-
-    생략하면 이동한 방향을 그대로 사용.
-  */
-  arrivalView?: ViewDirection;
-};
-
-type StreetNode = {
-  id: string;
-  number: number;
-  name: string;
-  subtitle: string;
-
-  /*
-    같은 장소에서 바라보는 방향별 사진.
-
-    사진을 찍어오면 이런 식으로 넣으면 됨.
-
-    views: {
-      forward: "/street/point1-forward.jpg",
-      back: "/street/point1-back.jpg",
-      left: "/street/point1-left.jpg",
-      right: "/street/point1-right.jpg",
-    }
-  */
-  views: Partial<Record<ViewDirection, string>>;
-
-  stores: number[];
-
-  connections: StreetConnection[];
-};
-
-const stores: StoreData[] = [
-  {
-    id: 1,
-    name: "A 덮밥",
-    type: "맛",
-    category: "한식 · 덮밥",
-    description:
-      "인천대 학생들이 부담 없이 식사하기 좋은 타임스페이스의 덮밥집이에요.",
-    menu: "제육덮밥",
-    price: "9,000원",
-    event: "오늘 17~20시 학생 인증 시 음료 서비스",
-    tags: ["학생추천", "저녁", "가성비"],
-    walking: "도보 3분",
-    aiScore: 96,
-  },
-  {
-    id: 2,
-    name: "B 카페",
-    type: "맛",
-    category: "카페 · 디저트",
-    description:
-      "공강 시간이나 약속 전 잠깐 머물기 좋은 밝고 편안한 카페예요.",
-    menu: "아메리카노",
-    price: "4,500원",
-    tags: ["공강", "카페", "조용한"],
-    walking: "도보 4분",
-    aiScore: 89,
-  },
-  {
-    id: 3,
-    name: "C 스튜디오",
-    type: "멋",
-    category: "사진 · 문화",
-    description:
-      "거리 안쪽에서 우연히 발견할 수 있는 작은 촬영·문화 공간이에요.",
-    menu: "사진 촬영",
-    price: "가격 문의",
-    event: "오늘 예약 고객 소품 무료 대여",
-    tags: ["사진", "데이트", "발견"],
-    walking: "도보 6분",
-    aiScore: 91,
-  },
-  {
-    id: 4,
-    name: "D 네일",
-    type: "멋",
-    category: "뷰티 · 네일",
-    description:
-      "타임스페이스에서 만나는 예약 중심의 뷰티 공간이에요.",
-    menu: "젤 네일",
-    price: "35,000원~",
-    tags: ["뷰티", "예약", "분위기"],
-    walking: "도보 5분",
-    aiScore: 84,
-  },
-  {
-    id: 5,
-    name: "E 파스타",
-    type: "맛",
-    category: "양식 · 파스타",
-    description:
-      "타임스페이스 안쪽에서 발견하는 작은 파스타 가게예요.",
-    menu: "토마토 파스타",
-    price: "12,000원",
-    tags: ["데이트", "양식", "저녁"],
-    walking: "도보 7분",
-    aiScore: 88,
-  },
-  {
-    id: 6,
-    name: "F 편집숍",
-    type: "멋",
-    category: "패션 · 소품",
-    description:
-      "개성 있는 소품과 의류를 둘러볼 수 있는 작은 편집숍이에요.",
-    menu: "패션 · 소품",
-    price: "상품별 상이",
-    event: "오늘 일부 소품 10% 할인",
-    tags: ["소품", "쇼핑", "발견"],
-    walking: "도보 8분",
-    aiScore: 87,
-  },
-];
-
-/*
-  일단 촬영 지점 4개를 테스트용으로 연결한 상태.
-
-  ① → ② → ③ → ④
-
-  실제 사진을 찍고 정확한 이동 동선을 확인한 뒤
-  connections 부분만 바꾸면 됨.
-*/
-
-const streetNodes: StreetNode[] = [
-  {
-  id: "point1",
-  number: 1,
-  name: "D동",
-  subtitle: "타임스페이스 D동",
-
-  views: {
-    forward: "/street/point1-forward.jpg",
-    back: "/street/point1-back.jpg",
-  },
-
-  stores: [1, 2],
-
-  connections: [],
-},
-
-  {
-    id: "point2",
-    number: 2,
-    name: "2번 촬영 지점",
-    subtitle: "타임스페이스 북측 중앙 구역",
-
-    views: {
-      // forward: "/street/point2-forward.jpg",
-      // back: "/street/point2-back.jpg",
-      // left: "/street/point2-left.jpg",
-      // right: "/street/point2-right.jpg",
-    },
-
-    stores: [2, 3, 4],
-
-    connections: [
-      {
-        direction: "back",
-        to: "point1",
-        label: "1번 지점으로 이동",
-        arrivalView: "back",
-      },
-
-      {
-        direction: "right",
-        to: "point3",
-        label: "3번 지점으로 이동",
-        arrivalView: "right",
-      },
-    ],
-  },
-
-  {
-    id: "point3",
-    number: 3,
-    name: "3번 촬영 지점",
-    subtitle: "타임스페이스 동측 중앙 구역",
-
-    views: {
-      // forward: "/street/point3-forward.jpg",
-      // back: "/street/point3-back.jpg",
-      // left: "/street/point3-left.jpg",
-      // right: "/street/point3-right.jpg",
-    },
-
-    stores: [3, 4, 5],
-
-    connections: [
-      {
-        direction: "left",
-        to: "point2",
-        label: "2번 지점으로 이동",
-        arrivalView: "left",
-      },
-
-      {
-        direction: "back",
-        to: "point4",
-        label: "4번 지점으로 이동",
-        arrivalView: "back",
-      },
-    ],
-  },
-
-  {
-    id: "point4",
-    number: 4,
-    name: "4번 촬영 지점",
-    subtitle: "타임스페이스 남측 구역",
-
-    views: {
-      // forward: "/street/point4-forward.jpg",
-      // back: "/street/point4-back.jpg",
-      // left: "/street/point4-left.jpg",
-      // right: "/street/point4-right.jpg",
-    },
-
-    stores: [5, 6],
-
-    connections: [
-      {
-        direction: "forward",
-        to: "point3",
-        label: "3번 지점으로 이동",
-        arrivalView: "forward",
-      },
-    ],
-  },
-];
+import type { ApprovedPromotionData, FilterType, StoreData, ViewDirection, StreetConnection } from "../types/street";
+import { stores } from "../data/stores";
+import { streetNodes } from "../data/streetNodes";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
 
@@ -314,6 +40,13 @@ const viewLabels: Record<ViewDirection, string> = {
   back: "뒤",
   left: "왼쪽",
   right: "오른쪽",
+};
+
+const viewRotation: Record<ViewDirection, number> = {
+  forward: 0,
+  right: 90,
+  back: 180,
+  left: -90,
 };
 
 function DirectionIcon({
@@ -339,6 +72,10 @@ function DirectionIcon({
 }
 
 function App() {
+  useEffect(() => {
+    document.title = "테스트용(손님) · AI Street";
+  }, []);
+
 const [approvedPromotion, setApprovedPromotion] =
   useState<ApprovedPromotionData | null>(() => {
     try {
@@ -576,7 +313,7 @@ const effectiveStores = useMemo(() => {
           </span>
 
           <span className="brand-text">
-            <strong>맛&멋</strong>
+            <strong>테스트용(손님)</strong>
             <span>AI Street</span>
           </span>
         </button>
@@ -596,12 +333,12 @@ const effectiveStores = useMemo(() => {
             오늘의 발견
           </button>
 
-          <button
-            className="nav-item"
-            type="button"
+          <a
+            className="nav-item mode-switch-link"
+            href="/owner"
           >
-            프로젝트 소개
-          </button>
+            테스트용(사장)
+          </a>
         </nav>
 
         <button
@@ -1214,6 +951,55 @@ const effectiveStores = useMemo(() => {
                 </span>
               </div>
             )}
+
+            <div className="mini-map-card">
+              <div className="mini-map-header">
+                <div>
+                  <span>MINI MAP</span>
+                  <strong>
+                    현재 위치 · {currentNode.name}
+                  </strong>
+                </div>
+
+                <span className="mini-map-direction">
+                  <Navigation size={13} />
+                  {viewLabels[currentView]} 기준
+                </span>
+              </div>
+
+              <div className="mini-map-viewport">
+                <div
+                  className="mini-map-rotator"
+                  style={{
+                    transform: `rotate(${-viewRotation[currentView]}deg)`,
+                  }}
+                >
+                  <span className="mini-map-road road-one" />
+                  <span className="mini-map-road road-two" />
+
+                  <span className="mini-map-block block-a" />
+                  <span className="mini-map-block block-b" />
+                  <span className="mini-map-block block-c" />
+                  <span className="mini-map-block block-d active" />
+                </div>
+
+                <div className="mini-map-position" aria-hidden="true">
+                  <span className="mini-map-facing" />
+                  <span className="mini-map-dot" />
+                </div>
+              </div>
+
+              <div className="mini-map-footer">
+                <span>
+                  <i />
+                  D동 탐색 구역
+                </span>
+
+                <strong>
+                  위쪽 = 내가 보는 방향
+                </strong>
+              </div>
+            </div>
 
             <button
               type="button"

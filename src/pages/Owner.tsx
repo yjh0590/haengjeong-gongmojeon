@@ -21,7 +21,7 @@ import {
   Zap,
 } from "lucide-react";
 
-import "./Owner.css";
+import "../styles/Owner.css";
 
 type StoreData = {
   id: number;
