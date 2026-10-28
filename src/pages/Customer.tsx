@@ -1,1195 +1,251 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  Bot,
-  Camera,
-  ChevronRight,
-  Clock,
-  Compass,
-  Eye,
-  MapPin,
-  Navigation,
-  Search,
-  Sparkles,
-  Store,
-  Utensils,
-  X,
-  Zap,
+  ArrowLeft, ArrowRight, ArrowUp, Bookmark, Camera, Check, ChevronDown,
+  ChevronRight, Compass, Eye, Heart, Info, Layers3, LocateFixed, Map,
+  MapPin, Navigation, Search, Sparkles, Store, Utensils, X, Zap,
 } from "lucide-react";
-
 import "../styles/Customer.css";
-
-import type { ApprovedPromotionData, FilterType, StoreData, ViewDirection, StreetConnection } from "../types/street";
+import type { ApprovedPromotionData, FilterType, StoreData, ViewDirection } from "../types/street";
 import { stores } from "../data/stores";
 import { streetNodes } from "../data/streetNodes";
+import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnotations";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
-
-const viewDirections: ViewDirection[] = [
-  "left",
-  "forward",
-  "right",
-  "back",
-];
-
-const viewLabels: Record<ViewDirection, string> = {
-  forward: "정면",
-  back: "뒤",
-  left: "왼쪽",
-  right: "오른쪽",
+const directions: ViewDirection[] = ["forward", "right", "back", "left"];
+const directionName: Record<ViewDirection, string> = { forward: "앞", back: "뒤", left: "왼쪽", right: "오른쪽" };
+const mapPoints: Record<string, { x: number; y: number }> = {
+  point1: { x: 113, y: 290 }, point2: { x: 164, y: 202 },
+  point3: { x: 310, y: 165 }, point4: { x: 361, y: 274 },
 };
-
-const viewRotation: Record<ViewDirection, number> = {
-  forward: 0,
-  right: 90,
-  back: 180,
-  left: -90,
+const storeOffsets: Record<number, { x: number; y: number }> = {
+  1: { x: -32, y: -24 }, 2: { x: 40, y: 20 }, 3: { x: -38, y: -27 },
+  4: { x: 43, y: 20 }, 5: { x: -35, y: 25 }, 6: { x: 39, y: -24 },
 };
+const FAVORITES_KEY = "matmeot-favorites-v1";
+const APPROVAL_KEY = "matmeot-approved-promotion";
 
-function DirectionIcon({
-  direction,
-  size = 20,
-}: {
-  direction: ViewDirection;
-  size?: number;
-}) {
-  if (direction === "left") {
-    return <ArrowLeft size={size} />;
-  }
-
-  if (direction === "right") {
-    return <ArrowRight size={size} />;
-  }
-
-  if (direction === "back") {
-    return <ArrowDown size={size} />;
-  }
-
-  return <ArrowUp size={size} />;
+function readFavorites(): number[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return Array.isArray(raw) ? raw.filter((id): id is number => typeof id === "number") : [];
+  } catch { return []; }
+}
+function readApproved(): ApprovedPromotionData | null {
+  try { return JSON.parse(localStorage.getItem(APPROVAL_KEY) || "null"); }
+  catch { return null; }
+}
+function firstAvailableView(nodeId: string, preferred: ViewDirection = "forward"): ViewDirection {
+  const node = streetNodes.find((item) => item.id === nodeId);
+  if (!node) return preferred;
+  if (node.views[preferred]) return preferred;
+  return directions.find((direction) => node.views[direction]) || preferred;
+}
+function locateStoreNode(storeId: number): string {
+  return streetNodes.find((node) => node.stores.includes(storeId))?.id || streetNodes[0].id;
+}
+function matchStore(store: StoreData, filter: FilterType, query: string) {
+  const categoryMatches = filter === "전체" || (filter === "이벤트" ? Boolean(store.event) : store.type === filter);
+  const textMatches = !query.trim() || [store.name, store.category, store.description, store.menu, ...store.tags]
+    .join(" ").toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
+  return categoryMatches && textMatches;
 }
 
-function App() {
+export default function Customer() {
+  const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
+  const [favorites, setFavorites] = useState<number[]>(readFavorites);
+  const [currentNodeId, setCurrentNodeId] = useState("point1");
+  const [currentView, setCurrentView] = useState<ViewDirection>("forward");
+  const [filter, setFilter] = useState<FilterType>("전체");
+  const [query, setQuery] = useState("");
+  const [onlySaved, setOnlySaved] = useState(false);
+  const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [showDiscoveries, setShowDiscoveries] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [facades, setFacades] = useState<FacadeAnnotation[]>(getFacadeAnnotations);
+  const explorerRef = useRef<HTMLElement>(null);
+  const mapRef = useRef<HTMLElement>(null);
+
+  useEffect(() => { document.title = "거리 탐색 · 맛&멋 AI Street"; }, []);
   useEffect(() => {
-    document.title = "테스트용(손님) · AI Street";
+    if (!detailsOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setDetailsOpen(false); };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [detailsOpen]);
+  useEffect(() => {
+    const syncData = () => { setApprovedPromotion(readApproved()); setFacades(getFacadeAnnotations()); };
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === APPROVAL_KEY || event.key === "matmeot-facades-v1") syncData();
+      if (event.key === FAVORITES_KEY) setFavorites(readFavorites());
+    };
+    window.addEventListener("focus", syncData);
+    window.addEventListener("storage", onStorage);
+    return () => { window.removeEventListener("focus", syncData); window.removeEventListener("storage", onStorage); };
   }, []);
 
-const [approvedPromotion, setApprovedPromotion] =
-  useState<ApprovedPromotionData | null>(() => {
-    try {
-      const saved = localStorage.getItem(
-        "matmeot-approved-promotion"
-      );
+  const effectiveStores = useMemo(() => stores.map((store) => {
+    if (approvedPromotion?.storeId !== store.id) return store;
+    return { ...store, event: approvedPromotion.promotion.streetCopy };
+  }), [approvedPromotion]);
+  const selectedStore = effectiveStores.find((store) => store.id === selectedStoreId) || null;
+  const currentNode = streetNodes.find((node) => node.id === currentNodeId) || streetNodes[0];
+  const currentImage = currentNode.views[currentView];
+  const matchingStores = useMemo(() => effectiveStores.filter((store) =>
+    matchStore(store, filter, query) && (!onlySaved || favorites.includes(store.id))),
+  [effectiveStores, filter, query, onlySaved, favorites]);
+  const featuredStores = useMemo(() => effectiveStores.filter((store) => Boolean(store.event)), [effectiveStores]);
+  const activeFacades = facades.filter((a) => a.nodeId === currentNodeId && a.view === currentView &&
+    effectiveStores.some((s) => s.id === a.storeId));
 
-      return saved
-        ? JSON.parse(saved)
-        : null;
-    } catch {
-      return null;
-    }
-  });
-
-const syncApprovedPromotion = () => {
-  try {
-    const saved = localStorage.getItem(
-      "matmeot-approved-promotion"
-    );
-
-    setApprovedPromotion(
-      saved
-        ? JSON.parse(saved)
-        : null
-    );
-  } catch {
-    setApprovedPromotion(null);
-  }
-};
-
-useEffect(() => {
-  /*
-    다른 탭에서 사장님이 승인했을 때
-    소비자 화면도 자동 갱신
-  */
-  const handleStorage = (
-    event: StorageEvent
-  ) => {
-    if (
-      event.key ===
-      "matmeot-approved-promotion"
-    ) {
-      syncApprovedPromotion();
-    }
+  const jumpToExplorer = () => explorerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const focusNode = (nodeId: string, preferred: ViewDirection = "forward") => {
+    setCurrentNodeId(nodeId);
+    setCurrentView(firstAvailableView(nodeId, preferred));
   };
-
-  /*
-    owner 화면에서 돌아왔을 때도
-    최신 데이터를 다시 확인
-  */
-  const handleFocus = () => {
-    syncApprovedPromotion();
+  const focusStore = (storeId: number, openDetails = false) => {
+    const nodeId = locateStoreNode(storeId);
+    const annotation = facades.find((item) => item.storeId === storeId && item.nodeId === nodeId);
+    focusNode(nodeId, annotation?.view || "forward");
+    setSelectedStoreId(storeId);
+    setDetailsOpen(openDetails);
+    if (openDetails) jumpToExplorer();
   };
-
-  window.addEventListener(
-    "storage",
-    handleStorage
-  );
-
-  window.addEventListener(
-    "focus",
-    handleFocus
-  );
-
-  return () => {
-    window.removeEventListener(
-      "storage",
-      handleStorage
-    );
-
-    window.removeEventListener(
-      "focus",
-      handleFocus
-    );
-  };
-}, []);
-const effectiveStores = useMemo(() => {
-  return stores.map((store) => {
-    if (
-      approvedPromotion &&
-      store.id ===
-        approvedPromotion.storeId
-    ) {
-      return {
-        ...store,
-
-        event:
-          approvedPromotion.promotion
-            .streetCopy,
-      };
-    }
-
-    return store;
-  });
-}, [approvedPromotion]);	
-  const [currentNodeId, setCurrentNodeId] =
-    useState("point1");
-
-  const [currentView, setCurrentView] =
-    useState<ViewDirection>("forward");
-
-  const [visitedNodes, setVisitedNodes] =
-    useState<Set<string>>(new Set(["point1"]));
-
-  const [discoveredStores, setDiscoveredStores] =
-    useState<Set<number>>(new Set());
-
-  const [filter, setFilter] =
-    useState<FilterType>("전체");
-
-  const [query, setQuery] = useState("");
-
-  const [selectedStore, setSelectedStore] =
-    useState<StoreData | null>(null);
-
-  const currentNode =
-    streetNodes.find(
-      (node) => node.id === currentNodeId
-    ) ?? streetNodes[0];
-
-  const currentImage =
-    currentNode.views[currentView];
-
-  const currentStores = useMemo(() => {
-   const nodeStores =
-  effectiveStores.filter((store) =>
-    currentNode.stores.includes(store.id)
-  );
-
-    const keyword = query.trim().toLowerCase();
-
-    return nodeStores.filter((store) => {
-      const filterMatched =
-        filter === "전체" ||
-        (filter === "이벤트" &&
-          Boolean(store.event)) ||
-        store.type === filter;
-
-      const queryMatched =
-        !keyword ||
-        [
-          store.name,
-          store.category,
-          store.description,
-          store.menu,
-          ...store.tags,
-        ]
-          .join(" ")
-          .toLowerCase()
-          .includes(keyword);
-
-      return filterMatched && queryMatched;
-    });
-  }, [
-  currentNode,
-  filter,
-  query,
-  effectiveStores,
-]);
-
-  const changeView = (
-    direction: ViewDirection
-  ) => {
-    setCurrentView(direction);
-  };
-
-  const moveToNode = (
-    connection: StreetConnection
-  ) => {
-    setCurrentNodeId(connection.to);
-
-    setCurrentView(
-      connection.arrivalView ??
-        connection.direction
-    );
-
-    setVisitedNodes((previous) => {
-      const next = new Set(previous);
-
-      next.add(connection.to);
-
-      return next;
+  const toggleFavorite = (storeId: number) => {
+    setFavorites((previous) => {
+      const updated = previous.includes(storeId) ? previous.filter((id) => id !== storeId) : [...previous, storeId];
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+      return updated;
     });
   };
-
-  const openStore = (store: StoreData) => {
-    setSelectedStore(store);
-
-    setDiscoveredStores((previous) => {
-      const next = new Set(previous);
-
-      next.add(store.id);
-
-      return next;
-    });
+  const pickRecommended = () => {
+    const candidate = [...matchingStores].sort((a, b) => b.aiScore - a.aiScore)[0];
+    if (candidate) focusStore(candidate.id, true);
   };
 
-  const pickWithAI = () => {
-    if (currentStores.length === 0) {
-      return;
-    }
+  return <div className="app-shell">
+    <header className="top-navigation">
+      <button className="brand" type="button" onClick={() => { setShowDiscoveries(false); window.scrollTo({ top: 0, behavior: "smooth" }); }} aria-label="맛앤멋 AI Street 처음으로">
+        <span className="brand-symbol"><Sparkles size={20} /></span>
+        <span className="brand-text"><strong>맛&멋</strong><span>AI Street</span></span>
+      </button>
+      <nav className="desktop-nav" aria-label="주요 메뉴">
+        <button className={`nav-item ${!showDiscoveries ? "active" : ""}`} type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}>거리 탐색</button>
+        <button className={`nav-item ${showDiscoveries ? "active" : ""}`} type="button" onClick={() => { setShowDiscoveries(true); setFilter("이벤트"); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견</button>
+        <a className="nav-item mode-switch-link" href="/owner">점주용 화면 <ArrowRight size={14} /></a>
+      </nav>
+      <span className="location-pill"><MapPin size={15} /> 송도 타임스페이스 <span className="demo-dot">시범 구역</span></span>
+    </header>
 
-    const recommendation = [
-      ...currentStores,
-    ].sort(
-      (a, b) => b.aiScore - a.aiScore
-    )[0];
-
-    openStore(recommendation);
-  };
-
-  const streetBackground = currentImage
-    ? {
-        backgroundImage: `
-          linear-gradient(
-            to bottom,
-            rgba(4, 18, 38, 0.03),
-            rgba(4, 18, 38, 0.32)
-          ),
-          url("${currentImage}")
-        `,
-      }
-    : {};
-
-  return (
-    <div className="app-shell">
-      <header className="top-navigation">
-        <button
-          className="brand"
-          type="button"
-        >
-          <span className="brand-symbol">
-            <Sparkles size={19} />
-          </span>
-
-          <span className="brand-text">
-            <strong>테스트용(손님)</strong>
-            <span>AI Street</span>
-          </span>
-        </button>
-
-        <nav className="desktop-nav">
-          <button
-            className="nav-item active"
-            type="button"
-          >
-            거리 탐색
-          </button>
-
-          <button
-            className="nav-item"
-            type="button"
-          >
-            오늘의 발견
-          </button>
-
-          <a
-            className="nav-item mode-switch-link"
-            href="/owner"
-          >
-            테스트용(사장)
-          </a>
-        </nav>
-
-        <button
-          className="location-button"
-          type="button"
-        >
-          <MapPin size={16} />
-
-          <span>
-            송도 타임스페이스
-          </span>
-
-          <ChevronRight size={16} />
-        </button>
-      </header>
-
-      <main className="page">
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="ai-badge">
-              <span className="ai-dot" />
-              AI LOCAL DISCOVERY
-            </div>
-
-            <h1>
-              목적지를 찾는 대신,
-              <br />
-              <span>
-                거리를 발견해보세요.
-              </span>
-            </h1>
-
-            <p>
-              AI Street를 따라
-              타임스페이스를 탐험하고
-              <br />
-              지금까지 몰랐던 맛과 멋을
-              발견해보세요.
-            </p>
-
-            <div className="hero-actions">
-              <button
-                className="primary-action"
-                type="button"
-              >
-                <Compass size={19} />
-                거리 탐색 중
-              </button>
-
-              <button
-                className="secondary-action"
-                type="button"
-                onClick={pickWithAI}
-              >
-                <Bot size={19} />
-                지금 여기서 AI 추천
-              </button>
-            </div>
+    <main className="page">
+      <section className="hero">
+        <div className="hero-copy">
+          <span className="eyebrow"><Sparkles size={14}/> YOUR LOCAL DISCOVERY</span>
+          <h1>지도에서 발견하고,<br /><span>거리에서 찾아보세요.</span></h1>
+          <p>가게를 고르면 촬영한 거리 사진으로 이어져요.<br className="desktop-break"/> 타임스페이스의 맛과 멋을 한곳에서 탐색해 보세요.</p>
+          <div className="hero-actions">
+            <button className="primary-action" type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}><Map size={18}/> 지도에서 가게 찾기 <ArrowRight size={16}/></button>
+            <button className="secondary-action" type="button" onClick={() => { setShowDiscoveries(true); setFilter("이벤트"); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}><Zap size={17}/> 오늘의 발견</button>
           </div>
-
-          <div className="ai-card">
-            <div className="ai-card-header">
-              <div className="ai-orb">
-                <Bot size={25} />
-              </div>
-
-              <div>
-                <span>AI GUIDE</span>
-                <strong>타임이</strong>
-              </div>
-
-              <span className="live-chip">
-                <i />
-                LIVE
-              </span>
-            </div>
-
-            <div className="ai-message">
-              <Sparkles size={17} />
-
-              <p>
-                현재는{" "}
-                <strong>
-                  {currentNode.number}번 지점
-                </strong>
-                의{" "}
-                <strong>
-                  {viewLabels[currentView]}
-                </strong>
-                을 보고 있어요.
-              </p>
-            </div>
-
-            <div className="recommend-preview">
-              <div className="recommend-icon">
-                <Navigation size={20} />
-              </div>
-
-              <div>
-                <span>
-                  STREET PROGRESS
-                </span>
-
-                <strong>
-                  {visitedNodes.size} /{" "}
-                  {streetNodes.length} 구역
-                  발견
-                </strong>
-
-                <small>
-                  가게{" "}
-                  {discoveredStores.size}곳
-                  발견
-                </small>
-              </div>
-
-              <ChevronRight size={19} />
-            </div>
-          </div>
-        </section>
-
-        <section className="explore-toolbar">
-          <div className="search-field">
-            <Search size={19} />
-
-            <input
-              value={query}
-              onChange={(event) =>
-                setQuery(
-                  event.target.value
-                )
-              }
-              placeholder="현재 거리의 가게를 검색해보세요"
-            />
-
-            {query && (
-              <button
-                type="button"
-                className="clear-search"
-                onClick={() =>
-                  setQuery("")
-                }
-              >
-                <X size={16} />
-              </button>
-            )}
-          </div>
-
-          <div className="filter-row">
-            <div className="filter-buttons">
-              {filters.map((item) => (
-                <button
-                  type="button"
-                  key={item}
-                  className={`filter-chip ${
-                    filter === item
-                      ? "selected"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setFilter(item)
-                  }
-                >
-                  {item === "맛" && (
-                    <Utensils size={15} />
-                  )}
-
-                  {item === "멋" && (
-                    <Camera size={15} />
-                  )}
-
-                  {item ===
-                    "이벤트" && (
-                    <Zap size={15} />
-                  )}
-
-                  {item}
-                </button>
-              ))}
-            </div>
-
-            <div className="discovery-progress">
-              <span>거리 탐험</span>
-
-              <div className="progress-track">
-                <span
-                  style={{
-                    width: `${
-                      (visitedNodes.size /
-                        streetNodes.length) *
-                      100
-                    }%`,
-                  }}
-                />
-              </div>
-
-              <strong>
-                {visitedNodes.size}/
-                {streetNodes.length}
-              </strong>
-            </div>
-          </div>
-        </section>
-
-        <section className="explore-layout">
-          <div className="street-viewer">
-            <div
-              className={`street-image ${
-                currentImage
-                  ? "has-street-image"
-                  : "street-placeholder"
-              }`}
-              style={streetBackground}
-            >
-              <div className="street-topbar">
-                <div className="street-status">
-                  <span className="pulse-dot" />
-
-                  <div>
-                    <strong>
-                      AI Street 탐색 중
-                    </strong>
-
-                    <span>
-                      {currentNode.name}
-                      {" · "}
-                      {
-                        viewLabels[
-                          currentView
-                        ]
-                      }{" "}
-                      보기
-                    </span>
-                  </div>
-                </div>
-
-                <div className="street-actions">
-                  <button
-                    type="button"
-                    aria-label="주변 상점"
-                  >
-                    <Store size={18} />
-                  </button>
-
-                  <button
-                    type="button"
-                    aria-label="현재 위치"
-                  >
-                    <Navigation
-                      size={18}
-                    />
-                  </button>
-                </div>
-              </div>
-
-              <div className="view-switcher">
-               {viewDirections
- 		 .filter(
-   		  (direction) =>
-      currentNode.views[direction]
-  )
-  .map((direction) => (
-                    <button
-                      type="button"
-                      key={direction}
-                      className={
-                        currentView ===
-                        direction
-                          ? "active"
-                          : ""
-                      }
-                      onClick={() =>
-                        changeView(
-                          direction
-                        )
-                      }
-                    >
-                      <DirectionIcon
-                        direction={
-                          direction
-                        }
-                        size={16}
-                      />
-
-                      <span>
-                        {
-                          viewLabels[
-                            direction
-                          ]
-                        }
-                      </span>
-                    </button>
-                  )
-                )}
-              </div>
-
-              {!currentImage && (
-                <div className="street-placeholder-content">
-                  <div className="placeholder-number">
-                    {
-                      currentNode.number
-                    }
-                  </div>
-
-                  <span>
-                    STREET VIEW
-                  </span>
-
-                  <h2>
-                    {currentNode.name}
-                  </h2>
-
-                  <p>
-                    {
-                      currentNode.subtitle
-                    }
-                  </p>
-
-                  <div className="looking-direction">
-                    <Eye size={16} />
-
-                    <span>
-                      현재{" "}
-                      <strong>
-                        {
-                          viewLabels[
-                            currentView
-                          ]
-                        }
-                      </strong>
-                      을 보고 있어요
-                    </span>
-                  </div>
-
-                  <small>
-                    이 방향의 거리 사진은
-                    추후 추가됩니다.
-                  </small>
-                </div>
-              )}
-
-              <div className="guide-bubble">
-                <div className="guide-avatar">
-                  <Sparkles size={19} />
-                </div>
-
-                <div>
-                  <span>타임이</span>
-
-                  <strong>
-                    주변을 둘러보고
-                    <br />
-                    이동 화살표를
-                    찾아봐!
-                  </strong>
-                </div>
-              </div>
-
-              <div className="street-store-pins">
-                {currentStores.map(
-                  (store, index) => (
-                    <button
-                      type="button"
-                      key={store.id}
-                      className="floating-store-pin"
-                      style={{
-                        left: `${
-                          26 +
-                          (index % 3) *
-                            24
-                        }%`,
-                        top: `${
-                          43 +
-                          (index % 2) *
-                            16
-                        }%`,
-                      }}
-                      onClick={() =>
-                        openStore(store)
-                      }
-                    >
-                      {store.event && (
-                        <span className="event-mini-badge">
-                          TODAY
-                        </span>
-                      )}
-
-                      <span className="hotspot-pin">
-                        {store.type ===
-                        "맛" ? (
-                          <Utensils
-                            size={19}
-                          />
-                        ) : (
-                          <Camera
-                            size={19}
-                          />
-                        )}
-                      </span>
-
-                      <span className="hotspot-label">
-                        <strong>
-                          {store.name}
-                        </strong>
-
-                        <small>
-                          {
-                            store.category
-                          }
-                        </small>
-                      </span>
-                    </button>
-                  )
-                )}
-              </div>
-
-              {currentNode.connections
-                .filter(
-                  (connection) =>
-                    connection.direction ===
-                    currentView
-                )
-                .map((connection) => (
-                  <button
-                    type="button"
-                    key={`${currentNode.id}-${connection.to}-${connection.direction}`}
-                    className={`street-move-arrow move-${connection.direction}`}
-                    onClick={() =>
-                      moveToNode(
-                        connection
-                      )
-                    }
-                  >
-                    <span className="move-arrow-icon">
-                      <DirectionIcon
-                        direction={
-                          connection.direction
-                        }
-                        size={24}
-                      />
-                    </span>
-
-                    <span className="move-arrow-text">
-                      <small>
-                        이동하기
-                      </small>
-
-                      <strong>
-                        {
-                          connection.label
-                        }
-                      </strong>
-                    </span>
-                  </button>
-                ))}
-
-              <div className="street-footer">
-                <div>
-                  <MapPin size={17} />
-
-                  <span>
-                    {currentNode.name}
-                  </span>
-                </div>
-
-                <span>
-                  {currentStores.length}개의
-                  장소가 보여요
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <aside className="discovery-panel">
-            <div className="panel-heading">
-              <div>
-                <span>NEARBY</span>
-
-                <h2>
-                  이 거리의 발견
-                </h2>
-              </div>
-
-              <span className="count-badge">
-                {currentStores.length}
-              </span>
-            </div>
-
-            <div className="street-location-card">
-              <div className="node-number-mini">
-                {currentNode.number}
-              </div>
-
-              <div>
-                <strong>
-                  {currentNode.name}
-                </strong>
-
-                <span>
-                  {
-                    currentNode.subtitle
-                  }
-                </span>
-              </div>
-            </div>
-
-            <div className="view-status-card">
-              <Eye size={15} />
-
-              <span>
-                현재{" "}
-                <strong>
-                  {
-                    viewLabels[
-                      currentView
-                    ]
-                  }
-                </strong>
-                을 보는 중
-              </span>
-            </div>
-
-            <div className="place-list">
-              {currentStores.map(
-                (store) => (
-                  <button
-                    type="button"
-                    key={store.id}
-                    className="place-item"
-                    onClick={() =>
-                      openStore(store)
-                    }
-                  >
-                    <div
-                      className={`place-thumbnail ${
-                        store.type ===
-                        "맛"
-                          ? "food"
-                          : "style"
-                      }`}
-                    >
-                      {store.type ===
-                      "맛" ? (
-                        <Utensils
-                          size={20}
-                        />
-                      ) : (
-                        <Camera
-                          size={20}
-                        />
-                      )}
-                    </div>
-
-                    <div className="place-content">
-                      <div className="place-title-row">
-                        <strong>
-                          {store.name}
-                        </strong>
-
-                        {store.event && (
-                          <span className="today-label">
-                            오늘
-                          </span>
-                        )}
-                      </div>
-
-                      <span>
-                        {
-                          store.category
-                        }
-                      </span>
-
-                      <small>
-                        <Clock
-                          size={13}
-                        />
-
-                        {
-                          store.walking
-                        }
-
-                        <i>·</i>
-
-                        AI 추천{" "}
-                        {store.aiScore}%
-                      </small>
-                    </div>
-
-                    <ChevronRight
-                      size={18}
-                    />
-                  </button>
-                )
-              )}
-            </div>
-
-            {currentStores.length ===
-              0 && (
-              <div className="empty-street">
-                <Store size={25} />
-
-                <strong>
-                  조건에 맞는 가게가
-                  없어요
-                </strong>
-
-                <span>
-                  필터를
-                  변경해보세요.
-                </span>
-              </div>
-            )}
-
-            <div className="mini-map-card">
-              <div className="mini-map-header">
-                <div>
-                  <span>MINI MAP</span>
-                  <strong>
-                    현재 위치 · {currentNode.name}
-                  </strong>
-                </div>
-
-                <span className="mini-map-direction">
-                  <Navigation size={13} />
-                  {viewLabels[currentView]} 기준
-                </span>
-              </div>
-
-              <div className="mini-map-viewport">
-                <div
-                  className="mini-map-rotator"
-                  style={{
-                    transform: `rotate(${-viewRotation[currentView]}deg)`,
-                  }}
-                >
-                  <span className="mini-map-road road-one" />
-                  <span className="mini-map-road road-two" />
-
-                  <span className="mini-map-block block-a" />
-                  <span className="mini-map-block block-b" />
-                  <span className="mini-map-block block-c" />
-                  <span className="mini-map-block block-d active" />
-                </div>
-
-                <div className="mini-map-position" aria-hidden="true">
-                  <span className="mini-map-facing" />
-                  <span className="mini-map-dot" />
-                </div>
-              </div>
-
-              <div className="mini-map-footer">
-                <span>
-                  <i />
-                  D동 탐색 구역
-                </span>
-
-                <strong>
-                  위쪽 = 내가 보는 방향
-                </strong>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              className="ai-discovery-box"
-              onClick={pickWithAI}
-              disabled={
-                currentStores.length ===
-                0
-              }
-            >
-              <span className="ai-discovery-icon">
-                <Bot size={21} />
-              </span>
-
-              <span>
-                <small>
-                  지금 이 거리에서
-                </small>
-
-                <strong>
-                  AI 추천 장소 보기
-                </strong>
-              </span>
-
-              <ArrowRight size={17} />
-            </button>
-          </aside>
-        </section>
-      </main>
-
-      {selectedStore && (
-        <div
-          className="modal-overlay"
-          onClick={() =>
-            setSelectedStore(null)
-          }
-        >
-          <article
-            className="store-modal"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
-          >
-            <button
-              type="button"
-              className="modal-close"
-              onClick={() =>
-                setSelectedStore(null)
-              }
-            >
-              <X size={20} />
-            </button>
-
-            <div className="modal-visual">
-              <div className="modal-visual-content">
-                <span className="modal-pick">
-                  {selectedStore.type ===
-                  "맛" ? (
-                    <>
-                      <Utensils
-                        size={14}
-                      />
-                      맛 PICK
-                    </>
-                  ) : (
-                    <>
-                      <Camera
-                        size={14}
-                      />
-                      멋 PICK
-                    </>
-                  )}
-                </span>
-
-                <span className="modal-score">
-                  <Sparkles size={14} />
-                  AI MATCH{" "}
-                  {
-                    selectedStore.aiScore
-                  }
-                  %
-                </span>
-              </div>
-            </div>
-
-            <div className="modal-body">
-              <span className="modal-category">
-                {
-                  selectedStore.category
-                }
-              </span>
-
-              <h2>
-                {selectedStore.name}
-              </h2>
-
-              <p>
-                {
-                  selectedStore.description
-                }
-              </p>
-
-              <div className="tag-row">
-                {selectedStore.tags.map(
-                  (tag) => (
-                    <span key={tag}>
-                      #{tag}
-                    </span>
-                  )
-                )}
-              </div>
-
-              <div className="store-information">
-                <div>
-                  <span>
-                    대표 메뉴 · 서비스
-                  </span>
-
-                  <strong>
-                    {
-                      selectedStore.menu
-                    }
-                  </strong>
-                </div>
-
-                <div>
-                  <span>가격</span>
-
-                  <strong>
-                    {
-                      selectedStore.price
-                    }
-                  </strong>
-                </div>
-
-                <div>
-                  <span>거리</span>
-
-                  <strong>
-                    {
-                      selectedStore.walking
-                    }
-                  </strong>
-                </div>
-              </div>
-
-              {selectedStore.event && (
-                <div className="event-card">
-                  <div className="event-icon">
-                    <Zap size={19} />
-                  </div>
-
-                  <div>
-                    <span>
-                      AI STREET · TODAY
-                    </span>
-
-                    <strong>
-                      {
-                        selectedStore.event
-                      }
-                    </strong>
-                  </div>
-                </div>
-              )}
-
-              <div className="modal-buttons">
-                <button
-                  type="button"
-                  className="save-button"
-                >
-                  저장
-                </button>
-
-                <button
-                  type="button"
-                  className="route-button"
-                >
-                  <Navigation
-                    size={18}
-                  />
-                  길찾기
-                </button>
-              </div>
-            </div>
-          </article>
         </div>
-      )}
-    </div>
-  );
-}
+        <div className="hero-aside" aria-label="이용 안내">
+          <span className="hero-aside-kicker"><Compass size={16}/> 한눈에 보는 탐색 방법</span>
+          <div className="hero-step"><span>01</span><div><strong>지도에서 가게 선택</strong><small>맛집·문화·이벤트를 찾아요</small></div></div>
+          <div className="hero-step"><span>02</span><div><strong>거리 사진으로 위치 확인</strong><small>촬영된 방향을 둘러볼 수 있어요</small></div></div>
+          <div className="hero-step"><span>03</span><div><strong>마음에 들면 저장</strong><small>다음에 다시 쉽게 찾아요</small></div></div>
+          <button className="hero-help" type="button" onClick={() => setShowHelp((p) => !p)} aria-expanded={showHelp}><Info size={15}/> {showHelp ? "안내 접기" : "거리 탐색은 어떻게 작동하나요?"} <ChevronDown size={15}/></button>
+          {showHelp && <p className="hero-help-body">현재 사진 2장은 일반 거리 사진이며 360도 파노라마가 아닙니다. 지도는 실측 위치도가 아닌 시연용 구역 안내도예요. 실제 촬영·측량 데이터가 확보되면 교체할 수 있도록 만들었습니다.</p>}
+        </div>
+      </section>
 
-export default App;
+      <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
+        <div className="section-heading">
+          <div><span className="eyebrow">EXPLORE TIMESPACE</span><h2>우리 동네 거리 탐색</h2><p>구역을 선택하거나 가게를 검색해 보세요.</p></div>
+          <span className="section-region"><MapPin size={15}/> D동 중심 시범 탐색</span>
+        </div>
+
+        <div className="explore-toolbar">
+          <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
+          <div className="filter-buttons" role="group" aria-label="가게 필터">
+            {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item}>
+              {item === "맛" ? <Utensils size={15}/> : item === "멋" ? <Camera size={15}/> : item === "이벤트" ? <Zap size={15}/> : <Layers3 size={15}/>} {item}
+            </button>)}
+            <button type="button" className={`filter-chip saved-filter ${onlySaved ? "selected" : ""}`} onClick={() => { setOnlySaved((p) => !p); setShowDiscoveries(false); }} aria-pressed={onlySaved}><Heart size={15} fill={onlySaved ? "currentColor" : "none"}/> 저장한 가게 {favorites.length > 0 && <span className="saved-count">{favorites.length}</span>}</button>
+          </div>
+        </div>
+
+        {showDiscoveries && <div className="discovery-banner"><Zap size={17}/><div><strong>오늘의 발견 · 시연용 이벤트</strong><span>등록된 홍보 문구를 지도에서 강조해 보여줘요. 실제 행사 진행 여부는 점포에 확인해야 합니다.</span></div><button type="button" onClick={() => { setShowDiscoveries(false); setFilter("전체"); }} aria-label="오늘의 발견 닫기"><X size={17}/></button></div>}
+
+        <div className="explore-layout">
+          <section className="map-panel" ref={mapRef} aria-label="구역 안내도">
+            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 구역 안내</h3></div><span className="map-badge">시연용 도식</span></div>
+            <p className="map-instruction">점을 누르면 거리 사진이 바뀌고, 가게를 누르면 해당 위치로 이동합니다.</p>
+            <div className="district-map">
+              <svg viewBox="0 0 500 374" className="map-svg" role="img" aria-label="네 개의 촬영 지점과 여섯 개 예시 점포를 표시한 도식 지도">
+                <defs><pattern id="mapGrid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M 22 0 L 0 0 0 22" fill="none" stroke="#cdd8e5" strokeWidth="0.55"/></pattern></defs>
+                <rect x="0" y="0" width="500" height="374" fill="#edf3f5"/>
+                <rect width="500" height="374" fill="url(#mapGrid)"/>
+                <path d="M-40 68L540 68M-40 340L540 340" stroke="#fff" strokeWidth="32"/>
+                <path d="M65 -40L65 420M442 -40L442 420" stroke="#fff" strokeWidth="36"/>
+                <path d="M113 290 L164 202 L310 165 L361 274" stroke="#fff" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M113 290 L164 202 L310 165 L361 274" stroke="#cbd8df" strokeWidth="1.4" strokeDasharray="6 7" fill="none"/>
+                <rect x="84" y="94" width="83" height="66" rx="7" fill="#dbe4dc"/><rect x="223" y="92" width="83" height="46" rx="7" fill="#dbe4dc"/><rect x="316" y="210" width="78" height="45" rx="7" fill="#dbe4dc"/><rect x="180" y="247" width="87" height="53" rx="7" fill="#dbe4dc"/>
+                <text x="115" y="132" className="map-building">D동</text><text x="250" y="117" className="map-building">시범</text><text x="347" y="239" className="map-building">구역</text>
+                <text x="249" y="46" className="map-road-label">타임스페이스 구역 안내 · 실제 지형과 다름</text>
+                {streetNodes.map((node) => { const p = mapPoints[node.id]; return <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
+                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/><text x={p.x} y={p.y + 5.2} className="map-node-text">{node.number}</text>
+                  </g>; })}
+                {matchingStores.map((store) => { const nodeP = mapPoints[locateStoreNode(store.id)]; const offset = storeOffsets[store.id] || {x: 20, y: 0}; const x = nodeP.x + offset.x; const y = nodeP.y + offset.y; const active = selectedStoreId === store.id;
+                  return <g key={store.id} className={`map-store-marker ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-label={`${store.name} 선택`} onClick={() => focusStore(store.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(store.id); } }}>
+                    <rect x={x - 22} y={y - 14} width="44" height="29" rx="13" className={`map-store-chip ${store.type === "맛" ? "food" : "style"}`}/><text x={x} y={y + 4.3} className="map-store-text">{store.type === "맛" ? "맛" : "멋"}{store.id}</text>{store.event && <circle cx={x + 18} cy={y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
+                  </g>; })}
+              </svg>
+              <div className="map-legend"><span><i className="legend-node"/>촬영 지점</span><span><i className="legend-food"/>맛</span><span><i className="legend-style"/>멋</span><span><i className="legend-event"/>홍보 표시</span></div>
+            </div>
+            <p className="map-disclaimer"><Info size={14}/> 현재 가게명·아이콘 좌표는 시연 데이터입니다. 실제 위치 기반 지도로 교체하기 전에는 길찾기에 사용하지 마세요.</p>
+            <div className="node-quicklinks" role="group" aria-label="촬영 지점 선택">
+              {streetNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{Object.values(node.views).some(Boolean) && <Camera size={13}/>}</button>)}
+            </div>
+          </section>
+
+          <section className="street-panel" aria-label="실제 거리 사진">
+            <div className="panel-header"><div><span className="panel-eyebrow">STREET PHOTO</span><h3><Eye size={19}/> {currentNode.name} · {directionName[currentView]} 방향</h3></div><span className={`photo-badge ${currentImage ? "is-ready" : ""}`}>{currentImage ? "촬영 사진" : "촬영 준비"}</span></div>
+            <div className={`street-image ${currentImage ? "has-photo" : "is-placeholder"}`}>
+              {currentImage ? <img src={currentImage} alt={`${currentNode.name}에서 바라본 ${directionName[currentView]} 방향 실제 거리 사진`} className="street-photo"/> : <div className="street-empty"><Camera size={42}/><strong>이 방향의 사진을 준비 중이에요</strong><span>촬영 후 사진을 등록하면 이곳에 표시됩니다.</span></div>}
+              {currentImage && activeFacades.length > 0 && <svg className="facade-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="사진 속 가게 영역">
+                {activeFacades.map((item) => <polygon key={`${item.nodeId}-${item.view}-${item.storeId}`} points={item.points.map((p) => `${p.x},${p.y}`).join(" ")} className={selectedStoreId === item.storeId ? "facade-polygon active" : "facade-polygon"} onClick={() => focusStore(item.storeId)}><title>{effectiveStores.find((s) => s.id === item.storeId)?.name || "가게"} 영역</title></polygon>)}
+              </svg>}
+              <span className="street-photo-caption"><MapPin size={13}/> {currentNode.subtitle}</span>
+              {currentImage && <span className="street-photo-notice">일반 촬영 사진 · 360° 파노라마 아님</span>}
+            </div>
+            <div className="direction-controls"><span>보는 방향</span><div>{directions.map((direction) => <button key={direction} type="button" className={currentView === direction ? "active" : ""} onClick={() => setCurrentView(direction)} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={14}/> : direction === "back" ? <ChevronDown size={14}/> : direction === "left" ? <ArrowLeft size={14}/> : <ArrowRight size={14}/>} {directionName[direction]} {currentNode.views[direction] ? <span className="direction-ready"/> : <span className="direction-pending"/>}</button>)}</div></div>
+            <div className="street-footer"><div><Camera size={15}/><span>{currentNode.number}번 지점 · 사진 {Object.values(currentNode.views).filter(Boolean).length}개 등록</span></div><div className="street-navigation">{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)}><Navigation size={14}/> {streetNodes.find((n) => n.id === connection.to)?.number}번 지점 <ArrowRight size={14}/></button>)}</div></div>
+            {selectedStore && <div className="selected-store-strip"><span><Store size={15}/><strong>{selectedStore.name}</strong> 선택됨 · {activeFacades.some((a) => a.storeId === selectedStore.id) ? "영역 표시됨" : "영역 미등록"}</span><button type="button" onClick={() => setDetailsOpen(true)}>가게 상세 보기 <ChevronRight size={15}/></button></div>}
+            <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
+          </section>
+        </div>
+
+        <div className="store-section-heading"><div><span className="eyebrow">STORES & DISCOVERY</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "이 구역에서 발견할 가게"}</h3><p>{matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
+        {matchingStores.length ? <div className="store-grid">{matchingStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
+          <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
+          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
+          {store.event && <div className="store-event"><Zap size={14}/><span>{store.event}</span></div>}
+          <div className="store-card-bottom"><span><MapPin size={14}/>{streetNodes.find((node) => node.id === locateStoreNode(store.id))?.name} · 시연 위치</span><button type="button" onClick={() => focusStore(store.id, true)}>거리 사진 보기 <ChevronRight size={15}/></button></div>
+        </article>)}</div> : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); }}>전체 가게 보기</button></div>}
+
+        {featuredStores.length > 0 && !showDiscoveries && <div className="subtle-promo"><Zap size={18}/><span>등록된 이벤트 문구가 있는 가게 <strong>{featuredStores.length}곳</strong>을 모아볼 수 있어요.</span><button type="button" onClick={() => { setFilter("이벤트"); setShowDiscoveries(true); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견 보기 <ArrowRight size={15}/></button></div>}
+      </section>
+      <footer className="customer-footer"><span>맛&멋 AI Street · 송도 타임스페이스 시범 프로젝트</span><span>테스트용 점포 정보 · 실측 지도 및 실시간 영업 정보 미연동</span><a href="/street-editor">거리 사진 영역 편집 도구 <ArrowRight size={13}/></a></footer>
+    </main>
+
+    {detailsOpen && selectedStore && <div className="modal-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDetailsOpen(false); }}><section className="store-modal" role="dialog" aria-modal="true" aria-labelledby="store-modal-title">
+      <button type="button" className="modal-close" onClick={() => setDetailsOpen(false)} aria-label="가게 정보 닫기"><X size={20}/></button>
+      <div className="modal-visual"><span className={`category-pill ${selectedStore.type === "맛" ? "food" : "style"}`}>{selectedStore.type} · {selectedStore.category}</span><div><Store size={28}/><span>LOCAL STORE</span></div></div>
+      <div className="modal-body"><span className="modal-overline">{currentNode.name} · 시범 점포</span><h2 id="store-modal-title">{selectedStore.name}</h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
+        <div className="store-information"><div><span>대표 메뉴·서비스</span><strong>{selectedStore.menu}</strong></div><div><span>가격</span><strong>{selectedStore.price}</strong></div><div><span>추천 점수 예시</span><strong>{selectedStore.aiScore}점</strong></div></div>
+        {selectedStore.event && <div className="event-card"><Zap size={19}/><div><small>등록된 홍보 문구 · 진행 여부 확인 필요</small><strong>{selectedStore.event}</strong></div></div>}
+        <div className="modal-buttons"><button type="button" className={`save-button ${favorites.includes(selectedStore.id) ? "saved" : ""}`} onClick={() => toggleFavorite(selectedStore.id)}>{favorites.includes(selectedStore.id) ? <Check size={17}/> : <Bookmark size={17}/>} {favorites.includes(selectedStore.id) ? "저장됨" : "즐겨찾기"}</button><button type="button" className="route-button" onClick={() => { focusNode(locateStoreNode(selectedStore.id)); setDetailsOpen(false); mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}><LocateFixed size={17}/> 안내도에서 위치 보기</button></div>
+        <small className="modal-note"><Info size={13}/> 실제 주소가 없는 예시 점포라 외부 길찾기는 제공하지 않습니다.</small>
+      </div></section></div>}
+  </div>;
+}

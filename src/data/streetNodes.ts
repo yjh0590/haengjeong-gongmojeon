@@ -14,7 +14,9 @@ export const streetNodes: StreetNode[] = [
 
   stores: [1, 2],
 
-  connections: [],
+  connections: [
+    { direction: "forward", to: "point2", label: "2번 지점으로 이동", arrivalView: "forward" },
+  ],
 },
 
   {
