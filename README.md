@@ -1,4 +1,4 @@
-# ITDA · 맛&멋 AI Street v4
+# ITDA · 맛&멋 AI Street v4.1
 
 v3 소비자·점주·지도·사진 편집 기능을 유지하면서 **점포 등록·수정/삭제, 층·호수 관리, 관리자 승인 게시, Supabase 기반 소비자 공통 데이터 조회(연결 시)** 기능을 추가했습니다. 서버를 연결하지 않아도 브라우저 초안 미리보기가 가능합니다.
 
@@ -12,17 +12,19 @@ npm run build
 
 기존 GitHub 저장소의 소스코드를 교체하여 Vercel에서 배포합니다. 새 도메인을 연결하지 않아도 기존 `*.vercel.app` 주소의 화면이 유지됩니다.
 
+비밀번호 설정과 초대 링크 복구 페이지가 추가되었습니다. `/reset-password`에서 메일을 다시 요청하고 링크를 통해 비밀번호를 지정할 수 있습니다. 자세한 내용은 `docs/ITDA_V4_1_ACCOUNT_SETUP.md`를 확인하세요.
+
 ## 기본 주소
 
 | 새 주소 | 역할 | 도메인 설정 전 기존 Vercel 경로 |
 | --- | --- | --- |
-| `itda.link` | 브랜드 메인 포털 | `/welcome` |
-| `customer.itda.link` | 소비자용 | `/` |
-| `owner.itda.link` | 점주 시연 | `/owner` |
-| `editor.itda.link` | 관리자 작업 공간 | `/editor` |
-| `editor.itda.link/map-editor` | 전체 구역 / 촬영 지점 편집 | `/map-editor` |
-| `editor.itda.link/street-editor` | 거리 사진 / 점포 외곽선 편집 | `/street-editor` |
-| `editor.itda.link/catalog` | 점포 등록·수정, 전체 데이터 게시 | `/catalog` |
+| `itda.ink` | 브랜드 메인 포털 | `/welcome` |
+| `customer.itda.ink` | 소비자용 | `/` |
+| `owner.itda.ink` | 점주 시연 | `/owner` |
+| `editor.itda.ink` | 관리자 작업 공간 | `/editor` |
+| `editor.itda.ink/map-editor` | 전체 구역 / 촬영 지점 편집 | `/map-editor` |
+| `editor.itda.ink/street-editor` | 거리 사진 / 점포 외곽선 편집 | `/street-editor` |
+| `editor.itda.ink/catalog` | 점포 등록·수정, 전체 데이터 게시 | `/catalog` |
 
 ## v4 추가 기능
 

@@ -95,7 +95,7 @@ export default function CatalogEditor() {
       if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 지도 좌표를 전체 소비자에게 게시할까요?\n\n주의: 임시 사진 파일과 지도 배경 이미지는 게시되지 않습니다.`)) return;
       const date = await publishSite(snapshot, session);
       setRemote({data:snapshot,publishedAt:date});
-      setNotice(`전체 게시가 완료됐어요 (${new Date(date).toLocaleString("ko-KR")}). customer.itda.link에서 새로고침해 확인하세요.`);
+      setNotice(`전체 게시가 완료됐어요 (${new Date(date).toLocaleString("ko-KR")}). customer.itda.ink에서 새로고침해 확인하세요.`);
     } catch(e) { setNotice(e instanceof Error ? e.message : "게시 중 오류가 발생했어요."); }
     finally {setLoading(false);}
   };
@@ -140,11 +140,11 @@ export default function CatalogEditor() {
       <p>게시 범위: <b>점포 목록 + 층수 + 지도 좌표·통로 + 촬영 지점 + 가게 외곽선</b>. 실제 사진 파일과 지도 배경 이미지는 포함되지 않으며, 별도 파일 저장소 연결이 필요해요.</p>
       {publicationConfigured ? <>
         {session ? <div className="catalog-signed"><ShieldCheck size={19}/><span>관리자: <strong>{session.email}</strong> · {new Date(session.expiresAt).toLocaleTimeString("ko-KR")}까지 로그인 유효</span><button type="button" onClick={()=>setSession(null)}>로그아웃</button></div> :
-          <form className="catalog-login" onSubmit={e=>void login(e)}><div><LockKeyhole size={17}/><strong>관리자 로그인</strong><small>Supabase Auth 계정이며 관리자 목록에 등록돼 있어야 합니다.</small></div><input type="email" autoComplete="username" placeholder="관리자 이메일" value={email} onChange={e=>setEmail(e.target.value)} required/><input type="password" autoComplete="current-password" placeholder="비밀번호" value={password} onChange={e=>setPassword(e.target.value)} required/><button type="submit" disabled={loading}>권한 확인</button></form>}
+          <form className="catalog-login" onSubmit={e=>void login(e)}><div><LockKeyhole size={17}/><strong>관리자 로그인</strong><small>Supabase Auth 계정이며 관리자 목록에 등록돼 있어야 합니다.</small></div><input type="email" autoComplete="username" placeholder="관리자 이메일" value={email} onChange={e=>setEmail(e.target.value)} required/><input type="password" autoComplete="current-password" placeholder="비밀번호" value={password} onChange={e=>setPassword(e.target.value)} required/><button type="submit" disabled={loading}>권한 확인</button><a className="catalog-reset-link" href="/reset-password">비밀번호를 만든 적이 없거나 잊으셨나요?</a></form>}
       </>:<p className="catalog-hint">Vercel 환경변수와 Supabase SQL 설정을 끝내면 관리자 로그인과 게시 버튼이 활성화돼요. 지금은 브라우저 초안으로 기능을 테스트할 수 있어요.</p>}
       <div className="catalog-actions"><button className="catalog-primary" type="button" disabled={!publicationConfigured || !session || loading} onClick={()=>void publish()}><UploadCloud size={17}/> {loading?"처리 중…":"관리자 승인 · 전체 게시"}</button><button type="button" disabled={!publicationConfigured || loading} onClick={()=>void refresh()}><RefreshCcw size={16}/> 게시본 확인</button><button type="button" disabled={!remote || loading} onClick={loadPublished}><Layers size={16}/> 공개본을 초안으로 가져오기</button></div>
       <p className="catalog-notice" role="status"><CheckCircle2 size={16}/>{notice}</p>
-      <p className="catalog-caution">※ `editor.itda.link` 주소 자체는 보안 장치가 아니에요. 게시 권한은 Supabase Auth와 데이터베이스 RLS로 검증합니다. 지도·사진의 로컬 편집 기능에는 별도의 접근 보호를 추가해야 합니다.</p>
+      <p className="catalog-caution">※ `editor.itda.ink` 주소 자체는 보안 장치가 아니에요. 게시 권한은 Supabase Auth와 데이터베이스 RLS로 검증합니다. 지도·사진의 로컬 편집 기능에는 별도의 접근 보호를 추가해야 합니다.</p>
     </section>
   </main>;
 }

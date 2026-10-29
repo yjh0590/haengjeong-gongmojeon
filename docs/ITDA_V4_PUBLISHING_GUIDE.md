@@ -2,12 +2,12 @@
 
 ## 이번 버전에서 가능한 일
 
-- `/catalog` (editor.itda.link/catalog): 점포 **추가·수정·삭제**, 동/층/호수, 업종, 소개, 이벤트 편집
+- `/catalog` (editor.itda.ink/catalog): 점포 **추가·수정·삭제**, 동/층/호수, 업종, 소개, 이벤트 편집
 - `/map-editor`: 점포 지도 위치, 촬영 지점·연결, 보행 통로 편집
 - `/street-editor`: 촬영 사진을 **브라우저에 임시 등록**하고 가게 외곽선 지정
 - `/preview/customer`: 관리자 주소에서 **게시 전 로컬 초안 미리보기**
 - `전체 게시`: 등록 점포·층수·좌표·촬영 지점·외곽선 **한 번에 공개 게시** (Supabase 연결 시)
-- `customer.itda.link`: 새로고침 시 게시된 목록·지도 정보를 읽음
+- `customer.itda.ink`: 새로고침 시 게시된 목록·지도 정보를 읽음
 
 **중요:** 사진 바이너리와 지도 배경 이미지 파일은 현재 Supabase 게시 대상이 아닙니다. 촬영 사진은 `/street-editor`에서 같은 브라우저에서만 확인할 수 있습니다. 공개 사진은 GitHub `public/street/`에 배포하거나, 후속 버전에서 Supabase Storage를 연결해야 합니다. 발행 전 실제 촬영 좌표/영업 정보는 확인해야 합니다.
 
@@ -33,18 +33,18 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_YOUR-PUBLIC-KEY
 
 **절대 넣지 말 것:** `service_role`, `sb_secret_*`, DB 비밀번호, 사용자 비밀번호. `VITE_` 변수는 웹사이트의 JavaScript에 포함되므로 **공개 가능한 키만** 사용합니다. 접근 권한은 `001_publication.sql`의 RLS 정책으로 검증합니다.
 
-6. Vercel에서 새로 배포(Redeploy)합니다. **같은 Vercel 프로젝트**에 `itda.link`, `customer.itda.link`, `owner.itda.link`, `editor.itda.link` 네 주소가 연결돼 있어야 합니다.
+6. Vercel에서 새로 배포(Redeploy)합니다. **같은 Vercel 프로젝트**에 `itda.ink`, `customer.itda.ink`, `owner.itda.ink`, `editor.itda.ink` 네 주소가 연결돼 있어야 합니다.
 
 ## 실제 게시 과정
 
-1. `editor.itda.link/catalog`에 접속 → 점포 목록을 수정합니다. 입력할 때마다 **현재 브라우저 초안**으로 저장됩니다.
-2. `editor.itda.link/map-editor`에서 점포와 촬영 지점을 연결하고 지도 위치를 지정한 뒤 **변경사항 저장**을 누릅니다.
-3. 사진이 준비됐으면 `editor.itda.link/street-editor`에서 임시로 올리고 윤곽선을 설정합니다. 사진 원본은 아직 온라인 게시되지 않음을 기억하세요.
-4. `editor.itda.link/preview/customer`로 가서 시연 화면을 확인합니다.
+1. `editor.itda.ink/catalog`에 접속 → 점포 목록을 수정합니다. 입력할 때마다 **현재 브라우저 초안**으로 저장됩니다.
+2. `editor.itda.ink/map-editor`에서 점포와 촬영 지점을 연결하고 지도 위치를 지정한 뒤 **변경사항 저장**을 누릅니다.
+3. 사진이 준비됐으면 `editor.itda.ink/street-editor`에서 임시로 올리고 윤곽선을 설정합니다. 사진 원본은 아직 온라인 게시되지 않음을 기억하세요.
+4. `editor.itda.ink/preview/customer`로 가서 시연 화면을 확인합니다.
 5. `/catalog`로 돌아와 Supabase Auth 관리자 계정으로 로그인 → **관리자 승인 · 전체 게시**.
-6. `customer.itda.link`를 새로고침하여 게시 목록, 층, 촬영 지점, 점포 좌표를 확인합니다.
+6. `customer.itda.ink`를 새로고침하여 게시 목록, 층, 촬영 지점, 점포 좌표를 확인합니다.
 
-**브라우저 주소별 저장소가 서로 다른 문제:** `editor.itda.link`의 로컬 초안은 `customer.itda.link`에서 보이지 않습니다. 로그인 후 게시하면 **Supabase에 저장된 단일 게시본**을 각 방문자가 읽으므로 도메인 간 동일한 점포/지도 정보가 표시됩니다.
+**브라우저 주소별 저장소가 서로 다른 문제:** `editor.itda.ink`의 로컬 초안은 `customer.itda.ink`에서 보이지 않습니다. 로그인 후 게시하면 **Supabase에 저장된 단일 게시본**을 각 방문자가 읽으므로 도메인 간 동일한 점포/지도 정보가 표시됩니다.
 
 ## 도메인 전환 전 사용하기
 

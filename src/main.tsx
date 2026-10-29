@@ -9,10 +9,15 @@ import Owner from "./pages/Owner.tsx";
 import StreetEditor from "./pages/StreetEditor.tsx";
 import MapEditor from "./pages/MapEditor.tsx";
 import CatalogEditor from "./pages/CatalogEditor.tsx";
+import PasswordSetup from "./pages/PasswordSetup.tsx";
 
 /** Each subdomain uses the same build but opens its own role. Legacy Vercel paths still work. */
 function resolvePage() {
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  // Prioritize the email callback over domain-specific pages: Dashboard emails
+  // may redirect to the Site URL root with tokens in the URL fragment.
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  if (path === "/reset-password" || (hash.has("access_token") && ["recovery", "invite"].includes(hash.get("type") || ""))) return <PasswordSetup />;
   const surface = currentSurface();
   if (path === "/preview/customer" && (surface === "editor" || surface === "owner" || surface === "legacy")) return <Customer />;
   if (surface === "customer") return <Customer />;
