@@ -1,0 +1,25 @@
+.itda-auth-page{min-height:100vh;display:grid;place-items:center;padding:28px 16px;background:radial-gradient(circle at 15% 10%,#e0f3e5,transparent 43%),linear-gradient(155deg,#f2f8f4,#f8fbf9);color:#1f4234;font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;box-sizing:border-box}
+.itda-auth-page *{box-sizing:border-box}
+.itda-auth-card{width:min(100%,465px);background:white;border:1px solid #d6e8da;box-shadow:0 18px 58px #194b2c12;border-radius:24px;padding:32px}
+.itda-auth-icon{display:grid;place-items:center;width:55px;height:55px;border-radius:16px;background:#e6f4e9;color:#23804d;margin-bottom:18px}
+.itda-auth-eyebrow{color:#268151;font-size:11px;font-weight:900;letter-spacing:1.4px}
+.itda-auth-card h1{font-size:27px;letter-spacing:-.8px;margin:8px 0 9px}
+.itda-auth-card p{font-size:13px;line-height:1.75;color:#607e6b}
+.itda-auth-route{background:#f3f8f4;border-radius:9px;padding:9px 12px;overflow-wrap:anywhere}
+.itda-auth-route code{color:#226c43}
+.itda-auth-card form{display:flex;flex-direction:column;gap:9px;margin-top:22px}
+.itda-auth-card label{font-size:12px;color:#355e46;font-weight:750}
+.itda-auth-card input{min-height:44px;padding:11px 13px;border:1px solid #cfe2d4;border-radius:10px;font-size:14px;outline:none;background:#fff;color:#173b27;margin-bottom:8px}
+.itda-auth-card input:focus{border-color:#3e9e65;box-shadow:0 0 0 3px #37a26120}
+.itda-auth-card button[type=submit]{display:flex;align-items:center;justify-content:center;gap:9px;min-height:45px;padding:11px;background:#22804d;color:white;border:0;border-radius:10px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.itda-auth-card button:disabled{opacity:.55;cursor:wait}
+.itda-auth-recover,.itda-auth-home{display:flex;align-items:center;justify-content:center;gap:6px;color:#247b4a;font-weight:750;font-size:12px;text-decoration:none;margin-top:8px}
+.itda-auth-home{margin:22px 0 12px}
+.itda-auth-card small{display:block;color:#698171;text-align:center;font-size:11px;line-height:1.7}
+.itda-auth-warning{display:flex;align-items:center;gap:8px;padding:12px;background:#fff5e9;border:1px solid #f1ddbf;color:#765321;border-radius:10px;font-size:12px;line-height:1.7;margin-top:14px}
+.itda-auth-status{padding:20px;text-align:center;color:#47765a;font-size:13px}
+.itda-admin-session-bar{min-height:45px;padding:10px max(18px,calc((100vw - 1100px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px;background:#164c32;color:#e4f3e9;font-size:12px;font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif}
+.itda-admin-session-bar span,.itda-admin-session-bar button{display:flex;align-items:center;gap:6px}
+.itda-admin-session-bar button{padding:7px 11px;color:white;background:#ffffff1e;border:1px solid #ffffff45;border-radius:8px;font:inherit;cursor:pointer}
+.itda-admin-session-bar button:hover{background:#ffffff36}
+@media(max-width:480px){.itda-auth-card{padding:24px}.itda-admin-session-bar{font-size:11px}.itda-admin-session-bar strong{max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}

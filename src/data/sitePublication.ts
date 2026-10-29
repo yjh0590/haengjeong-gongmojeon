@@ -18,7 +18,7 @@ export type SitePublication = {
   facades: FacadeAnnotation[];
 };
 export type PublishedResponse = { data: SitePublication; publishedAt: string };
-export type AdminSession = { token: string; email: string; expiresAt: number };
+export type AdminSession = { token: string; refreshToken: string; email: string; expiresAt: number };
 const url = String(import.meta.env.VITE_SUPABASE_URL || "").replace(/\/+$/, "");
 const key = String(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "");
 export const publicationConfigured = /^https:\/\/[\w-]+\.supabase\.co$/.test(url) && key.startsWith("sb_publishable_");
@@ -78,21 +78,54 @@ export async function fetchPublication(): Promise<PublishedResponse | null> {
   if (!validPublication(rows[0].payload)) throw new Error("서버에 저장된 게시 데이터 형식이 올바르지 않습니다.");
   return { data: rows[0].payload, publishedAt: rows[0].published_at };
 }
+type AuthTokens = { access_token: string; refresh_token: string; expires_in: number; user?: {id?: string; email?: string} };
+
+/** Check server-side RLS membership on every new/renewed session. */
+async function checkAdmin(token: string): Promise<void> {
+  const response = await fetch(`${url}/rest/v1/itda_admins?select=user_id&limit=1`, {
+    headers: headers(token), cache: "no-store",
+  });
+  const admins = await resultOrError<Array<{user_id: string}>>(response);
+  if (admins.length !== 1) throw new Error("관리자 권한이 없는 계정입니다. Supabase의 itda_admins 등록을 확인해 주세요.");
+}
+
+export async function verifyAdminSession(session: AdminSession): Promise<AdminSession> {
+  if (!publicationConfigured) throw new Error("Supabase 연결 설정이 없습니다.");
+  if (Date.now() > session.expiresAt - 60_000) return refreshAdminSession(session);
+  await checkAdmin(session.token);
+  return session;
+}
+
+export async function refreshAdminSession(session: AdminSession): Promise<AdminSession> {
+  if (!session.refreshToken) throw new Error("로그인이 만료됐습니다. 다시 로그인해 주세요.");
+  const response = await fetch(`${url}/auth/v1/token?grant_type=refresh_token`, {
+    method: "POST", headers: headers(), body: JSON.stringify({ refresh_token: session.refreshToken }),
+  });
+  const next = await resultOrError<AuthTokens>(response);
+  if (!next.access_token || !next.refresh_token) throw new Error("로그인 갱신에 실패했습니다. 다시 로그인해 주세요.");
+  await checkAdmin(next.access_token);
+  return { token: next.access_token, refreshToken: next.refresh_token, email: next.user?.email || session.email, expiresAt: Date.now() + next.expires_in * 1000 };
+}
+
 export async function signInAdmin(email: string, password: string): Promise<AdminSession> {
   if (!publicationConfigured) throw new Error("Supabase 연결 설정이 없습니다.");
   const response = await fetch(`${url}/auth/v1/token?grant_type=password`, {
     method: "POST", headers: headers(), body: JSON.stringify({ email, password }),
   });
-  const session = await resultOrError<{ access_token: string; expires_in: number; user?: {id?: string} }>(response);
-  if (!session.access_token) throw new Error("로그인 토큰을 받지 못했습니다.");
-  // Not a substitute for RLS: the publication table independently checks this account in SQL.
-  const check = await fetch(`${url}/rest/v1/itda_admins?select=user_id&limit=1`, {
-    headers: headers(session.access_token), cache: "no-store",
-  });
-  const admins = await resultOrError<Array<{user_id: string}>>(check);
-  if (!admins.length || admins[0].user_id !== session.user?.id) throw new Error("관리자 권한이 없는 계정입니다. Supabase 관리자 목록을 확인하세요.");
-  return { token: session.access_token, email, expiresAt: Date.now() + session.expires_in * 1000 };
+  const session = await resultOrError<AuthTokens>(response);
+  if (!session.access_token || !session.refresh_token) throw new Error("로그인 토큰을 받지 못했습니다.");
+  await checkAdmin(session.access_token);
+  return { token: session.access_token, refreshToken: session.refresh_token, email, expiresAt: Date.now() + session.expires_in * 1000 };
 }
+
+export async function signOutAdmin(session: AdminSession): Promise<void> {
+  if (!publicationConfigured) return;
+  // Local credentials are removed even when the network call fails.
+  try {
+    await fetch(`${url}/auth/v1/logout`, { method: "POST", headers: headers(session.token) });
+  } catch { /* local sign-out still succeeds */ }
+}
+
 export async function publishSite(data: SitePublication, session: AdminSession): Promise<string> {
   if (!publicationConfigured) throw new Error("Supabase 연결 설정이 없습니다.");
   if (!validPublication(data)) throw new Error("게시 데이터 검증에 실패했습니다.");
