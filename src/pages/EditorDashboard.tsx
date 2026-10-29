@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Camera, CheckCircle2, Download, FileUp, Info, MapPinned, ShieldAlert, Store } from "lucide-react";
+import { ArrowLeft, ArrowRight, Camera, CheckCircle2, ClipboardCheck, Download, FileUp, Info, MapPinned, ShieldAlert, Store } from "lucide-react";
 import { appUrl, currentSurface, sameOriginPreview } from "../config/site";
 import { readMapGeometry } from "../data/mapGeometry";
 import { getFacadeAnnotations } from "../data/facadeAnnotations";
@@ -44,6 +44,7 @@ export default function EditorDashboard(){
       <section className="hub-card"><MapPinned size={30}/><h2>02 · 전체 지도 관리</h2><p>상권 경계·보행 통로를 그리고 촬영 지점, 가게 위치와 층별 연결을 지정합니다. 경계점 {metrics.boundary}개가 등록돼 있어요.</p><a className="hub-link" href="/map-editor">지도 편집 시작 <ArrowRight size={16}/></a></section>
       <section className="hub-card"><Camera size={30}/><h2>03 · 거리 사진 관리</h2><p>촬영한 사진을 지점별 앞·뒤·좌·우에 임시 등록하고, 가게 외관을 따라 강조 영역을 그립니다.</p><a className="hub-link" href="/street-editor">사진 편집 시작 <ArrowRight size={16}/></a></section>
     </div>
+    <section className="hub-tools"><h2><ClipboardCheck size={20} style={{verticalAlign:"middle",marginRight:8}}/> 04 · 점주 홍보안 승인</h2><p>점주 계정이 제출한 홍보안을 검토하고, 승인하면 소비자용 이벤트 문구에 즉시 반영합니다. Supabase 002_owner_promotion_workflow.sql 설정 후 사용할 수 있어요.</p><div className="hub-actions"><a className="hub-link" href="/promotions">홍보안 검토·승인 <ArrowRight size={16}/></a></div></section>
     <section className="hub-tools"><h2>작업 백업·복원</h2><p>점포 목록과 사진까지 포함된 JSON 파일로 내보내거나 다른 주소의 브라우저에서 복원할 수 있어요. 새로 연결한 <code>editor.itda.ink</code>로 작업물을 옮길 때 사용하세요. 파일 크기는 사진 용량에 따라 커질 수 있습니다.</p><div className="hub-actions"><button type="button" onClick={()=>void backup()} disabled={busy}><Download size={16}/> 사진 포함 전체 백업</button><label><FileUp size={16}/> 전체 백업 가져오기<input ref={input} type="file" accept=".json,application/json" onChange={e=>void restore(e.target.files?.[0])} disabled={busy}/></label><button type="button" onClick={refresh}><CheckCircle2 size={16}/> 현황 새로고침</button></div><p className="hub-feedback" role="status">{notice}</p></section>
     <div className="hub-warning"><ShieldAlert size={16} style={{verticalAlign:"middle",marginRight:6}}/> <strong>공개 서비스 보안 주의:</strong> 관리자 화면은 Supabase 인증과 관리자 목록 확인 후 표시됩니다. 실제 서버 게시 권한은 데이터베이스 RLS가 검증합니다. 브라우저에 저장한 작업 초안은 서버 백업이 아니므로 주기적으로 내보내 주세요.</div>
     <div className="hub-warning"><Info size={16} style={{verticalAlign:"middle",marginRight:6}}/> <strong>공개 반영 주의:</strong> 점포·지도·촬영 지점·외곽선은 Supabase 설정 후 점포 관리의 전체 게시 버튼으로 공개할 수 있습니다. 사진·지도 배경 이미지 업로드는 여전히 로컬 전용입니다. 동일 브라우저 초안 확인은 <a href={sameOriginPreview()}>편집 주소 미리보기</a>를 사용하세요. {currentSurface()==="legacy"?"현재 테스트 주소에서는 기존 경로도 계속 사용할 수 있어요.":""}</div>

@@ -1315,3 +1315,16 @@
 }
 
 .owner-intro .owner-demo-note{font-size:12px;line-height:1.7;background:#fff7e7;color:#8c622b;border:1px solid #f3ddae;border-radius:10px;padding:10px 13px;margin-top:12px;max-width:520px}
+/* ITDA v4.5: shared catalog + authorized owner submissions */
+.itda-owner-connect{background:#fff;border:1px solid #dae8ef;border-radius:20px;padding:23px;margin:0 0 26px;box-shadow:0 8px 24px #173a5710;color:#263f50}
+.itda-owner-connect-head{display:flex;justify-content:space-between;align-items:start;gap:14px}.itda-owner-connect-head span{color:#2e80ad;letter-spacing:1.3px;font-size:11px;font-weight:850}
+.itda-owner-connect h2{font-size:20px;margin:7px 0}.itda-owner-connect p{font-size:13px;color:#657c8c;line-height:1.65}
+.itda-owner-login{display:flex;align-items:end;flex-wrap:wrap;gap:11px;margin-top:16px}.itda-owner-login label{display:grid;gap:5px;min-width:190px;flex:1;font-size:12px;color:#4b687c;font-weight:700}
+.itda-owner-login input{padding:11px;border-radius:9px;border:1px solid #cadce6;font-size:13px;width:100%;background:#fff;color:#1b3b4b}
+.itda-owner-login button,.itda-owner-signout,.itda-owner-submit button{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 15px;border:0;border-radius:9px;background:#216fa3;color:#fff;cursor:pointer;font-weight:750;font-size:13px}
+.itda-owner-signout{background:#e9f2f7;color:#2b617f}.itda-owner-login-note{width:100%;margin:0}.itda-owner-message{background:#eff7fb;padding:10px 13px;border-radius:8px;font-size:12px}
+.itda-owner-identity{display:flex;align-items:center;gap:7px}.itda-owner-history{margin-top:17px;border-top:1px solid #e5eef3;padding-top:13px}.itda-owner-history>strong{display:block;margin-bottom:9px;font-size:13px}
+.itda-owner-history>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #eef2f4;font-size:12px}.itda-owner-history b{font-size:11px}.itda-owner-state-approved{color:#1e7a47}.itda-owner-state-pending{color:#966600}.itda-owner-state-rejected{color:#bb4747}
+.itda-owner-submit{border:1px solid #d6e5ee;background:#f3f9fc;padding:18px;border-radius:14px;margin-top:15px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;color:#1d3d54}
+.itda-owner-submit h3{display:flex;align-items:center;gap:8px;font-size:16px;margin:0}.itda-owner-submit p{font-size:12px;color:#698091;line-height:1.7;margin:6px 0}.itda-owner-submit>div{width:100%}.itda-owner-submit label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700}.itda-owner-submit input{padding:9px;border-radius:8px;border:1px solid #c4d7e4}.itda-owner-submit button:disabled,.itda-owner-login button:disabled{opacity:.5;cursor:not-allowed}.itda-owner-submit small{width:100%;color:#657c8c}
+@media(max-width:620px){.itda-owner-connect{padding:16px}.itda-owner-connect-head{flex-direction:column}.itda-owner-login{display:grid}.itda-owner-login label{min-width:0}}

@@ -12,6 +12,8 @@ import MapEditor from "./pages/MapEditor.tsx";
 import CatalogEditor from "./pages/CatalogEditor.tsx";
 import PasswordSetup from "./pages/PasswordSetup.tsx";
 import AdminGate from "./auth/AdminGate.tsx";
+import PromotionReview from "./pages/PromotionReview.tsx";
+import "./styles/IncheonBrand.css";
 
 /** Each subdomain uses the same build but opens its own role. Legacy Vercel paths still work. */
 function protect(page: ReactNode) { return <AdminGate>{page}</AdminGate>; }
@@ -24,12 +26,14 @@ function resolvePage() {
   if (path === "/reset-password" || (hash.has("access_token") && ["recovery", "invite"].includes(hash.get("type") || ""))) return <PasswordSetup />;
   const surface = currentSurface();
   if (path === "/preview/customer" && (surface === "editor" || surface === "legacy")) return protect(<Customer />);
+  if (path === "/preview/customer" && surface === "owner") return <Customer />;
   if (surface === "customer") return <Customer />;
   if (surface === "owner") return <Owner />;
   if (surface === "editor") {
     if (path === "/map-editor") return protect(<MapEditor />);
     if (path === "/street-editor") return protect(<StreetEditor />);
     if (path === "/catalog") return protect(<CatalogEditor />);
+    if (path === "/promotions") return protect(<PromotionReview />);
     return protect(<EditorDashboard />);
   }
   if (surface === "landing") {
@@ -41,6 +45,7 @@ function resolvePage() {
   if (path === "/street-editor") return protect(<StreetEditor />);
   if (path === "/editor") return protect(<EditorDashboard />);
   if (path === "/catalog") return protect(<CatalogEditor />);
+  if (path === "/promotions") return protect(<PromotionReview />);
   if (path === "/welcome") return <Landing />;
   return <Customer />;
 }

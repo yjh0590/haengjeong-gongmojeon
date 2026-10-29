@@ -18,6 +18,7 @@ export function validStores(input: unknown): input is StoreData[] {
       !s.name.trim() || !s.building.trim() ||
       (s.unit !== undefined && (typeof s.unit !== "string" || s.unit.length > 150)) ||
       (s.event !== undefined && (typeof s.event !== "string" || s.event.length > 2000)) ||
+      (s.eventUntil !== undefined && (typeof s.eventUntil !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s.eventUntil))) ||
       !Array.isArray(s.tags) || s.tags.length > 30 || !s.tags.every(t => typeof t === "string" && t.length <= 100) ||
       !Number.isFinite(s.aiScore) || s.aiScore < 0 || s.aiScore > 100) return false;
     ids.add(s.id);

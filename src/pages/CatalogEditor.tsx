@@ -82,6 +82,14 @@ export default function CatalogEditor() {
     setLoading(true);
     try {
       const snapshot = preparePublication();
+      // A promotion approved in another tab may change the publication since
+      // this editor loaded it. Do not silently revert those public updates.
+      const newest = await fetchPublication();
+      if (newest && newest.publishedAt !== remote?.publishedAt) {
+        setRemote(newest);
+        setNotice("온라인 게시본이 변경됐습니다(점주 홍보 승인 또는 다른 관리자 수정). 공개본을 초안으로 가져오거나 내용을 비교한 후 다시 게시해 주세요.");
+        return;
+      }
       if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 지도 좌표를 전체 소비자에게 게시할까요?\n\n주의: 임시 사진 파일과 지도 배경 이미지는 게시되지 않습니다.`)) return;
       const date = await publishSite(snapshot, await getSession());
       setRemote({data:snapshot,publishedAt:date});
@@ -119,6 +127,7 @@ export default function CatalogEditor() {
           <label>대표 상품·메뉴<input value={current.menu} onChange={e=>patch({menu:e.target.value})} maxLength={100}/></label>
           <label>가격 정보<input value={current.price} onChange={e=>patch({price:e.target.value})} maxLength={100}/></label>
           <label className="wide">이벤트·홍보 (선택)<textarea rows={2} value={current.event || ""} placeholder="행사 기간과 내용이 확인된 경우만 입력" onChange={e=>patch({event:e.target.value || undefined})} maxLength={1000}/></label>
+          <label>이벤트 종료일 (선택)<input type="date" value={current.eventUntil || ""} onChange={e=>patch({eventUntil:e.target.value || undefined})}/></label>
           <label className="wide">검색 태그 (쉼표로 구분)<input value={tagsText} onChange={e=>{setTagsText(e.target.value);patch({tags:e.target.value.split(",").map(t=>t.trim()).filter(Boolean).slice(0,30)});}} placeholder="데이트, 조용한, 학생추천"/></label>
           <label>이동 안내 (실측 전 확인 필요)<input value={current.walking} onChange={e=>patch({walking:e.target.value})} maxLength={100}/></label>
           <label>추천 점수 (0~100, 시연용)<input type="number" min={0} max={100} value={current.aiScore} onChange={e=>patch({aiScore:Math.min(100,Math.max(0,Number(e.target.value)||0))})}/></label>
@@ -131,7 +140,7 @@ export default function CatalogEditor() {
       <div className="catalog-signed"><ShieldCheck size={19}/><span>관리자: <strong>{session.email}</strong> · 서버 게시 권한 확인됨</span></div>
       <div className="catalog-actions"><button className="catalog-primary" type="button" disabled={!publicationConfigured || !session || loading} onClick={()=>void publish()}><UploadCloud size={17}/> {loading?"처리 중…":"관리자 승인 · 전체 게시"}</button><button type="button" disabled={!publicationConfigured || loading} onClick={()=>void refresh()}><RefreshCcw size={16}/> 게시본 확인</button><button type="button" disabled={!remote || loading} onClick={loadPublished}><Layers size={16}/> 공개본을 초안으로 가져오기</button></div>
       <p className="catalog-notice" role="status"><CheckCircle2 size={16}/>{notice}</p>
-      <p className="catalog-caution">※ `editor.itda.ink` 주소 자체는 보안 장치가 아니에요. 게시 권한은 Supabase Auth와 데이터베이스 RLS로 검증합니다. 지도·사진의 로컬 편집 기능에는 별도의 접근 보호를 추가해야 합니다.</p>
+      <p className="catalog-caution">관리자 편집 화면은 로그인 후에 열립니다. 온라인 게시 권한은 Supabase Auth와 데이터베이스 RLS가 검증합니다. 최신 홍보안 승인 결과가 다른 창에서 반영됐다면 공개본을 먼저 확인하세요.</p>
     </section>
   </main>;
 }

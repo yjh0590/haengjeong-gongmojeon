@@ -93,8 +93,12 @@ export default function Customer() {
   }, []);
 
   const effectiveStores = useMemo(() => catalog.map((store) => {
-    if (publication.status === "published" || approvedPromotion?.storeId !== store.id) return store;
-    return { ...store, event: approvedPromotion.promotion.streetCopy };
+    // Approved campaigns expire automatically on the date set by the owner.
+    const today = new Date();
+    const localDate = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+    const current = store.eventUntil && store.eventUntil < localDate ? {...store,event:undefined} : store;
+    if (publication.status === "published" || approvedPromotion?.storeId !== store.id) return current;
+    return { ...current, event: approvedPromotion.promotion.streetCopy };
   }), [catalog, approvedPromotion, publication.status]);
   const selectedStore = effectiveStores.find((store) => store.id === selectedStoreId) || null;
   const currentNode = streetNodes.find((node) => node.id === currentNodeId) || streetNodes[0];

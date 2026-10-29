@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   ArrowLeft,
   Bot,
@@ -19,18 +19,16 @@ import {
   Video,
   WandSparkles,
   Zap,
+  LogIn, LogOut, CalendarDays, ClipboardCheck,
 } from "lucide-react";
 
 import "../styles/Owner.css";
 import { appUrl, sameOriginPreview } from "../config/site";
-
-type StoreData = {
-  id: number;
-  name: string;
-  category: string;
-  mainMenu: string;
-  price: string;
-};
+import { stores as exampleStores } from "../data/stores";
+import { usePublicSite } from "../data/sitePublication";
+import type { StoreData } from "../types/street";
+import { fetchOwnerStoreIds, fetchPromotionRequests, getSavedOwnerSession, refreshOwnerSession,
+  saveOwnerSession, signInOwner, signOutOwner, submitOwnerPromotion, type OwnerSession, type PromotionRequest } from "../data/promotionWorkflow";
 
 type Promotion = {
   id: number;
@@ -42,37 +40,69 @@ type Promotion = {
   shortScript: string;
 };
 
-const stores: StoreData[] = [
-  {
-    id: 1,
-    name: "A 덮밥",
-    category: "한식 · 덮밥",
-    mainMenu: "제육덮밥",
-    price: "9,000원",
-  },
-  {
-    id: 2,
-    name: "B 카페",
-    category: "카페 · 디저트",
-    mainMenu: "아메리카노",
-    price: "4,500원",
-  },
-  {
-    id: 3,
-    name: "C 스튜디오",
-    category: "사진 · 문화",
-    mainMenu: "사진 촬영",
-    price: "가격 문의",
-  },
-];
-
 function Owner() {
+  const publication = usePublicSite();
+  const sharedStores: StoreData[] = publication.data?.stores || exampleStores;
+  const [selectedStoreId, setSelectedStoreId] = useState(1);
+  const [ownerSession,setOwnerSession] = useState<OwnerSession|null>(null);
+  const [ownerStoreIds,setOwnerStoreIds] = useState<number[]>([]);
+  const [loginEmail,setLoginEmail] = useState("");
+  const [loginPassword,setLoginPassword] = useState("");
+  const [ownerBusy,setOwnerBusy] = useState(false);
+  const [ownerMessage,setOwnerMessage] = useState("점주 계정을 연결하면 홍보안을 관리자에게 제출할 수 있습니다.");
+  const [ownerHistory,setOwnerHistory] = useState<PromotionRequest[]>([]);
+  const [endOn,setEndOn] = useState(() => new Date().toISOString().slice(0,10));
+  const visibleStores = ownerSession ? sharedStores.filter(store=>ownerStoreIds.includes(store.id)) : sharedStores;
+
+  useEffect(()=>{
+    let active=true;
+    const saved = getSavedOwnerSession();
+    if (!saved) return;
+    refreshOwnerSession(saved).then(async next=>{
+      const [ids, history] = await Promise.all([fetchOwnerStoreIds(next.token),fetchPromotionRequests(next.token)]);
+      if (!active) return;
+      saveOwnerSession(next);setOwnerSession(next);setOwnerStoreIds(ids);setOwnerHistory(history);
+    }).catch(()=>{if(active){saveOwnerSession(null);setOwnerMessage("점주 로그인이 만료됐습니다. 다시 로그인해 주세요.");}});
+    return ()=>{active=false};
+  },[]);
+  useEffect(()=>{
+    if (!visibleStores.some(s=>s.id===selectedStoreId) && visibleStores[0]) setSelectedStoreId(visibleStores[0].id);
+  },[publication.data,ownerSession,ownerStoreIds,selectedStoreId]);
+
+  const ownerLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();setOwnerBusy(true);setOwnerMessage("");
+    try {
+      const logged = await signInOwner(loginEmail.trim(),loginPassword);
+      const [ids,history] = await Promise.all([fetchOwnerStoreIds(logged.token),fetchPromotionRequests(logged.token)]);
+      saveOwnerSession(logged);setOwnerSession(logged);setOwnerStoreIds(ids);setOwnerHistory(history);
+      setLoginPassword("");setOwnerMessage("로그인됐어요. 배정된 가게만 제출할 수 있습니다.");
+    } catch(e){setOwnerMessage(e instanceof Error?e.message:"로그인 실패");}
+    finally{setOwnerBusy(false);}
+  };
+  const ownerLogout = () => {
+    const previous = ownerSession;
+    setOwnerSession(null);setOwnerStoreIds([]);setOwnerHistory([]);setApproved(false);
+    void signOutOwner(previous);
+    setOwnerMessage("로그아웃했습니다. 시연 기능은 계속 사용할 수 있습니다.");
+  };
+  const submitForReview = async () => {
+    if (!selectedPromotion || !ownerSession || !ownerStoreIds.includes(selectedStoreId)) return;
+    setOwnerBusy(true);setOwnerMessage("");
+    try {
+      const logged = await refreshOwnerSession(ownerSession);
+      saveOwnerSession(logged);setOwnerSession(logged);
+      await submitOwnerPromotion(logged,{
+        store_id:selectedStoreId,title:selectedPromotion.title,street_copy:selectedPromotion.streetCopy,
+        sns_copy:selectedPromotion.snsCopy,short_script:selectedPromotion.shortScript,ends_on:endOn,
+      });
+      setOwnerHistory(await fetchPromotionRequests(logged.token));
+      setOwnerMessage("홍보안을 관리자에게 제출했어요. 승인 전에는 소비자에게 표시되지 않습니다.");
+    } catch(e){setOwnerMessage(e instanceof Error?e.message:"홍보안 제출 실패");}
+    finally {setOwnerBusy(false);}
+  };
   useEffect(() => {
     document.title = "점주용 AI 마케팅 · AI Marketing";
   }, []);
-
-  const [selectedStoreId, setSelectedStoreId] =
-    useState(1);
 
   const [goal, setGoal] = useState(
     "오늘 저녁 인천대 학생 손님을 늘리고 싶어요."
@@ -97,11 +127,11 @@ function Owner() {
 
   const selectedStore = useMemo(
     () =>
-      stores.find(
+      visibleStores.find(
         (store) =>
           store.id === selectedStoreId
-      ) ?? stores[0],
-    [selectedStoreId]
+      ) ?? visibleStores[0] ?? exampleStores[0],
+    [selectedStoreId, visibleStores]
   );
 
   const selectedPromotion =
@@ -136,8 +166,8 @@ function Owner() {
           summary:
             "손님을 늘리고 싶은 시간대만 집중적으로 홍보하는 방식이에요.",
           streetCopy: `17~20시, ${selectedStore.name}의 오늘의 추천 메뉴를 만나보세요.`,
-          snsCopy: `저녁 시간 타임스페이스를 걷고 있다면?\n17시부터 20시까지 ${selectedStore.name}의 ${selectedStore.mainMenu}를 만나보세요.\n오늘의 저녁 후보로 저장!`,
-          shortScript: `[0~4초] 저녁 6시, 타임스페이스\n[4~8초] 어디 갈지 고민된다면\n[8~12초] ${selectedStore.name}의 ${selectedStore.mainMenu}\n[12~15초] 오늘 저녁 AI Street에서 발견하세요.`,
+          snsCopy: `저녁 시간 타임스페이스를 걷고 있다면?\n17시부터 20시까지 ${selectedStore.name}의 ${selectedStore.menu}를 만나보세요.\n오늘의 저녁 후보로 저장!`,
+          shortScript: `[0~4초] 저녁 6시, 타임스페이스\n[4~8초] 어디 갈지 고민된다면\n[8~12초] ${selectedStore.name}의 ${selectedStore.menu}\n[12~15초] 오늘 저녁 AI Street에서 발견하세요.`,
         },
 
         {
@@ -147,7 +177,7 @@ function Owner() {
           summary:
             "할인보다 AI Street의 탐험 경험과 가게 발견 자체를 강조해요.",
           streetCopy: `지나치기 쉬운 오늘의 발견. ${selectedStore.name}을 찾아보세요.`,
-          snsCopy: `타임스페이스에서 그냥 지나쳤던 가게가 있나요?\n오늘의 숨은 발견은 ${selectedStore.name}.\n${selectedStore.mainMenu}부터 가볍게 만나보세요.`,
+          snsCopy: `타임스페이스에서 그냥 지나쳤던 가게가 있나요?\n오늘의 숨은 발견은 ${selectedStore.name}.\n${selectedStore.menu}부터 가볍게 만나보세요.`,
           shortScript: `[0~3초] 이 골목, 그냥 지나쳤다면?\n[3~7초] 오늘의 숨은 장소 공개\n[7~11초] ${selectedStore.name}\n[11~15초] AI Street가 새로운 가게를 연결합니다.`,
         },
       ];
@@ -222,11 +252,29 @@ function Owner() {
 
         <div className="owner-status">
           <span />
-          콘텐츠 제안 시연
+          콘텐츠 제안·승인 요청
         </div>
       </header>
 
       <main className="owner-container">
+        <section className="itda-owner-connect" aria-label="서버 연동 및 점주 인증">
+          <div className="itda-owner-connect-head">
+            <div><span>ITDA CONNECTED STORES</span><h2>공통 점포 데이터 · 홍보안 제출</h2>
+              <p>{publication.status === "published" ? `관리자 게시 점포 ${sharedStores.length}곳을 연결했어요.` : "관리자 게시본이 아직 없거나 연결되지 않아 시연용 점포가 표시됩니다."} 점포 등록·수정은 관리자용에서 수행합니다.</p>
+            </div>
+            {ownerSession && <button type="button" className="itda-owner-signout" onClick={ownerLogout}><LogOut size={16}/> 점주 로그아웃</button>}
+          </div>
+          {!ownerSession ? <form className="itda-owner-login" onSubmit={event=>void ownerLogin(event)}>
+            <label>점주 이메일<input type="email" value={loginEmail} onChange={event=>setLoginEmail(event.target.value)} placeholder="점주 계정 이메일" required/></label>
+            <label>비밀번호<input type="password" autoComplete="current-password" value={loginPassword} onChange={event=>setLoginPassword(event.target.value)} placeholder="점주 계정 비밀번호" required/></label>
+            <button type="submit" disabled={ownerBusy || publication.status!=="published"}><LogIn size={16}/>{ownerBusy?"확인 중…":"점주 로그인"}</button>
+            <p className="itda-owner-login-note">점주 계정은 관리자가 Supabase에 초대하고 담당 점포를 지정해야 합니다. 계정이 없어도 예시 홍보안은 만들어 볼 수 있어요.</p>
+          </form> : <p className="itda-owner-identity"><ShieldCheck size={17}/> {ownerSession.email} · 담당 점포 {visibleStores.length}곳 · 관리자 승인 후 공개</p>}
+          <p className="itda-owner-message" role="status">{ownerMessage}</p>
+          {ownerSession && <div className="itda-owner-history"><strong>내 홍보안 제출 내역</strong>
+            {ownerHistory.length ? ownerHistory.slice(0,5).map(req=><div key={req.id}><span>{sharedStores.find(s=>s.id===req.store_id)?.name||`가게 #${req.store_id}`} · {req.title}</span><b className={`itda-owner-state-${req.status}`}>{req.status==="pending"?"검토 중":req.status==="approved"?"승인됨":"반려됨"}</b></div>) : <small>아직 제출한 홍보안이 없습니다.</small>}
+          </div>}
+        </section>
         <section className="owner-intro">
           <div>
             <div className="owner-ai-label">
@@ -249,7 +297,7 @@ function Owner() {
               가게에 맞는 홍보
               방법과 콘텐츠 제안을 미리 경험할 수 있습니다.
             </p>
-            <p className="owner-demo-note">현재는 실제 생성형 AI API가 아닌, 미리 준비된 예시 문구를 조합하는 시연 버전입니다. 승인 내용도 이 주소의 브라우저에만 저장됩니다.</p>
+            <p className="owner-demo-note">현재 홍보 문구 생성은 예시 기반 시연입니다(실제 생성형 AI API 미연동). 점주 로그인 후 제출한 홍보안만 관리자 검토를 거쳐 소비자 사이트에 반영될 수 있습니다.</p>
           </div>
 
           <div className="owner-flow-card">
@@ -321,7 +369,7 @@ function Owner() {
                   setApproved(false);
                 }}
               >
-                {stores.map((store) => (
+                {visibleStores.map((store) => (
                   <option
                     key={store.id}
                     value={store.id}
@@ -347,7 +395,7 @@ function Owner() {
                   </span>
                   <strong>
                     {
-                      selectedStore.mainMenu
+                      selectedStore.menu
                     }
                   </strong>
                 </div>
@@ -802,7 +850,7 @@ function Owner() {
                   }
                 >
                   <Check size={18} />
-                  이 프로모션 승인하기
+                  이 홍보안 시연 초안 저장
                 </button>
               ) : (
                 <div className="approved-box">
@@ -812,23 +860,31 @@ function Owner() {
 
                   <span>
                     <strong>
-                      승인 완료
+                      시연 초안 저장 완료
                     </strong>
 
                     <small>
-                      브라우저 시연용 저장
+                      현재 브라우저에서만 미리보기
                     </small>
                   </span>
 
                   <a href={sameOriginPreview()}>
-                    이 주소에서 시연 미리보기
-                    <ChevronRight
-                      size={15}
-                    />
+                    이 주소에서 예시 점포 미리보기
+                    <ChevronRight size={15}/>
                   </a>
                 </div>
               )}
             </div>
+            {approved && <div className="itda-owner-submit">
+              <div><h3><ClipboardCheck size={19}/> 관리자에게 홍보안 제출</h3><p>점주가 내용을 선택해도 바로 게시되지 않습니다. 담당 점포로 인증한 계정이 제출한 뒤 관리자 승인을 받아야 공개됩니다.</p></div>
+              <label><CalendarDays size={16}/> 홍보 종료일 <input type="date" value={endOn} onChange={event=>setEndOn(event.target.value)} min={new Date().toISOString().slice(0,10)} required/></label>
+              <button type="button" disabled={!ownerSession || !ownerStoreIds.includes(selectedStoreId) || ownerBusy || publication.status!=="published" || ownerHistory.some(req=>req.store_id===selectedStoreId && req.status==="pending")} onClick={()=>void submitForReview()}>
+                {ownerBusy?"제출 중…":"검토 요청 보내기"} <Send size={16}/>
+              </button>
+              {!ownerSession && <small>실제 제출은 화면 상단에서 점주 로그인 후 이용할 수 있습니다.</small>}
+              {ownerSession && !ownerStoreIds.includes(selectedStoreId) && <small>이 가게에 대한 제출 권한이 없습니다.</small>}
+              {ownerHistory.some(req=>req.store_id===selectedStoreId && req.status==="pending") && <small>이 가게에는 검토 중인 홍보안이 있습니다. 처리 후 다시 제출할 수 있습니다.</small>}
+            </div>}
           </section>
         )}
 

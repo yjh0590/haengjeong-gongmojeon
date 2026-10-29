@@ -1,0 +1,26 @@
+.itda-review-page{min-height:100vh;background:#f2f8f4;color:#1f4234;font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;padding:24px}
+.itda-review-page *{box-sizing:border-box}
+.itda-review-container{max-width:1060px;margin:0 auto}
+.itda-review-top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d6e7dd;padding-bottom:18px;font-size:13px;gap:12px}
+.itda-review-top a{color:#257a4d;text-decoration:none;display:flex;gap:5px;align-items:center;font-weight:700}
+.itda-review-intro{margin:32px 0 24px}
+.itda-review-intro>span{font-size:11px;font-weight:850;letter-spacing:1.5px;color:#237e4e}
+.itda-review-intro h1{margin:10px 0;font-size:clamp(23px,4vw,34px)}
+.itda-review-intro p,.itda-review-footnote{font-size:13px;color:#617e6d;line-height:1.8;max-width:900px}
+.itda-review-stats{display:flex;gap:12px;margin:20px 0 12px;flex-wrap:wrap}
+.itda-review-stats>span{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #d7e8dd;padding:12px 15px;border-radius:10px;font-size:12px}
+.itda-review-stats b{font-size:21px;color:#20794a}
+.itda-review-refresh,.itda-review-actions button{display:inline-flex;align-items:center;gap:7px;justify-content:center;border:1px solid #bed9c8;border-radius:10px;background:white;color:#246b47;padding:10px 14px;font-weight:750;cursor:pointer}
+.itda-review-refresh:disabled,.itda-review-actions button:disabled{opacity:.5;cursor:not-allowed}
+.itda-review-notice{padding:12px 16px;background:#e8f3e9;border-radius:9px}
+.itda-review-section{margin:23px 0 36px}.itda-review-section h2{font-size:19px}
+.itda-review-card,.itda-review-empty,.itda-review-history{background:white;border:1px solid #d8e8dd;border-radius:16px;padding:23px;margin-bottom:14px}
+.itda-review-card-head{display:flex;align-items:start;justify-content:space-between;gap:10px}
+.itda-review-card h3{font-size:19px;margin:9px 0}.itda-review-card small{color:#6c8b79}
+.itda-review-pill{white-space:nowrap;background:#fff1d6;color:#8c6100;border-radius:16px;padding:6px 11px;font-size:11px}
+.itda-review-copy{margin:14px 0;padding:14px 17px;border-radius:10px;background:#eaf5ed}.itda-review-copy strong{font-size:12px;color:#257348}.itda-review-copy p{font-size:15px;line-height:1.6;margin:7px 0;white-space:pre-wrap}
+.itda-review-details{display:grid;gap:12px;font-size:12px}.itda-review-details>div{border-top:1px solid #eff3f0;padding-top:10px}.itda-review-details b{display:block;color:#31784d;margin-bottom:4px}.itda-review-details p{color:#647b6e;white-space:pre-wrap;line-height:1.6}
+.itda-review-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.itda-review-actions .itda-review-approve{background:#21814d;color:#fff;border-color:#21814d}
+.itda-review-history>div{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #e6efe9;font-size:13px}.itda-review-history>div:last-child{border-bottom:0}.itda-review-history b.approved{color:#207f4b}.itda-review-history b.rejected{color:#ad5753}
+.itda-review-empty{display:flex;align-items:center;gap:15px;color:#738b7c;font-size:13px}
+@media(max-width:640px){.itda-review-page{padding:15px}.itda-review-top strong{display:none}.itda-review-card{padding:16px}}

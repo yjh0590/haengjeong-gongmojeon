@@ -1,0 +1,192 @@
+/* ITDA / Incheon-inspired visual system — v4.5
+   Palette supplied by the team. These are brand inspirations, not official sponsorship.
+   Keep the original role hierarchy: customer = blue, owner = warm orange, admin = green.
+*/
+:root {
+  --itda-incheon: #0079c1;
+  --itda-yeonsu: #1f3c95;
+  --itda-jemulpo: #093190;
+  --itda-coast: #0890bf;
+  --itda-teal: #008ca2;
+  --itda-orange: #ff601f;
+  --itda-lime: #afd143;
+  --itda-admin: #22804d;
+  --itda-ink: #163451;
+}
+
+/* Common: deliberately subtle regional color bar and consistent focus state. */
+.portal-page, .app-shell, .owner-page, .hub-page,
+.catalog-page, .map-editor-page, .street-editor,
+.itda-review-page, .itda-password-page, .itda-auth-page {
+  -webkit-font-smoothing: antialiased;
+}
+.portal-page a:focus-visible, .owner-page button:focus-visible,
+.owner-page a:focus-visible, .app-shell button:focus-visible,
+.app-shell a:focus-visible {
+  outline: 3px solid #087fc3;
+  outline-offset: 3px;
+}
+
+/* Main portal: regional blues, comfortable whitespace, clean campus-friendly styling. */
+.portal-page {
+  background: linear-gradient(175deg, #f0f7fd 0%, #f8fbfe 52%, #ffffff 100%);
+  color: var(--itda-ink);
+}
+.portal-glow {
+  height: 560px;
+  background: radial-gradient(ellipse at 80% 2%, #d5ebf8 0, transparent 59%),
+              radial-gradient(ellipse at 8% 16%, #dcecf8 0, transparent 47%);
+}
+.portal-top { border-bottom-color: #d8e8f4; }
+.portal-logo { color: #103b65; }
+.portal-mark {
+  background: linear-gradient(140deg, var(--itda-yeonsu), var(--itda-incheon));
+  box-shadow: 0 8px 23px #0079c125;
+}
+.portal-kicker { color: #095b8d; background: #e4f2fa; border-color: #c6e1f1; }
+.portal-lead h1 { letter-spacing: -2.4px; }
+.portal-lead h1 em { color: var(--itda-incheon); }
+.portal-lead p { color: #516e85; }
+.portal-content { padding-top: 54px; }
+.portal-cards { max-width: 815px; gap: 18px; margin-top: 29px; }
+.portal-card {
+  border: 1px solid #d9e7f0;
+  box-shadow: 0 13px 35px #1a4b7110;
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.portal-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--itda-incheon); }
+.portal-card:nth-child(2)::before { background: var(--itda-orange); }
+.portal-card:hover { border-color: #8fc5e0; box-shadow: 0 17px 37px #16497319; }
+.portal-card-icon { background: #e7f3fb; color: #075d94; }
+.portal-card:nth-child(2) .portal-card-icon { background: #fff0e8; color: #c64916; }
+.portal-card-kicker { color: #517c98; }
+.portal-card-cta { color: #065e96; }
+.portal-card:nth-child(2) .portal-card-cta { color: #a9431c; }
+.portal-notice { border-color: #dbe8f1; background: #fbfdff; }
+.portal-footer { border-top-color: #d7e6f0; }
+.portal-region-strip {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  gap: 8px; margin: 26px auto 0; padding: 0; width: min(100%, 760px);
+}
+.portal-region-tag {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px;
+  border: 1px solid #cfdfeb; background: #ffffffbf; border-radius: 999px;
+  color: #315778; font-size: 11px; font-weight: 800;
+}
+.portal-region-tag i { width: 9px; height: 9px; border-radius: 50%; background: var(--itda-incheon); flex: none; }
+.portal-region-tag.songdo i { background: var(--itda-yeonsu); }
+.portal-region-tag.jemulpo i { background: var(--itda-jemulpo); }
+.portal-region-tag small { font-size: 10px; font-weight: 600; color: #61788b; }
+.portal-region-tag.jemulpo { background: #f4f6fa; }
+
+/* Customer: Incheon blue as primary, with Yeonsu navy supporting Songdo. */
+.app-shell {
+  --blue: var(--itda-incheon);
+  --navy: #18354e;
+  --muted: #5d7183;
+  --line: #dae6ef;
+  background: linear-gradient(180deg, #f3f9fd 0%, #f7fafc 37%, #fff 100%);
+}
+.app-shell .top-navigation { border-bottom-color: #d4e5f0; }
+.app-shell .brand-symbol {
+  background: linear-gradient(137deg, var(--itda-yeonsu), var(--itda-incheon) 80%);
+  box-shadow: 0 7px 22px #0079c122;
+}
+.app-shell .brand-text > span { color: #075f98; }
+.app-shell .nav-item:hover, .app-shell .nav-item.active {
+  background: #e4f1fa; color: #075e97;
+}
+.app-shell .hero {
+  border-color: #d7e8f4;
+  background: radial-gradient(circle at 95% -18%, #cce8f7, transparent 47%),
+              radial-gradient(circle at 4% 100%, #eaf4fc, transparent 42%),
+              linear-gradient(118deg, #fff 28%, #f4faff);
+  box-shadow: 0 15px 45px #1f3c950d;
+}
+.app-shell .eyebrow, .app-shell .panel-eyebrow { color: #0a669b; }
+.app-shell .hero h1 span { color: #087ab8; }
+.app-shell .primary-action, .app-shell .route-button {
+  background: #006da9; border-color: #006da9; color: #fff;
+  box-shadow: 0 7px 20px #0079c11c;
+}
+.app-shell .primary-action:hover, .app-shell .route-button:hover { background: #075b8e; }
+.app-shell .secondary-action:hover { border-color: #8dbcd9; background: #ebf6fc; }
+.app-shell .hero-aside { border-color: #dcebf3; }
+.app-shell .hero-step > span { color: #075d94; background: #edf6fb; border-color: #cce6f4; }
+.app-shell .hero-aside-kicker, .app-shell .panel-header h3 svg { color: #0b6498; }
+.app-shell .section-region { background: #e8eefb; color: var(--itda-yeonsu); }
+.app-shell .filter-chip.selected, .app-shell .floor-selector-options button.selected {
+  background: #e4f2fb; color: #075d94; border-color: #9ed2e7;
+}
+/* Keep separate meanings of taste/style/event: do not recolor all icons blue. */
+.app-shell .filter-chip.type-food.selected { background: #e7f1fc; color: #1c59a1; border-color: #9dc7ee; }
+.app-shell .filter-chip.type-style.selected { background: #f6ede7; color: #8d4f2f; border-color: #dcbda6; }
+.app-shell .filter-chip.type-event.selected { background: #fff4d6; color: #875c00; border-color: #ecd487; }
+.app-shell .map-panel, .app-shell .street-panel { border-color: #dce9f1; box-shadow: 0 7px 29px #1f3c9508; }
+.app-shell .floor-selector { border-color: #d7e9f4; }
+.app-shell .site-data-status { background: #eff7fc; border-color: #cce2f0; color: #275f81; }
+.app-shell .selected-store-strip { background: #ecf6fc; border-color: #cde4f3; }
+.app-shell .selected-store-strip strong, .app-shell .selected-store-strip button { color: #075e95; }
+.app-shell .modal-visual { background: radial-gradient(circle at 90% 10%, #dbeefa, transparent 62%), linear-gradient(135deg, #ebf5fb, #fff); }
+.app-shell .map-disclaimer a, .app-shell .customer-footer a { color: #096595; }
+
+/* Owner: retain its warmer function identity, introduce Incheon orange and blue accents. */
+.owner-page {
+  --owner-500: #f27d37;
+  --owner-600: #d75b23;
+  --owner-700: #aa451e;
+  --owner-800: #843b22;
+  background: radial-gradient(circle at 52% -200px, #ffe6d8 0, transparent 560px), #fffdfa;
+  color: #1d3346;
+}
+.owner-header { border-bottom-color: #e9e5df; }
+.owner-brand-icon { background: linear-gradient(138deg, #ff601f, #f6a342); color: white; }
+.owner-ai-label, .owner-intro h1 span { color: #aa451e; }
+.owner-flow-card, .owner-main-panel, .owner-side-panel > div { border-color: #eee2d5; }
+.owner-flow-card { background: linear-gradient(145deg, #fff, #fff8f0); }
+.owner-status { background: #e8f5fa; color: #075e91; }
+.owner-status > span { background: var(--itda-incheon); }
+.owner-intro .owner-demo-note { border-color: #f6d8c3; background: #fff6f1; color: #824b2f; }
+.owner-page .generate-button {
+  background: linear-gradient(105deg, #9f411f, #d95b27 58%, #f18b49);
+  color: #fff; box-shadow: 0 10px 25px #c653232b;
+}
+.owner-page .approve-button { background: #a74421; border-color: #a74421; }
+.owner-page .store-select-card { background: linear-gradient(145deg, #fffdf9, #fff7ed); }
+.owner-page .promotion-card.selected { background: #fff6f0; border-color: #e99b74; }
+.owner-page .itda-owner-connect { border-color: #d8e7f0; box-shadow: 0 7px 25px #0e4c740c; }
+.owner-page .itda-owner-connect-head span { color: #086da2; }
+.owner-page .itda-owner-login button, .owner-page .itda-owner-submit button { background: #0875ae; }
+.owner-page .itda-owner-login button:hover, .owner-page .itda-owner-submit button:hover { background: #085c8d; }
+.owner-page .itda-owner-submit { background: #f0f8fc; border-color: #cde6f3; }
+
+/* Admin: preserve established forest-green design, but tidy spacing and surfaces. */
+.hub-page, .catalog-page, .map-editor-page, .street-editor,
+.itda-review-page, .itda-auth-page {
+  --itda-admin: #22804d;
+  color: #204737;
+}
+.hub-card, .hub-tools, .catalog-list, .catalog-form,
+.catalog-publish, .map-editor-map-panel, .map-editor-side,
+.editor-panel, .editor-sidebar { box-shadow: 0 10px 30px #185c3210; }
+.hub-card:hover { transform: translateY(-2px); transition: transform .2s ease, border-color .2s ease; }
+.hub-page .hub-link, .catalog-page .catalog-publish-button { background: #207949; }
+.hub-page .hub-link:hover { background: #165f38; }
+.hub-page .hub-eyebrow, .catalog-page .catalog-heading span { color: #217749; }
+.itda-admin-session-bar { border-bottom: 2px solid #69a881; }
+.itda-password-page { background: linear-gradient(145deg, #eaf4ed, #f7fbf8); }
+.itda-password-card { border-color: #d5e8da; }
+.itda-password-eyebrow, .itda-password-back { color: #1f7849; }
+.itda-password-card button, .itda-password-action { background: #207b49; }
+
+@media (max-width: 760px) {
+  .portal-region-strip { gap: 6px; margin-top: 20px; }
+  .portal-region-tag { padding: 7px 10px; font-size: 10px; }
+  .portal-content { padding-top: 34px; }
+  .portal-lead h1 { letter-spacing: -1.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-card, .hub-card { transition: none; }
+}

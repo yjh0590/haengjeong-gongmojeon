@@ -16,6 +16,8 @@ export type StoreData = {
   menu: string;
   price: string;
   event?: string;
+  /** Last calendar day the current promotion is visible (YYYY-MM-DD). */
+  eventUntil?: string;
   tags: string[];
   walking: string;
   aiScore: number;
