@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 
 import "../styles/Owner.css";
+import { appUrl, sameOriginPreview } from "../config/site";
 
 type StoreData = {
   id: number;
@@ -67,7 +68,7 @@ const stores: StoreData[] = [
 
 function Owner() {
   useEffect(() => {
-    document.title = "테스트용(사장) · AI Marketing";
+    document.title = "점주용 AI 마케팅 · AI Marketing";
   }, []);
 
   const [selectedStoreId, setSelectedStoreId] =
@@ -196,11 +197,11 @@ function Owner() {
     <div className="owner-page">
       <header className="owner-header">
         <a
-          href="/"
+          href={appUrl("customer")}
           className="owner-back"
         >
           <ArrowLeft size={18} />
-          테스트용(손님)
+          소비자 거리 탐색
         </a>
 
         <div className="owner-brand">
@@ -210,7 +211,7 @@ function Owner() {
 
           <div>
             <strong>
-              테스트용(사장)
+              점주용 AI 마케팅
             </strong>
 
             <span>
@@ -221,7 +222,7 @@ function Owner() {
 
         <div className="owner-status">
           <span />
-          AI 준비됨
+          콘텐츠 제안 시연
         </div>
       </header>
 
@@ -245,9 +246,10 @@ function Owner() {
               복잡한 광고 설정 없이
               오늘의 상황만 알려주면,
               <br />
-              AI가 가게에 맞는 홍보
-              방법과 콘텐츠를 제안합니다.
+              가게에 맞는 홍보
+              방법과 콘텐츠 제안을 미리 경험할 수 있습니다.
             </p>
+            <p className="owner-demo-note">현재는 실제 생성형 AI API가 아닌, 미리 준비된 예시 문구를 조합하는 시연 버전입니다. 승인 내용도 이 주소의 브라우저에만 저장됩니다.</p>
           </div>
 
           <div className="owner-flow-card">
@@ -814,12 +816,12 @@ function Owner() {
                     </strong>
 
                     <small>
-                      AI Street 반영 대기
+                      브라우저 시연용 저장
                     </small>
                   </span>
 
-                  <a href="/">
-                    소비자 화면 보기
+                  <a href={sameOriginPreview()}>
+                    이 주소에서 시연 미리보기
                     <ChevronRight
                       size={15}
                     />

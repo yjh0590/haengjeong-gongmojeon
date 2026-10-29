@@ -6,6 +6,10 @@ export type ViewDirection = "forward" | "back" | "left" | "right";
 export type StoreData = {
   id: number;
   name: string;
+  /** Floor and building are sample location metadata until surveyed. */
+  floor: 1 | 2 | 3;
+  building: string;
+  unit?: string;
   type: StoreType;
   category: string;
   description: string;

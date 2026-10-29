@@ -3,6 +3,9 @@ import type { StoreData } from "../types/street";
 export const stores: StoreData[] = [
   {
     id: 1,
+    floor: 1,
+    building: "D동",
+    unit: "101호",
     name: "A 덮밥",
     type: "맛",
     category: "한식 · 덮밥",
@@ -17,6 +20,9 @@ export const stores: StoreData[] = [
   },
   {
     id: 2,
+    floor: 1,
+    building: "D동",
+    unit: "102호",
     name: "B 카페",
     type: "맛",
     category: "카페 · 디저트",
@@ -30,6 +36,9 @@ export const stores: StoreData[] = [
   },
   {
     id: 3,
+    floor: 2,
+    building: "D동",
+    unit: "201호",
     name: "C 스튜디오",
     type: "멋",
     category: "사진 · 문화",
@@ -44,6 +53,9 @@ export const stores: StoreData[] = [
   },
   {
     id: 4,
+    floor: 2,
+    building: "D동",
+    unit: "202호",
     name: "D 네일",
     type: "멋",
     category: "뷰티 · 네일",
@@ -57,6 +69,9 @@ export const stores: StoreData[] = [
   },
   {
     id: 5,
+    floor: 3,
+    building: "D동",
+    unit: "301호",
     name: "E 파스타",
     type: "맛",
     category: "양식 · 파스타",
@@ -70,6 +85,9 @@ export const stores: StoreData[] = [
   },
   {
     id: 6,
+    floor: 3,
+    building: "D동",
+    unit: "302호",
     name: "F 편집숍",
     type: "멋",
     category: "패션 · 소품",
