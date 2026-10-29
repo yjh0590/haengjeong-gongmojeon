@@ -3,7 +3,7 @@ import type { MouseEvent } from "react";
 import { ArrowLeft, Camera, Download, Info, RotateCcw, Save, Trash2, Upload } from "lucide-react";
 import { useStreetNodes } from "../data/streetNetwork";
 import { photoKey, useDraftPhotoUrls, saveDraftPhoto, deleteDraftPhoto } from "../data/localStreetPhotos";
-import { stores } from "../data/stores";
+import { useStoreDraft } from "../data/storeDraft";
 import { FACADE_KEY, getFacadeAnnotations, type FacadeAnnotation, type Point } from "../data/facadeAnnotations";
 import type { ViewDirection } from "../types/street";
 import "../styles/StreetEditor.css";
@@ -12,17 +12,18 @@ import { appUrl, sameOriginPreview } from "../config/site";
 const views: ViewDirection[] = ["forward", "back", "left", "right"];
 const names: Record<ViewDirection, string> = { forward: "정면", back: "뒤", left: "왼쪽", right: "오른쪽" };
 
-function readJsonAnnotations(input: unknown, nodeIds: string[]): FacadeAnnotation[] | null {
+function readJsonAnnotations(input: unknown, nodeIds: string[], storeIds: number[]): FacadeAnnotation[] | null {
   if (!Array.isArray(input)) return null;
   const valid = input.every((item) => item && typeof item === "object" &&
     typeof item.nodeId === "string" && nodeIds.includes(item.nodeId) &&
-    views.includes(item.view) && typeof item.storeId === "number" && stores.some((s) => s.id === item.storeId) &&
+    views.includes(item.view) && typeof item.storeId === "number" && storeIds.includes(item.storeId) &&
     Array.isArray(item.points) && item.points.length >= 3 && item.points.every((p: Point) =>
       typeof p.x === "number" && typeof p.y === "number" && p.x >= 0 && p.x <= 100 && p.y >= 0 && p.y <= 100));
   return valid ? input as FacadeAnnotation[] : null;
 }
 
 export default function StreetEditor() {
+  const stores = useStoreDraft();
   const streetNodes = useStreetNodes();
   const {urls:draftUrls} = useDraftPhotoUrls();
   const [nodeId, setNodeId] = useState("point1");
@@ -46,7 +47,7 @@ export default function StreetEditor() {
   const setNode = (id: string) => {
     const next = streetNodes.find((n) => n.id === id) || streetNodes[0];
     setNodeId(id);
-    setStoreId(next.stores[0] ?? stores[0].id);
+    setStoreId(next.stores[0] ?? stores[0]?.id ?? 0);
     setView(views.find((v) => Boolean(next.views[v])) || "forward");
     setMessage("편집할 점포를 선택하고 사진의 꼭짓점을 누르세요.");
   };
@@ -102,7 +103,7 @@ export default function StreetEditor() {
     if (!file) return;
     try {
       const parsed = JSON.parse(await file.text());
-      const valid = readJsonAnnotations(parsed, streetNodes.map(n=>n.id));
+      const valid = readJsonAnnotations(parsed, streetNodes.map(n=>n.id), stores.map(s=>s.id));
       if (!valid) { setMessage("파일 형식이 올바르지 않아요. 기존 데이터를 변경하지 않았습니다."); return; }
       localStorage.setItem(FACADE_KEY, JSON.stringify(valid));
       setAnnotations(valid);

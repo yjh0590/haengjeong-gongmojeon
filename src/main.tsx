@@ -8,6 +8,7 @@ import Customer from "./pages/Customer.tsx";
 import Owner from "./pages/Owner.tsx";
 import StreetEditor from "./pages/StreetEditor.tsx";
 import MapEditor from "./pages/MapEditor.tsx";
+import CatalogEditor from "./pages/CatalogEditor.tsx";
 
 /** Each subdomain uses the same build but opens its own role. Legacy Vercel paths still work. */
 function resolvePage() {
@@ -19,6 +20,7 @@ function resolvePage() {
   if (surface === "editor") {
     if (path === "/map-editor") return <MapEditor />;
     if (path === "/street-editor") return <StreetEditor />;
+    if (path === "/catalog") return <CatalogEditor />;
     return <EditorDashboard />;
   }
   if (surface === "landing") {
@@ -29,6 +31,7 @@ function resolvePage() {
   if (path === "/map-editor") return <MapEditor />;
   if (path === "/street-editor") return <StreetEditor />;
   if (path === "/editor") return <EditorDashboard />;
+  if (path === "/catalog") return <CatalogEditor />;
   if (path === "/welcome") return <Landing />;
   return <Customer />;
 }

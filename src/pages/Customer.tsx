@@ -6,7 +6,9 @@ import {
 } from "lucide-react";
 import "../styles/Customer.css";
 import type { ApprovedPromotionData, FilterType, StoreData, ViewDirection } from "../types/street";
-import { stores } from "../data/stores";
+import { stores as examples } from "../data/stores";
+import { useStoreDraft } from "../data/storeDraft";
+import { usePublicSite } from "../data/sitePublication";
 import { appUrl, currentSurface } from "../config/site";
 import { useStreetNodes } from "../data/streetNetwork";
 import { useMapGeometry, MAP_BG_KEY } from "../data/mapGeometry";
@@ -36,7 +38,7 @@ function firstAvailableView(nodeId: string, nodes: ReturnType<typeof useStreetNo
   return directions.find((direction) => node.views[direction]) || preferred;
 }
 function locateStoreNode(storeId: number, nodes: ReturnType<typeof useStreetNodes>): string {
-  return nodes.find((node) => node.stores.includes(storeId))?.id || nodes[0].id;
+  return nodes.find((node) => node.stores.includes(storeId))?.id || nodes[0]?.id || "point1";
 }
 function matchStore(store: StoreData, filter: FilterType, query: string) {
   const categoryMatches = filter === "전체" || (filter === "이벤트" ? Boolean(store.event) : store.type === filter);
@@ -46,10 +48,15 @@ function matchStore(store: StoreData, filter: FilterType, query: string) {
 }
 
 export default function Customer() {
-  const streetNodes = useStreetNodes();
-  const geometry = useMapGeometry();
+  const localNodes = useStreetNodes();
+  const localGeometry = useMapGeometry();
+  const draftStores = useStoreDraft();
+  const publication = usePublicSite();
+  const streetNodes = publication.data?.nodes || localNodes;
+  const geometry = publication.data?.geometry || localGeometry;
+  const catalog = publication.data?.stores || (publication.status === "preview" ? draftStores : examples);
   const {urls: draftUrls} = useDraftPhotoUrls();
-  const mapBackground = draftUrls[MAP_BG_KEY];
+  const mapBackground = publication.status === "published" ? undefined : draftUrls[MAP_BG_KEY];
   const [floor, setFloor] = useState<"전체" | 1 | 2 | 3>("전체");
   const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
   const [favorites, setFavorites] = useState<number[]>(readFavorites);
@@ -62,7 +69,8 @@ export default function Customer() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [showDiscoveries, setShowDiscoveries] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [facades, setFacades] = useState<FacadeAnnotation[]>(getFacadeAnnotations);
+  const [draftFacades, setDraftFacades] = useState<FacadeAnnotation[]>(getFacadeAnnotations);
+  const facades: FacadeAnnotation[] = publication.data?.facades || draftFacades;
   const explorerRef = useRef<HTMLElement>(null);
   const mapRef = useRef<HTMLElement>(null);
 
@@ -74,7 +82,7 @@ export default function Customer() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [detailsOpen]);
   useEffect(() => {
-    const syncData = () => { setApprovedPromotion(readApproved()); setFacades(getFacadeAnnotations()); };
+    const syncData = () => { setApprovedPromotion(readApproved()); setDraftFacades(getFacadeAnnotations()); };
     const onStorage = (event: StorageEvent) => {
       if (event.key === APPROVAL_KEY || event.key === "matmeot-facades-v1") syncData();
       if (event.key === FAVORITES_KEY) setFavorites(readFavorites());
@@ -84,13 +92,13 @@ export default function Customer() {
     return () => { window.removeEventListener("focus", syncData); window.removeEventListener("storage", onStorage); };
   }, []);
 
-  const effectiveStores = useMemo(() => stores.map((store) => {
-    if (approvedPromotion?.storeId !== store.id) return store;
+  const effectiveStores = useMemo(() => catalog.map((store) => {
+    if (publication.status === "published" || approvedPromotion?.storeId !== store.id) return store;
     return { ...store, event: approvedPromotion.promotion.streetCopy };
-  }), [approvedPromotion]);
+  }), [catalog, approvedPromotion, publication.status]);
   const selectedStore = effectiveStores.find((store) => store.id === selectedStoreId) || null;
   const currentNode = streetNodes.find((node) => node.id === currentNodeId) || streetNodes[0];
-  const currentImage = draftUrls[photoKey(currentNodeId, currentView)] || currentNode.views[currentView];
+  const currentImage = (publication.status === "published" ? undefined : draftUrls[photoKey(currentNodeId, currentView)]) || currentNode.views[currentView];
   const matchingStores = useMemo(() => effectiveStores.filter((store) =>
     matchStore(store, filter, query) && (floor === "전체" || store.floor === floor) && (!onlySaved || favorites.includes(store.id))),
   [effectiveStores, filter, query, onlySaved, favorites, floor]);
@@ -107,9 +115,11 @@ export default function Customer() {
     setCurrentView(next || firstAvailableView(nodeId, streetNodes, preferred));
   };
   const focusStore = (storeId: number, openDetails = false) => {
-    const nodeId = locateStoreNode(storeId, streetNodes);
-    const annotation = facades.find((item) => item.storeId === storeId && item.nodeId === nodeId);
-    focusNode(nodeId, annotation?.view || "forward");
+    const linked = streetNodes.find(node => node.stores.includes(storeId));
+    if (linked) {
+      const annotation = facades.find(item => item.storeId === storeId && item.nodeId === linked.id);
+      focusNode(linked.id, annotation?.view || "forward");
+    }
     setSelectedStoreId(storeId);
     const chosen = effectiveStores.find((s) => s.id === storeId);
     if (chosen) setFloor(chosen.floor);
@@ -169,6 +179,7 @@ export default function Customer() {
           <span className="section-region"><MapPin size={15}/> 전체 구역 · 층별 탐색 준비</span>
         </div>
 
+        <div className="site-data-status" role="status">{publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
         <div className="explore-toolbar">
           <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
           <div className="filter-buttons" role="group" aria-label="가게 필터">
@@ -208,7 +219,7 @@ export default function Customer() {
                 {streetNodes.map((node) => { const p = geometry.nodes[node.id]; return !p ? null : <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
                     <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/><text x={p.x} y={p.y + 5.2} className="map-node-text">{node.number}</text>
                   </g>; })}
-                {matchingStores.map((store) => { const nodeP = geometry.nodes[locateStoreNode(store.id, streetNodes)]; const point = geometry.stores[String(store.id)] || nodeP; if (!point) return null; const x=point.x; const y=point.y; const active = selectedStoreId === store.id;
+                {matchingStores.map((store) => { const nodeP = geometry.nodes[locateStoreNode(store.id, streetNodes)]; const point = geometry.stores[String(store.id)] || (publication.status === "published" ? null : nodeP); if (!point) return null; const x=point.x; const y=point.y; const active = selectedStoreId === store.id;
                   return <g key={store.id} className={`map-store-marker ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-label={`${store.name} · ${store.floor}층 선택`} onClick={() => focusStore(store.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(store.id); } }}>
                     <rect x={x - 22} y={y - 14} width="44" height="29" rx="13" className={`map-store-chip ${store.type === "맛" ? "food" : "style"}`}/><text x={x} y={y + 4.3} className="map-store-text">{store.floor}F · {store.id}</text>{store.event && <circle cx={x + 18} cy={y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
                   </g>; })}
@@ -248,17 +259,17 @@ export default function Customer() {
 
         {featuredStores.length > 0 && !showDiscoveries && <div className="subtle-promo"><Zap size={18}/><span>등록된 이벤트 문구가 있는 가게 <strong>{featuredStores.length}곳</strong>을 모아볼 수 있어요.</span><button type="button" onClick={() => { setFilter("이벤트"); setShowDiscoveries(true); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견 보기 <ArrowRight size={15}/></button></div>}
       </section>
-      <footer className="customer-footer"><span>맛&멋 AI Street · 송도 타임스페이스 시범 프로젝트</span><span>테스트용 점포 정보 · 실측 지도 및 실시간 영업 정보 미연동</span>{currentSurface()==="legacy" && <><a href={appUrl("editor","/map-editor")}>전체 지도 편집 <ArrowRight size={13}/></a><a href={appUrl("editor","/street-editor")}>거리 사진 편집 <ArrowRight size={13}/></a></>}</footer>
+      <footer className="customer-footer"><span>맛&멋 AI Street · 송도 타임스페이스 시범 프로젝트</span><span>{publication.status === "published" ? "관리자 게시 정보 · 실측 위치 및 영업 여부는 별도 확인 필요" : "테스트용 점포 정보 · 실측 지도 및 실시간 영업 정보 미연동"}</span>{currentSurface()==="legacy" && <><a href={appUrl("editor","/map-editor")}>전체 지도 편집 <ArrowRight size={13}/></a><a href={appUrl("editor","/street-editor")}>거리 사진 편집 <ArrowRight size={13}/></a></>}</footer>
     </main>
 
     {detailsOpen && selectedStore && <div className="modal-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDetailsOpen(false); }}><section className="store-modal" role="dialog" aria-modal="true" aria-labelledby="store-modal-title">
       <button type="button" className="modal-close" onClick={() => setDetailsOpen(false)} aria-label="가게 정보 닫기"><X size={20}/></button>
       <div className="modal-visual"><span className={`category-pill ${selectedStore.type === "맛" ? "food" : "style"}`}>{selectedStore.type} · {selectedStore.category}</span><div><Store size={28}/><span>LOCAL STORE</span></div></div>
-      <div className="modal-body"><span className="modal-overline">{selectedStore.building} · {selectedStore.floor}층 · {selectedStore.unit || "위치 확인 전"} · 시범 점포</span><h2 id="store-modal-title">{selectedStore.name}</h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
+      <div className="modal-body"><span className="modal-overline">{selectedStore.building} · {selectedStore.floor}층 · {selectedStore.unit || "위치 확인 전"} · {publication.status === "published"?"등록 점포":"시범 점포"}</span><h2 id="store-modal-title">{selectedStore.name}</h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
         <div className="store-information"><div><span>대표 메뉴·서비스</span><strong>{selectedStore.menu}</strong></div><div><span>가격</span><strong>{selectedStore.price}</strong></div><div><span>추천 점수 예시</span><strong>{selectedStore.aiScore}점</strong></div></div>
         {selectedStore.event && <div className="event-card"><Zap size={19}/><div><small>등록된 홍보 문구 · 진행 여부 확인 필요</small><strong>{selectedStore.event}</strong></div></div>}
-        <div className="modal-buttons"><button type="button" className={`save-button ${favorites.includes(selectedStore.id) ? "saved" : ""}`} onClick={() => toggleFavorite(selectedStore.id)}>{favorites.includes(selectedStore.id) ? <Check size={17}/> : <Bookmark size={17}/>} {favorites.includes(selectedStore.id) ? "저장됨" : "즐겨찾기"}</button><button type="button" className="route-button" onClick={() => { focusNode(locateStoreNode(selectedStore.id, streetNodes)); setDetailsOpen(false); mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}><LocateFixed size={17}/> 안내도에서 위치 보기</button></div>
-        <small className="modal-note"><Info size={13}/> 실제 주소가 없는 예시 점포라 외부 길찾기는 제공하지 않습니다.</small>
+        <div className="modal-buttons"><button type="button" className={`save-button ${favorites.includes(selectedStore.id) ? "saved" : ""}`} onClick={() => toggleFavorite(selectedStore.id)}>{favorites.includes(selectedStore.id) ? <Check size={17}/> : <Bookmark size={17}/>} {favorites.includes(selectedStore.id) ? "저장됨" : "즐겨찾기"}</button><button type="button" className="route-button" disabled={!streetNodes.some(n=>n.stores.includes(selectedStore.id))} onClick={() => { focusNode(locateStoreNode(selectedStore.id, streetNodes)); setDetailsOpen(false); mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}><LocateFixed size={17}/> 안내도에서 위치 보기</button></div>
+        <small className="modal-note"><Info size={13}/> {streetNodes.some(n=>n.stores.includes(selectedStore.id)) ? "상세 위치·영업 현황은 현장 확인이 필요합니다. 실측 길찾기는 제공하지 않습니다." : "이 가게는 촬영 지점과 아직 연결되지 않았습니다. 관리자 지도 편집이 필요합니다."}</small>
       </div></section></div>}
   </div>;
 }
