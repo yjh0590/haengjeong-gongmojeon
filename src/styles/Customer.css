@@ -13,3 +13,35 @@
 .floor-selector{border:1px solid #dce8f4;border-radius:13px;padding:12px 14px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 16px;flex-wrap:wrap}.floor-selector-label{display:flex;align-items:center;gap:8px;font-size:12px;color:#32638a}.floor-selector-label>span{color:#7e91a4;font-size:11px;font-weight:400}.floor-selector-options{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.floor-selector-options button{border:1px solid #dce6f2;background:#f8fafc;color:#60788c;padding:9px 13px;border-radius:9px;font-size:12px;font-weight:800}.floor-selector-options button.selected{color:#185bba;border-color:#8eb9f7;background:#e9f2ff}.map-disclaimer a{color:#236ec5;font-weight:850;text-decoration:underline}.street-image.has-photo{aspect-ratio:auto}.street-image.has-photo .street-photo{height:auto;max-height:none;object-fit:contain}.map-store-text{font-size:11px}@media(max-width:560px){.floor-selector{align-items:stretch}.floor-selector-label{flex-wrap:wrap}.floor-selector-options button{flex:1;padding:9px 10px}}
 
 .site-data-status{margin:6px 0 18px;padding:11px 15px;border-radius:11px;border:1px solid #d1e3f3;background:#f2f8ff;color:#39729a;font-size:12px;font-weight:650;line-height:1.6}
+
+/* v4.8: functional map / floor enhancements. Keep the v4.5 visual theme intact. */
+.building-selector{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:12px 0 0;border:1px solid #dce8f4;border-radius:13px;background:#fff}
+.building-selector-label{display:flex;gap:8px;align-items:center;color:#32638a;font-size:12px}
+.building-selector-label small{color:#7e91a4;font-size:11px;font-weight:400}
+.building-selector-options{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.building-selector-options button{display:inline-flex;align-items:center;gap:7px;border:1px solid #dce6f2;border-radius:9px;background:#f8fafc;color:#60788c;font-size:12px;font-weight:800;padding:9px 12px}
+.building-selector-options button.selected{color:#175bc2;background:#eaf2ff;border-color:#9bc0ef}
+.building-selector-options button span,.floor-selector-options button span{display:inline-grid;place-items:center;min-width:19px;height:19px;border-radius:6px;background:#e9eef5;color:#536d87;font-size:10px}
+.floor-selector-options button{display:inline-flex;align-items:center;gap:6px}
+.floor-selector-options button.selected span,.building-selector-options button.selected span{background:#cfe3ff;color:#175bc2}
+.route-guide{display:flex;flex-direction:column;gap:8px;border:1px solid #a9cdf7;background:#f2f8ff;border-radius:15px;padding:14px 16px;margin:12px 0 16px;color:#285682}
+.route-guide-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.route-guide-top>div{display:flex;flex-direction:column;gap:7px}
+.route-guide-top strong{font-size:15px;color:#163e71}
+.route-guide-top strong span{color:#526d8c;font-weight:600;font-size:12px}
+.route-guide-kicker{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:850;color:#2164b3}
+.route-guide p{display:flex;align-items:center;gap:6px;font-size:12px;line-height:1.7;margin:0}
+.route-guide small{font-size:10px;line-height:1.5;color:#6f85a2}
+.route-guide button{border-radius:9px;display:inline-flex;gap:6px;align-items:center;justify-content:center;font-weight:800}
+.route-stop{background:#fff;border:1px solid #cce0f4;color:#537393;padding:8px 10px;font-size:11px}
+.route-next{align-self:flex-start;background:#2468c9;border:1px solid #2468c9;color:#fff;padding:10px 13px;font-size:12px}
+.route-next:hover{background:#1453ae}
+.photo-route-line{filter:drop-shadow(0 1px 2px #ffffffc9)}
+.legend-photo-route{display:inline-block;border-top:3px dashed #2563eb;width:17px;margin-right:3px}
+.store-card-route{align-self:stretch;display:flex;gap:5px;align-items:center;justify-content:center;padding:9px 8px;margin-top:10px;border:1px solid #d4e6fb;border-radius:9px;background:#f4f9ff;color:#1f65b5;font-size:11px;font-weight:800}
+.store-card-route:hover:not(:disabled){background:#e4f1ff}
+.modal-guide-button{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 10px;margin-top:10px;background:#eef6ff;border:1px solid #bcd6f6;border-radius:11px;color:#1d5db2;font-size:12px;font-weight:800}
+@media(max-width:600px){.building-selector{align-items:stretch}.building-selector-label{flex-wrap:wrap}.building-selector-options button{flex:1;justify-content:center}.route-guide-top strong{font-size:13px}}
+
+.street-navigation button.route-navigation-next{background:#2468c9;border-color:#2468c9;color:#fff}
+.street-navigation button.route-navigation-next:hover{background:#1755ae}
