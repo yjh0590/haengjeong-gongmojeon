@@ -1,3 +1,11 @@
+# ITDA v4.9 — 전체 상권 거리 사진 서버 업로드
+
+v4.8의 지도·층별 탐색 및 기존 디자인을 유지하면서 **Supabase Storage 업로드 → 관리자 승인 → 소비자 거리 사진 공개** 기능을 추가했습니다.
+
+최초 설정: `supabase/003_public_media_storage.sql` 실행 (기존 001·002 유지). 자세한 안내는 `docs/ITDA_V49_PHOTO_STORAGE.md`를 참고하세요.
+
+---
+
 > **v4.8 지도/층별 탐색 고도화:** 건물·층별 점포 수, 촬영 지점 연결 순서 안내, 관리자 촬영 누락/연결 점검, 현장 촬영 CSV. 기존 v4.5 디자인과 소스 도메인 구조는 유지. [`docs/ITDA_V48_MAP_FLOOR_GUIDE.md`](docs/ITDA_V48_MAP_FLOOR_GUIDE.md) 참고.
 
 > **v4.4 업데이트:** 관리자 인증 관문·관리 페이지 보호·세션 유지·로그아웃. 설정과 테스트는 `docs/ITDA_V4_4_ADMIN_AUTH.md` 참조.

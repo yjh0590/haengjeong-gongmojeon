@@ -1,0 +1,114 @@
+/* ITDA v4.6 · brand-led visual refresh. All interaction and Supabase flows stay intact. */
+/* Hero assets are concept placeholders; replace /public/brand/*.webp when approved location photographs are ready. */
+.itda-visual-portal{background:#f7faff;color:#142e4e}
+.portal-top-v46{max-width:1240px;padding:17px 26px;min-height:80px;background:#fff;border-bottom:1px solid #e5eef7}
+.portal-top-v46 .portal-logo strong{letter-spacing:-1px;color:#064c86;font-weight:950}
+.portal-top-v46 .portal-mark{background:linear-gradient(145deg,#0079c1,#1f3c95)}
+.portal-nav-v46{display:flex;align-items:center;gap:30px;margin-left:auto;margin-right:36px}
+.portal-nav-v46 a{color:#3b5570;font-size:13px;font-weight:750;text-decoration:none;padding:10px 0;white-space:nowrap}
+.portal-nav-v46 a:hover{color:#0079c1}
+.portal-top-v46 .portal-meta{white-space:nowrap;color:#6b8aa4;font-size:11px;letter-spacing:.3px}
+.portal-content-v46{max-width:1240px;padding:20px 24px 70px}
+.portal-photo-hero{isolation:isolate;position:relative;overflow:hidden;border-radius:22px;min-height:420px;display:flex;align-items:center;background:#176bb0 url('/brand/bridge.webp') center 42% / cover no-repeat;box-shadow:0 20px 52px #174b7e24}
+.portal-photo-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(4,44,95,.91) 0%,rgba(4,67,125,.75) 42%,rgba(0,65,116,.22) 100%)}
+.portal-photo-content{padding:56px clamp(25px,5vw,72px);color:white;position:relative;max-width:710px}
+.portal-photo-kicker{font-size:12px;font-weight:800;letter-spacing:2px;color:#c7eaff}
+.portal-photo-content h1{font-size:clamp(32px,3.7vw,51px);line-height:1.27;letter-spacing:-2px;margin:18px 0 16px;font-weight:900}
+.portal-photo-content p{font-size:15px;line-height:1.85;color:#e4effa;letter-spacing:-.2px}
+.portal-photo-cta{display:inline-flex;align-items:center;gap:13px;background:#fff;color:#064b81;text-decoration:none;padding:14px 21px;border-radius:999px;font-size:14px;font-weight:850;box-shadow:0 10px 20px #032f6338;margin-top:14px;transition:transform .2s,background .2s}
+.portal-photo-cta:hover{background:#e8f5ff;transform:translateY(-2px)}
+.portal-photo-credit{position:absolute;right:20px;bottom:16px;font-size:10px;color:#e2eef8ab;text-align:right}
+.portal-feature-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.portal-feature-row article{background:white;border:1px solid #e6edf5;border-radius:17px;text-align:center;padding:25px 14px 22px;box-shadow:0 8px 24px #20507d0a}
+.portal-feature-icon{display:grid;place-items:center;color:#0d73bb;background:#edf6ff;border-radius:13px;width:48px;height:48px;margin:0 auto 10px}
+.portal-feature-row h2{font-size:15px;margin:8px 0 5px;letter-spacing:-.45px}
+.portal-feature-row p{font-size:12px;line-height:1.7;margin:0;color:#667d94}
+.portal-service-section{margin-top:47px}
+.portal-section-lead{text-align:center}.portal-section-lead>span{font-weight:900;color:#0079c1;letter-spacing:2px;font-size:11px}
+.portal-section-lead h2{font-size:clamp(23px,3vw,30px);letter-spacing:-1px;margin:8px 0}.portal-section-lead p{color:#6d8096;font-size:13px}
+.portal-service-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:25px}
+.portal-service-card{display:flex;flex-direction:column;align-items:flex-start;text-decoration:none;border-radius:21px;min-height:248px;padding:29px 32px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 24px #173b5817;transition:transform .2s}
+.portal-service-card:hover{transform:translateY(-4px)}
+.portal-service-card.customer{background:linear-gradient(113deg,#1d3b94ed,#2257b6e8),url('/brand/songdo.webp') center /cover no-repeat}
+.portal-service-card.owner{background:linear-gradient(113deg,#c24c1dF5,#f47736c4),url('/brand/sunset.webp') center /cover no-repeat}
+.portal-service-eyebrow{display:flex;align-items:center;gap:6px;font-weight:850;font-size:11px;letter-spacing:1.6px;opacity:.83}
+.portal-service-card h3{font-size:25px;line-height:1.4;letter-spacing:-1px;margin:16px 0 8px}
+.portal-service-card p{font-size:12px;color:#ffffffde;margin:0;line-height:1.7}
+.portal-service-link{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:16px;border-bottom:1px solid #ffffff88;font-size:13px;font-weight:800}
+.itda-visual-portal .portal-region-strip{margin-top:32px}
+.itda-visual-portal .portal-notice{margin-top:16px}
+/* Consumer: show a real interactive preview, not an unrelated fake screenshot. */
+.app-shell .top-navigation{min-height:70px;background:#ffffffed;border-radius:0 0 17px 17px}
+.app-shell .hero{display:grid;grid-template-columns:minmax(0,.87fr) minmax(390px,1.13fr);gap:18px;align-items:stretch;margin-top:20px;min-height:360px;border:1px solid #d6e5f2;background:linear-gradient(105deg,#f8fcff 5%,#ecf6ff 100%);padding:0;overflow:hidden;box-shadow:0 13px 42px #17588612}
+.app-shell .hero-copy{padding:42px 15px 33px clamp(23px,4vw,44px);align-self:center}
+.app-shell .hero h1{font-size:clamp(29px,2.8vw,41px);line-height:1.36;letter-spacing:-1.8px}
+.app-shell .hero h1 span{color:#1f3c95}
+.app-shell .hero-copy>p{max-width:470px}
+.app-shell .eyebrow{letter-spacing:1.4px}
+.itda-customer-quick-filters{display:flex;gap:9px;margin-top:24px;flex-wrap:wrap}
+.itda-customer-quick-filters button{display:inline-flex;align-items:center;gap:7px;border:1px solid #dbe8f6;background:#fff;padding:11px 13px;border-radius:11px;color:#1b4e84;font-size:12px;font-weight:800;box-shadow:0 4px 14px #0c4e9110}
+.itda-customer-quick-filters button:hover{border-color:#7fbae8;background:#edf7ff}
+.itda-customer-map-preview{position:relative;min-height:360px;display:flex;flex-direction:column;background:#e7f0f8}
+.itda-preview-map{position:relative;min-height:325px;height:100%;overflow:hidden;flex:1}
+.itda-preview-map>svg{height:100%;width:100%;position:absolute;inset:0;object-fit:cover}
+.itda-preview-map::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 80% 20%,#ffffff73,transparent 50%);z-index:1}
+.itda-preview-map::after{content:"SONGDO · TIMESPACE";position:absolute;top:15px;right:18px;background:#ffffffde;border-radius:999px;padding:7px 12px;color:#275b92;font-size:10px;font-weight:900;letter-spacing:1.3px;z-index:1}
+.itda-preview-pin{position:absolute;z-index:2;display:grid;place-items:center;border-radius:50%;width:40px;height:40px;background:#2556b5;color:#fff;border:3px solid white;box-shadow:0 5px 14px #0d396e55;cursor:pointer;transition:transform .2s}
+.itda-preview-pin:hover{transform:translateY(-5px) scale(1.05)}
+.itda-preview-pin.pin-1{left:29%;top:20%}.itda-preview-pin.pin-2{left:67%;top:27%}.itda-preview-pin.pin-3{left:46%;top:65%}.itda-preview-pin.pin-4{left:80%;top:70%}
+.itda-preview-place{position:absolute;z-index:2;top:43%;left:15%;display:flex;align-items:center;gap:11px;background:#fff;padding:14px 16px;border-radius:14px;box-shadow:0 12px 28px #12426e26;max-width:270px}
+.itda-preview-place-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:11px;background:#e6f2fc;color:#1e5ba4;flex:none}
+.itda-preview-place>div{display:flex;flex-direction:column;gap:4px}.itda-preview-place strong{font-size:12px;color:#18395c;white-space:nowrap}.itda-preview-place small{font-size:10px;color:#6b8198}
+.itda-preview-place>svg{color:#2764aa}
+.itda-preview-bottom{height:41px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;background:#fff;color:#476c90;border-top:1px solid #dce9f4;font-size:11px;font-weight:700}
+.itda-preview-bottom span,.itda-preview-bottom button{display:inline-flex;align-items:center;gap:5px}.itda-preview-bottom button{border:0;background:transparent;color:#0a6baa;font-size:11px;font-weight:850}
+.app-shell .explore-section{scroll-margin-top:22px}
+/* Owner: orange event-led banner before the unchanged owner account and editor flow. */
+.itda-owner-promo-banner{position:relative;isolation:isolate;overflow:hidden;max-width:1180px;margin:22px auto 0;border-radius:20px;min-height:295px;background:linear-gradient(105deg,#e75a28eb 2%,#ef8246a8 62%,#e96834cc),url('/brand/sunset.webp') center /cover no-repeat;color:#fff;box-shadow:0 14px 35px #9d3d2024;display:flex;align-items:center;justify-content:space-between}
+.itda-owner-promo-copy{padding:38px 45px;max-width:630px;position:relative;z-index:2}
+.itda-owner-promo-eyebrow{display:inline-flex;align-items:center;gap:7px;border:1px solid #fff8;background:#fff2;border-radius:999px;padding:6px 11px;letter-spacing:1.1px;font-size:10px;font-weight:900}
+.itda-owner-promo-copy h1{font-size:clamp(31px,3.5vw,43px);letter-spacing:-1.5px;line-height:1.25;margin:13px 0}
+.itda-owner-promo-copy p{font-size:13px;line-height:1.8;color:#fff4e9;max-width:420px}
+.itda-owner-promo-copy button{display:inline-flex;align-items:center;gap:9px;padding:12px 17px;margin-top:9px;border:0;border-radius:999px;background:#fff;color:#b63f19;font-size:12px;font-weight:900;box-shadow:0 9px 20px #812a1738}
+.itda-owner-promo-art{width:38%;min-height:295px;display:grid;place-items:center;position:relative;color:#fffdf7;filter:drop-shadow(0 10px 12px #803c3840)}
+.itda-owner-art-disc{position:absolute;width:205px;height:205px;border-radius:50%;background:#fff3;border:1px solid #fffe;box-shadow:0 0 0 22px #ffffff1b}
+.itda-owner-promo-art>svg:not(.itda-owner-art-megaphone){position:relative;z-index:1;stroke-width:1.7}
+.itda-owner-art-megaphone{position:absolute;left:4%;top:23%;z-index:2;transform:rotate(-18deg)}
+.itda-owner-feature-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 22px}
+.itda-owner-feature-row>div{background:#fff;border:1px solid #f0e7dd;border-radius:14px;padding:18px 17px;display:flex;gap:11px;align-items:center;box-shadow:0 5px 15px #994e2210}
+.itda-owner-feature-row svg{color:#e65e2b;flex-shrink:0}.itda-owner-feature-row span{display:flex;flex-direction:column;gap:4px}
+.itda-owner-feature-row strong{font-size:13px}.itda-owner-feature-row small{font-size:11px;color:#8a756c}
+.owner-page #owner-workspace{scroll-margin-top:20px}
+/* Admin: executive dashboard with an actual task sidebar; figures reflect local editor drafts only. */
+.itda-admin-dashboard-page{background:#f3f8f5;color:#1c4030}
+.itda-admin-main-nav{display:flex;align-items:center;gap:25px;justify-content:space-between;min-height:71px;background:#fff;border-bottom:1px solid #dce9de;padding:12px max(22px,calc((100vw - 1320px)/2))}
+.itda-admin-logo{display:inline-flex;align-items:baseline;gap:9px;text-decoration:none;color:#184e34}
+.itda-admin-logo>span{font-size:26px;font-weight:950;letter-spacing:-1.4px}.itda-admin-logo small{font-size:10px;color:#678d76;font-weight:800;letter-spacing:1.1px}
+.itda-admin-main-nav nav{display:flex;gap:23px;flex-wrap:wrap}.itda-admin-main-nav nav a{font-size:12px;font-weight:750;color:#4d6a59;text-decoration:none;padding:8px 2px}
+.itda-admin-main-nav nav a:hover{color:#176a3c}
+.itda-admin-dashboard-layout{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:210px minmax(0,1fr);gap:0;min-height:calc(100vh - 110px)}
+.itda-admin-sidebar{background:#1c4234;color:#effaf1;min-height:100%;padding:27px 15px;display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.itda-admin-sidebar-caption{font-size:10px;font-weight:900;letter-spacing:1.6px;color:#8ebba2;padding:9px 11px 12px}
+.itda-admin-sidebar-caption.lower{margin-top:20px}
+.itda-admin-sidebar>a{display:flex;align-items:center;gap:11px;color:#d5e7dc;text-decoration:none;border-radius:10px;padding:13px 12px;font-size:12px;font-weight:800}
+.itda-admin-sidebar>a:hover,.itda-admin-sidebar>a.selected{background:#ffffff20;color:white}
+.itda-admin-sidebar>a.selected{box-shadow:inset 3px 0 0 #c5efd2}
+.itda-admin-sidebar-note{margin-top:auto;display:flex;gap:8px;align-items:center;font-size:11px;color:#a9cdb8;line-height:1.6;padding:14px 11px}
+.itda-admin-content{max-width:none;min-width:0;padding:20px 30px 54px;width:100%}
+.itda-admin-content .hub-top{padding-bottom:15px}
+.itda-admin-content .hub-title{margin:28px 0 21px}.itda-admin-content .hub-title h1{font-size:29px}
+.itda-admin-content .hub-status{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 22px}
+.itda-admin-content .hub-metric{background:#fff;border:1px solid #e2ece4;border-radius:14px;padding:21px 17px;display:flex;flex-direction:column;gap:7px;min-width:0;box-shadow:0 7px 18px #204d3210}
+.itda-admin-content .hub-metric small{order:0;color:#5f8170;font-weight:800;font-size:11px}
+.itda-admin-content .hub-metric strong{order:1;color:#1c5836;font-size:30px;font-weight:900;line-height:1.15}
+.itda-admin-content .hub-metric span{order:2;color:#84a091;font-size:10px}
+.itda-admin-content .hub-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.itda-admin-content .hub-card{padding:22px 19px;gap:11px;min-width:0}
+.itda-admin-content .hub-card h2{font-size:17px;line-height:1.45}
+.itda-admin-content .hub-card svg{color:#247a4c}
+.itda-admin-content .hub-link{padding:11px 12px;font-size:11px;margin-top:9px;align-self:stretch}
+.itda-admin-content .hub-tools{border-radius:15px}
+@media(max-width:980px){.portal-nav-v46{gap:16px;margin-right:16px}.app-shell .hero{grid-template-columns:1fr 1fr}.itda-customer-map-preview{min-height:360px}.itda-admin-dashboard-layout{grid-template-columns:165px minmax(0,1fr)}.itda-admin-main-nav nav{gap:11px}.itda-admin-content .hub-grid{grid-template-columns:1fr 1fr}.itda-admin-content .hub-status{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.portal-top-v46{padding:13px 15px;gap:12px}.portal-nav-v46{gap:11px;margin-right:0}.portal-nav-v46 a{font-size:11px}.portal-top-v46 .portal-meta{display:none}.portal-content-v46{padding:14px 15px 50px}.portal-photo-hero{min-height:375px}.portal-photo-content{padding:35px 24px}.portal-feature-row{gap:8px}.portal-feature-row article{padding:20px 9px}.portal-feature-row h2{font-size:12px}.portal-feature-row p{font-size:10px}.portal-service-grid{grid-template-columns:1fr}.portal-service-card{min-height:230px}.app-shell .hero{grid-template-columns:1fr;min-height:0}.app-shell .hero-copy{padding:29px 24px 20px}.itda-customer-map-preview{min-height:260px}.itda-preview-map{min-height:220px}.itda-owner-promo-banner{margin:14px 14px 0;min-height:270px}.itda-owner-promo-copy{padding:31px 22px;max-width:80%}.itda-owner-promo-art{position:absolute;right:-10%;opacity:.45;height:100%}.itda-owner-feature-row{grid-template-columns:1fr;gap:8px}.itda-admin-main-nav{gap:8px;padding:12px 15px;flex-direction:column;align-items:flex-start}.itda-admin-dashboard-layout{display:block}.itda-admin-sidebar{min-height:0;padding:9px 13px;flex-direction:row;gap:4px;overflow-x:auto;align-items:center}.itda-admin-sidebar>a{white-space:nowrap;padding:10px 12px}.itda-admin-sidebar-caption,.itda-admin-sidebar-note{display:none}.itda-admin-content{padding:13px 16px 45px}.itda-admin-content .hub-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:470px){.portal-nav-v46 a:nth-child(2),.portal-nav-v46 a:nth-child(4){display:none}.portal-photo-hero{min-height:340px}.portal-photo-content h1{font-size:30px}.portal-photo-credit{display:none}.portal-feature-row{grid-template-columns:1fr}.portal-feature-row article{display:flex;align-items:center;gap:12px;text-align:left;padding:14px}.portal-feature-icon{margin:0;flex:none}.portal-feature-row h2{margin:0}.portal-feature-row p{display:none}.itda-customer-quick-filters button{flex:1 1 auto}.itda-preview-place{left:8%;top:43%;max-width:235px}.itda-owner-promo-copy{max-width:100%}.itda-owner-promo-art{opacity:.23}.itda-admin-content .hub-grid{grid-template-columns:1fr}.itda-admin-content .hub-status{grid-template-columns:repeat(2,minmax(0,1fr))}.itda-admin-main-nav nav a{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.portal-photo-cta,.portal-service-card,.itda-preview-pin{transition:none}}

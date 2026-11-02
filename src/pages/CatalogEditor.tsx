@@ -7,6 +7,7 @@ import { readStoreDraft, saveStoreDraft, validStores } from "../data/storeDraft"
 import { saveMapGeometry } from "../data/mapGeometry";
 import { saveStreetNodes } from "../data/streetNetwork";
 import { FACADE_KEY } from "../data/facadeAnnotations";
+import { saveMediaDraft, useMediaDraft } from "../data/mediaStorage";
 import type { StoreData, StoreType } from "../types/street";
 import "../styles/CatalogEditor.css";
 
@@ -26,6 +27,7 @@ function applyRemote(remote: PublishedResponse) {
   saveMapGeometry(remote.data.geometry);
   saveStreetNodes(remote.data.nodes);
   localStorage.setItem(FACADE_KEY, JSON.stringify(remote.data.facades));
+  saveMediaDraft(remote.data.media || {photos:{}});
   window.dispatchEvent(new Event("matmeot-facades-changed"));
 }
 export default function CatalogEditor() {
@@ -37,6 +39,7 @@ export default function CatalogEditor() {
   const [remote, setRemote] = useState<PublishedResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const { session, getSession } = useAdminAuth();
+  const mediaDraft = useMediaDraft();
   const upload = useRef<HTMLInputElement>(null);
   useEffect(() => { document.title = "ITDA · 점포 등록·게시 관리"; }, []);
   useEffect(() => {
@@ -73,7 +76,7 @@ export default function CatalogEditor() {
   };
   const loadPublished = () => {
     if (!remote) return;
-    if (!confirm("현재 브라우저의 가게·지도·촬영 지점·외곽선 초안을 온라인 게시본으로 덮어쓸까요? 사진 파일은 바뀌지 않습니다.")) return;
+    if (!confirm("현재 브라우저의 가게·지도·촬영 지점·외곽선·서버 사진 연결 초안을 온라인 게시본으로 덮어쓸까요? 브라우저에 저장한 원본 파일은 변경되지 않습니다.")) return;
     try {applyRemote(remote);setRows(readStoreDraft());setSelected(remote.data.stores[0]?.id ?? 0);setTagsText(remote.data.stores[0]?.tags.join(", ") || "");setNotice("온라인 게시본을 브라우저 초안으로 불러왔어요.");}
     catch(e){setNotice(e instanceof Error ? e.message : "복원 실패");}
   };
@@ -90,10 +93,11 @@ export default function CatalogEditor() {
         setNotice("온라인 게시본이 변경됐습니다(점주 홍보 승인 또는 다른 관리자 수정). 공개본을 초안으로 가져오거나 내용을 비교한 후 다시 게시해 주세요.");
         return;
       }
-      if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 지도 좌표를 전체 소비자에게 게시할까요?\n\n주의: 임시 사진 파일과 지도 배경 이미지는 게시되지 않습니다.`)) return;
+      const nPhotos = Object.keys(snapshot.media?.photos || {}).length;
+      if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 서버 사진 ${nPhotos}장${snapshot.media?.map?", 지도 배경 1장":""}을 소비자에게 게시할까요?\n\n브라우저에만 저장한 임시 사진은 게시되지 않습니다.`)) return;
       const date = await publishSite(snapshot, await getSession());
       setRemote({data:snapshot,publishedAt:date});
-      setNotice(`전체 게시가 완료됐어요 (${new Date(date).toLocaleString("ko-KR")}). customer.itda.ink에서 새로고침해 확인하세요.`);
+      setNotice(`전체 게시 완료 (${new Date(date).toLocaleString("ko-KR")}). 서버 사진 ${Object.keys(snapshot.media?.photos||{}).length}장 연결됨. customer.itda.ink에서 새로고침해 확인하세요.`);
     } catch(e) { setNotice(e instanceof Error ? e.message : "게시 중 오류가 발생했어요."); }
     finally {setLoading(false);}
   };
@@ -136,7 +140,8 @@ export default function CatalogEditor() {
       </>}</section>
     </section>
     <section className="catalog-publish"><div className="catalog-publish-head"><div><span>PUBLICATION CONTROL</span><h2><CloudUpload size={20}/> 전체 데이터 게시</h2></div><span className={publicationConfigured?"catalog-cloud-ready":"catalog-cloud-off"}>{publicationConfigured?"Supabase 설정 감지됨":"서버 연결 전 · 시연 모드"}</span></div>
-      <p>게시 범위: <b>점포 목록 + 층수 + 지도 좌표·통로 + 촬영 지점 + 가게 외곽선</b>. 실제 사진 파일과 지도 배경 이미지는 포함되지 않으며, 별도 파일 저장소 연결이 필요해요.</p>
+      <p>게시 범위: <b>점포·층수·지도 좌표·촬영 지점·외곽선 + Supabase Storage에 업로드한 사진·지도 연결 정보</b>. 사진 원본은 Storage에 저장되고 이 게시본에는 해당 파일의 경로만 포함돼요.</p>
+      <p>현재 게시 대기: <strong>서버 사진 {Object.keys(mediaDraft.photos).length}장 · 서버 지도 {mediaDraft.map?"1장":"없음"}</strong>. 브라우저 임시 이미지는 포함되지 않습니다. <a href="/street-editor">거리 사진 업로드</a> · <a href="/map-editor">지도 이미지 업로드</a></p>
       <div className="catalog-signed"><ShieldCheck size={19}/><span>관리자: <strong>{session.email}</strong> · 서버 게시 권한 확인됨</span></div>
       <div className="catalog-actions"><button className="catalog-primary" type="button" disabled={!publicationConfigured || !session || loading} onClick={()=>void publish()}><UploadCloud size={17}/> {loading?"처리 중…":"관리자 승인 · 전체 게시"}</button><button type="button" disabled={!publicationConfigured || loading} onClick={()=>void refresh()}><RefreshCcw size={16}/> 게시본 확인</button><button type="button" disabled={!remote || loading} onClick={loadPublished}><Layers size={16}/> 공개본을 초안으로 가져오기</button></div>
       <p className="catalog-notice" role="status"><CheckCircle2 size={16}/>{notice}</p>

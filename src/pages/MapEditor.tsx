@@ -3,7 +3,9 @@ import type { MouseEvent } from "react";
 import { ArrowLeft, Camera, Download, FileJson, Info, MapPinned, Plus, Save, Trash2, Upload } from "lucide-react";
 import { streetNodes as defaultNodes } from "../data/streetNodes";
 import { useStoreDraft } from "../data/storeDraft";
-import { deleteDraftMap, saveDraftMap, useDraftPhotoUrls } from "../data/localStreetPhotos";
+import { deleteDraftMap, listDraftPhotos, saveDraftMap, useDraftPhotoUrls } from "../data/localStreetPhotos";
+import { publicMediaUrl, setMapMediaPath, uploadMapImage, useMediaDraft } from "../data/mediaStorage";
+import { useAdminAuth } from "../auth/AdminGate";
 import { MAP_BG_KEY, readMapGeometry, saveMapGeometry, type MapGeometry, type XY } from "../data/mapGeometry";
 import { readStreetNodes, saveStreetNodes } from "../data/streetNetwork";
 import { inspectStreetNetwork } from "../data/routeGuide";
@@ -48,11 +50,15 @@ export default function MapEditor() {
   const [message, setMessage] = useState("지도 이미지를 등록한 뒤 표시한 구역 경계를 따라 점을 찍을 수 있어요.");
   const fileInput = useRef<HTMLInputElement>(null);
   const {urls} = useDraftPhotoUrls();
-  const mapUrl = urls[MAP_BG_KEY];
+  const mediaDraft = useMediaDraft();
+  const {getSession} = useAdminAuth();
+  const [licenseConfirmed,setLicenseConfirmed] = useState(false);
+  const [uploadBusy,setUploadBusy] = useState(false);
+  const mapUrl = urls[MAP_BG_KEY] || publicMediaUrl(mediaDraft.map);
   const selected = nodes.find(n=>n.id===selectedNode) || nodes[0];
   const networkWarnings = inspectStreetNetwork(nodes);
   const unmappedStores = stores.filter(store => !nodes.some(node => node.stores.includes(store.id)));
-  const photosMissing = nodes.filter(node => !vw.some(direction => Boolean(node.views[direction] || urls[`${node.id}:${direction}`])));
+  const photosMissing = nodes.filter(node => !vw.some(direction => Boolean(node.views[direction] || urls[`${node.id}:${direction}`] || mediaDraft.photos[`${node.id}:${direction}`])));
   const missingCoordinates = nodes.filter(node => !geometry.nodes[node.id]);
 
   useEffect(()=>{document.title="전체 지도 편집 · 맛&멋 AI Street";},[]);
@@ -126,8 +132,20 @@ export default function MapEditor() {
   };
   const uploadMap=async(file?:File)=>{
     if(!file)return;
-    try{await saveDraftMap(file);setMessage("지도 이미지를 이 브라우저에 등록했어요. 외부에 공개되거나 서버에 업로드되지는 않습니다.");}
+    try{await saveDraftMap(file);setMapMediaPath(null);setLicenseConfirmed(false);setMessage("새 지도 이미지를 브라우저에 임시 등록했어요. 서버에 올리려면 사용 권한 확인과 업로드가 필요합니다.");}
     catch(e){setMessage(e instanceof Error?e.message:"지도 파일을 읽을 수 없습니다.");}
+  };
+  const uploadRemoteMap=async()=>{
+    if(uploadBusy)return;
+    setUploadBusy(true);
+    try{
+      if(!licenseConfirmed) throw new Error("지도 이미지의 사용·재배포 권한을 먼저 확인해 주세요.");
+      const file = (await listDraftPhotos()).find(p=>p.key===MAP_BG_KEY);
+      if(!file) throw new Error("먼저 지도 배경 이미지를 임시 등록해 주세요.");
+      await uploadMapImage(new File([file.blob],file.name,{type:file.blob.type}),await getSession());
+      setMessage("지도 배경 서버 업로드 완료. 소비자용 적용은 /catalog의 전체 게시 후 이루어집니다.");
+    }catch(e){setMessage(e instanceof Error?e.message:"지도 업로드 실패");}
+    finally{setUploadBusy(false);}
   };
   const importSetup=async(file?:File)=>{
     if(!file)return;
@@ -172,7 +190,14 @@ export default function MapEditor() {
         </div>
         <div className="map-editor-legend"><span>🟠 상권 경계</span><span>🟢 보행 통로</span><span>🔵 촬영 지점</span><span>▣ 예시 점포</span></div>
         <div className="map-editor-map-actions"><label className="map-editor-file"><Upload size={15}/> 지도 이미지 등록<input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>{void uploadMap(e.target.files?.[0]);e.target.value="";}}/></label><button onClick={()=>{void deleteDraftMap();setMessage("브라우저에서 지도 이미지를 해제했어요.");}} disabled={!mapUrl}>지도 이미지 해제</button></div>
-        <p className="map-editor-warning"><Info size={14}/> 네이버 지도 화면을 참고용으로 등록할 수는 있지만, 공개 홈페이지에 이미지를 배포하기 전 지도 서비스 이용약관과 이미지 사용 권한을 확인하세요. 지도 원본은 브라우저에만 저장됩니다.</p>
+        <p className="map-editor-warning"><Info size={14}/> 네이버 지도 캡처 등 제3자 지도의 공개 재배포는 이용약관·저작권 확인이 필요합니다. 권한 없는 지도는 서버에 업로드하지 마세요.</p>
+        <div className="map-editor-media-publish">
+          <strong>지도 배경 서버 등록</strong>
+          <p>현재 상태: {mediaDraft.map?"서버 등록 완료 · 게시 대기":"서버 미등록"}. 사진 파일은 업로드 직후 공개 URL로 접근 가능하지만 소비자 화면에는 전체 게시 이후 반영돼요.</p>
+          <label><input type="checkbox" checked={licenseConfirmed} onChange={e=>setLicenseConfirmed(e.target.checked)}/> 이 이미지의 웹사이트 공개·재배포 권한을 확인했습니다.</label>
+          <div className="map-editor-map-actions"><button type="button" disabled={!urls[MAP_BG_KEY] || !licenseConfirmed || uploadBusy} onClick={()=>void uploadRemoteMap()}><Upload size={15}/>{uploadBusy?"업로드 중…":"현재 지도 서버 업로드"}</button><button type="button" disabled={!mediaDraft.map || uploadBusy} onClick={()=>{setMapMediaPath(null);setMessage("서버 지도 연결을 초안에서 해제했습니다. 기존 게시본은 새로 게시하기 전까지 유지됩니다.");}}>게시용 지도 연결 해제</button></div>
+          {mediaDraft.map && <a href={publicMediaUrl(mediaDraft.map)} target="_blank" rel="noopener noreferrer">업로드한 지도 열기</a>}
+        </div>
       </section>
       <aside className="map-editor-side">
         <h2>위치·동선 설정</h2>
@@ -198,7 +223,7 @@ export default function MapEditor() {
         <h3>데이터 백업</h3><p className="map-editor-help">좌표·경계·연결 정보를 JSON으로 내려받아 보관하세요. 이미지는 JSON에 포함되지 않습니다.</p>
         <button className="map-editor-data" onClick={()=>downloadJSON("matmeot-map-setup.json",{version:2,geometry,nodes})}><Download size={16}/> 지도 설정 JSON 내보내기</button>
         <label className="map-editor-file full"><FileJson size={16}/> 설정 JSON 가져오기<input type="file" accept="application/json,.json" onChange={e=>{void importSetup(e.target.files?.[0]);e.target.value="";}}/></label>
-        <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도 초안은 이 브라우저에 저장되며, 공개하려면 점포 게시 화면에서 별도로 검토·게시해야 합니다. 지도 이미지는 서버에 게시되지 않습니다.</p>
+        <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도·사진은 Supabase Storage 업로드 후 점포 관리의 전체 게시를 해야 소비자 화면에 반영됩니다. 서버 초안 연결은 이 브라우저에 보관되므로 백업을 권장합니다.</p>
       </aside>
     </div>
   </main>;

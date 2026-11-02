@@ -17,3 +17,5 @@
 .map-editor-audit ul{padding-left:18px;color:#956323;font-size:11px;line-height:1.7;max-height:200px;overflow-y:auto}
 .map-editor-audit .audit-warning{color:#895e21}
 .map-editor-audit .audit-ok{color:#257447}
+
+.map-editor-media-publish{display:grid;gap:10px;background:#eef8f1;border:1px solid #c5e5d0;border-radius:12px;padding:14px;margin:12px 0}.map-editor-media-publish p{font-size:12px;line-height:1.6;margin:0;color:#47735b}.map-editor-media-publish label{display:flex;align-items:flex-start;gap:8px;font-size:12px;font-weight:650;color:#225239}.map-editor-media-publish input{accent-color:#22804d;margin-top:2px}.map-editor-media-publish a{color:#247449;font-size:12px}.map-editor-media-publish button:disabled{opacity:.45;cursor:not-allowed}

@@ -9,6 +9,7 @@ import { isValidMapGeometry, readMapGeometry, type MapGeometry } from "./mapGeom
 import { isValidStreetNodes, readStreetNodes } from "./streetNetwork";
 import { readStoreDraft, validStores } from "./storeDraft";
 import type { StoreData, StreetNode } from "../types/street";
+import { readMediaDraft, validPublishedMedia, type PublishedMedia } from "./mediaStorage";
 
 export type SitePublication = {
   version: 1;
@@ -16,6 +17,8 @@ export type SitePublication = {
   geometry: MapGeometry;
   nodes: StreetNode[];
   facades: FacadeAnnotation[];
+  /** Optional for old v4 publications. Stores only storage object paths, never image bytes. */
+  media?: PublishedMedia;
 };
 export type PublishedResponse = { data: SitePublication; publishedAt: string };
 export type AdminSession = { token: string; refreshToken: string; email: string; expiresAt: number };
@@ -48,9 +51,11 @@ export function validPublication(v: unknown): v is SitePublication {
   if (!v || typeof v !== "object") return false;
   const x = v as SitePublication;
   return x.version === 1 && validStores(x.stores) && isValidMapGeometry(x.geometry) &&
-    isValidStreetNodes(x.nodes) && validFacades(x.facades, x.nodes, x.stores);
+    isValidStreetNodes(x.nodes) && validFacades(x.facades, x.nodes, x.stores) &&
+    (x.media === undefined || (validPublishedMedia(x.media) &&
+      Object.keys(x.media.photos).every(key => x.nodes.some(n => key.startsWith(`${n.id}:`)))));
 }
-/** Assemble a validated, photo-free publication snapshot from this browser's drafts. */
+/** Assemble a validated publication snapshot from local drafts; media paths only. */
 export function preparePublication(): SitePublication {
   const stores = readStoreDraft();
   const ids = new Set(stores.map(s => s.id));
@@ -63,7 +68,12 @@ export function preparePublication(): SitePublication {
     nodes: Object.fromEntries(Object.entries(rawGeometry.nodes).filter(([id]) => nodeIds.has(id))),
   };
   const facades = getFacadeAnnotations().filter(f => ids.has(f.storeId) && nodeIds.has(f.nodeId));
-  const prepared: SitePublication = { version: 1, stores, geometry, nodes, facades };
+  const draftMedia = readMediaDraft();
+  const media: PublishedMedia = {
+    ...(draftMedia.map ? {map:draftMedia.map} : {}),
+    photos:Object.fromEntries(Object.entries(draftMedia.photos).filter(([key]) => nodeIds.has(key.split(":")[0]))),
+  };
+  const prepared: SitePublication = { version: 1, stores, geometry, nodes, facades, media };
   if (!validPublication(prepared)) throw new Error("게시할 지도 또는 점포 데이터가 올바르지 않습니다.");
   return prepared;
 }

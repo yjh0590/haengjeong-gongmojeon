@@ -4,18 +4,20 @@ import { listDraftPhotos, MAX_PHOTO_BYTES, restoreDraftImage } from "./localStre
 import { isValidStreetNodes, readStreetNodes, saveStreetNodes } from "./streetNetwork";
 import type { StreetNode, StoreData } from "../types/street";
 import { readStoreDraft, saveStoreDraft, validStores } from "./storeDraft";
+import { readMediaDraft, saveMediaDraft, validPublishedMedia, type PublishedMedia } from "./mediaStorage";
 
 const FORMAT = "itda-street-editor-backup";
 type BackupPhoto = { key: string; name: string; dataUrl: string };
 type EditorBackup = {
   format: typeof FORMAT;
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   stores?: StoreData[];
   createdAt: string;
   geometry: MapGeometry;
   nodes: StreetNode[];
   facades: FacadeAnnotation[];
   photos: BackupPhoto[];
+  media?: PublishedMedia;
 };
 
 function toDataUrl(blob: Blob): Promise<string> {
@@ -44,10 +46,10 @@ export async function downloadEditorBackup(): Promise<number> {
     assets.push({key:photo.key,name:photo.name,dataUrl:await toDataUrl(photo.blob)});
   }
   const backup: EditorBackup = {
-    format: FORMAT,version:2,createdAt:new Date().toISOString(),
+    format: FORMAT,version:3,createdAt:new Date().toISOString(),
     stores:readStoreDraft(),
     geometry:readMapGeometry(),nodes:readStreetNodes(),
-    facades:getFacadeAnnotations(),photos:assets,
+    facades:getFacadeAnnotations(),photos:assets,media:readMediaDraft(),
   };
   const url=URL.createObjectURL(new Blob([JSON.stringify(backup)],{type:"application/json"}));
   const a=document.createElement("a");a.href=url;
@@ -72,9 +74,9 @@ export async function importEditorBackup(file: File): Promise<number> {
   const obj: unknown = JSON.parse(await file.text());
   if (!obj || typeof obj!=="object") throw new Error("백업 형식이 올바르지 않습니다.");
   const backup=obj as EditorBackup;
-  if (backup.format!==FORMAT || ![1,2].includes(backup.version) || (backup.version===2 && !validStores(backup.stores)) || !isValidMapGeometry(backup.geometry) ||
+  if (backup.format!==FORMAT || ![1,2,3].includes(backup.version) || (backup.version>=2 && !validStores(backup.stores)) || !isValidMapGeometry(backup.geometry) ||
       !isValidStreetNodes(backup.nodes) || !validateFacades(backup.facades,backup.nodes) ||
-      !Array.isArray(backup.photos) || backup.photos.length>300 || !backup.photos.every(validPhoto)) {
+      !Array.isArray(backup.photos) || backup.photos.length>300 || !backup.photos.every(validPhoto) || (backup.version===3 && !validPublishedMedia(backup.media))) {
     throw new Error("ITDA 백업 파일의 구조가 올바르지 않습니다.");
   }
   const validKeys=new Set(backup.nodes.flatMap(n=>["forward","back","left","right"].map(d=>`${n.id}:${d}`)));
@@ -92,7 +94,8 @@ export async function importEditorBackup(file: File): Promise<number> {
   for(const photo of restored) await restoreDraftImage(photo.key,photo.file);
   saveMapGeometry(backup.geometry);
   saveStreetNodes(backup.nodes);
-  if (backup.version===2 && backup.stores) saveStoreDraft(backup.stores);
+  if (backup.version>=2 && backup.stores) saveStoreDraft(backup.stores);
+  if (backup.version===3 && backup.media) saveMediaDraft(backup.media);
   localStorage.setItem(FACADE_KEY,JSON.stringify(backup.facades));
   window.dispatchEvent(new Event("matmeot-facades-changed"));
   return restored.length;

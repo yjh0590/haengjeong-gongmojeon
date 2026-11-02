@@ -1,0 +1,93 @@
+/* ITDA v4.7 — four independent first screens, functions reached by top menus.
+   Navigation changes views; only long editing/search workspaces scroll naturally. */
+:root{--itda-soft-blue:#edf5ff;--itda-brand-blue:#1550a4;--itda-owner-orange:#e85c2d;--itda-admin-green:#1f583e}
+.itda-menu-first{min-height:100vh}
+.itda-menu-first.portal-page{overflow:visible}
+.itda-portal-header,.itda-customer-header-v47,.owner-page .owner-header,.itda-admin-main-nav{position:sticky;top:0;z-index:80;backdrop-filter:blur(14px)}
+.itda-portal-header{max-width:none;padding:14px max(20px,calc((100vw - 1200px)/2));min-height:68px;gap:16px}
+.itda-portal-brand-button{border:0;background:transparent;cursor:pointer;padding:0;text-align:left;font:inherit}
+.itda-page-nav{gap:22px;margin-left:auto;margin-right:12px}
+.itda-page-nav button{background:transparent;border:0;cursor:pointer;padding:10px 3px;color:#4e647d;font-size:13px;font-weight:800;white-space:nowrap;border-bottom:2px solid transparent;font-family:inherit}
+.itda-page-nav button.current{color:#0c67b7;border-bottom-color:#1679c1}
+.itda-page-nav button:hover{color:#0a71bb}
+.itda-header-action{display:inline-flex;align-items:center;gap:5px;background:#0d68af;color:white;border-radius:999px;padding:10px 17px;font-size:12px;text-decoration:none;font-weight:850;white-space:nowrap}
+.itda-header-action:hover{background:#094e8b}
+.itda-portal-content{padding-top:18px;padding-bottom:14px;max-width:1200px;min-height:calc(100vh - 115px)}
+.itda-portal-content .portal-photo-hero{min-height:clamp(300px,52vh,510px)}
+.itda-portal-content .portal-photo-content{max-width:670px}
+.itda-portal-content .portal-photo-content h1{font-size:clamp(28px,3.5vw,47px)}
+.itda-portal-content .portal-photo-content p{font-size:14px}
+.itda-landing-home-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:13px 0 0}
+.itda-landing-home-cards>a,.itda-landing-home-cards>button{min-width:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;text-decoration:none;text-align:center;border:1px solid #e4ecf6;border-radius:14px;background:#fff;color:#1e466c;min-height:125px;padding:16px;box-shadow:0 6px 16px #1c579010;cursor:pointer;font-family:inherit}
+.itda-landing-home-cards span{display:grid;place-items:center;width:40px;height:40px;color:#1c71c2;background:#eff6ff;border-radius:12px}
+.itda-landing-home-cards strong{font-size:15px;font-weight:900}.itda-landing-home-cards small{font-size:11px;color:#7791a7}
+.itda-landing-home-cards>a:hover,.itda-landing-home-cards>button:hover{border-color:#8cc3ed;box-shadow:0 9px 20px #1c57901a;transform:translateY(-2px)}
+.itda-portal-footer{max-width:1200px;padding-top:10px;padding-bottom:11px;border:0}
+.itda-inner-screen{max-width:1050px;margin:34px auto 20px;min-height:500px}
+.itda-inner-heading{text-align:center;margin-bottom:30px}
+.itda-inner-heading>span,.itda-view-intro-v47>span{display:block;color:#1b72b0;letter-spacing:2px;font-weight:900;font-size:11px}
+.itda-inner-heading h1,.itda-view-intro-v47 h1{font-size:clamp(28px,3.3vw,39px);letter-spacing:-1.4px;margin:10px 0 11px}
+.itda-inner-heading p,.itda-view-intro-v47 p{font-size:14px;line-height:1.7;color:#627c95}
+.itda-landing-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+.itda-landing-info-grid article{background:white;border:1px solid #e1eaf4;border-radius:17px;padding:27px 25px;box-shadow:0 11px 27px #1b52800d}
+.itda-landing-info-grid article>svg{color:#1477bb}.itda-landing-info-grid h2{font-size:19px;margin:12px 0}.itda-landing-info-grid p{color:#697e92;font-size:13px;line-height:1.8}
+.itda-landing-info-grid a{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#006eb9;font-weight:850;text-decoration:none}
+.itda-landing-select-grid{margin-top:28px}
+.itda-inline-note{background:#eaf3fc;border:1px solid #d7e7f6;border-radius:13px;padding:16px 19px;font-size:13px;display:flex;gap:9px;align-items:center;color:#52718d}
+/* Consumer — the compact first screen remains separate from the comprehensive explorer. */
+.app-shell .itda-customer-header-v47{border-radius:0;padding-left:max(18px,calc((100vw - 1200px)/2));padding-right:max(18px,calc((100vw - 1200px)/2));width:100%;box-shadow:0 3px 13px #0a528610}
+.app-shell .itda-customer-header-v47 .desktop-nav{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.app-shell .itda-customer-header-v47 .desktop-nav button,.app-shell .itda-customer-header-v47 .desktop-nav a{white-space:nowrap;padding:10px 12px;border-radius:9px;font-size:12px}
+.app-shell .itda-customer-content-v47{padding-top:10px}
+.itda-customer-home-v47{min-height:calc(100vh - 162px)}
+.app-shell .itda-customer-home-v47 .hero{margin-top:10px;min-height:clamp(330px,48vh,500px);border-radius:18px}
+.itda-customer-home-v47 .hero-copy{padding-top:30px;padding-bottom:26px}
+.itda-customer-home-v47 .hero h1{font-size:clamp(30px,3.5vw,45px)}
+.itda-customer-home-v47 .itda-preview-map{min-height:285px}
+.itda-customer-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:13px}
+.itda-customer-shortcuts button{position:relative;display:grid;grid-template-columns:80px minmax(0,1fr) 18px;grid-template-rows:auto auto;align-items:center;column-gap:13px;min-height:104px;min-width:0;text-align:left;border:1px solid #dbe7f4;background:#fff;border-radius:13px;overflow:hidden;padding:0 13px 0 0;cursor:pointer;color:#224269;font-family:inherit;box-shadow:0 6px 16px #125b9110}
+.itda-shortcut-image{grid-row:1/3;display:block;width:80px;min-height:104px;height:100%;background-position:center;background-size:cover}
+.itda-customer-shortcuts strong{font-size:14px;align-self:end;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.itda-customer-shortcuts small{grid-column:2;align-self:start;font-size:10.5px;color:#7b8da1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.itda-customer-shortcuts button>svg{grid-column:3;grid-row:1/3;color:#0a6eae}
+.itda-customer-shortcuts button:hover{border-color:#94c2e8;background:#f9fcff}
+.itda-home-photo-note{font-size:10px;color:#8796a7;text-align:right;margin:9px 4px 0}
+.app-shell .itda-customer-content-v47 .explore-section{margin-top:12px}
+.app-shell .itda-customer-content-v47 .explore-section>.section-heading{margin-top:6px}
+/* Owner — a hero landing screen and separate marketing/account workspaces. */
+.owner-page .owner-header{background:#fffefa;width:100%;padding:0 max(20px,calc((100vw - 1180px)/2));height:65px;border-bottom:1px solid #f0e5df}
+.itda-owner-nav-v47{position:sticky;top:65px;z-index:79;background:#fff;border-bottom:1px solid #f0e4db;display:flex;justify-content:center;align-items:center;gap:7px;padding:8px 14px}
+.itda-owner-nav-v47 button,.itda-owner-nav-v47 a{display:inline-flex;gap:5px;align-items:center;border:0;background:transparent;border-radius:9px;padding:10px 16px;color:#765a4b;font-size:12px;font-weight:850;text-decoration:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+.itda-owner-nav-v47 button.current{background:#fff0e8;color:#bd4d23}
+.itda-owner-nav-v47 button:hover,.itda-owner-nav-v47 a:hover{background:#fff3ec;color:#bd4d23}
+.itda-owner-home-v47{max-width:1180px;margin:0 auto;min-height:calc(100vh - 151px)}
+.itda-owner-home-v47 .itda-owner-promo-banner{margin:19px 0 0;max-width:none;min-height:clamp(330px,51vh,520px)}
+.itda-owner-home-v47 .itda-owner-promo-copy{padding-left:clamp(28px,5vw,66px)}
+.itda-owner-home-v47 .itda-owner-promo-copy h1{font-size:clamp(36px,4vw,55px)}
+.itda-owner-home-v47 .itda-owner-promo-art>svg:not(.itda-owner-art-megaphone){width:148px;height:148px}
+.itda-owner-home-cards-v47{margin:14px 0 0}
+.itda-owner-home-cards-v47 button{border:1px solid #f1e5dc;background:#fff;min-height:103px;border-radius:14px;padding:17px 18px;display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px #a9632610}
+.itda-owner-home-cards-v47 button>svg:first-child{color:#e25d2c;flex-shrink:0}.itda-owner-home-cards-v47 button>svg:last-child{margin-left:auto;color:#bf7154;flex-shrink:0}
+.itda-owner-home-cards-v47 button:hover{border-color:#ecae96;background:#fffaf6}
+.itda-owner-home-cards-v47 span{display:flex;flex-direction:column;gap:5px}.itda-owner-home-cards-v47 strong{font-size:13px;color:#572d1a}.itda-owner-home-cards-v47 small{font-size:10px;color:#976f60}
+.itda-owner-home-note{font-size:10px;color:#a88e82;text-align:right;margin:9px 2px}
+.itda-owner-workarea-v47{padding-top:24px}
+.itda-owner-workarea-v47 .owner-intro{padding-top:6px}
+.itda-view-intro-v47{text-align:center;margin:7px 0 27px}
+.itda-view-intro-v47>span{color:#d6592b}
+.itda-owner-workarea-v47 .itda-owner-connect{margin-top:8px}
+/* Admin dashboard: concise first screen. Existing menu opens editors on separate routes. */
+.itda-admin-dashboard-page .itda-admin-content .hub-title{margin:12px 0 14px}
+.itda-admin-dashboard-page .itda-admin-content .hub-status{margin:12px 0 16px}
+.itda-admin-dashboard-page .itda-admin-content .hub-metric{padding:18px 16px}
+.itda-admin-dashboard-page .itda-admin-content .hub-card{padding:20px 18px}
+.itda-admin-dashboard-page .itda-admin-content .hub-card p{line-height:1.65}
+.itda-admin-dashboard-page .itda-admin-content .hub-link{margin-top:7px}
+.itda-admin-dashboard-page .hub-warning{margin-top:13px}
+@media(max-width:1100px){.app-shell .itda-customer-header-v47 .desktop-nav{gap:2px}.app-shell .itda-customer-header-v47 .desktop-nav button,.app-shell .itda-customer-header-v47 .desktop-nav a{padding:9px 7px}.itda-owner-home-v47{padding:0 18px}}
+@media(max-width:850px){.itda-portal-header{padding:12px 18px}.itda-page-nav{gap:12px}.itda-header-action{padding:9px 12px}.itda-portal-content{padding:15px 15px 20px}.itda-inner-screen{margin-top:20px}.itda-customer-shortcuts button{grid-template-columns:62px minmax(0,1fr) 13px;gap:9px}.itda-shortcut-image{width:62px}.itda-customer-shortcuts strong{font-size:12px}.itda-customer-shortcuts small{font-size:9px}}
+@media(max-width:680px){.itda-portal-header{flex-wrap:wrap;justify-content:space-between}.itda-page-nav{order:3;flex-basis:100%;justify-content:space-around;margin:0}.itda-page-nav button{font-size:12px}.itda-portal-content .portal-photo-hero{min-height:345px}.itda-landing-home-cards{gap:7px}.itda-landing-home-cards>a,.itda-landing-home-cards>button{min-height:108px;padding:11px 5px}.itda-landing-home-cards strong{font-size:11px}.itda-landing-home-cards small{font-size:9px}.itda-landing-info-grid{grid-template-columns:1fr}.app-shell .itda-customer-header-v47{display:flex;flex-wrap:wrap;gap:6px;padding:10px 15px}.app-shell .itda-customer-header-v47 .desktop-nav{order:3;display:flex;width:100%;overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start}.app-shell .itda-customer-header-v47 .location-pill{margin-left:auto}.app-shell .itda-customer-home-v47 .hero{min-height:0}.itda-customer-shortcuts{grid-template-columns:1fr;gap:7px}.itda-customer-shortcuts button{grid-template-columns:74px minmax(0,1fr) 18px;min-height:84px}.itda-shortcut-image{width:74px;min-height:84px}.itda-owner-nav-v47{gap:2px;justify-content:flex-start;overflow-x:auto}.itda-owner-nav-v47 button,.itda-owner-nav-v47 a{padding:10px 11px;font-size:11px}.itda-owner-home-cards-v47{grid-template-columns:1fr;gap:8px}.itda-owner-home-v47 .itda-owner-promo-banner{min-height:310px}.itda-owner-home-note{padding:0 13px}.itda-admin-main-nav{position:relative}}
+@media(prefers-reduced-motion:reduce){.itda-landing-home-cards>a,.itda-landing-home-cards>button{transition:none}}
+.itda-admin-work-nav{position:sticky;top:0;z-index:82;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px;padding:10px 15px;background:#f5faf7;border-bottom:1px solid #cfe2d5}
+.itda-admin-work-nav a{font-size:12px;font-weight:800;text-decoration:none;color:#2c674b;border-radius:8px;padding:9px 14px;white-space:nowrap}
+.itda-admin-work-nav a.current,.itda-admin-work-nav a:hover{color:#0e5736;background:#e0f0e5}
+@media(max-width:600px){.itda-admin-work-nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}.itda-admin-work-nav a{padding:9px 11px}}

@@ -14,6 +14,7 @@ import { useStreetNodes } from "../data/streetNetwork";
 import { findStorePhotoRoute } from "../data/routeGuide";
 import { useMapGeometry, MAP_BG_KEY } from "../data/mapGeometry";
 import { useDraftPhotoUrls, photoKey } from "../data/localStreetPhotos";
+import { publicMediaUrl, useMediaDraft } from "../data/mediaStorage";
 import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnotations";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
@@ -57,7 +58,17 @@ export default function Customer() {
   const geometry = publication.data?.geometry || localGeometry;
   const catalog = publication.data?.stores || (publication.status === "preview" ? draftStores : examples);
   const {urls: draftUrls} = useDraftPhotoUrls();
-  const mapBackground = publication.status === "published" ? undefined : draftUrls[MAP_BG_KEY];
+  const mediaDraft = useMediaDraft();
+  const media = publication.status === "published" ? publication.data?.media : mediaDraft;
+  const mapBackground = publication.status === "published"
+    ? publicMediaUrl(media?.map)
+    : (draftUrls[MAP_BG_KEY] || publicMediaUrl(media?.map));
+  const photoFor = (nodeId: string, view: ViewDirection) => {
+    const key = photoKey(nodeId, view);
+    const remote = publicMediaUrl(media?.photos[key]);
+    return publication.status === "published" ? remote : (draftUrls[key] || remote);
+  };
+  const hasPhoto = (nodeId: string, view: ViewDirection) => Boolean(photoFor(nodeId,view) || streetNodes.find(n => n.id===nodeId)?.views[view]);
   const [floor, setFloor] = useState<"전체" | 1 | 2 | 3>("전체");
   const [building, setBuilding] = useState("전체");
   const [routeTargetId, setRouteTargetId] = useState<number | null>(null);
@@ -111,7 +122,7 @@ export default function Customer() {
   const routeNextId = routePath && routePath.length > 1 ? routePath[1] : null;
   const routeNextConnection = streetNodes.find(node => node.id === currentNodeId)?.connections.find(link => link.to === routeNextId);
   const currentNode = streetNodes.find((node) => node.id === currentNodeId) || streetNodes[0];
-  const currentImage = (publication.status === "published" ? undefined : draftUrls[photoKey(currentNodeId, currentView)]) || currentNode.views[currentView];
+  const currentImage = photoFor(currentNodeId, currentView) || currentNode.views[currentView];
   const matchingStores = useMemo(() => effectiveStores.filter((store) =>
     matchStore(store, filter, query) && (floor === "전체" || store.floor === floor) && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
   [effectiveStores, filter, query, onlySaved, favorites, floor, building]);
@@ -122,9 +133,8 @@ export default function Customer() {
   const jumpToExplorer = () => explorerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const focusNode = (nodeId: string, preferred: ViewDirection = "forward") => {
     setCurrentNodeId(nodeId);
-    const node=streetNodes.find(n=>n.id===nodeId);
-    if (draftUrls[photoKey(nodeId,preferred)] || node?.views[preferred]) { setCurrentView(preferred); return; }
-    const next=directions.find(d=>draftUrls[photoKey(nodeId,d)] || node?.views[d]);
+    if (hasPhoto(nodeId,preferred)) { setCurrentView(preferred); return; }
+    const next=directions.find(d=>hasPhoto(nodeId,d));
     setCurrentView(next || firstAvailableView(nodeId, streetNodes, preferred));
   };
   const focusStore = (storeId: number, openDetails = false) => {
@@ -274,7 +284,7 @@ export default function Customer() {
             </div>
             <p className="map-disclaimer"><Info size={14}/> 지도 배경·가게 좌표·층 정보는 관리자 검증 전에는 시연 데이터입니다. 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p>
             <div className="node-quicklinks" role="group" aria-label="촬영 지점 선택">
-              {streetNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>draftUrls[photoKey(node.id,d)] || node.views[d]) && <Camera size={13}/>}</button>)}
+              {streetNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>hasPhoto(node.id,d)) && <Camera size={13}/>}</button>)}
             </div>
           </section>
 
@@ -288,8 +298,8 @@ export default function Customer() {
               <span className="street-photo-caption"><MapPin size={13}/> {currentNode.subtitle}</span>
               {currentImage && <span className="street-photo-notice">일반 촬영 사진 · 360° 파노라마 아님</span>}
             </div>
-            <div className="direction-controls"><span>보는 방향</span><div>{directions.map((direction) => <button key={direction} type="button" className={currentView === direction ? "active" : ""} onClick={() => setCurrentView(direction)} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={14}/> : direction === "back" ? <ChevronDown size={14}/> : direction === "left" ? <ArrowLeft size={14}/> : <ArrowRight size={14}/>} {directionName[direction]} {(draftUrls[photoKey(currentNodeId,direction)] || currentNode.views[direction]) ? <span className="direction-ready"/> : <span className="direction-pending"/>}</button>)}</div></div>
-            <div className="street-footer"><div><Camera size={15}/><span>{currentNode.number}번 지점 · 사진 {directions.filter(d=>draftUrls[photoKey(currentNodeId,d)] || currentNode.views[d]).length}개 등록</span></div><div className="street-navigation">{routeNextId && <button className="route-navigation-next" type="button" onClick={moveAlongRoute}><Navigation size={14}/> 안내: 다음 {streetNodes.find(n=>n.id===routeNextId)?.number}번 지점 <ArrowRight size={14}/></button>}{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)}><Navigation size={14}/> {streetNodes.find((n) => n.id === connection.to)?.number}번 지점 <ArrowRight size={14}/></button>)}</div></div>
+            <div className="direction-controls"><span>보는 방향</span><div>{directions.map((direction) => <button key={direction} type="button" className={currentView === direction ? "active" : ""} onClick={() => setCurrentView(direction)} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={14}/> : direction === "back" ? <ChevronDown size={14}/> : direction === "left" ? <ArrowLeft size={14}/> : <ArrowRight size={14}/>} {directionName[direction]} {hasPhoto(currentNodeId,direction) ? <span className="direction-ready"/> : <span className="direction-pending"/>}</button>)}</div></div>
+            <div className="street-footer"><div><Camera size={15}/><span>{currentNode.number}번 지점 · 사진 {directions.filter(d=>hasPhoto(currentNodeId,d)).length}개 등록</span></div><div className="street-navigation">{routeNextId && <button className="route-navigation-next" type="button" onClick={moveAlongRoute}><Navigation size={14}/> 안내: 다음 {streetNodes.find(n=>n.id===routeNextId)?.number}번 지점 <ArrowRight size={14}/></button>}{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)}><Navigation size={14}/> {streetNodes.find((n) => n.id === connection.to)?.number}번 지점 <ArrowRight size={14}/></button>)}</div></div>
             {selectedStore && <div className="selected-store-strip"><span><Store size={15}/><strong>{selectedStore.name}</strong> · {selectedStore.building} {selectedStore.floor}층 {selectedStore.unit || ""} · {selectedStore.floor>1?"1층 외관/출입구 참고":"1층 거리 사진"} · {activeFacades.some((a) => a.storeId === selectedStore.id) ? "영역 표시됨" : "영역 미등록"}</span><button type="button" onClick={() => setDetailsOpen(true)}>가게 상세 보기 <ChevronRight size={15}/></button></div>}
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
           </section>
