@@ -18,6 +18,7 @@ import { publicMediaUrl, useMediaDraft } from "../data/mediaStorage";
 import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnotations";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
+const mapFloors = [1, 2, 3] as const;
 const directions: ViewDirection[] = ["forward", "right", "back", "left"];
 const directionName: Record<ViewDirection, string> = { forward: "앞", back: "뒤", left: "왼쪽", right: "오른쪽" };
 const FAVORITES_KEY = "matmeot-favorites-v1";
@@ -69,7 +70,7 @@ export default function Customer() {
     return publication.status === "published" ? remote : (draftUrls[key] || remote);
   };
   const hasPhoto = (nodeId: string, view: ViewDirection) => Boolean(photoFor(nodeId,view) || streetNodes.find(n => n.id===nodeId)?.views[view]);
-  const [floor, setFloor] = useState<"전체" | 1 | 2 | 3>("전체");
+  const [floor, setFloor] = useState<1 | 2 | 3>(1);
   const [building, setBuilding] = useState("전체");
   const [routeTargetId, setRouteTargetId] = useState<number | null>(null);
   const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
@@ -125,8 +126,18 @@ export default function Customer() {
   const currentNode = streetNodes.find((node) => node.id === currentNodeId) || streetNodes[0];
   const currentImage = photoFor(currentNodeId, currentView) || currentNode.views[currentView];
   const matchingStores = useMemo(() => effectiveStores.filter((store) =>
-    matchStore(store, filter, query) && (floor === "전체" || store.floor === floor) && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
+    matchStore(store, filter, query) && store.floor === floor && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
   [effectiveStores, filter, query, onlySaved, favorites, floor, building]);
+  // The printed point number is a stable 1-based index within the selected floor/building.
+  // Store IDs remain the database identifiers and are never renumbered or rewritten.
+  const floorStores = useMemo(() => effectiveStores
+    .filter(store => store.floor === floor && (building === "전체" || store.building === building))
+    .sort((a,b) => a.id - b.id), [effectiveStores, floor, building]);
+  const floorPointNumber = useMemo(() => new Map(floorStores.map((store,index) => [store.id, index + 1])), [floorStores]);
+  // Photo nodes have no floor field in the current data model. Show a shared photo node
+  // only when it is linked to at least one store on the selected floor.
+  const floorPhotoNodes = useMemo(() => streetNodes.filter(node =>
+    node.stores.some(id => floorStores.some(store => store.id === id))), [streetNodes, floorStores]);
   const featuredStores = useMemo(() => effectiveStores.filter((store) => Boolean(store.event)), [effectiveStores]);
   const activeFacades = facades.filter((a) => a.nodeId === currentNodeId && a.view === currentView &&
     effectiveStores.some((s) => s.id === a.storeId));
@@ -146,7 +157,7 @@ export default function Customer() {
     }
     setSelectedStoreId(storeId);
     const chosen = effectiveStores.find((s) => s.id === storeId);
-    if (chosen) { setFloor(chosen.floor); setBuilding(chosen.building); }
+    if (chosen) { setFloor(chosen.floor); setBuilding(previous => previous === "전체" ? "전체" : chosen.building); }
     setDetailsOpen(openDetails);
     if (openDetails) jumpToExplorer();
   };
@@ -165,6 +176,18 @@ export default function Customer() {
   const moveAlongRoute = () => {
     if (!routeNextId || !routeNextConnection) return;
     focusNode(routeNextId, routeNextConnection.arrivalView || routeNextConnection.direction);
+  };
+  const chooseFloor = (nextFloor: 1 | 2 | 3) => {
+    setFloor(nextFloor);
+    setSelectedStoreId(null);
+    setRouteTargetId(null);
+    setDetailsOpen(false);
+    // Select a photo point linked with the chosen floor when possible.
+    // Higher floors may still reference a ground-level exterior photo.
+    const storesOnFloor = effectiveStores.filter(store => store.floor === nextFloor &&
+      (building === "전체" || store.building === building));
+    const linkedNodes = streetNodes.filter(node => node.stores.some(id => storesOnFloor.some(store => store.id === id)));
+    if (linkedNodes.length && !linkedNodes.some(node => node.id === currentNodeId)) focusNode(linkedNodes[0].id);
   };
   const toggleFavorite = (storeId: number) => {
     setFavorites((previous) => {
@@ -237,10 +260,6 @@ export default function Customer() {
             {["전체", ...buildings].map(item => <button key={item} type="button" className={building===item ? "selected" : ""} onClick={() => { setBuilding(item); setSelectedStoreId(null); setRouteTargetId(null); }} aria-pressed={building===item}>{item === "전체" ? "전체 건물" : item} <span>{item === "전체" ? effectiveStores.length : effectiveStores.filter(store => store.building === item).length}</span></button>)}
           </div>
         </div>
-        <div className="floor-selector" role="group" aria-label="층별 가게 보기">
-          <div className="floor-selector-label"><Layers3 size={17}/><strong>층별 탐색</strong><span>선택한 층의 가게만 지도에 표시돼요</span></div>
-          <div className="floor-selector-options">{(["전체",1,2,3] as const).map((n)=><button key={n} type="button" className={floor===n?"selected":""} onClick={()=>{setFloor(n);setSelectedStoreId(null);}} aria-pressed={floor===n}>{n==="전체"?"전체 층":`${n}층`} <span>{effectiveStores.filter(store => (building === "전체" || store.building === building) && (n === "전체" || store.floor === n)).length}</span></button>)}</div>
-        </div>
         {routeTarget && <div className="route-guide" role="status" aria-live="polite">
           <div className="route-guide-top"><div><span className="route-guide-kicker"><Navigation size={15}/> 촬영 지점 연결 안내 · 실측 길찾기 아님</span>
             <strong>{routeTarget.name} <span>· {routeTarget.building} {routeTarget.floor}층 {routeTarget.unit || ""}</span></strong>
@@ -255,31 +274,47 @@ export default function Customer() {
 
         <div className="explore-layout">
           <section className="map-panel" ref={mapRef} aria-label="구역 안내도">
-            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 전체 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
-            <p className="map-instruction">타임스페이스 전체 구역을 단순화한 안내도예요. 촬영 지점과 층별 점포를 선택해 탐색할 수 있어요.</p>
+            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 {floor}층 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
+            <p className="map-instruction">오른쪽에서 층을 선택하세요. 지도에는 선택한 층의 점포 지점만 표시됩니다. 사진 촬영 지점은 해당 층의 점포와 연결된 지점이에요.</p>
             {mapBackground && <div className="map-visual-switch" role="group" aria-label="지도 배경 선택">
               <button type="button" className={mapVisualMode === "schematic" ? "selected" : ""} aria-pressed={mapVisualMode === "schematic"} onClick={() => setMapVisualMode("schematic")}>간편 안내도</button>
               <button type="button" className={mapVisualMode === "uploaded" ? "selected" : ""} aria-pressed={mapVisualMode === "uploaded"} onClick={() => setMapVisualMode("uploaded")}>관리자 등록 지도</button>
             </div>}
-            <div className="district-map district-map-concept">
-              <svg viewBox="0 0 500 374" className="map-svg" role="img" aria-label="송도 타임스페이스 상권 개념도, 클릭 가능한 촬영 지점과 층별 점포 표시">
+            <div className="map-floor-layout">
+              <div className="district-map district-map-concept">
+              <svg viewBox="0 0 500 374" className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
                 <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-schematic.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
-                {streetNodes.map((node) => { const p = geometry.nodes[node.id]; return !p ? null : <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
+                {floorPhotoNodes.map((node) => { const p = geometry.nodes[node.id]; return !p ? null : <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
                     <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/><text x={p.x} y={p.y + 5.2} className="map-node-text">{node.number}</text>
                   </g>; })}
                 {matchingStores.map((store) => { const nodeP = geometry.nodes[locateStoreNode(store.id, streetNodes)]; const point = geometry.stores[String(store.id)] || (publication.status === "published" ? null : nodeP); if (!point) return null; const x=point.x; const y=point.y; const active = selectedStoreId === store.id;
                   return <g key={store.id} className={`map-store-marker ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-label={`${store.name} · ${store.floor}층 선택`} onClick={() => focusStore(store.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(store.id); } }}>
-                    <rect x={x - 22} y={y - 14} width="44" height="29" rx="13" className={`map-store-chip ${store.type === "맛" ? "food" : "style"}`}/><text x={x} y={y + 4.3} className="map-store-text">{store.floor}F · {store.id}</text>{store.event && <circle cx={x + 18} cy={y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
+                    <rect x={x - 14} y={y - 14} width="28" height="28" rx="12" className={`map-store-chip ${store.type === "맛" ? "food" : "style"}`}/><text x={x} y={y + 4.3} className="map-store-text">{floorPointNumber.get(store.id)}</text>{store.event && <circle cx={x + 12} cy={y - 11} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
                   </g>; })}
               </svg>
-              <div className="map-legend"><span><i className="legend-node"/>촬영 지점</span><span><i className="legend-food"/>맛</span><span><i className="legend-style"/>멋</span><span><i className="legend-event"/>홍보 표시</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
+              <div className="map-legend"><span><i className="legend-node"/>촬영 지점 번호</span><span><i className="legend-food"/>맛</span><span><i className="legend-style"/>멋</span><span><i className="legend-event"/>홍보 표시</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
+              </div>
+              <aside className="map-floor-sidebar" aria-label="층 및 점포 지점 선택">
+                <div className="map-floor-heading"><Layers3 size={16}/><strong>층 선택</strong></div>
+                <div className="map-floor-buttons" role="group" aria-label="층별 안내도 선택">
+                  {mapFloors.map(n => <button key={n} type="button" className={floor === n ? "selected" : ""} aria-pressed={floor === n} onClick={() => chooseFloor(n)}>
+                    <strong>{n}층</strong><small>{effectiveStores.filter(store => store.floor === n && (building === "전체" || store.building === building)).length}곳</small>
+                  </button>)}
+                </div>
+                <div className="map-floor-point-heading"><strong>{floor}층 지점</strong><span>{matchingStores.length}곳</span></div>
+                <div className="map-floor-points">
+                  {matchingStores.length ? matchingStores.map(store => <button key={store.id} type="button" className={selectedStoreId === store.id ? "active" : ""} onClick={() => focusStore(store.id)} aria-label={`${floor}층 ${floorPointNumber.get(store.id)}번 지점 · ${store.name}`}>
+                    <span className="map-floor-number">{floorPointNumber.get(store.id)}</span><span className="map-floor-store-name">{store.name}<small>{store.unit || store.building}</small></span>
+                  </button>) : <p className="map-floor-empty">이 층에 표시할 점포가 없어요.</p>}
+                </div>
+              </aside>
             </div>
-            <p className="map-disclaimer"><Info size={14}/> 간편 안내도의 건물 형태·구역명 및 점포·촬영 지점 좌표는 시연용입니다. 관리자 등록 지도와 배치가 다를 수 있으며 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p>
+            <p className="map-disclaimer"><Info size={14}/> {floor}층 점포만 표시합니다. 촬영 지점은 연결된 건물 외관 사진일 수 있으며 실제 층별 실내 촬영 위치와 다를 수 있습니다. 간편 안내도의 건물 형태·구역명 및 점포·촬영 지점 좌표는 시연용입니다. 관리자 등록 지도와 배치가 다를 수 있으며 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p>
             <div className="node-quicklinks" role="group" aria-label="촬영 지점 선택">
-              {streetNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>hasPhoto(node.id,d)) && <Camera size={13}/>}</button>)}
+              {floorPhotoNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>hasPhoto(node.id,d)) && <Camera size={13}/>}</button>)}
             </div>
           </section>
 
@@ -300,14 +335,14 @@ export default function Customer() {
           </section>
         </div>
 
-        <div className="store-section-heading"><div><span className="eyebrow">STORES & DISCOVERY</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "이 구역에서 발견할 가게"}</h3><p>{matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
+        <div className="store-section-heading"><div><span className="eyebrow">STORES & DISCOVERY</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "이 구역에서 발견할 가게"}</h3><p>{floor}층에서 {matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
         {matchingStores.length ? <div className="store-grid">{matchingStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
           <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
           {store.event && <div className="store-event"><Zap size={14}/><span>{store.event}</span></div>}
           <div className="store-card-bottom"><span><MapPin size={14}/>{store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</span><button type="button" onClick={() => focusStore(store.id, true)}>거리 사진 보기 <ChevronRight size={15}/></button></div>
           <button className="store-card-route" type="button" disabled={!streetNodes.some(node => node.stores.includes(store.id))} onClick={() => guideToStore(store.id)}><Navigation size={14}/> 현재 촬영 지점에서 찾아보기</button>
-        </article>)}</div> : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); setFloor("전체"); setBuilding("전체"); }}>전체 가게 보기</button></div>}
+        </article>)}</div> : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); setFloor(1); setBuilding("전체"); }}>전체 가게 보기</button></div>}
 
         {featuredStores.length > 0 && !showDiscoveries && <div className="subtle-promo"><Zap size={18}/><span>등록된 이벤트 문구가 있는 가게 <strong>{featuredStores.length}곳</strong>을 모아볼 수 있어요.</span><button type="button" onClick={() => { setFilter("이벤트"); setShowDiscoveries(true); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견 보기 <ArrowRight size={15}/></button></div>}
       </section>
