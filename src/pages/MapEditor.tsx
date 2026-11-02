@@ -175,7 +175,7 @@ export default function MapEditor() {
           <button className={mode==="store"?"selected":""} onClick={()=>setMode("store")}>④ 점포 위치</button>
         </div>
         <svg className="map-editor-svg" viewBox="0 0 500 374" role="img" aria-label="상권 지도 이미지에 경계와 촬영 지점, 가게 좌표를 배치하는 작업 화면" onClick={mapClick}>
-          {mapUrl?<image href={mapUrl} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>:<><rect width="500" height="374" fill="#edf4f8"/><path d="M0 64H500M0 335H500M63 0V374M441 0V374" stroke="white" strokeWidth="25"/><path d="M113 290 L164 202 L310 165 L361 274" stroke="white" strokeWidth="24" fill="none" strokeLinecap="round"/><text x="250" y="45" fontSize="13" fill="#5c758b" textAnchor="middle">지도 배경 미등록 · 좌표는 임시 도식</text></>}
+          <image href={mapUrl || "/brand/timespace-schematic.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
           {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`path${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#17a398" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="8 5" pointerEvents="none"/>:null)}
           {geometry.passages.map((path,i)=>path.map((p,j)=><circle key={`path${i}-${j}`} cx={p.x} cy={p.y} r="3.5" fill="#0d9488" stroke="white" strokeWidth="1.5"/>))}
           {geometry.boundary.length>1&&<polyline points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#fb923c" strokeWidth="3" strokeDasharray="8 5"/>}
@@ -190,7 +190,7 @@ export default function MapEditor() {
         </div>
         <div className="map-editor-legend"><span>🟠 상권 경계</span><span>🟢 보행 통로</span><span>🔵 촬영 지점</span><span>▣ 예시 점포</span></div>
         <div className="map-editor-map-actions"><label className="map-editor-file"><Upload size={15}/> 지도 이미지 등록<input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>{void uploadMap(e.target.files?.[0]);e.target.value="";}}/></label><button onClick={()=>{void deleteDraftMap();setMessage("브라우저에서 지도 이미지를 해제했어요.");}} disabled={!mapUrl}>지도 이미지 해제</button></div>
-        <p className="map-editor-warning"><Info size={14}/> 네이버 지도 캡처 등 제3자 지도의 공개 재배포는 이용약관·저작권 확인이 필요합니다. 권한 없는 지도는 서버에 업로드하지 마세요.</p>
+        <p className="map-editor-warning"><Info size={14}/> 배경이 없는 경우 타임스페이스 시범 개념도를 보여줍니다. 건물·출입구·통로의 실측 배치가 아닙니다. 사진이나 외부 지도 이미지를 등록했다면 해당 이미지 좌표 기준으로 정확히 다시 배치하세요. 제3자 지도 캡처의 공개 재배포는 사용 권한 확인이 필요합니다.</p>
         <div className="map-editor-media-publish">
           <strong>지도 배경 서버 등록</strong>
           <p>현재 상태: {mediaDraft.map?"서버 등록 완료 · 게시 대기":"서버 미등록"}. 사진 파일은 업로드 직후 공개 URL로 접근 가능하지만 소비자 화면에는 전체 게시 이후 반영돼요.</p>

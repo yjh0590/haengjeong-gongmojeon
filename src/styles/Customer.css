@@ -45,3 +45,19 @@
 
 .street-navigation button.route-navigation-next{background:#2468c9;border-color:#2468c9;color:#fff}
 .street-navigation button.route-navigation-next:hover{background:#1755ae}
+
+/* v5.0: Timespace site-map redesign — background stays separate from live overlays. */
+.district-map-concept{background:#eaf1f6;box-shadow:inset 0 0 0 1px #e1eaf4}
+.district-map-concept .map-svg{display:block;aspect-ratio:500/374}
+.district-map-concept .map-node-ring{fill:#dbe9ff;stroke:#fff;stroke-width:3;filter:drop-shadow(0 2px 3px #376ca744)}
+.district-map-concept .map-node-circle{fill:#557dc3;stroke:#fff;stroke-width:2}
+.district-map-concept .map-node.is-active .map-node-circle{fill:#275bd5}
+.district-map-concept .map-node.is-active .map-node-ring{fill:#c2d8ff;stroke:#2c62d0;stroke-width:2.5}
+.district-map-concept .map-store-chip{filter:drop-shadow(0 2px 3px #2f465544);stroke:#fff;stroke-width:2.5}
+.district-map-concept .map-store-marker:hover .map-store-chip{stroke:#0c4783;stroke-width:2.5}
+.district-map-concept .map-store-marker.is-active .map-store-chip{stroke:#132d4c;stroke-width:3}
+.map-visual-switch{display:flex;align-items:center;gap:6px;margin:0 0 10px}
+.map-visual-switch button{border:1px solid #d3e2f3;border-radius:999px;padding:7px 11px;color:#52718d;background:#fff;font-size:11px;font-weight:800;cursor:pointer}
+.map-visual-switch button.selected{background:#e8f2ff;border-color:#8fb8eb;color:#1d5daf}
+.map-visual-switch button:focus-visible{outline:3px solid #78b2ff;outline-offset:2px}
+@media(max-width:520px){.map-visual-switch{flex-wrap:wrap}}

@@ -83,6 +83,7 @@ export default function Customer() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [showDiscoveries, setShowDiscoveries] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [mapVisualMode, setMapVisualMode] = useState<"schematic" | "uploaded">("schematic");
   const [draftFacades, setDraftFacades] = useState<FacadeAnnotation[]>(getFacadeAnnotations);
   const facades: FacadeAnnotation[] = publication.data?.facades || draftFacades;
   const explorerRef = useRef<HTMLElement>(null);
@@ -254,21 +255,15 @@ export default function Customer() {
 
         <div className="explore-layout">
           <section className="map-panel" ref={mapRef} aria-label="구역 안내도">
-            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 전체 상권 안내</h3></div><span className="map-badge">지도 등록·측량 전</span></div>
-            <p className="map-instruction">표시한 전체 구역을 기준으로 촬영 지점과 층별 가게를 연결합니다. 실제 좌표는 지도 편집기에서 정할 수 있어요.</p>
-            <div className="district-map">
-              <svg viewBox="0 0 500 374" className="map-svg" role="img" aria-label="상권 전체 구역과 촬영 지점 및 선택한 층의 시연 점포 안내도">
-                <defs><pattern id="mapGrid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M 22 0 L 0 0 0 22" fill="none" stroke="#cdd8e5" strokeWidth="0.55"/></pattern></defs>
-                {mapBackground && <image href={mapBackground} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>}
-                {!mapBackground && <rect x="0" y="0" width="500" height="374" fill="#edf3f5"/>}
-                {!mapBackground && <rect width="500" height="374" fill="url(#mapGrid)"/>}
-                {!mapBackground && <path d="M-40 68L540 68M-40 340L540 340" stroke="#fff" strokeWidth="32"/>}
-                {!mapBackground && <path d="M65 -40L65 420M442 -40L442 420" stroke="#fff" strokeWidth="36"/>}
-                {!mapBackground && <path d="M113 290 L164 202 L310 165 L361 274" stroke="#fff" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round"/>}
-                {!mapBackground && <path d="M113 290 L164 202 L310 165 L361 274" stroke="#cbd8df" strokeWidth="1.4" strokeDasharray="6 7" fill="none"/>}
-                {!mapBackground && <><rect x="84" y="94" width="83" height="66" rx="7" fill="#dbe4dc"/><rect x="223" y="92" width="83" height="46" rx="7" fill="#dbe4dc"/><rect x="316" y="210" width="78" height="45" rx="7" fill="#dbe4dc"/><rect x="180" y="247" width="87" height="53" rx="7" fill="#dbe4dc"/></>}
-                {!mapBackground && <><text x="115" y="132" className="map-building">D동</text><text x="250" y="117" className="map-building">시범</text><text x="347" y="239" className="map-building">구역</text></>}
-                {!mapBackground && <text x="249" y="46" className="map-road-label">시범 구역 안내 · 실제 지형과 다름</text>}
+            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 전체 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
+            <p className="map-instruction">타임스페이스 전체 구역을 단순화한 안내도예요. 촬영 지점과 층별 점포를 선택해 탐색할 수 있어요.</p>
+            {mapBackground && <div className="map-visual-switch" role="group" aria-label="지도 배경 선택">
+              <button type="button" className={mapVisualMode === "schematic" ? "selected" : ""} aria-pressed={mapVisualMode === "schematic"} onClick={() => setMapVisualMode("schematic")}>간편 안내도</button>
+              <button type="button" className={mapVisualMode === "uploaded" ? "selected" : ""} aria-pressed={mapVisualMode === "uploaded"} onClick={() => setMapVisualMode("uploaded")}>관리자 등록 지도</button>
+            </div>}
+            <div className="district-map district-map-concept">
+              <svg viewBox="0 0 500 374" className="map-svg" role="img" aria-label="송도 타임스페이스 상권 개념도, 클릭 가능한 촬영 지점과 층별 점포 표시">
+                <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-schematic.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
@@ -282,7 +277,7 @@ export default function Customer() {
               </svg>
               <div className="map-legend"><span><i className="legend-node"/>촬영 지점</span><span><i className="legend-food"/>맛</span><span><i className="legend-style"/>멋</span><span><i className="legend-event"/>홍보 표시</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
             </div>
-            <p className="map-disclaimer"><Info size={14}/> 지도 배경·가게 좌표·층 정보는 관리자 검증 전에는 시연 데이터입니다. 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p>
+            <p className="map-disclaimer"><Info size={14}/> 간편 안내도의 건물 형태·구역명 및 점포·촬영 지점 좌표는 시연용입니다. 관리자 등록 지도와 배치가 다를 수 있으며 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p>
             <div className="node-quicklinks" role="group" aria-label="촬영 지점 선택">
               {streetNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>hasPhoto(node.id,d)) && <Camera size={13}/>}</button>)}
             </div>
