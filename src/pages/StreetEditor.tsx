@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
-import { ArrowLeft, Camera, Download, Info, RotateCcw, Save, Trash2, Upload } from "lucide-react";
-import { useStreetNodes } from "../data/streetNetwork";
+import { ArrowLeft, ArrowDown, ArrowUp, Camera, Download, Info, Plus, RotateCcw, Save, Trash2, Upload } from "lucide-react";
+import { saveStreetNodes, useStreetNodes } from "../data/streetNetwork";
+import { storesForStreetView } from "../data/streetViewStores";
 import { photoKey, useDraftPhotoUrls, listDraftPhotos, saveDraftPhoto, deleteDraftPhoto } from "../data/localStreetPhotos";
 import { publicMediaUrl, setPhotoMediaPath, uploadStreetPhoto, useMediaDraft } from "../data/mediaStorage";
 import { useAdminAuth } from "../auth/AdminGate";
@@ -42,8 +43,37 @@ export default function StreetEditor() {
   const draftImage = draftUrls[photoKey(nodeId,view)];
   const remotePath = mediaDraft.photos[photoKey(nodeId,view)];
   const image = draftImage || publicMediaUrl(remotePath) || node.views[view];
-  const availableStores = useMemo(() => stores.filter((s) => node.stores.includes(s.id)), [node]);
+  const availableStores = stores;
+  const directionStores = storesForStreetView(stores, annotations, nodeId, view, node.viewStores?.[view]);
   const existing = annotations.find((a) => a.nodeId === nodeId && a.view === view && a.storeId === storeId);
+
+  const saveDirectionOrder = (ids: number[]) => {
+    saveStreetNodes(streetNodes.map(item => item.id === node.id ? { ...item,
+      stores: [...new Set([...item.stores, ...ids])], viewStores: { ...item.viewStores, [view]: ids },
+    } : item));
+  };
+  const linkStore = () => {
+    if (!stores.some(store => store.id === storeId)) return;
+    try {
+      saveDirectionOrder([...new Set([...directionStores.map(store => store.id), storeId])]);
+      setMessage("이 방향에 가게 카드를 추가했어요. 가게 수 제한 없이 연결할 수 있으며 손님에게는 3개씩 보여요. 전체 게시 후 공개됩니다.");
+    } catch (error) { setMessage(error instanceof Error ? error.message : "연결을 저장하지 못했습니다."); }
+  };
+  const reorderStore = (index: number, offset: number) => {
+    const ids = directionStores.map(store => store.id), next = index + offset;
+    if (next < 0 || next >= ids.length) return;
+    [ids[index], ids[next]] = [ids[next], ids[index]];
+    saveDirectionOrder(ids);
+    setMessage("가게 카드 순서를 저장했어요. 전체 게시 후 공개됩니다.");
+  };
+  const unlinkStore = (id: number) => {
+    const outline = annotations.some(item => item.nodeId === nodeId && item.view === view && item.storeId === id);
+    if (!window.confirm(`이 방향에서 가게 연결${outline ? "과 표시 영역" : ""}을 해제할까요? 매장 정보는 삭제되지 않습니다.`)) return;
+    saveDirectionOrder(directionStores.filter(store => store.id !== id).map(store => store.id));
+    const updated = annotations.filter(item => !(item.nodeId === nodeId && item.view === view && item.storeId === id));
+    localStorage.setItem(FACADE_KEY, JSON.stringify(updated)); setAnnotations(updated);
+    setMessage("이 방향의 가게 연결을 해제했어요. 전체 게시 후 공개 화면에 반영됩니다.");
+  };
 
   useEffect(() => { document.title = "맛&멋 AI Street | 관리자"; }, []);
   useEffect(() => {
@@ -92,11 +122,13 @@ export default function StreetEditor() {
     if (!file) return;
     try {
       const stale=annotations.filter(a=>a.nodeId===nodeId && a.view===view);
-      if (stale.length && !window.confirm(`이 방향에 지정한 기존 가게 영역 ${stale.length}개가 있어요. 사진을 교체하면 좌표가 달라질 수 있습니다. 기존 영역을 삭제하고 사진을 등록할까요?`)) return;
+      const linked = node.viewStores?.[view] || [];
+      if ((stale.length || linked.length) && !window.confirm(`이 방향에 가게 카드 ${linked.length}개와 영역 ${stale.length}개가 연결되어 있어요. 사진을 교체하면 기존 연결과 영역을 비우고 새로 지정해야 합니다. 교체할까요?`)) return;
       await saveDraftPhoto(nodeId,view,file);
       // A new local image invalidates an old server draft link for this direction;
       // an already published public image remains untouched until republishing.
       setPhotoMediaPath(nodeId,view,null);
+      if (linked.length) saveDirectionOrder([]);
       if (stale.length) {
         const next=annotations.filter(a=>!(a.nodeId===nodeId && a.view===view));
         localStorage.setItem(FACADE_KEY,JSON.stringify(next));setAnnotations(next);
@@ -141,7 +173,7 @@ export default function StreetEditor() {
 
   return <main className="street-editor">
     <header className="editor-header"><a href={sameOriginPreview()}><ArrowLeft size={18}/> 손님용 거리 탐색</a><SiteBrand role="editor" /><a href={appUrl("editor","/map-editor")}>전체 지도 편집</a></header>
-    <section className="editor-intro"><span><Camera size={16}/> PHOTO ANNOTATION</span><h1>사진 속 가게 영역 지정하기</h1><p>사진 임시 등록 → 외곽선 지정 → Supabase 서버 업로드 → 점포 관리에서 전체 게시 순서로 진행하세요. 자동 인식 AI나 360도 파노라마는 아직 구현되지 않았습니다.</p></section>
+    <section className="editor-intro"><span><Camera size={16}/> PHOTO ANNOTATION</span><h1>거리 사진과 가게 연결하기</h1><p>촬영 지점과 방향을 고르고 가게 카드를 추가하세요. 사진 속 영역 표시는 선택 사항입니다. 저장한 초안은 전체 게시 후 손님에게 보여요.</p></section>
     <div className="editor-layout"><section className="editor-main"><div className="editor-subheader"><h2>{node.name} · {names[view]} 사진</h2><span>{image ? "클릭해서 꼭짓점 추가" : "사진 미등록"}</span></div>
       <div className={`editor-canvas ${image?"has-photo":""}`} onClick={addPoint} role="presentation">
         {image ? <img src={image} alt={`${node.name} ${names[view]} 방향`} draggable={false}/> : <div className="editor-empty"><Camera size={36}/><strong>등록된 사진이 없습니다</strong><span>오른쪽에서 JPG·PNG·WEBP 사진을 등록해 주세요.</span></div>}
@@ -153,7 +185,8 @@ export default function StreetEditor() {
     </section>
     <aside className="editor-sidebar"><h2>영역 설정</h2><label>촬영 지점<select value={nodeId} onChange={(event) => setNode(event.target.value)}>{streetNodes.map((item) => <option value={item.id} key={item.id}>{item.number}번 · {item.name}</option>)}</select></label>
       <label>보는 방향<select value={view} onChange={(event) => setView(event.target.value as ViewDirection)}>{views.map((item) => <option value={item} key={item}>{names[item]} {(draftUrls[photoKey(nodeId,item)] || mediaDraft.photos[photoKey(nodeId,item)] || node.views[item]) ? "· 사진 있음" : "· 미등록"}</option>)}</select></label>
-      <label>가게<select value={node.stores.includes(storeId)?storeId:""} onChange={(event) => setStoreId(Number(event.target.value))}><option value="" disabled>{availableStores.length?"가게 선택":"지도 편집기에서 점포를 연결하세요"}</option>{availableStores.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label>
+      <label>가게<select value={stores.some(store => store.id === storeId)?storeId:""} onChange={(event) => setStoreId(Number(event.target.value))}><option value="" disabled>{availableStores.length?"가게 선택":"먼저 매장 관리에서 가게를 등록하세요"}</option>{availableStores.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label>
+      <section className="editor-direction-stores" aria-labelledby="direction-stores-title"><h3 id="direction-stores-title">{names[view]} 방향 가게 · {directionStores.length}곳</h3><p>가게 카드를 원하는 만큼 연결해요. 손님용에서는 3개씩 넘겨 볼 수 있어요.</p><button className="editor-data editor-primary" type="button" onClick={linkStore} disabled={!stores.some(store => store.id === storeId) || directionStores.some(store => store.id === storeId)}><Plus size={16}/> 선택한 가게 추가하기</button><a className="editor-data" href={appUrl("editor", "/catalog")}><Plus size={16}/> 새 가게 등록 · 매장 관리</a><ol>{directionStores.map((store, index) => <li key={store.id}><button type="button" className="editor-direction-store-name" onClick={() => setStoreId(store.id)}>{index + 1}. {store.name}</button><div><button type="button" aria-label={`${store.name} 앞으로`} disabled={index === 0} onClick={() => reorderStore(index, -1)}><ArrowUp size={15}/></button><button type="button" aria-label={`${store.name} 뒤로`} disabled={index === directionStores.length - 1} onClick={() => reorderStore(index, 1)}><ArrowDown size={15}/></button><button type="button" aria-label={`${store.name} 연결 해제`} onClick={() => unlinkStore(store.id)}><Trash2 size={15}/></button></div></li>)}</ol>{!directionStores.length && <p>아직 연결한 가게가 없어요.</p>}</section>
       <div className="editor-divider"/><h3>사진 등록 · 나중에 교체 가능</h3><p>먼저 브라우저에 사진을 올리고 외곽선을 그린 뒤 서버 업로드를 진행해 주세요.</p>
       <label className="editor-upload"><Upload size={16}/> JPG·PNG·WEBP 사진 등록<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event=>{void uploadPhoto(event.target.files?.[0]);event.target.value="";}}/></label>
       <button className="editor-data" onClick={()=>void clearPhoto()} disabled={!draftImage}><Trash2 size={16}/> 임시 사진 해제</button>

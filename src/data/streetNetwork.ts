@@ -6,6 +6,15 @@ export const NETWORK_KEY = "matmeot-street-network-v2";
 export const NETWORK_CHANGED_EVENT = "matmeot-network-changed";
 const views: ViewDirection[] = ["forward", "back", "left", "right"];
 
+/** Reassigning a store must not leave directional cards pointing at its old point. */
+export function moveStoreToPhotoPoint(nodes: StreetNode[], storeId: number, targetId: string): StreetNode[] {
+  return nodes.map(node => ({ ...node,
+    stores: node.id === targetId ? [...new Set([...node.stores, storeId])] : node.stores.filter(id => id !== storeId),
+    ...(node.viewStores && node.id !== targetId ? { viewStores: Object.fromEntries(Object.entries(node.viewStores)
+      .map(([view, ids]) => [view, ids.filter(id => id !== storeId)])) } : {}),
+  }));
+}
+
 function validNode(value: unknown): value is StreetNode {
   if (!value || typeof value !== "object") return false;
   const n = value as StreetNode;
@@ -15,6 +24,9 @@ function validNode(value: unknown): value is StreetNode {
     !!n.views && typeof n.views === "object" &&
     Object.entries(n.views).every(([key, src]) => views.includes(key as ViewDirection) && (src === undefined || typeof src === "string")) &&
     Array.isArray(n.stores) && n.stores.every((id) => typeof id === "number") &&
+    (n.viewStores === undefined || (!!n.viewStores && typeof n.viewStores === "object" && !Array.isArray(n.viewStores) &&
+      Object.entries(n.viewStores).every(([view, ids]) => views.includes(view as ViewDirection) && Array.isArray(ids) &&
+        ids.every(id => Number.isSafeInteger(id) && n.stores.includes(id)) && new Set(ids).size === ids.length))) &&
     Array.isArray(n.connections) && n.connections.every((c) => c && typeof c.to === "string" && views.includes(c.direction));
 }
 export function isValidStreetNodes(value: unknown): value is StreetNode[] {

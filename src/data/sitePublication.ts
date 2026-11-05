@@ -60,7 +60,9 @@ export function validPublication(v: unknown): v is SitePublication {
 export function preparePublication(): SitePublication {
   const stores = readStoreDraft();
   const ids = new Set(stores.map(s => s.id));
-  const nodes = readStreetNodes().map(node => ({ ...node, stores: node.stores.filter(id => ids.has(id)) }));
+  const nodes = readStreetNodes().map(node => ({ ...node, stores: node.stores.filter(id => ids.has(id)),
+    ...(node.viewStores ? {viewStores: Object.fromEntries(Object.entries(node.viewStores).map(([view, links]) => [view, links.filter(id => ids.has(id))]))} : {}),
+  }));
   const nodeIds = new Set(nodes.map(n => n.id));
   const rawGeometry = readMapGeometry();
   const geometry: MapGeometry = {

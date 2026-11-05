@@ -81,6 +81,9 @@ export type StreetNode = {
 
   stores: number[];
 
+  /** Ordered store cards for each photo direction; outlines remain optional. */
+  viewStores?: Partial<Record<ViewDirection, number[]>>;
+
   connections: StreetConnection[];
 };
 
