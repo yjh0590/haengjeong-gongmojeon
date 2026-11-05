@@ -9,7 +9,7 @@ export type OwnerView = typeof ownerViews[number];
 type NavigationProps = { view: OwnerView; onNavigate: (view: OwnerView) => void };
 const navigation: { view: OwnerView; label: string }[] = [
   { view: "home", label: "대시보드" }, { view: "stores", label: "매장 정보" },
-  { view: "marketing", label: "홍보하기" }, { view: "account", label: "제출 내역" },
+  { view: "marketing", label: "홍보하기" }, { view: "account", label: "게시 내역" },
   { view: "guide", label: "이용 안내" },
 ];
 
@@ -67,9 +67,9 @@ export function OwnerPortalHome({ onNavigate, onOpenTool }: Pick<NavigationProps
         <a className="owner-portal-tool" href="/owner-portal/owner-hero.png" download="ITDA-owner-banner.png"><Image aria-hidden="true" /><span>배너 이미지</span></a>
         <button className="owner-portal-tool" type="button" onClick={() => onOpenTool("sns")}><Share2 aria-hidden="true" /><span>SNS 문구</span></button>
         <button className="owner-portal-tool" type="button" onClick={() => onOpenTool("template")}><WandSparkles aria-hidden="true" /><span>이벤트 템플릿</span></button>
-        <button className="owner-portal-tool" type="button" onClick={() => onNavigate("account")}><ClipboardCheck aria-hidden="true" /><span>제출 내역</span></button>
+        <button className="owner-portal-tool" type="button" onClick={() => onNavigate("account")}><ClipboardCheck aria-hidden="true" /><span>게시 내역</span></button>
       </div>
-      <p className="owner-portal-demo-note">홍보 문구 생성은 예시 기반 시연입니다. 실제 제출·공개는 점주 로그인과 관리자 승인을 거쳐 진행됩니다.</p>
+      <p className="owner-portal-demo-note">홍보 문구 생성은 예시 기반 시연입니다. 담당 점포로 로그인하면 일일 한도 안에서 직접 게시할 수 있습니다.</p>
     </section>
   </div>;
 }
@@ -85,7 +85,7 @@ export function OwnerPortalStores({ stores, published, signedIn, onPromote, onNa
 }
 
 export function OwnerPortalGuide({ onNavigate }: Pick<NavigationProps, "onNavigate">) {
-  return <section className="owner-portal-guide" aria-labelledby="owner-portal-guide-title"><p className="owner-portal-eyebrow">ITDA PARTNER GUIDE</p><h1 id="owner-portal-guide-title">우리 가게의 다음을 함께.</h1><p className="owner-portal-description">가게 선택부터 홍보안 검토까지, 차근차근 시작해 보세요.</p><ol><li><strong>가게와 오늘의 상황을 선택하세요.</strong><p>홍보하기에서 가게를 고르고 알리고 싶은 내용과 조건을 입력합니다.</p></li><li><strong>홍보 문구를 만들고 확인하세요.</strong><p>예시 기반 홍보안 중 하나를 선택하면 거리 안내 문구, SNS 문구, 숏폼 대본을 확인하고 복사할 수 있습니다.</p></li><li><strong>초안을 저장하고 관리자에게 제출하세요.</strong><p>초안은 현재 브라우저에 저장됩니다. 실제 공개는 담당 점포가 배정된 계정으로 로그인하고 홍보안을 제출한 뒤 관리자 승인을 받아야 합니다.</p></li></ol><button className="owner-portal-inline-button" type="button" onClick={() => onNavigate("marketing")}>지금 홍보하기 <ArrowRight size={16} aria-hidden="true" /></button></section>;
+  return <section className="owner-portal-guide" aria-labelledby="owner-portal-guide-title"><p className="owner-portal-eyebrow">ITDA PARTNER GUIDE</p><h1 id="owner-portal-guide-title">우리 가게의 다음을 함께.</h1><p className="owner-portal-description">가게 선택부터 홍보안 검토까지, 차근차근 시작해 보세요.</p><ol><li><strong>가게와 오늘의 상황을 선택하세요.</strong><p>홍보하기에서 가게를 고르고 알리고 싶은 내용과 조건을 입력합니다.</p></li><li><strong>홍보 문구를 만들고 확인하세요.</strong><p>예시 기반 홍보안 중 하나를 선택하면 거리 안내 문구, SNS 문구, 숏폼 대본을 확인하고 복사할 수 있습니다.</p></li><li><strong>초안을 저장하고 직접 게시하세요.</strong><p>초안은 현재 브라우저에 저장됩니다. 담당 점포가 배정된 계정으로 로그인한 뒤 게시 한도를 확인하고 직접 게시합니다. 게시 횟수는 같은 점포의 계정끼리 공유하며 한국시간 자정에 초기화됩니다.</p></li></ol><button className="owner-portal-inline-button" type="button" onClick={() => onNavigate("marketing")}>지금 홍보하기 <ArrowRight size={16} aria-hidden="true" /></button></section>;
 }
 
 export function OwnerPortalFooter() {

@@ -1,9 +1,12 @@
-/** Owner -> admin -> customer workflow. Auth + RLS protect every server operation. */
+/** Authenticated owner self-publication with database-enforced per-store quotas. */
 import { publicationConfigured, type AdminSession } from "./sitePublication";
+import { koreanDate } from "./publicPromotions";
 
 const apiUrl = String(import.meta.env.VITE_SUPABASE_URL || "").replace(/\/+$/, "");
 const apiKey = String(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "");
-export type PromotionStatus = "pending" | "approved" | "rejected";
+export type PromotionStatus = "pending" | "approved" | "rejected" | "published" | "superseded" | "withdrawn";
+export type PromotionQuota = { store_id: number; daily_limit: number; used: number; remaining: number; enabled: boolean; quota_date: string; resets_at: string };
+export type PromotionPolicy = { daily_limit: number; enabled: boolean };
 export type PromotionRequest = {
   id: string;
   user_id: string;
@@ -28,7 +31,7 @@ async function result<T>(response: Response): Promise<T> {
     let detail = `서버 요청 실패 (${response.status})`;
     try {
       const data = await response.json() as Record<string, unknown>;
-      detail = String(data.message || data.error_description || data.error || detail);
+      detail = ["PGRST202", "PGRST205", "42P01"].includes(String(data.code)) ? "점주 직접 게시의 서버 설정이 아직 준비되지 않았습니다. 관리자에게 문의해 주세요." : String(data.message || data.error_description || data.error || detail);
     } catch { /* keep fallback */ }
     throw new Error(detail);
   }
@@ -87,16 +90,16 @@ export async function fetchOwnerStoreIds(token: string): Promise<number[]> {
     `${apiUrl}/rest/v1/itda_owner_stores?select=store_id`, {headers:authHeaders(token),cache:"no-store"}));
   return rows.map(item=>item.store_id);
 }
-export async function submitOwnerPromotion(session: OwnerSession, data: {
+export async function publishOwnerPromotion(session: OwnerSession, data: {
   store_id:number; title:string; street_copy:string; sns_copy:string; short_script:string; ends_on:string;
-}): Promise<void> {
+}, requestKey: string): Promise<PromotionQuota & { id: string; status: PromotionStatus; duplicate: boolean }> {
   if (!publicationConfigured) throw new Error("Supabase 연결 설정이 없습니다.");
   if (!data.title.trim() || !data.street_copy.trim() || data.street_copy.length > 450) throw new Error("홍보 제목과 거리 문구를 확인해 주세요.");
-  const response = await fetch(`${apiUrl}/rest/v1/itda_promotion_requests`, {
-    method:"POST",headers:{...authHeaders(session.token),Prefer:"return=minimal"},
-    body:JSON.stringify({...data, status:"pending"}),
+  const response = await fetch(`${apiUrl}/rest/v1/rpc/itda_publish_owner_promotion`, {
+    method:"POST",headers:authHeaders(session.token),
+    body:JSON.stringify({target_store_id:data.store_id,promotion_title:data.title,street_text:data.street_copy,sns_text:data.sns_copy,script_text:data.short_script,end_date:data.ends_on,request_key:requestKey}),
   });
-  await result<void>(response);
+  return result(response);
 }
 export async function fetchPromotionRequests(token:string, pendingOnly=false): Promise<PromotionRequest[]> {
   const filters = pendingOnly ? "&status=eq.pending" : "";
@@ -104,8 +107,34 @@ export async function fetchPromotionRequests(token:string, pendingOnly=false): P
     `${apiUrl}/rest/v1/itda_promotion_requests?select=id,user_id,store_id,title,street_copy,sns_copy,short_script,ends_on,status,created_at,reviewed_at${filters}&order=created_at.desc&limit=100`,
     {headers:authHeaders(token),cache:"no-store"}));
 }
-export async function reviewPromotion(token:string, id:string, approve:boolean): Promise<void> {
-  await result<unknown>(await fetch(`${apiUrl}/rest/v1/rpc/itda_review_promotion`,{
-    method:"POST",headers:authHeaders(token),body:JSON.stringify({request_id:id,approve}),
+/** Active posts are separate from the recent-history limit, so older live stores remain manageable. */
+export async function fetchActivePromotions(token: string): Promise<PromotionRequest[]> {
+  const items: PromotionRequest[] = [];
+  for (let offset=0;offset<2000;offset+=500) {
+    const page = await result<PromotionRequest[]>(await fetch(
+      `${apiUrl}/rest/v1/itda_promotion_requests?select=id,user_id,store_id,title,street_copy,sns_copy,short_script,ends_on,status,created_at,reviewed_at&status=eq.published&ends_on=gte.${koreanDate()}&order=created_at.desc&limit=500&offset=${offset}`,
+      {headers:authHeaders(token),cache:"no-store"}));
+    items.push(...page);
+    if (page.length<500) break;
+  }
+  return items;
+}
+export async function fetchPromotionQuota(token: string, storeId: number): Promise<PromotionQuota> {
+  return result(await fetch(`${apiUrl}/rest/v1/rpc/itda_promotion_quota`, {method:"POST",headers:authHeaders(token),body:JSON.stringify({target_store_id:storeId})}));
+}
+export async function fetchPromotionPolicy(token: string): Promise<PromotionPolicy> {
+  const rows = await result<PromotionPolicy[]>(await fetch(`${apiUrl}/rest/v1/itda_promotion_policy?id=eq.main&select=daily_limit,enabled`, {headers:authHeaders(token),cache:"no-store"}));
+  if (!rows[0]) throw new Error("게시 정책을 확인할 수 없습니다.");
+  return rows[0];
+}
+export async function updatePromotionPolicy(token: string, dailyLimit: number, enabled: boolean): Promise<PromotionPolicy> {
+  return result(await fetch(`${apiUrl}/rest/v1/rpc/itda_set_promotion_policy`, {method:"POST",headers:authHeaders(token),body:JSON.stringify({new_daily_limit:dailyLimit,publishing_enabled:enabled})}));
+}
+export async function withdrawPromotion(token:string, id:string): Promise<void> {
+  await result<unknown>(await fetch(`${apiUrl}/rest/v1/rpc/itda_withdraw_promotion`,{
+    method:"POST",headers:authHeaders(token),body:JSON.stringify({target_request_id:id}),
   }));
+}
+export function promotionStatusLabel(status: PromotionStatus): string {
+  return {published:"직접 게시",superseded:"이전 게시",withdrawn:"게시 중단",pending:"이전 승인 대기",approved:"이전 승인",rejected:"이전 반려"}[status];
 }

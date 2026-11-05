@@ -74,6 +74,10 @@
 .owner-portal-guide li p, .owner-portal-empty { font-size: 14px; line-height: 1.9; color: #746a64; }
 .owner-portal-workspace .owner-grid, .owner-portal-workspace .owner-intro { min-width: 0; }
 .owner-redesign .owner-portal-account-link { border: 0; padding: 0; background: transparent; color: #a74421; text-decoration: underline; font-size: inherit; }
+.owner-publication-quota { padding: 13px 16px; border: 1px solid #edcfb7; border-radius: 10px; background: #fff8ed; color: #824b2f; font-size: 13px; line-height: 1.8; }
+.owner-publication-message { width: 100%; margin: 0; }
+.itda-owner-state-published { color: #217b49; }
+.itda-owner-state-withdrawn, .itda-owner-state-superseded { color: #7e7169; }
 #owner-page-main:focus { outline: none; }
 @media (min-width: 1450px) {
   html:has(.owner-redesign), body:has(.owner-redesign) { background: #faf8f5; }

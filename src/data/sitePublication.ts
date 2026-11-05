@@ -10,6 +10,7 @@ import { isValidStreetNodes, readStreetNodes } from "./streetNetwork";
 import { readStoreDraft, validStores } from "./storeDraft";
 import type { StoreData, StreetNode } from "../types/street";
 import { readMediaDraft, validPublishedMedia, type PublishedMedia } from "./mediaStorage";
+import { applyPromotionOverrides, fetchLivePromotions } from "./publicPromotions";
 
 export type SitePublication = {
   version: 1;
@@ -86,7 +87,8 @@ export async function fetchPublication(): Promise<PublishedResponse | null> {
   const rows = await resultOrError<Array<{ payload: unknown; published_at: string }>>(response);
   if (!rows.length) return null;
   if (!validPublication(rows[0].payload)) throw new Error("서버에 저장된 게시 데이터 형식이 올바르지 않습니다.");
-  return { data: rows[0].payload, publishedAt: rows[0].published_at };
+  const overrides = await fetchLivePromotions(url, key);
+  return { data: { ...rows[0].payload, stores: applyPromotionOverrides(rows[0].payload.stores, overrides) }, publishedAt: rows[0].published_at };
 }
 type AuthTokens = { access_token: string; refresh_token: string; expires_in: number; user?: {id?: string; email?: string} };
 
@@ -159,12 +161,22 @@ export function usePublicSite() {
   useEffect(() => {
     if (preview || !publicationConfigured) return;
     let mounted = true;
-    fetchPublication().then(value => {
-      if (!mounted) return;
-      setData(value?.data || null);setPublishedAt(value?.publishedAt || null);
-      setStatus(value ? "published" : "demo");
-    }).catch(() => { if (mounted) setStatus("offline"); });
-    return () => { mounted = false; };
+    let loading = false;
+    const refresh = () => {
+      if (loading || document.visibilityState === "hidden") return;
+      loading = true;
+      void fetchPublication().then(value => {
+        if (!mounted) return;
+        setData(value?.data || null);setPublishedAt(value?.publishedAt || null);
+        setStatus(value ? "published" : "demo");
+      }).catch(() => { if (mounted) setStatus("offline"); }).finally(() => { loading = false; });
+    };
+    refresh();
+    const interval = window.setInterval(refresh, 15000);
+    window.addEventListener("focus", refresh);
+    window.addEventListener("itda-publication-changed", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => { mounted = false; window.clearInterval(interval); window.removeEventListener("focus", refresh); window.removeEventListener("itda-publication-changed", refresh); document.removeEventListener("visibilitychange", refresh); };
   }, [preview]);
   return { data, status, publishedAt };
 }

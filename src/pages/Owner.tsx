@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import {
   Bot,
   Check,
@@ -27,7 +27,8 @@ import { stores as exampleStores } from "../data/stores";
 import { usePublicSite } from "../data/sitePublication";
 import type { StoreData } from "../types/street";
 import { fetchOwnerStoreIds, fetchPromotionRequests, getSavedOwnerSession, refreshOwnerSession,
-  saveOwnerSession, signInOwner, signOutOwner, submitOwnerPromotion, type OwnerSession, type PromotionRequest } from "../data/promotionWorkflow";
+  saveOwnerSession, signInOwner, signOutOwner, publishOwnerPromotion, fetchPromotionQuota, promotionStatusLabel, type PromotionQuota, type OwnerSession, type PromotionRequest } from "../data/promotionWorkflow";
+import { koreanDate } from "../data/publicPromotions";
 import { usePageTab } from "../hooks/usePageTab";
 import { ownerViews, OwnerPortalHeader, OwnerPortalHome, OwnerPortalStores, OwnerPortalGuide, OwnerPortalFooter, type OwnerView } from "../components/OwnerPortal";
 
@@ -51,9 +52,14 @@ function Owner() {
   const [loginEmail,setLoginEmail] = useState("");
   const [loginPassword,setLoginPassword] = useState("");
   const [ownerBusy,setOwnerBusy] = useState(false);
-  const [ownerMessage,setOwnerMessage] = useState("점주 계정을 연결하면 홍보안을 관리자에게 제출할 수 있습니다.");
+  const [ownerMessage,setOwnerMessage] = useState("담당 점포 계정으로 로그인하면 일일 한도 안에서 직접 게시할 수 있습니다.");
   const [ownerHistory,setOwnerHistory] = useState<PromotionRequest[]>([]);
-  const [endOn,setEndOn] = useState(() => new Date().toISOString().slice(0,10));
+  const [endOn,setEndOn] = useState(koreanDate);
+  const [quota,setQuota] = useState<PromotionQuota | null>(null);
+  const [quotaLoading,setQuotaLoading] = useState(false);
+  const [quotaError,setQuotaError] = useState("");
+  const publicationRequest = useRef<{fingerprint:string;key:string} | null>(null);
+  const publicationInFlight = useRef(false);
   const visibleStores = ownerSession ? sharedStores.filter(store=>ownerStoreIds.includes(store.id)) : sharedStores;
 
   useEffect(()=>{
@@ -70,6 +76,31 @@ function Owner() {
   useEffect(()=>{
     if (!visibleStores.some(s=>s.id===selectedStoreId) && visibleStores[0]) setSelectedStoreId(visibleStores[0].id);
   },[publication.data,ownerSession,ownerStoreIds,selectedStoreId]);
+  useEffect(() => {
+    setQuota(null);setQuotaError("");
+    if (!ownerSession || !ownerStoreIds.includes(selectedStoreId)) { setQuotaLoading(false); return; }
+    const saved = ownerSession;
+    let active = true;
+    let loading = false;
+    const refresh = async () => {
+      if (loading || document.visibilityState === "hidden") return;
+      loading = true;setQuotaLoading(true);
+      try {
+        const current = await refreshOwnerSession(saved);
+        if (!active) return;
+        saveOwnerSession(current);
+        if (current.token !== saved.token) setOwnerSession(current);
+        const next = await fetchPromotionQuota(current.token, selectedStoreId);
+        if (active) { setQuota(next);setQuotaError(""); }
+      } catch(error) { if (active) { setQuota(null);setQuotaError(error instanceof Error ? error.message : "게시 횟수를 확인하지 못했습니다."); } }
+      finally { loading = false;if (active) setQuotaLoading(false); }
+    };
+    void refresh();
+    const timer = window.setInterval(() => void refresh(),15000);
+    window.addEventListener("focus",refresh);
+    document.addEventListener("visibilitychange",refresh);
+    return () => {active=false;window.clearInterval(timer);window.removeEventListener("focus",refresh);document.removeEventListener("visibilitychange",refresh);};
+  },[ownerSession?.token,ownerStoreIds,selectedStoreId]);
 
   const ownerLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();setOwnerBusy(true);setOwnerMessage("");
@@ -77,7 +108,7 @@ function Owner() {
       const logged = await signInOwner(loginEmail.trim(),loginPassword);
       const [ids,history] = await Promise.all([fetchOwnerStoreIds(logged.token),fetchPromotionRequests(logged.token)]);
       saveOwnerSession(logged);setOwnerSession(logged);setOwnerStoreIds(ids);setOwnerHistory(history);
-      setLoginPassword("");setOwnerMessage("로그인됐어요. 배정된 가게만 제출할 수 있습니다.");
+      setLoginPassword("");setOwnerMessage("로그인됐어요. 담당 점포의 게시 한도를 확인해 주세요.");
     } catch(e){setOwnerMessage(e instanceof Error?e.message:"로그인 실패");}
     finally{setOwnerBusy(false);}
   };
@@ -87,23 +118,34 @@ function Owner() {
     void signOutOwner(previous);
     setOwnerMessage("로그아웃했습니다. 시연 기능은 계속 사용할 수 있습니다.");
   };
-  const submitForReview = async () => {
-    if (!selectedPromotion || !ownerSession || !ownerStoreIds.includes(selectedStoreId)) return;
+  const publishPromotion = async () => {
+    if (publicationInFlight.current || !selectedPromotion || !ownerSession || !ownerStoreIds.includes(selectedStoreId) || !quota || quotaLoading || !quota.enabled || quota.remaining<=0 || quota.quota_date!==koreanDate()) return;
+    publicationInFlight.current = true;
     setOwnerBusy(true);setOwnerMessage("");
     try {
       const logged = await refreshOwnerSession(ownerSession);
       saveOwnerSession(logged);setOwnerSession(logged);
-      await submitOwnerPromotion(logged,{
+      const data = {
         store_id:selectedStoreId,title:selectedPromotion.title,street_copy:selectedPromotion.streetCopy,
         sns_copy:selectedPromotion.snsCopy,short_script:selectedPromotion.shortScript,ends_on:endOn,
-      });
-      setOwnerHistory(await fetchPromotionRequests(logged.token));
-      setOwnerMessage("홍보안을 관리자에게 제출했어요. 승인 전에는 소비자에게 표시되지 않습니다.");
-    } catch(e){setOwnerMessage(e instanceof Error?e.message:"홍보안 제출 실패");}
-    finally {setOwnerBusy(false);}
+      };
+      const fingerprint = JSON.stringify(data);
+      if (publicationRequest.current?.fingerprint !== fingerprint) publicationRequest.current = {fingerprint,key:crypto.randomUUID()};
+      const posted = await publishOwnerPromotion(logged,data,publicationRequest.current.key);
+      setQuotaError("");
+      setQuota(previous => previous?.store_id===posted.store_id ? posted : previous);
+      setOwnerMessage(posted.status==="published" ? `게시됐어요. 오늘 남은 게시 횟수는 ${posted.remaining}회입니다.` : "이 요청은 이전에 처리된 게시입니다. 게시 내역을 확인해 주세요.");
+      publicationRequest.current=null;
+      window.dispatchEvent(new Event("itda-publication-changed"));
+      try { setOwnerHistory(await fetchPromotionRequests(logged.token)); } catch { setOwnerMessage("게시가 완료됐습니다. 게시 내역은 잠시 후 다시 확인해 주세요."); }
+    } catch(e){
+      setOwnerMessage(e instanceof Error?e.message:"홍보안을 게시하지 못했습니다.");
+      void fetchPromotionQuota(ownerSession.token,selectedStoreId).then(next=>{setQuotaError("");setQuota(previous=>previous?.store_id===next.store_id?next:previous);}).catch(()=>setQuota(null));
+    }
+    finally {publicationInFlight.current=false;setOwnerBusy(false);}
   };
   useEffect(() => {
-    const titles = { home: "점주 파트너", stores: "매장 정보", marketing: "홍보하기", account: "점주 계정 · 제출 내역", guide: "점주 이용 안내" };
+    const titles = { home: "점주 파트너", stores: "매장 정보", marketing: "홍보하기", account: "점주 계정 · 게시 내역", guide: "점주 이용 안내" };
     document.title = `${titles[tab]} · 맛&멋 AI Street`;
   }, [tab]);
 
@@ -246,23 +288,23 @@ function Owner() {
         {tab === "stores" && <div className="owner-portal-workspace"><OwnerPortalStores stores={visibleStores} published={publication.status === "published"} signedIn={Boolean(ownerSession)} onNavigate={navigate} onPromote={id => { setSelectedStoreId(id); setPromotions([]); setSelectedPromotionId(null); setApproved(false); navigate("marketing"); }} /></div>}
         {tab === "guide" && <div className="owner-portal-workspace"><OwnerPortalGuide onNavigate={navigate} /></div>}
         <div className="owner-portal-workspace" hidden={tab !== "account"}>
-        <p className="owner-portal-eyebrow">ITDA PARTNER ACCOUNT</p><h1>점주 계정과 제출 내역</h1>
+        <p className="owner-portal-eyebrow">ITDA PARTNER ACCOUNT</p><h1>점주 계정과 게시 내역</h1>
         <section className="itda-owner-connect" aria-label="서버 연동 및 점주 인증">
           <div className="itda-owner-connect-head">
-            <div><span>ITDA CONNECTED STORES</span><h2>공통 점포 데이터 · 홍보안 제출</h2>
+            <div><span>ITDA CONNECTED STORES</span><h2>담당 점포 · 직접 게시</h2>
               <p>{publication.status === "published" ? `관리자 게시 점포 ${sharedStores.length}곳을 연결했어요.` : "관리자 게시본이 아직 없거나 연결되지 않아 시연용 점포가 표시됩니다."} 점포 등록·수정은 관리자용에서 수행합니다.</p>
             </div>
-            {ownerSession && <button type="button" className="itda-owner-signout" onClick={ownerLogout}><LogOut size={16}/> 점주 로그아웃</button>}
+            {ownerSession && <button type="button" className="itda-owner-signout" disabled={ownerBusy} onClick={ownerLogout}><LogOut size={16}/> 점주 로그아웃</button>}
           </div>
           {!ownerSession ? <form className="itda-owner-login" onSubmit={event=>void ownerLogin(event)}>
             <label>점주 이메일<input type="email" value={loginEmail} onChange={event=>setLoginEmail(event.target.value)} placeholder="점주 계정 이메일" required/></label>
             <label>비밀번호<input type="password" autoComplete="current-password" value={loginPassword} onChange={event=>setLoginPassword(event.target.value)} placeholder="점주 계정 비밀번호" required/></label>
             <button type="submit" disabled={ownerBusy || publication.status!=="published"}><LogIn size={16}/>{ownerBusy?"확인 중…":"점주 로그인"}</button>
             <p className="itda-owner-login-note">점주 계정은 관리자가 Supabase에 초대하고 담당 점포를 지정해야 합니다. 계정이 없어도 예시 홍보안은 만들어 볼 수 있어요.</p>
-          </form> : <p className="itda-owner-identity"><ShieldCheck size={17}/> {ownerSession.email} · 담당 점포 {visibleStores.length}곳 · 관리자 승인 후 공개</p>}
+          </form> : <p className="itda-owner-identity"><ShieldCheck size={17}/> {ownerSession.email} · 담당 점포 {visibleStores.length}곳 · 한도 내 직접 게시</p>}
           <p className="itda-owner-message" role="status">{ownerMessage}</p>
-          {ownerSession && <div className="itda-owner-history"><strong>내 홍보안 제출 내역</strong>
-            {ownerHistory.length ? ownerHistory.slice(0,5).map(req=><div key={req.id}><span>{sharedStores.find(s=>s.id===req.store_id)?.name||`가게 #${req.store_id}`} · {req.title}</span><b className={`itda-owner-state-${req.status}`}>{req.status==="pending"?"검토 중":req.status==="approved"?"승인됨":"반려됨"}</b></div>) : <small>아직 제출한 홍보안이 없습니다.</small>}
+          {ownerSession && <div className="itda-owner-history"><strong>내 홍보 게시 내역</strong>
+            {ownerHistory.length ? ownerHistory.slice(0,10).map(req=><div key={req.id}><span>{sharedStores.find(s=>s.id===req.store_id)?.name||`가게 #${req.store_id}`} · {req.title}</span><b className={`itda-owner-state-${req.status}`}>{promotionStatusLabel(req.status)}</b></div>) : <small>아직 게시한 홍보안이 없습니다.</small>}
           </div>}
         </section>
         </div>
@@ -289,7 +331,7 @@ function Owner() {
               가게에 맞는 홍보
               방법과 콘텐츠 제안을 미리 경험할 수 있습니다.
             </p>
-            <p className="owner-demo-note">현재 홍보 문구 생성은 예시 기반 시연입니다(실제 생성형 AI API 미연동). 점주 로그인 후 제출한 홍보안만 관리자 검토를 거쳐 소비자 사이트에 반영될 수 있습니다.</p>
+            <p className="owner-demo-note">홍보 문구 생성은 예시 기반 시연입니다. 담당 점포 계정으로 로그인한 뒤 일일 게시 한도 안에서 직접 소비자 사이트에 게시할 수 있습니다.</p>
           </div>
 
           <div className="owner-flow-card">
@@ -314,7 +356,7 @@ function Owner() {
 
               <div className="flow-step">
                 <span>3</span>
-                승인
+                내용 확인
               </div>
 
               <ChevronRight size={15} />
@@ -349,7 +391,7 @@ function Owner() {
                 value={selectedStoreId}
                 onChange={(event) => {
                   setSelectedStoreId(
-                    Number(
+                      Number(
                       event.target.value
                     )
                   );
@@ -821,14 +863,13 @@ function Owner() {
                   </span>
 
                   <strong>
-                    승인하기 전까지
-                    소비자에게 노출되지
-                    않습니다.
+                    직접 게시 버튼을 눌러야
+                    소비자에게 공개됩니다.
                   </strong>
 
                   <p>
                     선택한 내용이 맞는지
-                    확인한 뒤 승인해주세요.
+                    확인한 뒤 초안을 저장해주세요.
                   </p>
                 </div>
               </div>
@@ -868,14 +909,15 @@ function Owner() {
               )}
             </div>
             {approved && <div className="itda-owner-submit">
-              <div><h3><ClipboardCheck size={19}/> 관리자에게 홍보안 제출</h3><p>점주가 내용을 선택해도 바로 게시되지 않습니다. 담당 점포로 인증한 계정이 제출한 뒤 관리자 승인을 받아야 공개됩니다.</p></div>
-              <label><CalendarDays size={16}/> 홍보 종료일 <input type="date" value={endOn} onChange={event=>setEndOn(event.target.value)} min={new Date().toISOString().slice(0,10)} required/></label>
-              <button type="button" disabled={!ownerSession || !ownerStoreIds.includes(selectedStoreId) || ownerBusy || publication.status!=="published" || ownerHistory.some(req=>req.store_id===selectedStoreId && req.status==="pending")} onClick={()=>void submitForReview()}>
-                {ownerBusy?"제출 중…":"검토 요청 보내기"} <Send size={16}/>
+              <div><h3><ClipboardCheck size={19}/> 소비자 페이지에 직접 게시</h3><p>관리자 승인 없이 게시합니다. 같은 점포의 점주 계정은 일일 한도를 공유하며, 게시 문구를 바꾸는 작업도 1회로 계산합니다.</p></div>
+              <div className="owner-publication-quota" role="status">{!ownerSession ? "점주 로그인 후 게시 횟수를 확인할 수 있습니다." : quotaError || (quotaLoading ? "오늘 게시 가능 횟수를 확인 중입니다…" : quota ? !quota.enabled ? "점주 직접 게시가 일시 중지되었습니다." : `오늘 ${quota.used}/${quota.daily_limit}회 사용 · ${quota.remaining}회 남음 · 한국시간 자정 초기화` : "담당 점포의 게시 권한을 확인해 주세요.")}</div>
+              <label><CalendarDays size={16}/> 홍보 종료일 <input type="date" value={endOn} onChange={event=>setEndOn(event.target.value)} min={koreanDate()} max={koreanDate(new Date(Date.now()+90*86400000))} required/></label>
+              <button type="button" disabled={!ownerSession || !ownerStoreIds.includes(selectedStoreId) || ownerBusy || publication.status!=="published" || quotaLoading || !quota || !quota.enabled || quota.remaining<=0 || quota.quota_date!==koreanDate() || endOn<koreanDate() || endOn>koreanDate(new Date(Date.now()+90*86400000))} onClick={()=>void publishPromotion()}>
+                {ownerBusy?"게시 중…":"직접 게시하기"} <Send size={16}/>
               </button>
-              {!ownerSession && <small>실제 제출은 <button type="button" className="owner-portal-account-link" onClick={() => navigate("account")}>점주 계정에 로그인</button>한 후 이용할 수 있습니다.</small>}
-              {ownerSession && !ownerStoreIds.includes(selectedStoreId) && <small>이 가게에 대한 제출 권한이 없습니다.</small>}
-              {ownerHistory.some(req=>req.store_id===selectedStoreId && req.status==="pending") && <small>이 가게에는 검토 중인 홍보안이 있습니다. 처리 후 다시 제출할 수 있습니다.</small>}
+              {!ownerSession && <small>실제 게시는 <button type="button" className="owner-portal-account-link" onClick={() => navigate("account")}>점주 계정에 로그인</button>한 후 이용할 수 있습니다.</small>}
+              {ownerSession && !ownerStoreIds.includes(selectedStoreId) && <small>이 가게에 대한 게시 권한이 없습니다.</small>}
+              <p className="owner-publication-message" role="status">{ownerMessage}</p>
             </div>}
           </section>
         )}

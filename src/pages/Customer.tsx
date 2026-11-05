@@ -17,6 +17,7 @@ import { useDraftPhotoUrls, photoKey } from "../data/localStreetPhotos";
 import { publicMediaUrl, useMediaDraft } from "../data/mediaStorage";
 import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnotations";
 import CustomerBanner from "../components/CustomerBanner";
+import { koreanDate } from "../data/publicPromotions";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
 const mapFloors = [1, 2, 3] as const;
@@ -110,10 +111,9 @@ export default function Customer() {
 
   const effectiveStores = useMemo(() => catalog.map((store) => {
     // Approved campaigns expire automatically on the date set by the owner.
-    const today = new Date();
-    const localDate = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+    const localDate = koreanDate();
     const current = store.eventUntil && store.eventUntil < localDate ? {...store,event:undefined} : store;
-    if (publication.status === "published" || approvedPromotion?.storeId !== store.id) return current;
+    if (publication.data || approvedPromotion?.storeId !== store.id) return current;
     return { ...current, event: approvedPromotion.promotion.streetCopy };
   }), [catalog, approvedPromotion, publication.status]);
   const buildings = useMemo(() => [...new Set(effectiveStores.map(store => store.building.trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "ko")), [effectiveStores]);
