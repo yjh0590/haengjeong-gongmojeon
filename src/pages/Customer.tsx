@@ -59,6 +59,11 @@ function matchStore(store: StoreData, filter: FilterType, query: string) {
   return categoryMatches && textMatches;
 }
 
+/** A search typed on the main page arrives as ?q=. */
+function readArrivalQuery(): string {
+  return new URLSearchParams(window.location.search).get("q")?.trim().slice(0, 50) ?? "";
+}
+
 export default function Customer() {
   const { tab, openTab } = usePageTab(customerViews, "map");
   const localNodes = useStreetNodes();
@@ -91,8 +96,9 @@ export default function Customer() {
   const [photoTravel, setPhotoTravel] = useState<{ previous: string; kind: "forward" | "left" | "right"; stamp: number } | null>(null);
   const travelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const travelSerial = useRef(0);
+  const arrivalSearch = useRef(readArrivalQuery());
   const [filter, setFilter] = useState<FilterType>("전체");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(readArrivalQuery);
   const [onlySaved, setOnlySaved] = useState(false);
   const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -102,6 +108,7 @@ export default function Customer() {
   const facades: FacadeAnnotation[] = publication.data?.facades || draftFacades;
   const explorerRef = useRef<HTMLElement>(null);
   const mapRef = useRef<HTMLElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { document.title = pageTitle("customer"); }, []);
   useEffect(() => () => { if (travelTimer.current) clearTimeout(travelTimer.current); }, []);
@@ -253,6 +260,14 @@ export default function Customer() {
     if (result) chooseFloor(result.floor);
     jumpToExplorer();
   };
+  // Runs once, after published stores load, so the floor is chosen from the real results.
+  useEffect(() => {
+    if (!arrivalSearch.current || publication.status === "loading") return;
+    const arrivalQuery = arrivalSearch.current;
+    arrivalSearch.current = "";
+    searchFromBanner("전체", arrivalQuery);
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   const openBannerStore = (storeId: number) => {
     setFilter("전체");
     setQuery("");
@@ -416,7 +431,7 @@ export default function Customer() {
           </section>
         </div>
 
-        {hasStoreFilter && <><div className="store-section-heading"><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "필터 결과"}</h3><p>{floor}층에서 {matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
+        {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "필터 결과"}</h3><p>{floor}층에서 {matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
         {matchingStores.length ? <div className="store-grid">{matchingStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
           <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
