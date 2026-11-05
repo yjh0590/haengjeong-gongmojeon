@@ -1,5 +1,5 @@
-import { useEffect, useRef, type FormEvent, type MouseEvent } from "react";
-import { ArrowRight, ArrowUpRight, MapPinned, Search, Store, Settings2 } from "lucide-react";
+import { useEffect, useRef, type MouseEvent } from "react";
+import { ArrowRight, ArrowUpRight, MapPin, MapPinned, Store, Settings2 } from "lucide-react";
 import { appUrl } from "../config/site";
 import "../styles/Landing.css";
 import SiteBrand from "../components/SiteBrand";
@@ -25,25 +25,13 @@ export default function Landing() {
     ));
   }
 
-  /** An empty search stays here; otherwise the browser opens the customer page with ?q=. */
-  function checkSearch(event: FormEvent<HTMLFormElement>) {
-    const input = event.currentTarget.elements.namedItem("q") as HTMLInputElement;
-    input.value = input.value.trim();
-    if (input.value) return;
-    event.preventDefault();
-    input.focus();
-  }
-
   return <div className="itda-landing">
     <a className="landing-skip" href="#main-content">본문 바로가기</a>
     <header className="landing-header">
       <a className="landing-brand-link" href={appUrl("landing")} aria-label="맛&멋 AI Street 홈">
         <SiteBrand role="landing" />
       </a>
-      <form className="landing-search" role="search" action={appUrl("customer")} method="get" onSubmit={checkSearch}>
-        <input type="search" name="q" maxLength={50} enterKeyHint="search" placeholder="가게·메뉴 검색" aria-label="가게 이름, 메뉴 또는 업종 검색" />
-        <button type="submit" aria-label="검색"><Search aria-hidden="true" /></button>
-      </form>
+      <span className="location-pill"><MapPin size={15} aria-hidden="true" /> 송도 타임스페이스 <span className="demo-dot">시범 구역</span></span>
     </header>
     <main id="main-content" tabIndex={-1}>
       <section className="landing-hero" aria-labelledby="landing-hero-title">
