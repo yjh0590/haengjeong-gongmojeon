@@ -87,6 +87,7 @@ export default function Landing() {
       <section className="landing-hero" aria-labelledby="landing-hero-title">
         <img className="landing-hero-image" src="/brand/incheon-bridge.jpg" alt="" fetchPriority="high" width="1200" height="801" />
         <div className="landing-hero-overlay" />
+        <CharacterAccent scene="together" className="landing-hero-characters" priority />
         <div className="landing-hero-content">
           <p className="landing-eyebrow">CONNECTING INCHEON</p>
           <h1 id="landing-hero-title">인천의 맛과 멋,<br />사람과 거리를<br />연결합니다.</h1>
@@ -115,7 +116,6 @@ export default function Landing() {
       <section id="guide" className="landing-guide landing-content-section" aria-labelledby="landing-guide-title">
         <div className="landing-guide-heading">
           <div><p className="landing-section-label">HOW TO USE</p><h2 id="landing-guide-title">이렇게 시작해 보세요.</h2></div>
-          <CharacterAccent scene="customer" className="landing-guide-character" />
           <div className="landing-audience-switch" role="group" aria-label="이용자별 사용 방법">
             {(["customer", "owner"] as const).map(role => <button key={role} type="button" aria-pressed={audience === role}
               aria-controls="landing-guide-content" onClick={() => setAudience(role)}>{guides[role].label}</button>)}
