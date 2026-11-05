@@ -1,89 +1,35 @@
-import type { Surface } from "../config/site";
+﻿import type { Surface } from "../config/site";
 
 export type GuidebookId = "customer" | "owner" | "admin" | "characters";
-type GuidePage = {
-  title: string; lead: string; paragraphs: string[]; steps?: string[];
-  image: string; imageAlt: string; note?: string;
-};
-type Guidebook = {
-  id: GuidebookId; label: string; subtitle: string; description: string; face: string;
-  action?: { label: string; surface: Surface }; pages: GuidePage[];
-};
+export type GuidePicture = "map" | "photo" | "store" | "write" | "check" | "publish" | "heart" | "people";
+export type GuideStep = { picture: GuidePicture; title: string; caption: string };
+type GuidePage = { title: string; lead: string; steps: GuideStep[]; image: string; imageAlt: string; note?: string };
+type Guidebook = { id: GuidebookId; label: string; subtitle: string; description: string; face: string; action?: { label: string; surface: Surface }; pages: GuidePage[] };
+const customer = "/brand/characters/customer-banner-v4.webp";
+const owner = "/brand/characters/store-banner-v5.webp";
+const together = "/brand/characters/together.png";
+const step = (picture: GuidePicture, title: string, caption: string): GuideStep => ({ picture, title, caption });
 
-/** Public project intent and character settings only; no application-form personal data. */
+/** Short public guidance. Keep current features distinct from future plans. */
 export const guidebooks: Guidebook[] = [
-  {
-    id: "customer", label: "손님용", subtitle: "도송이의 동네 발견", face: "/brand/characters/dosongi-face.png",
-    description: "지도와 실제 거리 사진에서 가게를 발견하는 법", action: { label: "손님용 시작하기", surface: "customer" },
-    pages: [
-      { title: "가게 이름을 몰라도 괜찮아요", lead: "어디에 갈지, 동네를 둘러보며 찾아보세요.",
-        paragraphs: ["맛&멋 AI Street는 점주의 소식과 손님의 발견을 연결하는 상권 탐색 서비스입니다. ‘맛’은 음식점·카페·디저트, ‘멋’은 문화·뷰티·사진·소품·체험 같은 동네의 다양한 경험을 뜻합니다.", "현재는 송도 타임스페이스를 시범 구역으로 사용합니다. 첫 화면의 그림은 브랜드 일러스트이고, 실제 탐색은 안내도와 등록된 거리 사진에서 시작합니다."],
-        steps: ["검색이나 맛집·카페·쇼핑·문화 카테고리를 선택해요.", "안내도에서 건물과 층을 고르고 관심 있는 가게를 눌러요.", "가게가 있는 위치와 연결된 촬영 지점을 확인해요."],
-        image: "/brand/characters/customer-banner-v4.webp", imageAlt: "동네 거리를 탐색하는 도송이 일러스트" },
-      { title: "사진 속에서 우리 가게 찾기", lead: "앞·오른쪽·뒤·왼쪽, 보고 싶은 방향을 선택하세요.",
-        paragraphs: ["상단의 ‘거리 사진’을 누르거나 지도에서 촬영 지점을 선택하면 사진 탐색 화면이 열립니다. 등록된 사진이 있는 방향에는 초록 점이 표시됩니다.", "사진 아래에는 현재 지점·방향에 연결된 가게가 최대 세 곳 나타납니다. 카드를 누르면 메뉴·가격·가게 소식을 보고 즐겨찾기에 저장할 수 있습니다."],
-        steps: ["촬영 지점을 고르고 방향 버튼을 눌러요.", "마음에 드는 가게 카드를 열어 메뉴·가격·소식을 확인해요.", "연결된 다음 촬영 지점으로 이동하며 주변을 둘러봐요."],
-        image: "/brand/characters/customer-scene-v2.webp", imageAlt: "휴대폰과 동네 지도를 살펴보는 도송이",
-        note: "등록된 방향별 일반 사진을 보여줍니다. 실시간 360도 거리뷰나 실측 도보 길찾기는 아닙니다." },
-      { title: "한 번의 발견이 다음 방문으로", lead: "한 가게를 찾는 데서 끝나지 않는 동네 탐색을 지향합니다.",
-        paragraphs: ["기획의 목표는 식사 뒤 카페, 카페 뒤 체험처럼 한 번의 방문이 주변 가게의 추가 방문으로 이어지도록 돕는 것입니다.", "지금은 가게 탐색·즐겨찾기·연결된 사진 지점 이동을 이용할 수 있습니다. 현재 추천 예시는 등록 점수에 따른 시연이며, 취향과 방문 맥락을 이해하는 실제 AI 다음 코스 추천은 향후 보완할 기능입니다."],
-        image: "/brand/characters/customer-banner-v4.webp", imageAlt: "다양한 가게로 이어지는 동네 거리",
-        note: "가게의 영업 여부·가격·행사 적용 조건은 방문 전에 확인해 주세요. 제물포 상권은 확장 구상 단계입니다." },
-    ],
-  },
-  {
-    id: "owner", label: "점주용", subtitle: "포물이의 가게 소식", face: "/brand/characters/pomuli-face.png",
-    description: "담당 매장 확인부터 홍보 문구와 게시까지", action: { label: "점주용 시작하기", surface: "owner" },
-    pages: [
-      { title: "우리 가게부터 확인해요", lead: "관리자가 내 계정에 연결한 매장만 보여요.",
-        paragraphs: ["‘매장 정보’에서는 담당 매장의 소개·위치·메뉴와 가격을 확인합니다. 로그인 전에는 다른 가게 목록을 보여주지 않습니다.", "매장 등록과 기본 정보 수정은 관리자가 담당합니다. 담당 가게가 없거나 메뉴·가격을 고쳐야 한다면 운영자에게 연결·수정을 요청해 주세요."],
-        steps: ["관리자가 초대한 점주 계정으로 로그인해요.", "매장 정보에서 담당 가게와 메뉴·가격을 확인해요.", "‘우리 가게 홍보하기’로 이동해요."],
-        image: "/brand/characters/store-banner-v5.webp", imageAlt: "가게 안에서 메뉴를 안내하는 포물이" },
-      { title: "상황을 말하고 문구를 살펴봐요", lead: "복잡한 마케팅 용어보다 오늘 알리고 싶은 내용을 적어보세요.",
-        paragraphs: ["홍보하기에서 신메뉴·한산한 시간대 등 목적과 지켜야 할 조건을 입력합니다. 예시 홍보안을 비교하고 거리 안내 문구·SNS 문구·숏폼 대본을 확인할 수 있습니다.", "현재 문구 생성은 고정 예시 템플릿 기반입니다. 입력한 모든 조건을 실제 AI가 분석하거나 검증하는 단계는 아니므로, 메뉴·가격·시간·혜택이 맞는지 직접 확인해야 합니다."],
-        steps: ["홍보 목적과 가능한 혜택·조건을 적어요.", "‘예시 홍보안 만들기’를 누르고 문구를 비교해요.", "사실과 조건을 확인한 뒤 초안을 저장해요."],
-        image: "/brand/characters/merchant-banner-v4.webp", imageAlt: "가게 소식을 소개하는 포물이",
-        note: "초안 저장은 현재 브라우저에 보관하는 단계입니다. 초안 저장만으로 손님용 화면에 공개되지는 않습니다." },
-      { title: "확인한 소식을 직접 게시해요", lead: "최종 결정은 점주가 하고, 가게 소식은 손님에게 이어집니다.",
-        paragraphs: ["담당 점포 계정으로 로그인한 뒤 홍보 종료일과 남은 게시 횟수를 확인하고 직접 게시합니다. 별도의 관리자 사전 승인 요청 방식이 아니라 현재 게시 정책 안에서 점주가 최종 확인하는 흐름입니다.", "같은 점포에 연결된 계정은 일일 한도를 공유합니다. 횟수는 한국시간 자정에 초기화되며 게시 내역에서 기록을 확인할 수 있습니다. 공개된 소식은 손님용 가게 정보의 이벤트에 반영됩니다."],
-        steps: ["실제 행사 조건과 종료일을 확인해요.", "남은 횟수를 보고 ‘직접 게시하기’를 눌러요.", "게시 내역과 손님용 가게 정보에서 반영 결과를 확인해요."],
-        image: "/brand/characters/store-banner-v5.webp", imageAlt: "매장 소식을 준비하는 포물이",
-        note: "실제 게시는 서버 연결·공개된 매장 데이터·담당 계정이 준비되어 있어야 합니다. 이미지·영상 자동 제작은 향후 기능입니다." },
-    ],
-  },
-  {
-    id: "admin", label: "관리자", subtitle: "동네를 연결하는 운영", face: "/brand/characters/together-avatar-v3.webp",
-    description: "가게·지도·사진을 연결하고 공개하는 방법", action: { label: "관리자 로그인", surface: "editor" },
-    pages: [
-      { title: "정확한 가게 정보가 출발점이에요", lead: "점주와 손님이 같은 가게 정보를 보도록 관리합니다.",
-        paragraphs: ["관리자 계정으로 로그인한 뒤 매장 관리에서 가게 이름·업종·건물·층·호수·소개·메뉴별 가격을 등록합니다. 입력 내용은 우선 브라우저 초안에 저장됩니다.", "점주 계정 초대와 담당 매장 연결은 별도의 운영 설정이 필요합니다. 매장을 등록했다고 자동으로 점주 계정에 배정되지는 않습니다."],
-        steps: ["매장 관리에서 점포 정보를 등록·확인해요.", "메뉴·서비스별 가격과 공개 가능한 소개를 채워요.", "운영 설정에서 점주 계정과 담당 매장 연결을 확인해요."],
-        image: "/brand/characters/store-banner-v5.webp", imageAlt: "매장 정보를 설명하는 포물이" },
-      { title: "지도와 실제 사진을 연결해요", lead: "한 지점의 어느 방향에 어떤 가게가 있는지 알려줍니다.",
-        paragraphs: ["지도 관리에서 점포 위치와 촬영 지점을 연결하고, 거리 사진 편집에서 앞·뒤·좌·우 사진과 가게 영역을 등록합니다.", "가게 카드의 방향별 표시는 사진의 가게 영역 연결을 사용합니다. 사진만 올리거나 지점에만 가게를 연결한 경우 방향별 카드가 자동으로 생기는 것은 아닙니다."],
-        steps: ["점포·촬영 지점·지점 간 연결을 확인해요.", "방향별 사진을 업로드하고 사진 속 가게 영역을 지정해요.", "손님용 미리보기에서 층·방향·카드 연결을 확인해요."],
-        image: "/brand/characters/customer-banner-v4.webp", imageAlt: "가게와 거리가 이어지는 동네 일러스트" },
-      { title: "검토한 정보만 공개해요", lead: "기본 정보 게시와 점주 홍보 게시를 구분해 운영합니다.",
-        paragraphs: ["점포·지도·사진 연결 정보는 검토 후 ‘전체 게시’로 공개합니다. 브라우저 초안과 손님에게 보이는 공개본은 서로 다른 상태입니다.", "홍보 게시 관리에서는 점주의 공개 소식과 게시 정책을 확인하고 필요하면 게시를 중단할 수 있습니다. 기본 점포 게시와 점주의 일일 한도 내 직접 게시는 별도의 흐름입니다."],
-        steps: ["게시 전 기존 초안을 백업하고 최신 공개 정보를 확인해요.", "검토가 끝난 점포·지도·사진을 전체 게시해요.", "손님용 화면에서 공개 결과와 점주 소식을 점검해요."],
-        image: "/brand/characters/merchant-banner-v4.webp", imageAlt: "가게와 손님을 연결하는 거리 일러스트" },
-    ],
-  },
-  {
-    id: "characters", label: "캐릭터북", subtitle: "포물이와 도송이", face: "/brand/characters/together.png",
-    description: "백령도에서 출발해 제물포와 송도를 잇는 형제", pages: [
-      { title: "포물이, 제물포의 정겨움을 찾는 형", lead: "길은 조금 헤매도, 사람에게 먼저 다가가요.",
-        paragraphs: ["‘포물이’는 제물포의 ‘포’를 따온 이름입니다. 씩씩하고 책임감이 강하지만 새로운 기술에는 조금 서툴러요. 그래서 처음 서비스를 쓰는 사람의 마음을 잘 이해합니다.", "평소 전해 들은 제물포가 궁금해 동생과 함께 백령도를 떠났습니다. 클래식한 복장과 회중시계에는 오래된 동네의 정취가 담겨 있어요."],
-        steps: ["제물포의 명소와 가게 이야기를 전해요.", "복잡한 기능도 천천히 안내해요.", "지역의 사람과 정겨움을 먼저 바라봐요."],
-        image: "/brand/characters/porumi.png", imageAlt: "클래식한 옷과 가방을 착용한 형 포물이" },
-      { title: "도송이, 송도의 새로움을 발견하는 동생", lead: "궁금한 건 참을 수 없고, 새로운 발견을 좋아해요.",
-        paragraphs: ["‘도송이’는 ‘송도’의 음절을 뒤집은 이름입니다. 호기심이 많고 관찰력이 뛰어나며 새로운 기술에도 익숙해요. 도시를 다른 시선으로 보고 사람과 거리를 연결합니다.", "송도의 풍경과 높은 건물들이 궁금해 형과 함께 여행을 떠났습니다. 흰 후드와 파란 모자·가방은 송도의 현대적인 분위기를 표현해요."],
-        steps: ["지도와 거리 사진에서 새로운 가게를 찾아요.", "송도의 상권과 가게 소식을 소개해요.", "디지털 탐색과 서비스 사용법을 친근하게 알려줘요."],
-        image: "/brand/characters/customer-scene-v2.webp", imageAlt: "파란 모자와 가방을 착용하고 휴대폰을 보는 동생 도송이" },
-      { title: "다른 매력으로, 같은 동네를 잇다", lead: "제물포의 정겨움과 송도의 새로움이 만나요.",
-        paragraphs: ["포물이와 도송이는 제물포와 송도, 익숙한 일상과 새로운 기술을 잇는 형제입니다. 한 명은 사람에게 먼저 다가가고, 다른 한 명은 새로운 길과 가게를 발견합니다.", "잇다(IT-DA)는 기술과 데이터로 점주와 손님을 연결하고자 합니다. 두 캐릭터는 그 연결을 어려운 말 대신 친근한 이야기와 안내로 전하는 역할을 맡아요."],
-        image: "/brand/characters/together.png", imageAlt: "함께 서 있는 형 포물이와 동생 도송이",
-        note: "캐릭터는 지역을 표현하는 브랜드 이야기입니다. 현재 서비스 시범 구역은 송도 타임스페이스이며, 제물포 적용은 확장 방향입니다." },
-    ],
-  },
+  { id: "customer", label: "손님용", subtitle: "동네 가게 찾기", description: "찾고 · 둘러보고 · 저장해요", face: "/brand/characters/dosongi-face.png", action: { label: "손님용 시작하기", surface: "customer" }, pages: [
+    { title: "가고 싶은 가게를 찾아요", lead: "송도 타임스페이스, 지도에서 시작해요.", image: customer, imageAlt: "동네 거리를 둘러보는 도송이", steps: [step("map", "지도 열기", "건물과 층을 골라요"), step("store", "가게 고르기", "이름이나 업종으로 찾아요"), step("check", "정보 보기", "메뉴와 가격을 확인해요")], note: "현재 등록된 시범 정보를 보여드려요." },
+    { title: "거리 사진으로 둘러봐요", lead: "보고 싶은 방향을 누르면 가게가 보여요.", image: customer, imageAlt: "가게와 거리가 함께 보이는 동네 일러스트", steps: [step("map", "지점 선택", "‘거리 사진’을 열어요"), step("photo", "방향 선택", "앞 · 오른쪽 · 뒤 · 왼쪽"), step("store", "카드 열기", "사진 아래 가게를 눌러요")], note: "등록된 일반 사진이에요. 실시간 360도 거리뷰는 아니에요." },
+    { title: "마음에 들면 저장해요", lead: "다시 찾고 싶은 가게를 모아두세요.", image: customer, imageAlt: "주변 가게를 발견하는 도송이", steps: [step("store", "가게 열기", "상세 정보를 살펴봐요"), step("heart", "즐겨찾기", "좋아하는 가게를 저장해요"), step("photo", "주변 둘러보기", "연결된 사진 지점으로 가요")], note: "AI 다음 코스 추천은 준비할 기능이에요. 방문 전 영업 정보를 확인해 주세요." },
+  ] },
+  { id: "owner", label: "점주용", subtitle: "우리 가게 알리기", description: "확인하고 · 만들고 · 게시해요", face: "/brand/characters/pomuli-face.png", action: { label: "점주용 시작하기", surface: "owner" }, pages: [
+    { title: "우리 가게를 확인해요", lead: "내 계정에 연결된 매장만 보여요.", image: owner, imageAlt: "가게 안에서 메뉴를 안내하는 포물이", steps: [step("people", "로그인", "초대받은 점주 계정으로"), step("store", "매장 정보", "담당 가게를 확인해요"), step("check", "메뉴 · 가격", "등록 정보가 맞는지 봐요")], note: "가게 연결이나 정보 수정은 관리자에게 요청해 주세요." },
+    { title: "알리고 싶은 내용을 적어요", lead: "오늘의 메뉴나 행사 소식을 준비해요.", image: owner, imageAlt: "가게 소식을 준비하는 포물이", steps: [step("write", "목적 적기", "알리고 싶은 내용을 입력해요"), step("write", "예시 만들기", "홍보 문구를 비교해요"), step("check", "조건 확인", "가격 · 시간 · 혜택을 봐요")], note: "현재는 예시 문구 생성이에요. 초안 저장만으로 공개되지는 않아요." },
+    { title: "확인한 소식을 게시해요", lead: "점주가 마지막으로 확인하고 공개해요.", image: owner, imageAlt: "메뉴를 들고 손님을 맞는 포물이", steps: [step("check", "게시 전 확인", "종료일과 남은 횟수를 봐요"), step("publish", "직접 게시", "게시 버튼을 눌러요"), step("store", "손님에게 공개", "가게 정보의 이벤트에 떠요")], note: "담당 계정과 서버 연결이 필요해요. 같은 가게의 일일 한도는 함께 사용해요." },
+  ] },
+  { id: "admin", label: "관리자", subtitle: "동네 정보 연결하기", description: "등록하고 · 연결하고 · 공개해요", face: "/brand/characters/together-avatar-v3.webp", action: { label: "관리자 로그인", surface: "editor" }, pages: [
+    { title: "가게 정보를 등록해요", lead: "정확한 정보가 동네 탐색의 시작이에요.", image: owner, imageAlt: "가게 정보를 안내하는 포물이", steps: [step("store", "가게 등록", "이름 · 위치 · 소개를 적어요"), step("write", "메뉴 입력", "메뉴별 가격을 채워요"), step("people", "점주 연결", "운영 설정에서 계정을 연결해요")], note: "가게 등록과 점주 계정 배정은 별도예요." },
+    { title: "지도와 사진을 연결해요", lead: "사진 속 어느 가게인지 알려주세요.", image: customer, imageAlt: "지도와 가게가 이어지는 동네 거리", steps: [step("map", "위치 지정", "가게와 촬영 지점을 연결해요"), step("photo", "사진 등록", "방향별 사진을 올려요"), step("store", "가게 표시", "사진 속 가게 영역을 지정해요")], note: "방향별 가게 카드는 사진 속 가게 영역 연결이 필요해요." },
+    { title: "살펴본 뒤 공개해요", lead: "초안 저장과 전체 게시는 달라요.", image: together, imageAlt: "함께 안내하는 포물이와 도송이", steps: [step("check", "미리보기", "정보와 사진 연결을 점검해요"), step("publish", "전체 게시", "확인한 기본 정보를 공개해요"), step("store", "공개 확인", "손님용 화면에서 확인해요")], note: "점주의 홍보 직접 게시는 기본 정보의 전체 게시와 별도예요." },
+  ] },
+  { id: "characters", label: "캐릭터북", subtitle: "포물이와 도송이", description: "동네를 잇는 두 형제 이야기", face: together, pages: [
+    { title: "포물이, 정겨운 형", lead: "사람에게 먼저 다가가는 든든한 안내자예요.", image: "/brand/characters/porumi.png", imageAlt: "모자와 정장을 입고 인사하는 형 포물이", steps: [step("map", "제물포", "이름에 제물포의 ‘포’를 담았어요"), step("heart", "책임감", "씩씩하지만 기술은 조금 서툴러요"), step("people", "정겨움", "정장과 회중시계가 잘 어울려요")] },
+    { title: "도송이, 호기심 많은 동생", lead: "새로운 가게와 기술을 발견하는 걸 좋아해요.", image: "/brand/characters/customer-scene-v2.webp", imageAlt: "파란 모자와 가방을 메고 휴대폰을 보는 도송이", steps: [step("map", "송도", "‘송도’를 뒤집어 도송이예요"), step("photo", "새로운 발견", "호기심과 관찰력이 풍부해요"), step("people", "친근한 안내", "흰 후드와 파란 가방이 표식이에요")] },
+    { title: "다른 매력, 함께하는 여행", lead: "백령도에서 출발한 형제가 동네를 이어요.", image: together, imageAlt: "나란히 서 있는 형 포물이와 동생 도송이", steps: [step("people", "두 형제", "포물이와 도송이가 함께해요"), step("map", "두 동네", "제물포의 정취와 송도의 새로움"), step("heart", "하나의 연결", "점주와 손님을 친근하게 이어요")], note: "현재 시범 구역은 송도 타임스페이스예요. 제물포는 확장 구상이에요." },
+  ] },
 ];

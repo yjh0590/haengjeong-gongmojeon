@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState, type MouseEvent, type RefObject, type ReactNode } from "react";
+﻿import { useEffect, useRef, useState, type MouseEvent, type RefObject, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Check, LayoutGrid, X } from "lucide-react";
 import { appUrl } from "../config/site";
 import { guidebooks, type GuidebookId } from "../data/guidebooks";
 import "../styles/GuideLibrary.css";
+import GuidePicture from "./GuidePicture";
 
 export default function GuideLibrary({ triggerRef, children }: { triggerRef: RefObject<HTMLButtonElement | null>; children?: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -30,7 +31,7 @@ export default function GuideLibrary({ triggerRef, children }: { triggerRef: Ref
 
   return <>
     <button ref={triggerRef} id="guide" className="guide-floating-widget" type="button" onClick={event => open(event)} aria-haspopup="dialog" aria-controls="itda-guide-dialog" aria-label="포물이와 도송이의 홈페이지 가이드북 열기">
-      <img src="/brand/characters/together-avatar-v3.webp" alt="" width="52" height="52"/><span><small>처음 오셨나요?</small><strong>우리 동네 안내서</strong></span><BookOpen size={20} aria-hidden="true"/>
+      <span className="guide-widget-cover"><BookOpen size={15} aria-hidden="true"/><strong>우리 동네<br/>안내서</strong><img src="/brand/characters/together.png" alt="" width="70" height="52"/><small>펼쳐보기 →</small></span>
     </button>
 
     <dialog ref={dialog} id="itda-guide-dialog" className="guide-dialog" aria-labelledby="guide-dialog-title" aria-describedby="guide-dialog-description"
@@ -55,9 +56,9 @@ export default function GuideLibrary({ triggerRef, children }: { triggerRef: Ref
         <div className="guide-reader-main">
           <div className="guide-reader-content" ref={reader} key={book.id} tabIndex={-1} aria-label={`${book.label} 안내서 본문`}>
             <article className={`guide-reader-page guide-page-${book.id}`}>
-              <div className="guide-page-art"><img src={page.image} alt={page.imageAlt} width="600" height="320"/><span>{book.subtitle}</span></div>
-              <div className="guide-page-copy"><p className="guide-page-number" aria-live="polite">{book.label} · {pageIndex + 1} / {book.pages.length}</p><h3>{page.title}</h3><p className="guide-page-lead">{page.lead}</p>{page.paragraphs.map(text => <p key={text}>{text}</p>)}
-                {page.steps && <ol className="guide-page-steps">{page.steps.map((text, index) => <li key={text}><span aria-hidden="true">{index + 1}</span>{text}</li>)}</ol>}
+              <div className="guide-page-art"><img src={page.image} alt={page.imageAlt} width="600" height="320"/></div>
+              <div className="guide-page-copy"><p className="guide-page-number" aria-live="polite">{book.label} · {pageIndex + 1} / {book.pages.length}</p><h3>{page.title}</h3><p className="guide-page-lead">{page.lead}</p>
+                <ol className="guide-picture-steps">{page.steps.map((step, index) => <li key={step.title}><GuidePicture picture={step.picture}/><span className="guide-picture-number">{index + 1}</span><strong>{step.title}</strong><p>{step.caption}</p></li>)}</ol>
                 {page.note && <p className="guide-page-note"><Check size={17} aria-hidden="true"/>{page.note}</p>}
               </div>
             </article>
