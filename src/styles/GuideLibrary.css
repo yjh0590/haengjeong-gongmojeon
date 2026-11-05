@@ -81,7 +81,7 @@
 .guide-page-characters .guide-page-art{position:absolute;inset:0;width:100%;height:100%;margin:0;border-radius:0;background:#e9dfd2}
 .guide-page-characters .guide-page-art>img{width:100%;height:100%;padding:0;object-fit:cover}
 .guide-art-pomuli>img{object-position:left 90%}
-.guide-art-dosongi>img{object-position:center 72%;transform:scaleX(-1)}
+.guide-art-dosongi>img{object-position:left 62%}
 .guide-art-brothers>img{object-position:center 60%;transform:scale(1.28);transform-origin:100% 62%}
 .guide-page-characters .guide-page-copy{position:relative;flex:none;width:min(40%,310px);max-height:100%;margin:0;padding:14px 16px;overflow:auto;border:1px solid #ffffffb0;border-radius:16px;background:#fffaf2e0;box-shadow:0 8px 24px #3a2a1626;backdrop-filter:blur(6px)}
 .guide-page-characters .guide-page-copy h3{font-size:19px;line-height:1.35;margin:0 0 4px}
@@ -97,9 +97,8 @@
 /* Phones have no room beside the character, so the copy sits below the face instead. */
 @media(max-width:600px){
 .guide-reader-page.guide-page-characters{align-items:flex-end;padding:8px}
-.guide-page-characters .guide-page-art>img{object-position:50% 0}
 .guide-art-pomuli>img{object-position:24% 0}
-.guide-art-dosongi>img{object-position:44% 0;transform:none}
+.guide-art-dosongi>img{object-position:12% 0}
 .guide-art-brothers>img{object-position:48% 0;transform:none}
 .guide-page-characters .guide-page-copy{width:100%;padding:10px 12px}
 .guide-page-characters .guide-page-copy h3{font-size:17px}
@@ -108,4 +107,4 @@
 /* Keep Dosongi's pointing hand visible above the copy on wide screens. */
 @media(min-width:601px){.guide-art-brothers+.guide-page-copy{align-self:flex-end}}
 /* Very short windows: show the faces and only the headline facts. */
-@media(max-height:480px){.guide-art-pomuli>img{object-position:left 28%}.guide-art-dosongi>img{object-position:center 30%}.guide-art-brothers>img{object-position:center 25%;transform:scale(1.1);transform-origin:100% 20%}.guide-page-characters .guide-page-lead,.guide-page-characters .guide-page-note,.guide-page-characters .guide-page-copy .guide-picture-steps p{display:none}.guide-page-characters .guide-page-copy{padding:8px 12px}.guide-reader-page.guide-page-characters{padding:8px}.guide-reader-page.guide-page-characters .guide-picture-steps{gap:4px;margin-top:5px}.guide-page-characters .guide-page-copy h3{font-size:16px}}
+@media(max-height:480px){.guide-art-pomuli>img{object-position:left 28%}.guide-art-dosongi>img{object-position:left 42%}.guide-art-brothers>img{object-position:center 25%;transform:scale(1.1);transform-origin:100% 20%}.guide-page-characters .guide-page-lead,.guide-page-characters .guide-page-note,.guide-page-characters .guide-page-copy .guide-picture-steps p{display:none}.guide-page-characters .guide-page-copy{padding:8px 12px}.guide-reader-page.guide-page-characters{padding:8px}.guide-reader-page.guide-page-characters .guide-picture-steps{gap:4px;margin-top:5px}.guide-page-characters .guide-page-copy h3{font-size:16px}}
