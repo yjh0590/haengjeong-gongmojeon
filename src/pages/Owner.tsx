@@ -33,6 +33,7 @@ import { usePageTab } from "../hooks/usePageTab";
 import { ownerViews, OwnerPortalHeader, OwnerPortalHome, OwnerPortalStores, OwnerPortalGuide, OwnerPortalFooter, type OwnerView } from "../components/OwnerPortal";
 import { pageTitle } from "../config/brand";
 import CharacterAccent from "../components/CharacterAccent";
+import SceneBanner from "../components/SceneBanner";
 
 type Promotion = {
   id: number;
@@ -293,7 +294,7 @@ function Owner() {
         {tab === "stores" && <div className="owner-portal-workspace"><OwnerPortalStores stores={assignedStores} selectedId={selectedStoreId} published={publication.status === "published"} signedIn={Boolean(ownerSession)} onSelect={setSelectedStoreId} onNavigate={navigate} onPromote={id => { setSelectedStoreId(id); setPromotions([]); setSelectedPromotionId(null); setApproved(false); navigate("marketing"); }} /></div>}
         {tab === "guide" && <div className="owner-portal-workspace"><OwnerPortalGuide onNavigate={navigate} /></div>}
         <div className="owner-portal-workspace" hidden={tab !== "account"}>
-        <div className="owner-account-heading"><div><p className="owner-portal-eyebrow">MY ACTIVITY</p><h1>게시 내역</h1><p className="owner-portal-description">우리 가게가 전한 소식과 점주 계정을 확인하세요.</p></div><CharacterAccent scene="merchant" /></div>
+        <div className="owner-account-heading scene-context-banner scene-context-merchant"><SceneBanner scene="merchant" /><div><p className="owner-portal-eyebrow">MY ACTIVITY</p><h1>게시 내역</h1><p className="owner-portal-description">우리 가게가 전한 소식과 점주 계정을 확인하세요.</p></div></div>
         <section className="itda-owner-connect" aria-label="서버 연동 및 점주 인증">
           <div className="itda-owner-connect-head">
             <div><span>ITDA CONNECTED STORES</span><h2>담당 점포 · 직접 게시</h2>

@@ -1,7 +1,7 @@
 const scenes = {
   customer: "/brand/characters/customer-scene-v2.webp",
   merchant: "/brand/characters/merchant-scene-v2.webp",
-  together: "/brand/characters/together-hero-v3.webp",
+  together: "/brand/characters/main-duo-v4.webp",
 };
 
 /** Decorative composited artwork; functional copy stays accessible as ordinary text. */

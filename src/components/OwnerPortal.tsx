@@ -6,6 +6,7 @@ import "../styles/OwnerPortal.css";
 import SiteBrand from "./SiteBrand";
 import CharacterAccent from "./CharacterAccent";
 import { storeMenuItems } from "../data/storeMenuItems";
+import SceneBanner from "./SceneBanner";
 
 export const ownerViews = ["home", "stores", "marketing", "account", "guide"] as const;
 export type OwnerView = typeof ownerViews[number];
@@ -55,7 +56,7 @@ export function OwnerPortalHeader({ view, onNavigate }: NavigationProps) {
 export function OwnerPortalHome({ onNavigate, onOpenTool }: Pick<NavigationProps, "onNavigate"> & { onOpenTool: (tool: "sns" | "template") => void }) {
   return <div className="owner-portal-home">
     <section className="owner-portal-hero" aria-labelledby="owner-portal-hero-title">
-      <img className="owner-portal-hero-image" src="/owner-portal/owner-hero.png" alt="" width="1672" height="941" fetchPriority="high" />
+      <SceneBanner scene="merchant" priority />
       <div className="owner-portal-shade" aria-hidden="true" />
       <div className="owner-portal-hero-copy"><span className="owner-portal-event-label">EVENT</span><h1 id="owner-portal-hero-title">우리 가게를<br />더 많은 사람에게!</h1><p>특별한 이벤트로 고객을 만나보세요.</p><button className="owner-portal-hero-button" type="button" onClick={() => onNavigate("marketing")}>지금 홍보하기 <ArrowRight size={28} aria-hidden="true" /></button></div>
     </section>
@@ -87,9 +88,9 @@ export function OwnerPortalStores({ stores, selectedId, published, signedIn, onS
     <p className="owner-portal-description">관리자가 내 계정에 연결한 매장의 기본 정보와 메뉴·가격을 확인하세요.</p>
     {store ? <>
       {stores.length > 1 && <label className="owner-assigned-select">담당 매장 선택<select value={store.id} onChange={event => onSelect(Number(event.target.value))}>{stores.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>}
-      <article className="owner-store-profile">
+      <article className="owner-store-profile scene-context-banner scene-context-merchant"><SceneBanner scene="merchant" />
         <div><span className="owner-profile-badge"><BadgeCheck size={16} aria-hidden="true"/>관리자 할당 매장</span><h2>{store.name}</h2><p>{store.description}</p><div className="owner-store-tags">{store.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
-        <CharacterAccent scene="merchant" />
+
       </article>
       <div className="owner-store-details">
         <section className="owner-menu-card"><div className="owner-info-heading"><Utensils size={20} aria-hidden="true"/><h2>메뉴·서비스와 가격</h2></div><dl>{storeMenuItems(store).map((item, index) => <div key={index}><dt>{item.name || "메뉴 확인 중"}</dt><dd>{item.price || "가격 문의"}</dd></div>)}</dl><p>메뉴·가격 변경은 관리자에게 요청해 주세요.</p></section>
@@ -109,7 +110,7 @@ const guideSteps = [
 
 export function OwnerPortalGuide({ onNavigate }: Pick<NavigationProps, "onNavigate">) {
   return <section className="owner-portal-guide" aria-labelledby="owner-portal-guide-title">
-    <div className="owner-guide-intro"><div><p className="owner-portal-eyebrow">PARTNER GUIDE</p><h1 id="owner-portal-guide-title">처음이라도, 차근차근.</h1><p className="owner-portal-description">매장 확인부터 첫 게시까지 네 단계로 시작해 보세요.</p></div><CharacterAccent scene="merchant" className="owner-guide-scene" /></div>
+    <div className="owner-guide-intro scene-context-banner scene-context-merchant"><SceneBanner scene="merchant" /><div><p className="owner-portal-eyebrow">PARTNER GUIDE</p><h1 id="owner-portal-guide-title">처음이라도, 차근차근.</h1><p className="owner-portal-description">매장 확인부터 첫 게시까지 네 단계로 시작해 보세요.</p></div></div>
     <ol className="owner-visual-guide">{guideSteps.map(({number, title, description, view, action, icon: Icon}, index) => <li key={number}>
       <div className={`owner-guide-illustration guide-scene-${index + 1}`} aria-hidden="true"><div className="guide-window"><span className="guide-window-dots"><i/><i/><i/></span><Icon className="guide-scene-icon" size={30}/>{index === 0 ? <><span className="guide-mini-title">내 가게</span><span className="guide-mini-row">메뉴<span>가격</span></span><span className="guide-mini-row">대표 메뉴<span>확인</span></span></> : index === 1 ? <><span className="guide-mini-title">오늘 알리고 싶은 내용</span><span className="guide-input-lines"/><span className="guide-mini-chip">신메뉴 알리기</span></> : index === 2 ? <><span className="guide-mini-title">우리 가게 홍보안</span><span className="guide-input-lines"/><span className="guide-mini-button">내용 확인 · 초안 저장</span></> : <><span className="guide-mini-title">게시 내역</span><span className="guide-mini-row">가게 소식<span className="guide-mini-chip">게시 완료</span></span><span className="guide-mini-button">오늘의 소식을 전했어요</span></>}</div><span className="guide-step-number">{number}</span></div>
       <div className="owner-guide-step-copy"><span className="owner-portal-eyebrow">STEP {number}</span><h2>{title}</h2><p>{description}</p><button type="button" onClick={() => onNavigate(view)}>{action}<ArrowRight size={16} aria-hidden="true"/></button></div>

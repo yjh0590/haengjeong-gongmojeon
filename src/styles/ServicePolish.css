@@ -226,33 +226,14 @@
 
 /* v3: keep the banner colors visible around the composited duo. */
 .itda-landing .landing-hero{background:#21559b}
-.itda-landing .landing-hero-overlay{background:linear-gradient(105deg,#15377ff0 0%,#2555a0c4 52%,#1767a078 100%)}
 .itda-landing .landing-hero-content{position:relative;z-index:2;padding-right:50%;pointer-events:none}
 .itda-landing .landing-hero-content a{pointer-events:auto}
-.itda-landing .landing-hero-characters.character-scene{position:absolute;z-index:1;right:2%;bottom:45px;width:min(57%,800px);max-width:none;height:auto;mix-blend-mode:normal;mask-image:none;filter:drop-shadow(0 18px 28px #102a692b)}
+.itda-landing .landing-hero-characters.character-scene{position:absolute;z-index:1;right:2%;bottom:-24px;width:min(57%,800px);max-width:none;height:auto;mix-blend-mode:normal;mask-image:none;filter:drop-shadow(0 8px 9px #17345c24)}
 .itda-landing .landing-hero-bottom{z-index:3}
 .itda-landing .landing-guide-heading{justify-content:space-between}
-.app-shell{background:radial-gradient(ellipse at 94% 3%,#d7dfff 0,transparent 34%),linear-gradient(180deg,#e8f2ff 0%,#f0f6ff 45%,#fff 100%)}
-.app-shell .customer-banner{background:#c3d9fa;border:1px solid #bfd3f4;box-shadow:0 14px 38px #4368b51a}
-.app-shell .customer-banner-wash{background:linear-gradient(105deg,#b8d5fff5 0%,#d0defff2 29%,#e4dcffbb 48%,#c4e8ff0c 72%),linear-gradient(0deg,#8bb9ed5c,transparent 60%)}
-.app-shell .customer-banner-eyebrow{color:#38578d}
-.app-shell .customer-photo-heading{background:linear-gradient(118deg,#c5dcff 0%,#d6e5ff 48%,#d9d5ff 100%);border-color:#b8cbf0;box-shadow:0 12px 32px #3a63ad12}
-.app-shell .customer-photo-heading h1{color:#19365f}
-.app-shell .customer-photo-heading p{color:#405b7c}
-.app-shell .explore-toolbar,.app-shell .building-selector{background:#ffffffed;border-color:#d2e1f5}
-.app-shell .map-panel,.app-shell .street-panel{border-color:#cfdef3;box-shadow:0 10px 28px #244e8c08}
-.owner-page.owner-redesign{background:radial-gradient(ellipse at 100% 0,#ffe0c2 0,transparent 38%),linear-gradient(180deg,#fff0e0 0%,#fff7ee 48%,#fffdf9 100%)}
-.owner-redesign .owner-portal-shade{background:linear-gradient(100deg,#b74620b8 0%,#d95e2d52 44%,#ed944219 74%)}
-.owner-redesign .owner-portal-quick-actions{background:transparent}
-.owner-redesign .owner-portal-tools{background:linear-gradient(120deg,#fff6e9,#ffe9d4)}
-.owner-redesign .owner-store-profile{background:linear-gradient(115deg,#ffe3c3,#ffecd8 52%,#fbd5b2);border-color:#ecc8a7}
-.owner-redesign .owner-account-heading,.owner-redesign .owner-guide-intro{background:linear-gradient(118deg,#ffe5c9,#fff0df 48%,#f9d8bb);border-color:#ebc9aa;box-shadow:0 10px 28px #aa603512}
-.owner-redesign .owner-store-access{background:linear-gradient(130deg,#fff1de,#ffe2c7);border-color:#eacaae}
-.owner-redesign .owner-store-profile .character-scene,.owner-redesign .owner-account-heading .character-scene,.owner-redesign .owner-guide-intro .character-scene{mix-blend-mode:multiply}
-.owner-redesign .owner-flow-card{background:linear-gradient(120deg,#fff9ef,#ffe6cb);border-color:#efd3b4}
 @media(max-width:1000px) and (min-width:601px){
   .itda-landing .landing-hero-content{padding-right:46%}
-  .itda-landing .landing-hero-characters.character-scene{width:56%;right:0;bottom:65px}
+  .itda-landing .landing-hero-characters.character-scene{width:56%;right:0;bottom:-18px}
   .itda-landing h1{font-size:40px}
   .itda-landing .landing-hero-desc{font-size:16px}
   .itda-landing .landing-start-button{font-size:14px;gap:20px;padding:15px 20px}
@@ -263,6 +244,73 @@
   .itda-landing .landing-hero-characters.character-scene{position:relative;right:auto;bottom:auto;width:94%;max-width:440px;margin:12px auto 0;order:1}
   .itda-landing .landing-hero h1{font-size:clamp(32px,8vw,40px)}
   .itda-landing .landing-hero-desc{font-size:14px;line-height:1.85}
-  .itda-landing .landing-hero-overlay{background:linear-gradient(135deg,#163b86ee,#2869b5c9 65%,#287fb6a6)}
-  .app-shell .customer-banner-wash{background:linear-gradient(105deg,#bcd7fff0,#dce1ffb8 55%,#cbe9ff4d),linear-gradient(0deg,#9bc1ee66,transparent 60%)}
+}
+
+
+/* v4: continuous illustrated environments, with the previous page palette restored. */
+.scene-banner-media{position:absolute;inset:0;z-index:-3;display:block;width:100%;height:100%;pointer-events:none}
+.scene-banner-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:70% center}
+.app-shell .customer-banner{background:#b6cbed;height:680px}
+.app-shell .customer-banner-wash{background:none}
+.app-shell .customer-banner h1{color:#132b61;text-shadow:0 1px 8px #dce8ff66}
+.app-shell .customer-banner-eyebrow{color:#19366f}
+.app-shell .customer-banner-caption{background:#ffffffdb;color:#365277;border-radius:8px;padding:5px 9px;bottom:10px;right:3%;font-size:10px}
+.app-shell .customer-banner .customer-banner-featured{top:auto;bottom:46px;right:4%;width:290px;padding:10px;gap:12px;border-radius:16px}
+.app-shell .customer-banner-featured>img{width:66px;height:84px;border-radius:10px}
+.app-shell .customer-banner-featured strong{font-size:17px}
+.app-shell .customer-banner-featured-info{gap:5px}
+.app-shell .customer-banner-featured-category{font-size:12px}
+.app-shell .customer-banner-tags>span{font-size:10px;padding:3px 7px}
+.owner-redesign .owner-portal-shade{background:linear-gradient(90deg,#45220d36,transparent 62%)}
+.owner-redesign .owner-portal-hero-image,.owner-redesign .owner-portal-hero .scene-banner-media img{object-position:70% center}
+.owner-redesign .owner-portal-hero-copy{position:relative;z-index:1}
+.scene-context-banner{position:relative;isolation:isolate;overflow:hidden}
+.app-shell .customer-photo-heading.scene-context-banner,.owner-redesign .owner-account-heading.scene-context-banner,.owner-redesign .owner-guide-intro.scene-context-banner,.owner-redesign .owner-store-profile.scene-context-banner{display:flex;align-items:center;min-height:320px;padding:32px;border-radius:22px;background:#d9e4f1}
+.scene-context-banner::before{content:'';position:absolute;inset:0;z-index:-2;pointer-events:none}
+.scene-context-banner>.scene-banner-media img{object-position:center top}
+.scene-context-banner>div{position:relative;z-index:1;max-width:56%;flex:1}
+.scene-context-customer::before{background:linear-gradient(90deg,#dbe8ffb8,transparent 62%)}
+.scene-context-merchant::before{background:linear-gradient(90deg,#43220b80,transparent 70%)}
+.owner-redesign .scene-context-merchant h1,.owner-redesign .scene-context-merchant h2{color:#fffaf3;text-shadow:0 1px 8px #43220b33}
+.owner-redesign .scene-context-merchant .owner-portal-description,.owner-redesign .scene-context-merchant p,.owner-redesign .scene-context-merchant .owner-portal-eyebrow{color:#fff1df}
+.owner-redesign .scene-context-merchant .owner-profile-badge{background:#fff4e4e8;color:#744222}
+.owner-redesign .scene-context-merchant .owner-store-tags>span{background:#fff8eef0;color:#80512e}
+@media(max-width:1000px) and (min-width:601px){
+  .app-shell .customer-banner-copy{width:64%;padding-top:42px}
+  .app-shell .customer-banner h1{font-size:38px}
+  .app-shell .customer-banner .scene-banner-media img{object-position:65% center}
+}
+@media(max-width:600px){
+  .app-shell .customer-banner{height:820px}
+  .app-shell .customer-banner .scene-banner-media img,.owner-redesign .owner-portal-hero .scene-banner-media img{object-position:center center}
+  .app-shell .customer-banner-copy{height:auto;padding:30px 6% 0;width:100%}
+  .app-shell .customer-banner h1{font-size:32px;line-height:1.3;margin-bottom:20px}
+  .app-shell .customer-banner-eyebrow{font-size:9px;margin-bottom:14px}
+  .app-shell .customer-banner-categories{position:static;max-width:100%;margin-top:18px;gap:7px}
+  .app-shell .customer-banner-categories button{height:68px;gap:7px;border-radius:12px}
+  .app-shell .customer-banner-categories svg{width:22px;height:22px}
+  .app-shell .customer-banner-categories span{font-size:11px}
+  .app-shell .customer-banner .customer-banner-featured{top:auto;bottom:45px;right:6%;width:min(260px,88%)}
+  .app-shell .customer-banner-caption{left:6%;right:6%;font-size:9px;bottom:9px;padding:4px 7px;max-width:none}
+  .owner-redesign .owner-portal-hero{height:680px}
+  .owner-redesign .owner-portal-hero-copy{padding-top:32px}
+  .owner-redesign .owner-portal-hero h1{font-size:36px;margin:20px 0 14px}
+  .owner-redesign .owner-portal-hero-copy p{font-size:15px;margin-bottom:22px}
+  .owner-redesign .owner-portal-shade{background:linear-gradient(180deg,#43210c33,transparent 54%)}
+  .app-shell .customer-photo-heading.scene-context-banner,.owner-redesign .owner-account-heading.scene-context-banner,.owner-redesign .owner-guide-intro.scene-context-banner,.owner-redesign .owner-store-profile.scene-context-banner{min-height:550px;padding:26px 22px;justify-content:start;align-items:stretch;flex-direction:column;border-radius:20px}
+  .scene-context-banner>div{max-width:100%;flex:0}
+  .scene-context-banner>.scene-banner-media img{object-position:center center}
+  .scene-context-customer::before{background:linear-gradient(180deg,#dbe8ff88,transparent 45%)}
+  .scene-context-merchant::before{background:linear-gradient(180deg,#43220b66,transparent 50%)}
+  .owner-redesign .owner-store-profile.scene-context-banner{min-height:620px}
+}
+/* Anchor the main duo at the banner edge rather than standing over the water. */
+.itda-landing .landing-hero-characters.character-scene{width:min(70%,1000px);right:-1%;bottom:-150px;filter:none}
+@media(max-width:1000px) and (min-width:601px){.itda-landing .landing-hero-characters.character-scene{width:60%;right:0;bottom:-100px}}
+@media(max-width:600px){
+  .itda-landing .landing-hero{padding-bottom:0}
+  .itda-landing .landing-hero-characters.character-scene{position:relative;right:auto;bottom:auto;width:110%;max-width:none;margin:8px -5% -100px}
+  .itda-landing .landing-hero-bottom{display:none}
+  .app-shell .customer-banner .scene-banner-media img{object-position:right center}
+  .owner-redesign .owner-portal-hero-copy p{max-width:none;width:92%;word-break:keep-all}
 }

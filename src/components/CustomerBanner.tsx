@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Award, ChevronRight, Coffee, LayoutGrid, Search, ShoppingBag, Utensils } from "lucide-react";
 import type { FilterType, StoreData } from "../types/street";
 import "../styles/CustomerBanner.css";
+import SceneBanner from "./SceneBanner";
 
 const categories = [
   { label: "맛집", filter: "맛", query: "", icon: Utensils },
@@ -10,13 +10,6 @@ const categories = [
   { label: "문화", filter: "멋", query: "문화", icon: Award },
   { label: "전체", filter: "전체", query: "", icon: LayoutGrid },
 ] satisfies { label: string; filter: FilterType; query: string; icon: typeof Search }[];
-
-// Decorative positions on the supplied banner artwork, not geographic coordinates.
-const pinPositions = [
-  { left: "69%", top: "27%" }, { left: "52%", top: "43%" },
-  { left: "92%", top: "35%" }, { left: "86%", top: "86%" },
-  { left: "49%", top: "19%" }, { left: "67%", top: "82%" },
-];
 
 type Props = {
   stores: StoreData[];
@@ -29,13 +22,11 @@ type Props = {
 };
 
 export default function CustomerBanner({ stores, published, filter, query, onQueryChange, onSearch, onSelectStore }: Props) {
-  const [featuredId, setFeaturedId] = useState<number | null>(null);
-  const featured = stores.find(store => store.id === featuredId)
-    || stores.find(store => store.category.includes("카페")) || stores[0];
+  const featured = stores.find(store => store.category.includes("카페")) || stores[0];
   const photo = featured?.category.includes("카페") ? "cafe.jpg" : featured?.type === "맛" ? "restaurant.jpg" : "city.jpg";
 
   return <section className="customer-banner" aria-labelledby="customer-banner-title">
-    <img className="customer-banner-map" src="/customer-banner/map.png" alt="" width="902" height="914" fetchPriority="high" />
+    <SceneBanner scene="customer" priority />
     <div className="customer-banner-wash" aria-hidden="true" />
     <div className="customer-banner-copy">
       <p className="customer-banner-eyebrow">DISCOVER YOUR INCHEON</p>
@@ -53,14 +44,6 @@ export default function CustomerBanner({ stores, published, filter, query, onQue
         </button>)}
       </div>
     </div>
-    <div className="customer-banner-pins" role="group" aria-label="가게 카드 미리보기 · 핀 위치는 예시">
-      {stores.slice(0, pinPositions.length).map((store, index) => <button
-        className="customer-banner-pin" key={store.id} type="button" style={pinPositions[index]}
-        aria-label={`${store.name} 카드 미리보기`} aria-pressed={featured?.id === store.id}
-        onClick={() => setFeaturedId(store.id)}>
-        <svg viewBox="0 0 40 50" aria-hidden="true"><path d="M20 48C16 42 3 28 3 19a17 17 0 0 1 34 0c0 9-13 23-17 29Z" /><circle cx="20" cy="19" r="6" /></svg>
-      </button>)}
-    </div>
     {featured && <button className="customer-banner-featured" type="button" onClick={() => onSelectStore(featured.id)} aria-label={`${featured.name} 상세 보기`}>
       <img src={`/customer-banner/${photo}`} alt="가게 분위기 예시 사진" width="115" height="137" />
       <span className="customer-banner-featured-info">
@@ -71,6 +54,6 @@ export default function CustomerBanner({ stores, published, filter, query, onQue
       </span>
       <ChevronRight className="customer-banner-featured-arrow" size={28} aria-hidden="true" />
     </button>}
-    <p className="customer-banner-caption">배너 지도·핀 배치와 사진은 예시입니다. 점포 위치는 아래 안내도에서 확인하세요.</p>
+    <p className="customer-banner-caption">배너는 연출된 일러스트입니다. 실제 점포 위치는 아래 안내도에서 확인하세요.</p>
   </section>;
 }
