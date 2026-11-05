@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
-  ArrowLeft,
   Bot,
   Check,
   ChevronRight,
@@ -23,12 +22,14 @@ import {
 } from "lucide-react";
 
 import "../styles/Owner.css";
-import { appUrl, sameOriginPreview } from "../config/site";
+import { sameOriginPreview } from "../config/site";
 import { stores as exampleStores } from "../data/stores";
 import { usePublicSite } from "../data/sitePublication";
 import type { StoreData } from "../types/street";
 import { fetchOwnerStoreIds, fetchPromotionRequests, getSavedOwnerSession, refreshOwnerSession,
   saveOwnerSession, signInOwner, signOutOwner, submitOwnerPromotion, type OwnerSession, type PromotionRequest } from "../data/promotionWorkflow";
+import { usePageTab } from "../hooks/usePageTab";
+import { ownerViews, OwnerPortalHeader, OwnerPortalHome, OwnerPortalStores, OwnerPortalGuide, OwnerPortalFooter, type OwnerView } from "../components/OwnerPortal";
 
 type Promotion = {
   id: number;
@@ -41,6 +42,7 @@ type Promotion = {
 };
 
 function Owner() {
+  const { tab, openTab } = usePageTab(ownerViews, "home");
   const publication = usePublicSite();
   const sharedStores: StoreData[] = publication.data?.stores || exampleStores;
   const [selectedStoreId, setSelectedStoreId] = useState(1);
@@ -101,8 +103,9 @@ function Owner() {
     finally {setOwnerBusy(false);}
   };
   useEffect(() => {
-    document.title = "점주용 AI 마케팅 · AI Marketing";
-  }, []);
+    const titles = { home: "점주 파트너", stores: "매장 정보", marketing: "홍보하기", account: "점주 계정 · 제출 내역", guide: "점주 이용 안내" };
+    document.title = `${titles[tab]} · 맛&멋 AI Street`;
+  }, [tab]);
 
   const [goal, setGoal] = useState(
     "오늘 저녁 인천대 학생 손님을 늘리고 싶어요."
@@ -223,40 +226,27 @@ function Owner() {
     }
   };
 
+  const navigate = (next: OwnerView) => {
+    openTab(next);
+    window.requestAnimationFrame(() => document.getElementById("owner-page-main")?.focus({ preventScroll: true }));
+  };
+  const openPortalTool = (tool: "sns" | "template") => {
+    navigate("marketing");
+    window.requestAnimationFrame(() => {
+      const target = tool === "sns" && selectedPromotion ? ".owner-redesign .content-section" : tool === "template" ? ".owner-redesign .quick-goals" : ".owner-redesign .owner-main-panel";
+      document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   return (
-    <div className="owner-page">
-      <header className="owner-header">
-        <a
-          href={appUrl("customer")}
-          className="owner-back"
-        >
-          <ArrowLeft size={18} />
-          소비자 거리 탐색
-        </a>
-
-        <div className="owner-brand">
-          <span className="owner-brand-icon">
-            <Sparkles size={18} />
-          </span>
-
-          <div>
-            <strong>
-              점주용 AI 마케팅
-            </strong>
-
-            <span>
-              AI 마케팅 도우미
-            </span>
-          </div>
-        </div>
-
-        <div className="owner-status">
-          <span />
-          콘텐츠 제안·승인 요청
-        </div>
-      </header>
-
-      <main className="owner-container">
+    <div className="owner-page owner-redesign">
+      <OwnerPortalHeader view={tab} onNavigate={navigate} />
+      <main className="owner-container" id="owner-page-main" tabIndex={-1}>
+        {tab === "home" && <OwnerPortalHome onNavigate={navigate} onOpenTool={openPortalTool} />}
+        {tab === "stores" && <div className="owner-portal-workspace"><OwnerPortalStores stores={visibleStores} published={publication.status === "published"} signedIn={Boolean(ownerSession)} onNavigate={navigate} onPromote={id => { setSelectedStoreId(id); setPromotions([]); setSelectedPromotionId(null); setApproved(false); navigate("marketing"); }} /></div>}
+        {tab === "guide" && <div className="owner-portal-workspace"><OwnerPortalGuide onNavigate={navigate} /></div>}
+        <div className="owner-portal-workspace" hidden={tab !== "account"}>
+        <p className="owner-portal-eyebrow">ITDA PARTNER ACCOUNT</p><h1>점주 계정과 제출 내역</h1>
         <section className="itda-owner-connect" aria-label="서버 연동 및 점주 인증">
           <div className="itda-owner-connect-head">
             <div><span>ITDA CONNECTED STORES</span><h2>공통 점포 데이터 · 홍보안 제출</h2>
@@ -275,6 +265,8 @@ function Owner() {
             {ownerHistory.length ? ownerHistory.slice(0,5).map(req=><div key={req.id}><span>{sharedStores.find(s=>s.id===req.store_id)?.name||`가게 #${req.store_id}`} · {req.title}</span><b className={`itda-owner-state-${req.status}`}>{req.status==="pending"?"검토 중":req.status==="approved"?"승인됨":"반려됨"}</b></div>) : <small>아직 제출한 홍보안이 없습니다.</small>}
           </div>}
         </section>
+        </div>
+        <div className="owner-portal-workspace" hidden={tab !== "marketing"}>
         <section className="owner-intro">
           <div>
             <div className="owner-ai-label">
@@ -881,7 +873,7 @@ function Owner() {
               <button type="button" disabled={!ownerSession || !ownerStoreIds.includes(selectedStoreId) || ownerBusy || publication.status!=="published" || ownerHistory.some(req=>req.store_id===selectedStoreId && req.status==="pending")} onClick={()=>void submitForReview()}>
                 {ownerBusy?"제출 중…":"검토 요청 보내기"} <Send size={16}/>
               </button>
-              {!ownerSession && <small>실제 제출은 화면 상단에서 점주 로그인 후 이용할 수 있습니다.</small>}
+              {!ownerSession && <small>실제 제출은 <button type="button" className="owner-portal-account-link" onClick={() => navigate("account")}>점주 계정에 로그인</button>한 후 이용할 수 있습니다.</small>}
               {ownerSession && !ownerStoreIds.includes(selectedStoreId) && <small>이 가게에 대한 제출 권한이 없습니다.</small>}
               {ownerHistory.some(req=>req.store_id===selectedStoreId && req.status==="pending") && <small>이 가게에는 검토 중인 홍보안이 있습니다. 처리 후 다시 제출할 수 있습니다.</small>}
             </div>}
@@ -907,7 +899,9 @@ function Owner() {
             <span>다음 단계</span>
           </div>
         </section>
+        </div>
       </main>
+      <OwnerPortalFooter />
     </div>
   );
 }
