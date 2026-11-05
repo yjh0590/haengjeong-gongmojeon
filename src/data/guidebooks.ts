@@ -26,7 +26,7 @@ export const guidebooks: Guidebook[] = [
   ] },
   { id: "characters", label: "캐릭터북", subtitle: "포물이와 도송이", description: "동네를 잇는 두 형제 이야기", pages: [
     { title: "포물이, 정겨운 형", lead: "사람에게 먼저 다가가는 든든한 안내자예요.", image: "/brand/characters/character-pomuli-v7.webp", art: "pomuli", imageAlt: "항구 골목의 벤치에서 지도를 펼쳐 보는 포물이", steps: [step("map", "제물포", "이름에 제물포의 ‘포’를 담았어요"), step("heart", "책임감", "씩씩하지만 기술은 조금 서툴러요"), step("people", "정겨움", "정장과 회중시계가 잘 어울려요")] },
-    { title: "도송이, 호기심 많은 동생", lead: "새로운 가게와 기술을 발견하는 걸 좋아해요.", image: "/brand/characters/character-dosongi-v8.webp", art: "dosongi", imageAlt: "강변 산책로의 꽃 화분 옆에 몸을 낮추고 앉은 도송이", steps: [step("map", "송도", "‘송도’를 뒤집어 도송이예요"), step("photo", "새로운 발견", "호기심과 관찰력이 풍부해요"), step("people", "친근한 안내", "흰 후드와 파란 가방이 표식이에요")] },
+    { title: "도송이, 호기심 많은 동생", lead: "새로운 가게와 기술을 발견하는 걸 좋아해요.", image: "/brand/characters/character-dosongi-v9.webp", art: "dosongi", imageAlt: "강변 산책로의 꽃 화분 옆에 몸을 낮추고 앉은 도송이", steps: [step("map", "송도", "‘송도’를 뒤집어 도송이예요"), step("photo", "새로운 발견", "호기심과 관찰력이 풍부해요"), step("people", "친근한 안내", "흰 후드와 파란 가방이 표식이에요")] },
     { title: "다른 매력, 함께하는 여행", lead: "백령도에서 출발한 형제가 동네를 이어요.", image: "/brand/characters/character-brothers-v7.webp", art: "brothers", imageAlt: "지도를 들고 항구 산책로를 함께 걷는 포물이와 도송이", steps: [step("people", "두 형제", "포물이와 도송이가 함께해요"), step("map", "두 동네", "제물포의 정취와 송도의 새로움"), step("heart", "하나의 연결", "점주와 손님을 친근하게 이어요")], note: "현재 시범 구역은 송도 타임스페이스예요. 제물포는 확장 구상이에요." },
   ] },
 ];

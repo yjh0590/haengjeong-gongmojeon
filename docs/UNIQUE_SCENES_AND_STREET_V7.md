@@ -55,9 +55,10 @@ Use case: illustration-story. New horizontal1536x1024 storybook scene. Brown spo
 
 ## character-dosongi
 
-- Final path: public/brand/characters/character-dosongi-v8.webp
+- Final path: public/brand/characters/character-dosongi-v9.webp
 - Replaced character-dosongi-v7 so the character sits on the left and the character-book copy can use the open space on the right, without mirroring the photo.
 - Created with Canva image generation using together.png as the character reference. Downloaded at 1536x1024, then resized to 1200x800 WebP.
+- The generated image had no hoodie mark, so the mark from character-dosongi-v7 was composited onto the chest with a script. This is the one scene in this document changed after generation.
 - Prompt:
 
 캐릭터북 도송이 사진을 교체. 캐릭터는 왼쪽에 배치하고 오른쪽은 캐릭터가 없는 빈 공간으로 둔다. Horizontal storybook scene in premium soft 3D, matching the reference character identity exactly. Show ONLY the white spotted otter Dosongi from the reference (the one on the right: round black glasses, backwards navy cap, white hoodie, blue crossbody bag). Do not include the brown otter. Dosongi is crouching with curiosity, looking at a little flower planter, on a modern riverside neighborhood walkway inspired by Songdo. Place Dosongi and the planter entirely in the LEFT 40 percent of the frame, full body in frame, grounded on the walkway, facing right. The RIGHT 55 percent of the frame must be open, calm scenery with no character: the river, soft distant glass buildings and pale blue sky. Pale blue and mint morning light. A complete coherent scene, not a cutout or sticker, no hard white borders. No words, letters, logos, watermark or other characters.
