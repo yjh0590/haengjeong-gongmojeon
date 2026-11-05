@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "test:route": "node scripts/test-route-guide.cjs",
+    "test:street-view": "node scripts/test-street-view-stores.cjs",
     "test:promotions": "node scripts/test-self-publication.mjs"
   },
   "dependencies": {
