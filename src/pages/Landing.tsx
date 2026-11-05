@@ -1,20 +1,41 @@
-﻿import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowDown, ArrowRight, ArrowUpRight, MapPinned, Store, Settings2, Check } from "lucide-react";
 import { appUrl } from "../config/site";
 import "../styles/Landing.css";
 
 const navigation = [
-  { href: "#about", label: "소개" },
-  { href: "#services", label: "서비스" },
-  { href: "#news", label: "소식" },
-  { href: "#contact", label: "이용 안내" },
+  { href: "#services", label: "서비스 둘러보기" },
+  { href: "#guide", label: "이용 방법" },
+  { href: "#faq", label: "자주 묻는 질문" },
 ];
+
+const guides = {
+  customer: {
+    label: "방문객", title: "어디에 갈지, 어떻게 찾을지 한눈에.",
+    description: "송도 타임스페이스의 가게를 지도와 거리 사진으로 살펴보고 방문할 곳을 찾아보세요.",
+    steps: [
+      { title: "취향에 맞는 가게 찾기", text: "가게 목록에서 맛집과 볼거리를 살펴보고 관심 있는 가게를 선택하세요." },
+      { title: "건물과 층별 위치 확인하기", text: "안내도에서 층을 바꾸며 가게가 있는 위치를 확인하세요." },
+      { title: "거리 사진으로 주변 살펴보기", text: "촬영 지점을 선택해 가게 주변의 모습과 입구를 살펴보세요." },
+    ], cta: "가게 탐색 시작하기",
+  },
+  owner: {
+    label: "점주", title: "우리 가게의 소식, 더 쉽게 전해요.",
+    description: "알리고 싶은 내용을 홍보 문구로 정리하고, 담당 가게의 소식을 직접 게시하세요.",
+    steps: [
+      { title: "가게와 홍보할 내용 선택하기", text: "우리 가게를 고르고 오늘 알리고 싶은 메뉴, 행사, 혜택을 입력하세요." },
+      { title: "홍보 문구 만들고 다듬기", text: "예시 기반으로 만든 거리 안내 문구, SNS 문구와 숏폼 대본을 확인하세요." },
+      { title: "확인한 소식 직접 게시하기", text: "담당 점포 계정으로 로그인한 뒤 게시 한도 안에서 가게 소식을 게시하세요." },
+    ], cta: "우리 가게 홍보 시작하기",
+  },
+};
 
 export default function Landing() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [audience, setAudience] = useState<"customer" | "owner">("customer");
+  const guide = guides[audience];
   const header = useRef<HTMLElement>(null);
   const menuToggle = useRef<HTMLButtonElement>(null);
-  const newsDialog = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     document.title = "맛&멋 AI Street | 인천의 맛과 멋을 잇다";
@@ -67,44 +88,55 @@ export default function Landing() {
         <div className="landing-hero-content">
           <p className="landing-eyebrow">CONNECTING INCHEON</p>
           <h1 id="landing-hero-title">인천의 맛과 멋,<br />사람과 거리를<br />연결합니다.</h1>
-          <p className="landing-hero-desc">지역의 가게와 사람, 새로운 가능성을 잇는<br />맛&멋 AI Street</p>
-          <a className="landing-start-button" href={appUrl("customer")}>지금 시작하기 <ArrowRight size={24} aria-hidden="true" /></a>
+          <p className="landing-hero-desc">가고 싶은 가게를 찾고, 우리 가게의 소식을 전하는<br />송도 타임스페이스 상권 서비스</p>
+          <a className="landing-start-button" href="#services">나에게 맞는 서비스 찾기 <ArrowRight size={24} aria-hidden="true" /></a>
         </div>
         <div className="landing-hero-bottom"><span>사람과 도시 사이, 새로운 연결</span><a href="#services" aria-label="주요 서비스로 내려가기">SCROLL TO EXPLORE <ArrowDown size={20} aria-hidden="true" /></a></div>
       </section>
       <section id="services" className="landing-services" aria-label="주요 서비스">
         <a href={appUrl("customer")} className="landing-service-card">
-          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M12 55V22L32 8l20 14v33H12Z" /><path d="M19 55V30a5 5 0 0 1 10 0v25m6 0V30a5 5 0 0 1 10 0v25M19 45h10m6-7h10" /></svg>
-          <h2>인천의 이야기</h2><p>지역의 맛과 멋을 탐색</p><ArrowUpRight className="landing-card-arrow" size={18} aria-hidden="true" />
+          <MapPinned aria-hidden="true" /><span className="landing-card-role">방문객을 위한 서비스</span>
+          <h2>가게·거리 탐색</h2><p>가게 정보부터 층별 위치,<br />거리 사진까지 한곳에서.</p>
+          <span className="landing-card-cta">가게 둘러보기 <ArrowUpRight size={17} aria-hidden="true" /></span>
         </a>
         <a href={appUrl("owner")} className="landing-service-card">
-          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="18" r="9" /><path d="M11 55v-7c0-10 8-16 21-16s21 6 21 16v7M22 39v16m20-16v16M11 47h11m20 0h11" /></svg>
-          <h2>함께하는 성장</h2><p>상인이 만드는 변화</p><ArrowUpRight className="landing-card-arrow" size={18} aria-hidden="true" />
+          <Store aria-hidden="true" /><span className="landing-card-role">점주를 위한 서비스</span>
+          <h2>우리 가게 홍보</h2><p>홍보 문구를 만들고,<br />가게의 새로운 소식을 전하세요.</p>
+          <span className="landing-card-cta">점주 서비스 열기 <ArrowUpRight size={17} aria-hidden="true" /></span>
         </a>
-        <a href="#future" className="landing-service-card">
-          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="24" /><path d="m32 16 6 9 10 1-6 8 2 11-12-5-12 5 2-11-6-8 10-1 6-9Z" /></svg>
-          <h2>더 나은 내일</h2><p>인천과 함께</p><ArrowUpRight className="landing-card-arrow" size={18} aria-hidden="true" />
+        <a href={appUrl("editor")} className="landing-service-card">
+          <Settings2 aria-hidden="true" /><span className="landing-card-role">관리자를 위한 서비스</span>
+          <h2>상권 정보 관리</h2><p>점포와 지도, 거리 사진을<br />관리하고 게시하세요.</p>
+          <span className="landing-card-cta">관리자 로그인 <ArrowUpRight size={17} aria-hidden="true" /></span>
         </a>
       </section>
-      <section id="about" className="landing-about landing-content-section">
-        <div><p className="landing-section-label">ABOUT US</p><h2>가까운 일상에서 시작되는<br /><span>인천의 새로운 가능성.</span></h2></div>
-        <p>우리가 살아가는 도시의 이야기를 발견하고,<br />지역의 가치를 함께 이어갑니다.<br />사람과 사람을 잇는 작은 연결이<br />인천의 더 나은 내일이 됩니다.</p>
+      <section id="guide" className="landing-guide landing-content-section" aria-labelledby="landing-guide-title">
+        <div className="landing-guide-heading">
+          <div><p className="landing-section-label">HOW TO USE</p><h2 id="landing-guide-title">이렇게 시작해 보세요.</h2></div>
+          <div className="landing-audience-switch" role="group" aria-label="이용자별 사용 방법">
+            {(["customer", "owner"] as const).map(role => <button key={role} type="button" aria-pressed={audience === role}
+              aria-controls="landing-guide-content" onClick={() => setAudience(role)}>{guides[role].label}</button>)}
+          </div>
+        </div>
+        <div id="landing-guide-content" className={`landing-guide-panel landing-guide-${audience}`}>
+          <div className="landing-guide-intro">
+            <span className="landing-guide-badge"><Check size={14} aria-hidden="true" />{guide.label} 이용 가이드</span>
+            <h3>{guide.title}</h3><p>{guide.description}</p>
+            <a className="landing-guide-cta" href={appUrl(audience)}>{guide.cta}<ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+          <ol className="landing-guide-steps">
+            {guide.steps.map((step, index) => <li key={step.title}><span aria-hidden="true">0{index + 1}</span><div><h4>{step.title}</h4><p>{step.text}</p></div></li>)}
+          </ol>
+        </div>
       </section>
-      <section className="landing-stories landing-content-section" aria-label="서비스 소개">
-        <article id="story"><span className="landing-number">01 / LOCAL STORY</span><h3>인천의 이야기</h3><p>익숙한 골목의 새로운 모습.<br />지도로 가게를 찾고 층별 위치와<br />거리 사진을 만나보세요.</p><a className="landing-detail-link" href={appUrl("customer")}>거리 탐색하기 <ArrowUpRight size={17} aria-hidden="true" /></a></article>
-        <article id="growth"><span className="landing-number">02 / TOGETHER</span><h3>함께하는 성장</h3><p>상점의 매력과 사람들의 발걸음이 만나<br />지역에 새로운 활기를 더합니다.<br />가게 홍보 문구와 프로모션을 시범 제작해 보세요.</p><a className="landing-detail-link" href={appUrl("owner")}>점주용 서비스 이용하기 <ArrowUpRight size={17} aria-hidden="true" /></a></article>
-        <article id="future"><span className="landing-number">03 / NEXT INCHEON</span><h3>더 나은 내일</h3><p>송도 타임스페이스에서 시작하는 연결.<br />지역의 맛과 멋을 발견하며<br />인천의 새로운 일상을 함께 그려갑니다.</p><a className="landing-detail-link" href="#news">서비스 소식 보기 <ArrowUpRight size={17} aria-hidden="true" /></a></article>
-      </section>
-      <section id="news" className="landing-news landing-content-section">
-        <div className="landing-section-heading"><div><p className="landing-section-label">WHAT&apos;S NEW</p><h2>새로운 연결의 소식</h2></div><span className="landing-demo-label">시범 서비스</span></div>
-        <button type="button" className="landing-news-item" onClick={() => newsDialog.current?.showModal()} aria-haspopup="dialog">
-          <span className="landing-news-type">안내</span><strong>송도 타임스페이스에서 맛&멋 AI Street를 만나보세요.</strong><ArrowUpRight className="landing-news-arrow" size={18} aria-hidden="true" />
-        </button>
-        <p className="landing-sample-note">현재 등록된 가게와 행사는 시연용 데이터입니다. 실제 영업 정보와 AI 자동 업데이트 기능은 아직 연동되지 않았습니다.</p>
-      </section>
-      <section id="contact" className="landing-contact landing-content-section">
-        <div><p className="landing-section-label">LET&apos;S CONNECT</p><h2>함께 잇는<br />우리 동네의 가능성.</h2><p>가게를 찾는 즐거움부터 우리 가게를 알리는 일까지.</p></div>
-        <a className="landing-contact-button" href="#services">서비스 선택하기 <ArrowUpRight size={18} aria-hidden="true" /></a>
+      <section id="faq" className="landing-faq landing-content-section" aria-labelledby="landing-faq-title">
+        <div><p className="landing-section-label">QUICK ANSWERS</p><h2 id="landing-faq-title">이용 전 궁금한 점</h2><p className="landing-faq-intro">처음 이용하신다면 확인해 보세요.</p></div>
+        <div className="landing-faq-list">
+          <details><summary>어느 지역의 가게를 볼 수 있나요?</summary><p>현재 송도 타임스페이스를 중심으로 가게와 층별 위치, 거리 사진을 탐색할 수 있습니다. 등록된 정보와 사진이 있는 구역부터 확인할 수 있습니다.</p></details>
+          <details><summary>로그인이 필요한가요?</summary><p>가게와 거리 탐색은 로그인 없이 이용할 수 있습니다. 가게 소식 게시는 담당 점포가 배정된 점주 계정이 필요하며, 상권 정보 관리는 관리자 로그인 후 이용할 수 있습니다.</p></details>
+          <details><summary>홍보 문구는 어떻게 만들어지나요?</summary><p>현재 홍보 문구는 입력한 내용과 예시를 바탕으로 만드는 시연 기능입니다. 생성된 문구의 메뉴, 가격, 행사 조건을 확인하고 수정한 뒤 사용해 주세요.</p></details>
+          <details><summary>점포 정보를 새로 등록하거나 수정하고 싶어요.</summary><p>점포 등록과 기본 정보 수정은 관리자가 진행합니다. 점주 서비스에서는 담당 가게의 홍보 문구를 만들고 소식을 게시할 수 있습니다.</p></details>
+        </div>
       </section>
     </main>
     <footer className="landing-footer">
@@ -112,16 +144,5 @@ export default function Landing() {
       <div><p>사람과 도시, 그리고 가능성을 잇습니다.</p><small>© ITDA · 맛&멋 AI Street</small><small>배너 사진: <a href="https://www.ito.or.kr/bbs/bbsMsgDetail.do?bcd=galleryko&msg_seq=264&pgno=17" target="_blank" rel="noreferrer">인천관광공사 · 인천관광 갤러리</a></small></div>
       <div className="landing-footer-links"><a href={appUrl("editor")}>관리자</a><a href="#top">맨 위로 ↑</a></div>
     </footer>
-    <dialog className="landing-dialog" ref={newsDialog} aria-labelledby="landing-dialog-title" aria-describedby="landing-dialog-text"
-      onClick={event => {
-        if (event.target !== event.currentTarget) return;
-        const rect = event.currentTarget.getBoundingClientRect();
-        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close();
-      }}>
-      <button type="button" className="landing-dialog-close" aria-label="닫기" onClick={() => newsDialog.current?.close()}>×</button>
-      <p className="landing-section-label">ITDA · CONNECTING INCHEON</p><h2 id="landing-dialog-title">새로운 연결의 시작</h2>
-      <p id="landing-dialog-text">맛&멋 AI Street는 송도 타임스페이스의 가게와 사람을 연결하는 시범 서비스입니다.<br /><br />소비자용 화면에서는 지도와 층별 위치, 거리 사진을 탐색할 수 있습니다. 점주용 화면에서는 홍보 문구와 프로모션을 시범 제작하고 검토할 수 있습니다.<br /><br />현재 가게·행사 정보와 문구 생성은 시연용이며, 실제 영업 정보와 AI 자동 업데이트는 아직 연동되지 않았습니다.</p>
-      <button type="button" className="landing-dialog-confirm" onClick={() => newsDialog.current?.close()}>확인</button>
-    </dialog>
   </div>;
 }
