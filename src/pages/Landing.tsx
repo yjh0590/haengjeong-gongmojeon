@@ -9,11 +9,11 @@ import GuideLibrary from "../components/GuideLibrary";
 const navigation = [
   { href: "#services", label: "서비스 둘러보기" },
   { href: "#guide", label: "이용 방법" },
-  { href: "#faq", label: "자주 묻는 질문" },
 ];
 
 export default function Landing() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const guideTrigger = useRef<HTMLButtonElement>(null);
   const header = useRef<HTMLElement>(null);
   const menuToggle = useRef<HTMLButtonElement>(null);
 
@@ -48,7 +48,7 @@ export default function Landing() {
           <SiteBrand role="landing" />
         </a>
         <nav className="landing-desktop-nav" aria-label="주 메뉴">
-          {navigation.map(item => <a key={item.href} href={item.href}>{item.label}</a>)}
+          {navigation.map(item => <a key={item.href} href={item.href} aria-haspopup={item.href === "#guide" ? "dialog" : undefined} onClick={event => { if (item.href === "#guide") { event.preventDefault(); guideTrigger.current?.click(); } }}>{item.label}</a>)}
         </nav>
         <button className="landing-menu-toggle" ref={menuToggle} type="button"
           aria-label={menuOpen ? "전체 메뉴 닫기" : "전체 메뉴 열기"}
@@ -56,7 +56,7 @@ export default function Landing() {
           onClick={() => setMenuOpen(open => !open)}><span /><span /><span /></button>
       </div>
       <nav id="landing-full-menu" className="landing-full-menu" aria-label="전체 메뉴" hidden={!menuOpen}>
-        {navigation.map((item, index) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+        {navigation.map((item, index) => <a key={item.href} href={item.href} aria-haspopup={item.href === "#guide" ? "dialog" : undefined} onClick={event => { setMenuOpen(false); if (item.href === "#guide") { event.preventDefault(); guideTrigger.current?.click(); } }}>
           {item.label}<span>0{index + 1}</span>
         </a>)}
       </nav>
@@ -91,7 +91,7 @@ export default function Landing() {
           <span className="landing-card-cta">관리자 로그인 <ArrowUpRight size={17} aria-hidden="true" /></span>
         </a>
       </section>
-      <GuideLibrary />
+      <GuideLibrary triggerRef={guideTrigger}>
       <section id="faq" className="landing-faq landing-content-section" aria-labelledby="landing-faq-title">
         <div><p className="landing-section-label">QUICK ANSWERS</p><h2 id="landing-faq-title">이용 전 궁금한 점</h2><p className="landing-faq-intro">처음 이용하신다면 확인해 보세요.</p></div>
         <div className="landing-faq-list">
@@ -101,6 +101,7 @@ export default function Landing() {
           <details><summary>점포 정보를 새로 등록하거나 수정하고 싶어요.</summary><p>점포 등록과 기본 정보 수정은 관리자가 진행합니다. 점주용 서비스에서는 담당 가게의 홍보 문구를 만들고 소식을 게시할 수 있습니다.</p></details>
         </div>
       </section>
+      </GuideLibrary>
     </main>
     <footer className="landing-footer">
       <a className="landing-footer-logo" href={appUrl("landing")}>ITDA</a>
