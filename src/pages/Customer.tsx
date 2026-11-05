@@ -149,6 +149,12 @@ export default function Customer() {
   const matchingStores = useMemo(() => effectiveStores.filter((store) =>
     matchStore(store, filter, query) && store.floor === floor && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
   [effectiveStores, filter, query, onlySaved, favorites, floor, building]);
+  // The map follows the selected floor, but the results list covers every floor so nothing looks missing.
+  const resultStores = useMemo(() => effectiveStores
+    .filter((store) => matchStore(store, filter, query) && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id)))
+    .sort((a, b) => a.floor - b.floor || a.id - b.id),
+  [effectiveStores, filter, query, onlySaved, favorites, building]);
+  const resultFloors = [...new Set(resultStores.map(store => store.floor))];
   // The printed point number is a stable 1-based index within the selected floor/building.
   // Store IDs remain the database identifiers and are never renumbered or rewritten.
   const floorStores = useMemo(() => effectiveStores
@@ -242,7 +248,7 @@ export default function Customer() {
     });
   };
   const pickRecommended = () => {
-    const candidate = [...matchingStores].sort((a, b) => b.aiScore - a.aiScore)[0];
+    const candidate = [...resultStores].sort((a, b) => b.aiScore - a.aiScore)[0];
     if (candidate) focusStore(candidate.id, true);
   };
   const searchFromBanner = (nextFilter: FilterType, nextQuery: string) => {
@@ -431,8 +437,8 @@ export default function Customer() {
           </section>
         </div>
 
-        {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "필터 결과"}</h3><p>{floor}층에서 {matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
-        {matchingStores.length ? <div className="store-grid">{matchingStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
+        {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "필터 결과"}</h3><p>{resultStores.length ? `${resultFloors.join("·")}층에서 ${resultStores.length}곳 · 카드를 선택하면 촬영 지점과 연결됩니다.` : "모든 층에서 찾아봤지만 맞는 가게가 없어요."}</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
+        {resultStores.length ? <div className="store-grid">{resultStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
           <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
           {store.event && <div className="store-event"><Zap size={14}/><span>{store.event}</span></div>}
