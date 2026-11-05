@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, type MouseEvent, type RefObject, type ReactNode } from "react";
+﻿import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Check, LayoutGrid, MapPinned, ShieldCheck, Store, X } from "lucide-react";
 import { appUrl } from "../config/site";
 import { guidebooks, type GuidebookId } from "../data/guidebooks";
@@ -7,7 +7,7 @@ import GuidePicture from "./GuidePicture";
 
 const coverIcons = { customer: MapPinned, owner: Store, admin: ShieldCheck, characters: BookOpen };
 
-export default function GuideLibrary({ triggerRef, children }: { triggerRef: RefObject<HTMLButtonElement | null>; children?: ReactNode }) {
+export default function GuideLibrary({ triggerRef }: { triggerRef: RefObject<HTMLButtonElement | null> }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const reader = useRef<HTMLDivElement>(null);
@@ -33,7 +33,7 @@ export default function GuideLibrary({ triggerRef, children }: { triggerRef: Ref
 
   return <>
     <button ref={triggerRef} id="guide" className="guide-floating-widget" type="button" onClick={event => open(event)} aria-haspopup="dialog" aria-controls="itda-guide-dialog" aria-label="홈페이지 사용 안내서 열기">
-      <span className="guide-widget-cover"><BookOpen size={15} aria-hidden="true"/><strong>홈페이지<br/>사용법</strong><img src="/brand/characters/guide-widget-v7.webp" alt="" width="110" height="100"/><small>사용 안내서 펼치기 →</small></span>
+      <span className="guide-widget-cover"><span className="guide-widget-ribbon" aria-hidden="true"/><span className="guide-widget-label">ITDA GUIDE</span><span className="guide-widget-emblem"><BookOpen size={32} strokeWidth={1.4} aria-hidden="true"/></span><strong>홈페이지<br/>사용 안내서</strong><small>펼쳐보기 <ArrowRight size={13} aria-hidden="true"/></small></span>
     </button>
 
     <dialog ref={dialog} id="itda-guide-dialog" className="guide-dialog" aria-labelledby="guide-dialog-title" aria-describedby="guide-dialog-description"
@@ -67,7 +67,7 @@ export default function GuideLibrary({ triggerRef, children }: { triggerRef: Ref
           </div>
           <footer className="guide-page-controls"><button type="button" disabled={pageIndex === 0} onClick={() => setPageIndex(index => index - 1)}><ArrowLeft size={17} aria-hidden="true"/>이전</button><span>{pageIndex + 1} / {book.pages.length}</span>{pageIndex < book.pages.length - 1 ? <button type="button" onClick={() => setPageIndex(index => index + 1)}>다음<ArrowRight size={17} aria-hidden="true"/></button> : book.action ? <a href={appUrl(book.action.surface)}>{book.action.label}<ArrowRight size={17} aria-hidden="true"/></a> : <button type="button" onClick={() => select(null)}>목차로<LayoutGrid size={16} aria-hidden="true"/></button>}</footer>
         </div>
-      </div> : <div className="guide-dialog-library"><div className="guide-dialog-welcome"><BookOpen size={42} aria-hidden="true"/><div><h3>어떤 화면을 사용하시나요?</h3><p>화면별 사용법을 그림으로 확인하세요.</p></div></div><div className="guide-dialog-book-grid">{guidebooks.map(item => <button key={item.id} type="button" className={`guide-dialog-book guide-cover-${item.id}`} onClick={() => select(item.id)}><span className="guide-book-symbol">{(() => { const Icon = coverIcons[item.id]; return <Icon size={46} strokeWidth={1.4} aria-hidden="true"/>; })()}</span><span className="guide-cover-top"><BookOpen size={16} aria-hidden="true"/>{item.label}</span><span className="guide-book-title">{item.subtitle}</span><span className="guide-book-description">{item.description}</span><span className="guide-book-open">책 펼치기<ArrowRight size={16} aria-hidden="true"/></span></button>)}</div>{children}</div>}
+      </div> : <div className="guide-dialog-library"><div className="guide-dialog-welcome"><BookOpen size={42} aria-hidden="true"/><div><h3>어떤 화면을 사용하시나요?</h3><p>화면별 사용법을 그림으로 확인하세요.</p></div></div><div className="guide-dialog-book-grid">{guidebooks.map(item => <button key={item.id} type="button" className={`guide-dialog-book guide-cover-${item.id}`} onClick={() => select(item.id)}><span className="guide-book-symbol">{(() => { const Icon = coverIcons[item.id]; return <Icon size={46} strokeWidth={1.4} aria-hidden="true"/>; })()}</span><span className="guide-cover-top"><BookOpen size={16} aria-hidden="true"/>{item.label}</span><span className="guide-book-title">{item.subtitle}</span><span className="guide-book-description">{item.description}</span><span className="guide-book-open">책 펼치기<ArrowRight size={16} aria-hidden="true"/></span></button>)}</div></div>}
     </dialog>
   </>;
 }
