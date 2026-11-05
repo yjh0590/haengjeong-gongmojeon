@@ -72,7 +72,7 @@ export default function StreetEditor() {
     const updated = [...annotations.filter((a) => !(a.nodeId === nodeId && a.view === view && a.storeId === storeId)), entry];
     localStorage.setItem(FACADE_KEY, JSON.stringify(updated));
     setAnnotations(updated);
-    setMessage("가게 영역을 이 브라우저 초안에 저장했어요. 소비자에게 반영하려면 점포 관리에서 전체 게시해 주세요.");
+    setMessage("가게 영역을 이 브라우저 초안에 저장했어요. 손님에게 반영하려면 점포 관리에서 전체 게시해 주세요.");
   };
   const remove = () => {
     const updated = annotations.filter((a) => !(a.nodeId === nodeId && a.view === view && a.storeId === storeId));
@@ -114,7 +114,7 @@ export default function StreetEditor() {
       if (!photo) throw new Error("먼저 이 방향에 사진을 임시 등록해 주세요.");
       const file = new File([photo.blob], photo.name || "photo.jpg", {type:photo.blob.type});
       await uploadStreetPhoto(file,nodeId,view,await getSession());
-      setMessage("서버 사진 업로드 완료. 아직 소비자에게 노출되지 않았어요. /catalog의 ‘관리자 승인 · 전체 게시’를 눌러야 반영됩니다. (파일 URL은 업로드 즉시 공개 가능)");
+      setMessage("서버 사진 업로드 완료. 아직 손님에게 노출되지 않았어요. /catalog의 ‘관리자 승인 · 전체 게시’를 눌러야 반영됩니다. (파일 URL은 업로드 즉시 공개 가능)");
     } catch(e) { setMessage(e instanceof Error?e.message:"서버 사진 업로드 실패"); }
     finally {setUploadBusy(false);}
   };
@@ -135,12 +135,12 @@ export default function StreetEditor() {
       if (!valid) { setMessage("파일 형식이 올바르지 않아요. 기존 데이터를 변경하지 않았습니다."); return; }
       localStorage.setItem(FACADE_KEY, JSON.stringify(valid));
       setAnnotations(valid);
-      setMessage(`${valid.length}개 가게 영역을 가져왔어요. 동일 브라우저의 소비자 페이지에 반영됩니다.`);
+      setMessage(`${valid.length}개 가게 영역을 가져왔어요. 동일 브라우저의 손님 페이지에 반영됩니다.`);
     } catch { setMessage("JSON 파일을 읽지 못했습니다."); }
   };
 
   return <main className="street-editor">
-    <header className="editor-header"><a href={sameOriginPreview()}><ArrowLeft size={18}/> 소비자용 거리 탐색</a><SiteBrand role="editor" /><a href={appUrl("editor","/map-editor")}>전체 지도 편집</a></header>
+    <header className="editor-header"><a href={sameOriginPreview()}><ArrowLeft size={18}/> 손님용 거리 탐색</a><SiteBrand role="editor" /><a href={appUrl("editor","/map-editor")}>전체 지도 편집</a></header>
     <section className="editor-intro"><span><Camera size={16}/> PHOTO ANNOTATION</span><h1>사진 속 가게 영역 지정하기</h1><p>사진 임시 등록 → 외곽선 지정 → Supabase 서버 업로드 → 점포 관리에서 전체 게시 순서로 진행하세요. 자동 인식 AI나 360도 파노라마는 아직 구현되지 않았습니다.</p></section>
     <div className="editor-layout"><section className="editor-main"><div className="editor-subheader"><h2>{node.name} · {names[view]} 사진</h2><span>{image ? "클릭해서 꼭짓점 추가" : "사진 미등록"}</span></div>
       <div className={`editor-canvas ${image?"has-photo":""}`} onClick={addPoint} role="presentation">
@@ -162,11 +162,11 @@ export default function StreetEditor() {
       <button className="editor-primary editor-data" disabled={!draftImage || uploadBusy} type="button" onClick={()=>void uploadRemote()}><Upload size={16}/>{uploadBusy?"서버 업로드 중…":"현재 사진 서버 업로드"}</button>
       <button className="editor-data" type="button" disabled={!remotePath || uploadBusy} onClick={disconnectRemote}><Trash2 size={16}/> 서버 사진 연결 해제 (초안)</button>
       {remotePath && <a className="editor-data" href={publicMediaUrl(remotePath)} target="_blank" rel="noopener noreferrer">업로드한 사진 확인</a>}
-      <p>서버 업로드만으로 소비자 화면이 바뀌지 않습니다. <a href="/catalog">점포 관리에서 ‘전체 게시’</a>를 완료해야 반영돼요.</p>
+      <p>서버 업로드만으로 손님용 화면이 바뀌지 않습니다. <a href="/catalog">점포 관리에서 ‘전체 게시’</a>를 완료해야 반영돼요.</p>
       <div className="editor-actions"><button className="editor-primary" onClick={save} disabled={points.length < 3 || !image || !node.stores.includes(storeId)}><Save size={16}/> 영역 저장</button><button onClick={remove} disabled={!existing}><Trash2 size={16}/> 저장 영역 삭제</button></div>
       <div className="editor-divider"/><h3>영역 데이터 관리</h3><p>현재 저장: <strong>{annotations.length}개</strong> · 같은 브라우저에만 반영됩니다.</p><button className="editor-data" onClick={exportJson}><Download size={16}/> JSON 내보내기</button>
       <label className="editor-upload"><Upload size={16}/> JSON 가져오기<input type="file" accept="application/json,.json" onChange={(event) => { void importJson(event.target.files?.[0]); event.target.value = ""; }}/></label>
-      <p className="editor-warning">사진을 서버에 업로드하면 누구나 해당 파일 URL에 접근할 수 있습니다. 소비자 페이지에는 전체 게시 이후부터 표시됩니다. 외곽선은 별도로 저장하고 전체 게시해야 반영됩니다.</p>
+      <p className="editor-warning">사진을 서버에 업로드하면 누구나 해당 파일 URL에 접근할 수 있습니다. 손님 페이지에는 전체 게시 이후부터 표시됩니다. 외곽선은 별도로 저장하고 전체 게시해야 반영됩니다.</p>
     </aside></div>
   </main>;
 }

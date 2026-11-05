@@ -96,7 +96,7 @@ export default function CatalogEditor() {
         return;
       }
       const nPhotos = Object.keys(snapshot.media?.photos || {}).length;
-      if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 서버 사진 ${nPhotos}장${snapshot.media?.map?", 지도 배경 1장":""}을 소비자에게 게시할까요?\n\n브라우저에만 저장한 임시 사진은 게시되지 않습니다.`)) return;
+      if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 서버 사진 ${nPhotos}장${snapshot.media?.map?", 지도 배경 1장":""}을 손님에게 게시할까요?\n\n브라우저에만 저장한 임시 사진은 게시되지 않습니다.`)) return;
       const date = await publishSite(snapshot, await getSession());
       setRemote({data:snapshot,publishedAt:date});
       setNotice(`전체 게시 완료 (${new Date(date).toLocaleString("ko-KR")}). 서버 사진 ${Object.keys(snapshot.media?.photos||{}).length}장 연결됨. customer.itda.ink에서 새로고침해 확인하세요.`);

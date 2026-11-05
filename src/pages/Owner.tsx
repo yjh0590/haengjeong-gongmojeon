@@ -338,7 +338,7 @@ function Owner() {
               가게에 맞는 홍보
               방법과 콘텐츠 제안을 미리 경험할 수 있습니다.
             </p>
-            <p className="owner-demo-note">홍보 문구 생성은 예시 기반 시연입니다. 담당 점포 계정으로 로그인한 뒤 일일 게시 한도 안에서 직접 소비자 사이트에 게시할 수 있습니다.</p>
+            <p className="owner-demo-note">홍보 문구 생성은 예시 기반 시연입니다. 담당 점포 계정으로 로그인한 뒤 일일 게시 한도 안에서 직접 손님 사이트에 게시할 수 있습니다.</p>
           </div>
 
           <div className="owner-flow-card">
@@ -865,12 +865,12 @@ function Owner() {
 
                 <div>
                   <span>
-                    상인 최종 확인
+                    점주 최종 확인
                   </span>
 
                   <strong>
                     직접 게시 버튼을 눌러야
-                    소비자에게 공개됩니다.
+                    손님에게 공개됩니다.
                   </strong>
 
                   <p>
@@ -915,7 +915,7 @@ function Owner() {
               )}
             </div>
             {approved && <div className="itda-owner-submit">
-              <div><h3><ClipboardCheck size={19}/> 소비자 페이지에 직접 게시</h3><p>관리자 승인 없이 게시합니다. 같은 점포의 점주 계정은 일일 한도를 공유하며, 게시 문구를 바꾸는 작업도 1회로 계산합니다.</p></div>
+              <div><h3><ClipboardCheck size={19}/> 손님 페이지에 직접 게시</h3><p>관리자 승인 없이 게시합니다. 같은 점포의 점주 계정은 일일 한도를 공유하며, 게시 문구를 바꾸는 작업도 1회로 계산합니다.</p></div>
               <div className="owner-publication-quota" role="status">{!ownerSession ? "점주 로그인 후 게시 횟수를 확인할 수 있습니다." : quotaError || (quotaLoading ? "오늘 게시 가능 횟수를 확인 중입니다…" : quota ? !quota.enabled ? "점주 직접 게시가 일시 중지되었습니다." : `오늘 ${quota.used}/${quota.daily_limit}회 사용 · ${quota.remaining}회 남음 · 한국시간 자정 초기화` : "담당 점포의 게시 권한을 확인해 주세요.")}</div>
               <label><CalendarDays size={16}/> 홍보 종료일 <input type="date" value={endOn} onChange={event=>setEndOn(event.target.value)} min={koreanDate()} max={koreanDate(new Date(Date.now()+90*86400000))} required/></label>
               <button type="button" disabled={!ownerSession || !ownerStoreIds.includes(selectedStoreId) || ownerBusy || publication.status!=="published" || quotaLoading || !quota || !quota.enabled || quota.remaining<=0 || quota.quota_date!==koreanDate() || endOn<koreanDate() || endOn>koreanDate(new Date(Date.now()+90*86400000))} onClick={()=>void publishPromotion()}>

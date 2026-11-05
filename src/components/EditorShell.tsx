@@ -32,7 +32,7 @@ export default function EditorShell({ children, title, active = "dashboard" }: {
   return <div className={`editor-shell ${expanded ? "is-expanded" : "is-collapsed"}`}>
     <header className="editor-shell-header">
       <a className="editor-brand-link" href={appUrl("editor")} aria-label="맛&멋 AI Street 관리자 홈"><SiteBrand role="editor" /></a>
-      <nav aria-label="관리자 상단 메뉴"><a href={appUrl("editor")}>대시보드</a><a href={appUrl("editor","/catalog")}>매장 관리</a><a href={appUrl("editor","/promotions")}>홍보 게시</a><a href={sameOriginPreview()}>소비자 미리보기</a><a href={appUrl("landing")}>메인</a></nav>
+      <nav aria-label="관리자 상단 메뉴"><a href={appUrl("editor")}>대시보드</a><a href={appUrl("editor","/catalog")}>매장 관리</a><a href={appUrl("editor","/promotions")}>홍보 게시</a><a href={sameOriginPreview()}>손님 미리보기</a><a href={appUrl("landing")}>메인</a></nav>
       <button ref={toggle} className="editor-shell-toggle" type="button" aria-label={expanded ? "관리 메뉴 접기" : "관리 메뉴 열기"} aria-controls="editor-sidebar" aria-expanded={expanded} onClick={() => setExpanded(value => !value)}><span /><span /><span /></button>
     </header>
     <div className="editor-shell-grid">

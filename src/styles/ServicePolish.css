@@ -314,3 +314,12 @@
   .app-shell .customer-banner .scene-banner-media img{object-position:right center}
   .owner-redesign .owner-portal-hero-copy p{max-width:none;width:92%;word-break:keep-all}
 }
+
+/* Dedicated full-width cafe interior for both assigned and signed-out store views. */
+.owner-redesign .owner-store-access.owner-store-banner,.owner-redesign .owner-store-profile.owner-store-banner{position:relative;isolation:isolate;overflow:hidden;min-height:360px;padding:34px;border-radius:22px;text-align:left;background:#8d4b29;border:1px solid #be8b60}
+.owner-redesign .owner-store-access.owner-store-banner>div{max-width:56%;margin:0;position:relative;z-index:1}
+.owner-redesign .owner-store-access.owner-store-banner h2{font-size:28px;line-height:1.5;color:#fff7eb;letter-spacing:-.8px;margin:0 0 18px}
+.owner-redesign .owner-store-access.owner-store-banner p{color:#ffeedc;line-height:1.9;margin:0 0 24px;max-width:520px}
+.owner-redesign .owner-store-banner .owner-primary-action{background:#fff4e4;color:#7e4528}
+@media(max-width:600px){.owner-redesign .owner-store-access.owner-store-banner,.owner-redesign .owner-store-profile.owner-store-banner{min-height:620px;padding:26px 22px;display:flex;flex-direction:column;align-items:stretch;justify-content:start}.owner-redesign .owner-store-access.owner-store-banner>div{max-width:100%}.owner-redesign .owner-store-access.owner-store-banner h2{font-size:25px}.owner-redesign .owner-store-banner .scene-banner-media img{object-position:center center}}
+.owner-redesign .owner-store-access.owner-store-banner h2{word-break:keep-all}

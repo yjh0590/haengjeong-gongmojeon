@@ -45,7 +45,7 @@ export default function PromotionReview() {
   const withdraw = async(item:PromotionRequest) => {
     if(!window.confirm(`'${item.title}' 게시를 중단할까요? 현재 공개 중인 이 게시만 숨겨지며, 이미 사용한 게시 횟수는 되돌아가지 않습니다.`))return;
     setBusy(true);
-    try{const current=await getSession();await withdrawPromotion(current.token,item.id);const [recent,live]=await Promise.all([fetchPromotionRequests(current.token),fetchActivePromotions(current.token)]);setRequests(recent);setActiveRequests(live);setNotice("게시를 중단했습니다. 소비자 페이지에 반영됩니다.");window.dispatchEvent(new Event("itda-publication-changed"));}
+    try{const current=await getSession();await withdrawPromotion(current.token,item.id);const [recent,live]=await Promise.all([fetchPromotionRequests(current.token),fetchActivePromotions(current.token)]);setRequests(recent);setActiveRequests(live);setNotice("게시를 중단했습니다. 손님 페이지에 반영됩니다.");window.dispatchEvent(new Event("itda-publication-changed"));}
     catch(error){setNotice(error instanceof Error?error.message:"게시를 중단하지 못했습니다.");}
     finally{setBusy(false);}
   };

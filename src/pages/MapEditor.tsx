@@ -74,10 +74,10 @@ export default function MapEditor() {
     });
     if (mode==="node") setGeometry(g=>({...g,nodes:{...g.nodes,[selectedNode]:p}}));
     if (mode==="store") setGeometry(g=>({...g,stores:{...g.stores,[selectedStore]:p}}));
-    setMessage("좌표를 조정했어요. 실제 소비자 페이지에 적용하려면 '변경사항 저장'을 눌러주세요.");
+    setMessage("좌표를 조정했어요. 실제 손님 페이지에 적용하려면 '변경사항 저장'을 눌러주세요.");
   };
   const saveAll=()=>{
-    try {saveMapGeometry(geometry); saveStreetNodes(nodes); setMessage("이 브라우저에 지도·촬영 지점을 저장했어요. 소비자 페이지에서 확인할 수 있습니다.");}
+    try {saveMapGeometry(geometry); saveStreetNodes(nodes); setMessage("이 브라우저에 지도·촬영 지점을 저장했어요. 손님 페이지에서 확인할 수 있습니다.");}
     catch(error){setMessage(error instanceof Error?error.message:"저장 중 문제가 발생했어요.");}
   };
   const addNode=()=>{
@@ -144,7 +144,7 @@ export default function MapEditor() {
       const file = (await listDraftPhotos()).find(p=>p.key===MAP_BG_KEY);
       if(!file) throw new Error("먼저 지도 배경 이미지를 임시 등록해 주세요.");
       await uploadMapImage(new File([file.blob],file.name,{type:file.blob.type}),await getSession());
-      setMessage("지도 배경 서버 업로드 완료. 소비자용 적용은 /catalog의 전체 게시 후 이루어집니다.");
+      setMessage("지도 배경 서버 업로드 완료. 손님용 적용은 /catalog의 전체 게시 후 이루어집니다.");
     }catch(e){setMessage(e instanceof Error?e.message:"지도 업로드 실패");}
     finally{setUploadBusy(false);}
   };
@@ -164,7 +164,7 @@ export default function MapEditor() {
     }catch(e){setMessage(e instanceof Error?e.message:"JSON 파일을 가져오지 못했어요.");}
   };
   return <main className="map-editor-page">
-    <header className="map-editor-top"><a href={sameOriginPreview()}><ArrowLeft size={16}/> 소비자 화면으로</a><SiteBrand role="editor" /><a href={appUrl("editor","/street-editor")}><Camera size={16}/> 거리 사진 편집</a></header>
+    <header className="map-editor-top"><a href={sameOriginPreview()}><ArrowLeft size={16}/> 손님용 화면으로</a><SiteBrand role="editor" /><a href={appUrl("editor","/street-editor")}><Camera size={16}/> 거리 사진 편집</a></header>
     <section className="map-editor-head"><span>AREA MAPPING · 현장 준비</span><h1>송도 타임스페이스 전체 지도</h1><p>선으로 둘러싼 상권 전체를 관리 범위로 설정하고, 건물·통로를 따라 촬영 지점과 가게 위치를 지정하는 도구입니다. 현재 기본 좌표는 시범용이며 실제 지형·거리·방향을 나타내지 않습니다.</p></section>
     <div className="map-editor-layout">
       <section className="map-editor-map-panel">
@@ -194,7 +194,7 @@ export default function MapEditor() {
         <p className="map-editor-warning"><Info size={14}/> 배경이 없는 경우 타임스페이스 시범 개념도를 보여줍니다. 건물·출입구·통로의 실측 배치가 아닙니다. 사진이나 외부 지도 이미지를 등록했다면 해당 이미지 좌표 기준으로 정확히 다시 배치하세요. 제3자 지도 캡처의 공개 재배포는 사용 권한 확인이 필요합니다.</p>
         <div className="map-editor-media-publish">
           <strong>지도 배경 서버 등록</strong>
-          <p>현재 상태: {mediaDraft.map?"서버 등록 완료 · 게시 대기":"서버 미등록"}. 사진 파일은 업로드 직후 공개 URL로 접근 가능하지만 소비자 화면에는 전체 게시 이후 반영돼요.</p>
+          <p>현재 상태: {mediaDraft.map?"서버 등록 완료 · 게시 대기":"서버 미등록"}. 사진 파일은 업로드 직후 공개 URL로 접근 가능하지만 손님용 화면에는 전체 게시 이후 반영돼요.</p>
           <label><input type="checkbox" checked={licenseConfirmed} onChange={e=>setLicenseConfirmed(e.target.checked)}/> 이 이미지의 웹사이트 공개·재배포 권한을 확인했습니다.</label>
           <div className="map-editor-map-actions"><button type="button" disabled={!urls[MAP_BG_KEY] || !licenseConfirmed || uploadBusy} onClick={()=>void uploadRemoteMap()}><Upload size={15}/>{uploadBusy?"업로드 중…":"현재 지도 서버 업로드"}</button><button type="button" disabled={!mediaDraft.map || uploadBusy} onClick={()=>{setMapMediaPath(null);setMessage("서버 지도 연결을 초안에서 해제했습니다. 기존 게시본은 새로 게시하기 전까지 유지됩니다.");}}>게시용 지도 연결 해제</button></div>
           {mediaDraft.map && <a href={publicMediaUrl(mediaDraft.map)} target="_blank" rel="noopener noreferrer">업로드한 지도 열기</a>}
@@ -224,7 +224,7 @@ export default function MapEditor() {
         <h3>데이터 백업</h3><p className="map-editor-help">좌표·경계·연결 정보를 JSON으로 내려받아 보관하세요. 이미지는 JSON에 포함되지 않습니다.</p>
         <button className="map-editor-data" onClick={()=>downloadJSON("matmeot-map-setup.json",{version:2,geometry,nodes})}><Download size={16}/> 지도 설정 JSON 내보내기</button>
         <label className="map-editor-file full"><FileJson size={16}/> 설정 JSON 가져오기<input type="file" accept="application/json,.json" onChange={e=>{void importSetup(e.target.files?.[0]);e.target.value="";}}/></label>
-        <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도·사진은 Supabase Storage 업로드 후 점포 관리의 전체 게시를 해야 소비자 화면에 반영됩니다. 서버 초안 연결은 이 브라우저에 보관되므로 백업을 권장합니다.</p>
+        <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도·사진은 Supabase Storage 업로드 후 점포 관리의 전체 게시를 해야 손님용 화면에 반영됩니다. 서버 초안 연결은 이 브라우저에 보관되므로 백업을 권장합니다.</p>
       </aside>
     </div>
   </main>;

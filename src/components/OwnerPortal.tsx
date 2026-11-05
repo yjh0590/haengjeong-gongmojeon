@@ -4,7 +4,6 @@ import { appUrl } from "../config/site";
 import type { StoreData } from "../types/street";
 import "../styles/OwnerPortal.css";
 import SiteBrand from "./SiteBrand";
-import CharacterAccent from "./CharacterAccent";
 import { storeMenuItems } from "../data/storeMenuItems";
 import SceneBanner from "./SceneBanner";
 
@@ -88,7 +87,7 @@ export function OwnerPortalStores({ stores, selectedId, published, signedIn, onS
     <p className="owner-portal-description">관리자가 내 계정에 연결한 매장의 기본 정보와 메뉴·가격을 확인하세요.</p>
     {store ? <>
       {stores.length > 1 && <label className="owner-assigned-select">담당 매장 선택<select value={store.id} onChange={event => onSelect(Number(event.target.value))}>{stores.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>}
-      <article className="owner-store-profile scene-context-banner scene-context-merchant"><SceneBanner scene="merchant" />
+      <article className="owner-store-profile scene-context-banner scene-context-merchant owner-store-banner"><SceneBanner scene="store" />
         <div><span className="owner-profile-badge"><BadgeCheck size={16} aria-hidden="true"/>관리자 할당 매장</span><h2>{store.name}</h2><p>{store.description}</p><div className="owner-store-tags">{store.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
 
       </article>
@@ -97,7 +96,7 @@ export function OwnerPortalStores({ stores, selectedId, published, signedIn, onS
         <section className="owner-store-location"><div className="owner-info-heading"><MapPin size={20} aria-hidden="true"/><h2>매장 기본 정보</h2></div><dl><div><dt>업종</dt><dd>{store.category}</dd></div><div><dt>건물·층</dt><dd>{store.building} · {store.floor}층</dd></div><div><dt>호수</dt><dd>{store.unit || "등록 전"}</dd></div><div><dt>대표 메뉴</dt><dd>{store.menu}</dd></div></dl></section>
       </div>
       <button className="owner-primary-action" type="button" onClick={() => onPromote(store.id)}>우리 가게 홍보하기 <ArrowRight size={17} aria-hidden="true"/></button>
-    </> : <div className="owner-store-access"><CharacterAccent /><h2>{!signedIn ? "로그인하면 우리 가게가 보여요" : !published ? "게시된 매장 정보를 확인할 수 없어요" : "아직 연결된 매장이 없어요"}</h2><p>{!signedIn ? "관리자가 초대한 점주 계정으로 로그인해 주세요. 담당 매장만 표시됩니다." : !published ? "서버 연결 상태를 확인하고 잠시 후 다시 시도해 주세요." : "관리자에게 계정과 매장 연결을 요청해 주세요."}</p><button className="owner-primary-action" type="button" onClick={() => onNavigate("account")}><LogIn size={17} aria-hidden="true"/>점주 계정 확인하기</button></div>}
+    </> : <div className="owner-store-access scene-context-banner scene-context-merchant owner-store-banner"><SceneBanner scene="store" /><div><h2>{!signedIn ? "로그인하면 우리 가게가 보여요" : !published ? "게시된 매장 정보를 확인할 수 없어요" : "아직 연결된 매장이 없어요"}</h2><p>{!signedIn ? "관리자가 초대한 점주 계정으로 로그인해 주세요. 담당 매장만 표시됩니다." : !published ? "서버 연결 상태를 확인하고 잠시 후 다시 시도해 주세요." : "관리자에게 계정과 매장 연결을 요청해 주세요."}</p><button className="owner-primary-action" type="button" onClick={() => onNavigate("account")}><LogIn size={17} aria-hidden="true"/>점주 계정 확인하기</button></div></div>}
   </section>;
 }
 
@@ -119,5 +118,5 @@ export function OwnerPortalGuide({ onNavigate }: Pick<NavigationProps, "onNaviga
 }
 
 export function OwnerPortalFooter() {
-  return <footer className="owner-portal-footer"><a href={appUrl("landing")}><b>ITDA</b> 우리 가게의 다음을 함께</a><small>맛&멋 AI Street · 점주 파트너</small><a href={appUrl("customer")}>소비자 거리 탐색 <ArrowRight size={14} aria-hidden="true" /></a></footer>;
+  return <footer className="owner-portal-footer"><a href={appUrl("landing")}><b>ITDA</b> 우리 가게의 다음을 함께</a><small>맛&멋 AI Street · 점주 파트너</small><a href={appUrl("customer")}>손님 거리 탐색 <ArrowRight size={14} aria-hidden="true" /></a></footer>;
 }
