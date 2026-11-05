@@ -190,3 +190,36 @@
 .catalog-fields label,.map-editor-side label,.editor-sidebar label{font-size:var(--type-small);line-height:1.7}
 .catalog-fields input,.catalog-fields textarea,.catalog-fields select{font-size:var(--type-body);line-height:1.7;min-height:44px}
 @media(max-width:700px){.catalog-header,.map-editor-top,.editor-header{flex-wrap:wrap;gap:14px}.catalog-header>.site-brand,.map-editor-top>.site-brand,.editor-header>.site-brand{width:100%;order:-1;justify-content:center;padding:8px 0}.catalog-header .site-brand-name{display:block}.owner-redesign .owner-portal-header-inner{gap:16px}}
+
+/* v2: richer character scenes blend into the service background. */
+.site-brand-mark{background:#eef2ff;border:1px solid #dce3f4;overflow:hidden;box-shadow:0 2px 8px #254ca710}
+.site-brand-mark img{display:block;width:100%;height:100%;object-fit:cover}
+.site-brand-owner .site-brand-mark{border-color:#e3d2bf;box-shadow:0 2px 8px #a64b2a10}
+.site-brand-editor .site-brand-mark{border-color:#d4e3d7}
+.character-accent.character-scene{display:block;width:300px;height:auto;max-height:none;aspect-ratio:3/2;object-fit:contain;mix-blend-mode:multiply;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);pointer-events:none;flex-shrink:0}
+.app-shell .customer-photo-heading{background:linear-gradient(110deg,#f7faff,#edf3ff);border:1px solid #e0e9f8;border-radius:24px;margin:24px 0;padding:28px 32px;gap:24px;overflow:hidden}
+.app-shell .customer-photo-heading>div{flex:1;min-width:0}
+.app-shell .customer-photo-heading .character-scene{width:360px;max-width:42%;max-height:none}
+.owner-redesign .owner-store-profile .character-scene{width:330px;max-width:38%;max-height:none}
+.owner-redesign .owner-account-heading,.owner-redesign .owner-guide-intro{background:linear-gradient(110deg,#fffdfb,#fcf2e8);border:1px solid #f0e2d5;border-radius:24px;padding:24px 30px;overflow:hidden}
+.owner-redesign .owner-account-heading>div,.owner-redesign .owner-guide-intro>div{min-width:0;flex:1}
+.owner-redesign .owner-account-heading .character-scene,.owner-redesign .owner-guide-intro .character-scene{width:310px;max-width:40%;max-height:none}
+.owner-redesign .owner-account-heading .owner-portal-description,.owner-redesign .owner-guide-intro .owner-portal-description{margin-bottom:0}
+.owner-redesign .owner-store-access .character-scene{width:320px;max-width:100%;margin:0 auto 18px;max-height:none}
+.itda-landing .landing-guide-character.character-scene{display:block;width:260px;max-width:28%;margin:0 auto;align-self:center}
+@media(max-width:900px){
+  .app-shell .customer-photo-heading .character-scene{width:280px;max-width:40%}
+  .owner-redesign .owner-store-profile .character-scene{width:260px}
+  .owner-redesign .owner-account-heading .character-scene,.owner-redesign .owner-guide-intro .character-scene{width:260px}
+}
+@media(max-width:600px){
+  .app-shell .customer-photo-heading{flex-direction:column;align-items:stretch;padding:26px 22px 10px;gap:0;margin:18px 0;border-radius:20px}
+  .app-shell .customer-photo-heading .character-scene{width:290px;max-width:100%;align-self:center;margin-top:8px}
+  .owner-redesign .owner-store-profile{flex-direction:column;align-items:stretch;gap:16px;padding:24px 20px 12px}
+  .owner-redesign .owner-store-profile .character-scene{width:280px;max-width:100%;align-self:center}
+  .owner-redesign .owner-account-heading,.owner-redesign .owner-guide-intro{flex-direction:column;align-items:stretch;padding:24px 20px 10px;gap:10px;border-radius:20px}
+  .owner-redesign .owner-account-heading .character-scene,.owner-redesign .owner-guide-intro .character-scene{width:280px;max-width:100%;align-self:center}
+  .owner-redesign .owner-store-access .character-scene{width:280px}
+  .itda-landing .landing-guide-heading{flex-wrap:wrap;gap:16px}
+  .itda-landing .landing-guide-character.character-scene{width:220px;max-width:100%;align-self:center}
+}

@@ -1,11 +1,12 @@
-const characters = {
-  together: { src: "/brand/characters/together.png", width: 369, height: 277 },
-  porumi: { src: "/brand/characters/porumi.png", width: 198, height: 276 },
+const scenes = {
+  customer: "/brand/characters/customer-scene-v2.webp",
+  merchant: "/brand/characters/merchant-scene-v2.webp",
 };
 
-/** A small decorative accent; all instructions remain available as ordinary text. */
-export default function CharacterAccent({ character = "together", className = "" }: {
-  character?: keyof typeof characters; className?: string;
+/** Decorative composited artwork; functional copy stays accessible as ordinary text. */
+export default function CharacterAccent({ scene = "merchant", className = "" }: {
+  scene?: keyof typeof scenes; className?: string;
 }) {
-  return <img className={`character-accent ${className}`} {...characters[character]} alt="" loading="lazy" aria-hidden="true" />;
+  return <img className={`character-accent character-scene character-scene-${scene} ${className}`}
+    src={scenes[scene]} width="960" height="640" alt="" loading="lazy" decoding="async" aria-hidden="true" />;
 }

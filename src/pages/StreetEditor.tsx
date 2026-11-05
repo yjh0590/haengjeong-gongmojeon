@@ -45,7 +45,7 @@ export default function StreetEditor() {
   const availableStores = useMemo(() => stores.filter((s) => node.stores.includes(s.id)), [node]);
   const existing = annotations.find((a) => a.nodeId === nodeId && a.view === view && a.storeId === storeId);
 
-  useEffect(() => { document.title = "맛&멋 AI Street | 관리자 · 거리 사진"; }, []);
+  useEffect(() => { document.title = "맛&멋 AI Street | 관리자"; }, []);
   useEffect(() => {
     const found = annotations.find((a) => a.nodeId === nodeId && a.view === view && a.storeId === storeId);
     setPoints(found ? found.points : []);

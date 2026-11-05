@@ -50,7 +50,7 @@ export default function AdminGate({children}: {children: ReactNode}) {
   const route = window.location.pathname;
 
   useEffect(() => {
-    document.title = "맛&멋 AI Street | 관리자 · 로그인";
+    document.title = "맛&멋 AI Street | 관리자";
     if (!publicationConfigured) return;
     let active = true;
     const saved = readSavedSession();

@@ -32,7 +32,7 @@ export default function EditorDashboard() {
     void listDraftPhotos().then(photos => setPhotoCount(photos.length)).catch(() => setPhotoCount(0));
   };
   useEffect(() => {
-    document.title = "맛&멋 AI Street | 관리자 · 대시보드";
+    document.title = "맛&멋 AI Street | 관리자";
     refresh();
     let active = true;
     void getSession().then(current => fetchPromotionPolicy(current.token)).then(next => { if(active) setPolicy(next); }).catch(error => { if(active) setPolicyNotice(error instanceof Error ? error.message : "게시 정책을 불러오지 못했습니다."); });

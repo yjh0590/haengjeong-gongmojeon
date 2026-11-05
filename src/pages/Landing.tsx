@@ -40,7 +40,7 @@ export default function Landing() {
   const menuToggle = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    document.title = "맛&멋 AI Street | 인천의 맛과 멋을 잇다";
+    document.title = "맛&멋 AI Street | 메인";
   }, []);
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export default function Landing() {
       <section id="guide" className="landing-guide landing-content-section" aria-labelledby="landing-guide-title">
         <div className="landing-guide-heading">
           <div><p className="landing-section-label">HOW TO USE</p><h2 id="landing-guide-title">이렇게 시작해 보세요.</h2></div>
-          <CharacterAccent className="landing-guide-character" />
+          <CharacterAccent scene="customer" className="landing-guide-character" />
           <div className="landing-audience-switch" role="group" aria-label="이용자별 사용 방법">
             {(["customer", "owner"] as const).map(role => <button key={role} type="button" aria-pressed={audience === role}
               aria-controls="landing-guide-content" onClick={() => setAudience(role)}>{guides[role].label}</button>)}

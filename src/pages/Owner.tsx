@@ -151,9 +151,8 @@ function Owner() {
     finally {publicationInFlight.current=false;setOwnerBusy(false);}
   };
   useEffect(() => {
-    const titles = { home: "대시보드", stores: "매장 정보", marketing: "홍보하기", account: "게시 내역", guide: "이용 안내" };
-    document.title = pageTitle("owner", `점주 · ${titles[tab]}`);
-  }, [tab]);
+    document.title = pageTitle("owner");
+  }, []);
 
   const [goal, setGoal] = useState(
     "오늘 저녁 인천대 학생 손님을 늘리고 싶어요."
@@ -294,7 +293,7 @@ function Owner() {
         {tab === "stores" && <div className="owner-portal-workspace"><OwnerPortalStores stores={assignedStores} selectedId={selectedStoreId} published={publication.status === "published"} signedIn={Boolean(ownerSession)} onSelect={setSelectedStoreId} onNavigate={navigate} onPromote={id => { setSelectedStoreId(id); setPromotions([]); setSelectedPromotionId(null); setApproved(false); navigate("marketing"); }} /></div>}
         {tab === "guide" && <div className="owner-portal-workspace"><OwnerPortalGuide onNavigate={navigate} /></div>}
         <div className="owner-portal-workspace" hidden={tab !== "account"}>
-        <div className="owner-account-heading"><div><p className="owner-portal-eyebrow">MY ACTIVITY</p><h1>게시 내역</h1><p className="owner-portal-description">우리 가게가 전한 소식과 점주 계정을 확인하세요.</p></div><CharacterAccent character="porumi" /></div>
+        <div className="owner-account-heading"><div><p className="owner-portal-eyebrow">MY ACTIVITY</p><h1>게시 내역</h1><p className="owner-portal-description">우리 가게가 전한 소식과 점주 계정을 확인하세요.</p></div><CharacterAccent scene="merchant" /></div>
         <section className="itda-owner-connect" aria-label="서버 연동 및 점주 인증">
           <div className="itda-owner-connect-head">
             <div><span>ITDA CONNECTED STORES</span><h2>담당 점포 · 직접 게시</h2>

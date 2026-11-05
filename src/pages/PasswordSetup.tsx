@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { ArrowLeft, KeyRound, MailCheck, ShieldCheck } from "lucide-react";
-import { appUrl } from "../config/site";
+import { appUrl, currentSurface } from "../config/site";
+import { pageTitle } from "../config/brand";
 import { publicationConfigured } from "../data/sitePublication";
 import "../styles/PasswordSetup.css";
 
@@ -35,7 +36,7 @@ export default function PasswordSetup() {
     callback.hasCode ? "이 이메일은 다른 인증 방식을 사용합니다. 아래에서 재설정 메일을 새로 요청해 주세요." : "");
 
   useEffect(() => {
-    document.title = "맛&멋 AI Street | 계정 · 비밀번호 설정";
+    document.title = pageTitle(currentSurface() === "owner" ? "owner" : "editor");
     // Remove tokens from address bar and browser history as soon as the app takes over.
     if (window.location.hash || window.location.search) window.history.replaceState(null, "", window.location.pathname);
   }, []);

@@ -99,7 +99,7 @@ export default function Customer() {
   const explorerRef = useRef<HTMLElement>(null);
   const mapRef = useRef<HTMLElement>(null);
 
-  useEffect(() => { document.title = pageTitle("customer", `손님 · ${tab === "street" ? "거리 사진" : "거리 탐색"}`); }, [tab]);
+  useEffect(() => { document.title = pageTitle("customer"); }, []);
   useEffect(() => {
     if (!detailsOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setDetailsOpen(false); };
@@ -261,7 +261,7 @@ export default function Customer() {
         onSearch={searchFromBanner} onSelectStore={openBannerStore}
       />}
 
-      {tab === "street" && <div className="customer-photo-heading"><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 만나는 우리 동네</h1><p>촬영 지점과 방향을 바꾸며 가게 주변을 살펴보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div><CharacterAccent character="porumi" /></div>}
+      {tab === "street" && <div className="customer-photo-heading"><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 만나는 우리 동네</h1><p>촬영 지점과 방향을 바꾸며 가게 주변을 살펴보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div><CharacterAccent scene="customer" /></div>}
 
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         <div className="site-data-status" role="status">{publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>

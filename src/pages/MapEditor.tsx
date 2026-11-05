@@ -62,7 +62,7 @@ export default function MapEditor() {
   const photosMissing = nodes.filter(node => !vw.some(direction => Boolean(node.views[direction] || urls[`${node.id}:${direction}`] || mediaDraft.photos[`${node.id}:${direction}`])));
   const missingCoordinates = nodes.filter(node => !geometry.nodes[node.id]);
 
-  useEffect(()=>{document.title="맛&멋 AI Street | 관리자 · 지도 관리";},[]);
+  useEffect(()=>{document.title = "맛&멋 AI Street | 관리자";},[]);
   const mapClick = (event: MouseEvent<SVGSVGElement>)=>{
     const p=asXY(event);
     if (mode==="boundary") setGeometry(g=>({...g,boundary:[...g.boundary,p]}));

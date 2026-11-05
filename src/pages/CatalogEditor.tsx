@@ -43,7 +43,7 @@ export default function CatalogEditor() {
   const { session, getSession } = useAdminAuth();
   const mediaDraft = useMediaDraft();
   const upload = useRef<HTMLInputElement>(null);
-  useEffect(() => { document.title = "맛&멋 AI Street | 관리자 · 매장 관리"; }, []);
+  useEffect(() => { document.title = "맛&멋 AI Street | 관리자"; }, []);
   useEffect(() => {
     if (!publicationConfigured) return;
     let active = true;
