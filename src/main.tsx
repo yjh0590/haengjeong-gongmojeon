@@ -15,6 +15,7 @@ import AdminGate from "./auth/AdminGate.tsx";
 import PromotionReview from "./pages/PromotionReview.tsx";
 import "./styles/IncheonBrand.css";
 import "./styles/ServicePolish.css";
+import "./styles/PageFrame.css";
 
 /** Each subdomain uses the same build but opens its own role. Legacy Vercel paths still work. */
 function protect(page: ReactNode) { return <AdminGate>{page}</AdminGate>; }

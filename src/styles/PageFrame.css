@@ -1,0 +1,126 @@
+/*
+ * Shared page frame for the main, customer, owner and admin surfaces.
+ * Every page lines up on one width and reserves the scrollbar's space, so nothing
+ * shifts sideways when moving between pages. Imported last so it wins over page styles.
+ */
+:root {
+  --frame-gutter:clamp(12px,4vw,64px);
+  --frame-max:max(1280px,72vw);
+  --frame-width:min(var(--frame-max),calc(100% - 2 * var(--frame-gutter)));
+  --frame-pad:max(var(--frame-gutter),calc((100% - var(--frame-max)) / 2));
+  --frame-radius:clamp(14px,1.5vw,22px);
+  --frame-header:clamp(52px,7.6vh,68px);
+  --frame-banner:clamp(400px,min(36vw,68vh),720px);
+}
+html { scrollbar-gutter:stable; }
+html:has(.itda-landing),body:has(.itda-landing),
+html:has(.owner-redesign),body:has(.owner-redesign) { background:#fff; }
+
+/* Brand lockup: one size on every desktop page. */
+.site-brand { gap:10px; }
+.site-brand-mark { width:38px; height:38px; border-radius:11px; }
+.site-brand-copy { gap:2px; }
+.site-brand .site-brand-name { font-size:18px; }
+.site-brand .site-brand-subtitle { font-size:10.5px; }
+@media (max-width:600px) {
+  .site-brand { gap:8px; }
+  .site-brand-mark { width:32px; height:32px; border-radius:9px; }
+  .site-brand .site-brand-name { font-size:16px; }
+  .site-brand .site-brand-subtitle { font-size:10px; }
+}
+
+/* ---------- Customer ---------- */
+.app-shell .top-navigation,
+.app-shell .page { width:var(--frame-width); max-width:none; }
+.app-shell .customer-banner { margin-top:clamp(8px,1.6vh,16px); border-radius:var(--frame-radius); container-type:size; }
+@media (min-width:801px) {
+  .app-shell .top-navigation { height:var(--frame-header); border-bottom:0; }
+  .app-shell .location-pill { padding-block:4px; }
+  .app-shell .customer-banner { height:var(--frame-banner); margin-top:0; }
+  .app-shell .customer-banner-wash { background:linear-gradient(90deg,#e9f1ffe0,#e9f1ffb8 32%,#e9f1ff00 56%); }
+  .app-shell .customer-banner-copy { display:flex; flex-direction:column; justify-content:center; width:58%; height:100%; padding:0 0 0 5.5cqw; }
+  .app-shell .customer-banner-eyebrow { margin:0 0 2.4cqh; font-size:clamp(9.5px,min(.75cqw,2cqh),12px); letter-spacing:.26em; }
+  .app-shell .customer-banner h1 { margin:0 0 3cqh; font-size:clamp(26px,min(3.5cqw,9cqh),60px); line-height:1.22; letter-spacing:-.035em; }
+  .app-shell .customer-banner-search { height:clamp(42px,10.5cqh,56px); max-width:min(44cqw,500px); padding:4px 5px 4px 18px; gap:10px; }
+  .app-shell .customer-banner-search > svg { width:18px; height:18px; }
+  .app-shell .customer-banner-search input { font-size:14px; }
+  .app-shell .customer-banner-search button { width:auto; height:100%; aspect-ratio:1; border-width:1px; }
+  .app-shell .customer-banner-search button svg { width:50%; height:50%; }
+  .app-shell .customer-banner-categories { max-width:min(46cqw,540px); margin-top:clamp(8px,3cqh,18px); gap:clamp(6px,.9cqw,12px); }
+  .app-shell .customer-banner-categories button { height:clamp(54px,15cqh,84px); gap:clamp(3px,1.2cqh,8px); border-radius:14px; }
+  .app-shell .customer-banner-categories svg { width:clamp(18px,4.6cqh,26px); height:clamp(18px,4.6cqh,26px); }
+  .app-shell .customer-banner-categories span { font-size:13px; }
+  .app-shell .customer-banner .customer-banner-featured { right:3cqw; bottom:clamp(34px,9cqh,46px); width:clamp(220px,21cqw,280px); padding:8px; gap:10px; }
+  .app-shell .customer-banner-featured > img { width:54px; height:68px; }
+  .app-shell .customer-banner-featured strong { font-size:15px; }
+  .app-shell .customer-banner-chip { display:none; }
+  .app-shell .customer-banner-tags > span { font-size:10px; }
+  .app-shell .customer-banner-caption { bottom:8px; right:3cqw; font-size:10px; }
+}
+@media (max-width:800px) {
+  .app-shell .customer-banner h1 { font-size:clamp(26px,7.4vw,34px); }
+}
+
+/* ---------- Owner ---------- */
+.owner-page.owner-redesign { width:var(--frame-width); max-width:none; margin:0 auto; border-radius:0; background:transparent; box-shadow:none; }
+.owner-redesign .owner-portal-header,
+.owner-redesign .owner-portal-header-inner { background:transparent; border-radius:0; }
+.owner-redesign .owner-portal-header-inner { padding-inline:0; }
+.owner-redesign .owner-portal-workspace { width:100%; }
+.owner-redesign .owner-portal-hero { border-radius:var(--frame-radius); container-type:size; }
+.owner-redesign .owner-portal-quick-actions { padding-inline:0; gap:clamp(8px,1vw,16px); }
+.owner-redesign .owner-portal-tools { padding-inline:0; }
+.owner-redesign .owner-portal-footer { margin-inline:0; }
+.owner-redesign .owner-portal-quick-card { padding:clamp(12px,1.25vw,18px); gap:clamp(10px,1.1vw,16px); border-radius:14px; }
+.owner-redesign .owner-portal-quick-icon { width:clamp(44px,3.8vw,56px); height:clamp(44px,3.8vw,56px); border-radius:14px; }
+.owner-redesign .owner-portal-quick-icon svg { width:48%; height:48%; }
+.owner-redesign .owner-portal-quick-card strong { font-size:clamp(15px,1.2vw,20px); }
+.owner-redesign .owner-portal-quick-card small { font-size:clamp(12px,.86vw,14px); }
+.owner-redesign .owner-portal-section-heading h2 { font-size:clamp(18px,1.4vw,22px); }
+.owner-redesign .owner-portal-tool-grid { gap:clamp(8px,1vw,16px); }
+.owner-redesign .owner-portal-tool { padding:clamp(14px,1.3vw,20px) 10px; font-size:clamp(14px,1.05vw,16px); gap:12px; border-radius:14px; }
+.owner-redesign .owner-portal-tool svg { width:22px; height:22px; }
+@media (min-width:801px) {
+  .owner-redesign .owner-portal-header-inner { height:var(--frame-header); }
+  .owner-redesign .owner-portal-hero { height:var(--frame-banner); }
+  .owner-redesign .owner-portal-hero-copy { padding:0 0 0 5.5cqw; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
+  .owner-redesign .owner-portal-event-label { padding:.35em 1.3em; font-size:clamp(11px,min(.95cqw,2.6cqh),15px); border-width:1px; }
+  .owner-redesign .owner-portal-hero h1 { margin:2.6cqh 0 2.4cqh; font-size:clamp(26px,min(3.5cqw,9cqh),60px); line-height:1.22; letter-spacing:-.035em; }
+  .owner-redesign .owner-portal-hero-copy p { margin:0 0 3.6cqh; font-size:clamp(12.5px,min(1.2cqw,3.2cqh),18px); }
+  .owner-redesign .owner-portal-hero-button { gap:1.4em; padding:.75em 1.35em; font-size:clamp(12.5px,min(1.02cqw,2.9cqh),15px); }
+  .owner-redesign .owner-portal-hero-button svg { width:1.3em; height:1.3em; }
+  .owner-redesign .owner-portal-quick-actions { padding-top:clamp(7px,1.4vh,14px); }
+  .owner-redesign .owner-portal-tools { padding-top:clamp(14px,2.4vh,24px); }
+}
+@media (max-width:800px) {
+  .owner-redesign .owner-portal-hero h1 { font-size:clamp(26px,7.4vw,34px); }
+  .owner-redesign .owner-portal-hero-copy p { font-size:14px; }
+  .owner-redesign .owner-portal-hero-button { font-size:14px; padding:12px 20px; gap:18px; }
+}
+
+/* ---------- Admin ---------- */
+.itda-admin-session-bar { padding-inline:var(--frame-pad); }
+.editor-shell-header { padding-inline:var(--frame-pad); }
+.editor-shell-grid { width:var(--frame-width); margin-inline:auto; column-gap:clamp(12px,1.4vw,20px); padding-block:clamp(8px,1.6vh,16px); }
+.editor-shell-sidebar { border-radius:var(--frame-radius); }
+.editor-shell-main { padding:0 0 18px; background:none; }
+.editor-shell-sidebar nav { gap:6px; }
+.editor-shell-sidebar nav a { min-height:46px; padding:10px 14px; gap:12px; font-size:15px; }
+.editor-shell-sidebar nav svg { width:21px; height:21px; }
+.editor-shell-sidebar-bottom { padding-top:32px; }
+.editor-shell .editor-shell-page-heading h1 { font-size:clamp(22px,2vw,30px); }
+@media (min-width:801px) {
+  .editor-shell-header { height:var(--frame-header); }
+}
+@media (min-width:1101px) {
+  .editor-shell.is-expanded .editor-shell-grid { grid-template-columns:220px minmax(0,1fr); }
+}
+.catalog-page { padding-inline:var(--frame-pad); }
+.map-editor-page > * { width:var(--frame-width); max-width:none; margin-inline:auto; padding-inline:0; }
+.street-editor { width:var(--frame-width); max-width:none; padding-inline:0; }
+
+/* Tablets: the banners are narrow, so headlines follow the height more than the width. */
+@media (min-width:801px) and (max-width:1100px) {
+  .app-shell .customer-banner h1,
+  .owner-redesign .owner-portal-hero h1 { font-size:clamp(28px,min(4.2cqw,9cqh),44px); }
+}

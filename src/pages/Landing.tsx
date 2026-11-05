@@ -70,7 +70,7 @@ export default function Landing() {
           <span className="landing-card-cta"><span className="landing-card-cta-label">점주용 서비스 열기</span> <ArrowUpRight size={17} aria-hidden="true" /></span>
         </a>
         <a href={appUrl("editor")} className="landing-service-card">
-          <Settings2 aria-hidden="true" /><span className="landing-card-role">관리자를 위한 서비스</span>
+          <Settings2 aria-hidden="true" /><span className="landing-card-role">관리자용 서비스</span>
           <h2>상권 정보 관리</h2><p>점포와 지도, 거리 사진을 <br />관리하고 게시하세요.</p>
           <span className="landing-card-cta"><span className="landing-card-cta-label">관리자 로그인</span> <ArrowUpRight size={17} aria-hidden="true" /></span>
         </a>
@@ -81,7 +81,7 @@ export default function Landing() {
       <p>사람과 도시, 그리고 가능성을 잇습니다.</p>
       <small>© ITDA · 맛&멋 AI Street</small>
       <small>배너 사진: <a href="https://www.ito.or.kr/bbs/bbsMsgDetail.do?bcd=galleryko&msg_seq=264&pgno=17" target="_blank" rel="noreferrer">인천관광공사 · 인천관광 갤러리</a></small>
-      <a className="landing-footer-admin" href={appUrl("editor")}>관리자</a>
+      <a className="landing-footer-admin" href={appUrl("editor")}>관리자용</a>
     </footer>
   </div>;
 }
