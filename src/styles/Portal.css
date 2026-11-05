@@ -19,3 +19,9 @@
 .hub-actions button:hover,.hub-actions label:hover{background:#dff1e4}
 .hub-feedback{background:#e9f5ed;color:#34694b}
 .hub-page a:focus-visible,.hub-page button:focus-visible,.hub-page label:focus-within{outline:3px solid #54a875;outline-offset:3px}
+
+/* v5.3 mascot slot: no approved character asset yet. */
+.portal-mascot-slot{display:flex;flex-direction:column;align-items:center;gap:7px;margin:-16px auto 22px;width:max-content;max-width:100%}
+.portal-mascot-frame{display:flex;align-items:center;justify-content:center;gap:11px;border:2px dashed #a9c9ec;background:#f3f8fe;color:#366b9f;padding:12px 20px;border-radius:18px;min-height:62px;font-size:13px;font-weight:800}
+.portal-mascot-slot>small{font-size:11px;color:#8196a9}
+.portal-mascot-frame img{display:block;max-width:180px;max-height:130px;width:auto;height:auto;object-fit:contain}

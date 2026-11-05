@@ -84,3 +84,38 @@
 .map-floor-empty{font-size:10px;color:#7a8d9f;line-height:1.5;margin:2px 0}
 .map-floor-buttons>button:focus-visible,.map-floor-points>button:focus-visible{outline:3px solid #95bdf5;outline-offset:2px}
 @media(max-width:520px){.map-floor-layout{grid-template-columns:minmax(0,1fr) 92px;gap:7px}.map-floor-sidebar{padding:6px}.map-floor-buttons>button{padding:8px 5px}.map-floor-buttons>button strong{font-size:12px}.map-floor-buttons>button small{font-size:9px}.map-floor-store-name{font-size:9px}.map-floor-number{width:19px;height:19px}}
+
+/* v5.2: consumer-first info structure + 3-card preview */
+.section-heading p,.site-data-status,.map-instruction,.map-disclaimer,.street-small-help,.store-section-heading p,.selected-store-strip,.route-guide p{font-size:14px;line-height:1.7}
+.hero-copy>p{font-size:16px;line-height:1.75}
+.section-region{font-size:12px}
+.street-store-showcase{margin-top:18px;padding-top:18px;border-top:1px solid #e7edf3}
+.street-store-showcase-head h4{margin:6px 0 6px;font-size:20px;letter-spacing:-.5px;color:#183a63}
+.street-store-showcase-head p{margin:0;color:#708296;font-size:14px;line-height:1.7}
+.street-store-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+.street-store-card{min-width:0;display:flex;flex-direction:column;border:1px solid #dce7f2;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 6px 22px #173a5a08}
+.street-store-card.is-selected{border-color:#8fb8f6;box-shadow:0 0 0 2px #d7e8ff}
+.street-store-card-visual{display:block;border:0;padding:0;background:#eef4fb;aspect-ratio:1.35;overflow:hidden}
+.street-store-card-visual img{display:block;width:100%;height:100%;object-fit:cover}
+.street-store-card-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:16px;color:#fff;text-align:left;background:linear-gradient(135deg,#5f8fd9,#275dc9)}
+.street-store-card-placeholder.style{background:linear-gradient(135deg,#cb8f62,#9f673b)}
+.street-store-card-placeholder span{font-size:12px;font-weight:800;opacity:.92}
+.street-store-card-placeholder strong{font-size:22px;line-height:1.2;margin-top:5px;letter-spacing:-.6px}
+.street-store-card-body{display:flex;flex-direction:column;gap:10px;padding:14px 15px 16px}
+.street-store-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.street-store-card-point{flex-shrink:0;display:inline-grid;place-items:center;min-width:34px;height:28px;padding:0 8px;border-radius:10px;background:#edf4ff;color:#1f61bf;font-size:12px;font-weight:900}
+.street-store-card-title{display:flex;flex-direction:column;gap:7px;text-align:left;background:none;border:0;padding:0}
+.street-store-card-title strong{font-size:20px;letter-spacing:-.5px;color:#152638}
+.street-store-card-title span{font-size:14px;line-height:1.65;color:#6a7c90}
+.street-store-card-meta{display:flex;flex-direction:column;gap:8px;padding:0;margin:0;list-style:none}
+.street-store-card-meta li{display:flex;align-items:flex-start;gap:7px;color:#5f7388;font-size:13px;line-height:1.55}
+.street-store-card-meta li svg{flex-shrink:0;margin-top:2px;color:#3d73c8}
+.consumer-guide{margin-top:20px;background:#fff;border:1px solid #dfe8f1;border-radius:20px;padding:20px 22px;box-shadow:0 8px 24px #18395808}
+.consumer-guide-head h3{margin:6px 0 8px;font-size:24px;letter-spacing:-.7px;color:#183a63}
+.consumer-guide-head p{margin:0;color:#708296;font-size:14px;line-height:1.7}
+.consumer-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+.consumer-guide-grid article{padding:16px;border-radius:16px;background:#f6f9fd;border:1px solid #e1ebf6}
+.consumer-guide-grid strong{display:block;margin-bottom:8px;font-size:16px;color:#1b4f95}
+.consumer-guide-grid p{margin:0;font-size:14px;line-height:1.75;color:#66798e}
+@media(max-width:1080px){.street-store-grid,.consumer-guide-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.street-store-grid,.consumer-guide-grid{grid-template-columns:1fr}.hero-copy>p{font-size:14px}.section-heading p,.site-data-status,.map-instruction,.map-disclaimer,.street-small-help,.store-section-heading p,.selected-store-strip,.route-guide p,.street-store-showcase-head p,.consumer-guide-head p,.consumer-guide-grid p,.street-store-card-title span{font-size:13px}.street-store-card-title strong{font-size:18px}.consumer-guide-head h3{font-size:21px}.street-store-showcase-head h4{font-size:18px}}

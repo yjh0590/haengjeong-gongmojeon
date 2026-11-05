@@ -73,3 +73,8 @@ npm run build
 - 기존 `001_publication.sql` 실행 후 **`supabase/002_owner_promotion_workflow.sql`을 추가로 실행**해야 점주 승인 기능이 동작합니다.
 - 설정과 검증 순서는 [`docs/ITDA_V45_WORKFLOW_AND_BRANDING.md`](docs/ITDA_V45_WORKFLOW_AND_BRANDING.md)를 참고하세요.
 - 현재 콘텐츠 문구 생성은 실 AI가 아닌 예시 기반입니다. 서브도메인별 권한과 업로드된 사진의 서버 공유는 별도 작업입니다.
+
+
+## 사용자별 가이드북 (v5.2)
+
+`docs/guidebooks/ITDA_사용가이드북.html`을 더블클릭하면 소비자·점주·관리자별 설명서를 볼 수 있습니다. 수정 가능한 원고는 같은 폴더의 `.md` 파일에 있습니다.

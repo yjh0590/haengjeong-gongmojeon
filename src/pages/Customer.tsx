@@ -141,6 +141,15 @@ export default function Customer() {
   const featuredStores = useMemo(() => effectiveStores.filter((store) => Boolean(store.event)), [effectiveStores]);
   const activeFacades = facades.filter((a) => a.nodeId === currentNodeId && a.view === currentView &&
     effectiveStores.some((s) => s.id === a.storeId));
+  const spotlightStores = useMemo(() => {
+    const primary = currentNode
+      ? effectiveStores.filter((store) => currentNode.stores.includes(store.id))
+      : [];
+    const secondary = matchingStores
+      .filter((store) => !primary.some((item) => item.id === store.id))
+      .sort((a, b) => b.aiScore - a.aiScore);
+    return [...primary, ...secondary].slice(0, 3);
+  }, [currentNode, effectiveStores, matchingStores]);
 
   const jumpToExplorer = () => explorerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const focusNode = (nodeId: string, preferred: ViewDirection = "forward") => {
@@ -218,9 +227,9 @@ export default function Customer() {
     <main className="page">
       <section className="hero">
         <div className="hero-copy">
-          <span className="eyebrow"><Sparkles size={14}/> YOUR LOCAL DISCOVERY</span>
+          <span className="eyebrow"><Sparkles size={14}/> CONSUMER SERVICE · LOCAL DISCOVERY</span>
           <h1>지도에서 발견하고,<br /><span>거리에서 찾아보세요.</span></h1>
-          <p>가게를 고르면 촬영한 거리 사진으로 이어져요.<br className="desktop-break"/> 타임스페이스의 맛과 멋을 한곳에서 탐색해 보세요.</p>
+          <p>소비자 전용 거리 탐색 서비스예요. 가게를 고르면 촬영한 거리 사진으로 이어져요.<br className="desktop-break"/> 타임스페이스의 맛과 멋을 한곳에서 쉽게 탐색해 보세요.</p>
           <div className="hero-actions">
             <button className="primary-action" type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}><Map size={18}/> 지도에서 가게 찾기 <ArrowRight size={16}/></button>
             <button className="secondary-action" type="button" onClick={() => { setShowDiscoveries(true); setFilter("이벤트"); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}><Zap size={17}/> 오늘의 발견</button>
@@ -238,8 +247,8 @@ export default function Customer() {
 
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         <div className="section-heading">
-          <div><span className="eyebrow">EXPLORE TIMESPACE</span><h2>우리 동네 거리 탐색</h2><p>전체 안내도에서 촬영 지점·가게·층을 선택해 보세요.</p></div>
-          <span className="section-region"><MapPin size={15}/> 전체 구역 · 층별 탐색 준비</span>
+          <div><span className="eyebrow">EXPLORE TIMESPACE</span><h2>소비자용 우리 동네 거리 탐색</h2><p>지도에서 가게를 찾고, 거리 사진으로 위치를 확인하는 소비자 전용 서비스입니다.</p></div>
+          <span className="section-region"><MapPin size={15}/> 소비자 전용 · 전체 구역 탐색</span>
         </div>
 
         <div className="site-data-status" role="status">{publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
@@ -275,7 +284,7 @@ export default function Customer() {
         <div className="explore-layout">
           <section className="map-panel" ref={mapRef} aria-label="구역 안내도">
             <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 {floor}층 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
-            <p className="map-instruction">오른쪽에서 층을 선택하세요. 지도에는 선택한 층의 점포 지점만 표시됩니다. 사진 촬영 지점은 해당 층의 점포와 연결된 지점이에요.</p>
+            <p className="map-instruction">오른쪽 층 버튼을 눌러 1층·2층·3층을 바꿔 보세요. 지도에는 선택한 층의 점포 지점만 표시되고, 촬영 지점은 해당 층 점포와 연결된 위치를 기준으로 보여줍니다.</p>
             {mapBackground && <div className="map-visual-switch" role="group" aria-label="지도 배경 선택">
               <button type="button" className={mapVisualMode === "schematic" ? "selected" : ""} aria-pressed={mapVisualMode === "schematic"} onClick={() => setMapVisualMode("schematic")}>간편 안내도</button>
               <button type="button" className={mapVisualMode === "uploaded" ? "selected" : ""} aria-pressed={mapVisualMode === "uploaded"} onClick={() => setMapVisualMode("uploaded")}>관리자 등록 지도</button>
@@ -332,8 +341,64 @@ export default function Customer() {
             <div className="street-footer"><div><Camera size={15}/><span>{currentNode.number}번 지점 · 사진 {directions.filter(d=>hasPhoto(currentNodeId,d)).length}개 등록</span></div><div className="street-navigation">{routeNextId && <button className="route-navigation-next" type="button" onClick={moveAlongRoute}><Navigation size={14}/> 안내: 다음 {streetNodes.find(n=>n.id===routeNextId)?.number}번 지점 <ArrowRight size={14}/></button>}{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)}><Navigation size={14}/> {streetNodes.find((n) => n.id === connection.to)?.number}번 지점 <ArrowRight size={14}/></button>)}</div></div>
             {selectedStore && <div className="selected-store-strip"><span><Store size={15}/><strong>{selectedStore.name}</strong> · {selectedStore.building} {selectedStore.floor}층 {selectedStore.unit || ""} · {selectedStore.floor>1?"1층 외관/출입구 참고":"1층 거리 사진"} · {activeFacades.some((a) => a.storeId === selectedStore.id) ? "영역 표시됨" : "영역 미등록"}</span><button type="button" onClick={() => setDetailsOpen(true)}>가게 상세 보기 <ChevronRight size={15}/></button></div>}
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
+
+            <div className="street-store-showcase" aria-label="현재 지점 기준 가게 카드 보기">
+              <div className="street-store-showcase-head">
+                <div>
+                  <span className="panel-eyebrow">CONSUMER PREVIEW CARDS</span>
+                  <h4>한 화면에 보는 가게 카드 3개</h4>
+                  <p>현재 지점과 연결된 가게를 우선으로, 소비자가 한눈에 이해하기 쉬운 카드 형식으로 보여줍니다.</p>
+                </div>
+              </div>
+              <div className="street-store-grid">
+                {spotlightStores.map((store) => {
+                  const linkedNode = streetNodes.find((node) => node.stores.includes(store.id));
+                  const linkedView = facades.find((item) => item.storeId === store.id && item.nodeId === linkedNode?.id)?.view || "forward";
+                  const previewImage = linkedNode ? (photoFor(linkedNode.id, linkedView) || linkedNode.views[linkedView]) : null;
+                  return <article key={`spotlight-${store.id}`} className={`street-store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
+                    <button type="button" className="street-store-card-visual" onClick={() => focusStore(store.id, true)} aria-label={`${store.name} 가게 정보 열기`}>
+                      {previewImage ? <img src={previewImage} alt={`${store.name} 관련 미리보기 사진`} /> : <div className={`street-store-card-placeholder ${store.type === "맛" ? "food" : "style"}`}><span>{store.type === "맛" ? "맛집 미리보기" : "멋집 미리보기"}</span><strong>{store.name}</strong></div>}
+                    </button>
+                    <div className="street-store-card-body">
+                      <div className="street-store-card-top">
+                        <span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type} · {store.category}</span>
+                        <span className="street-store-card-point">{floorPointNumber.get(store.id) || "-"}번</span>
+                      </div>
+                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
+                      <ul className="street-store-card-meta">
+                        <li><MapPin size={14}/> {store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</li>
+                        <li><Utensils size={14}/> 대표 정보 · {store.menu}</li>
+                        <li><Sparkles size={14}/> 특징 · {store.tags.slice(0, 2).join(" · ")}</li>
+                      </ul>
+                    </div>
+                  </article>;
+                })}
+              </div>
+            </div>
           </section>
         </div>
+
+        <section className="consumer-guide" aria-label="소비자용 서비스 설명">
+          <div className="consumer-guide-head">
+            <span className="eyebrow">CONSUMER GUIDE</span>
+            <h3>‘우리 동네 거리 탐색’은 이런 서비스예요</h3>
+            <p>지도 아래에서 서비스의 목적과 사용 방법을 바로 이해할 수 있도록 설명 문단을 옮겼습니다.</p>
+          </div>
+          <div className="consumer-guide-grid">
+            <article>
+              <strong>무엇을 하나요?</strong>
+              <p>소비자가 타임스페이스 상권의 가게를 지도에서 찾고, 촬영된 거리 사진으로 위치를 확인하도록 돕는 서비스입니다.</p>
+            </article>
+            <article>
+              <strong>어떻게 쓰나요?</strong>
+              <p>층을 선택하고 가게를 누르면 연결된 촬영 지점이 열리며, 아래 카드 3개에서 주요 가게 정보를 빠르게 비교할 수 있습니다.</p>
+            </article>
+            <article>
+              <strong>왜 좋나요?</strong>
+              <p>처음 방문하는 사람도 가게 특징, 위치, 대표 정보까지 한 화면에서 파악할 수 있어 탐색이 쉬워집니다.</p>
+            </article>
+          </div>
+        </section>
 
         <div className="store-section-heading"><div><span className="eyebrow">STORES & DISCOVERY</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "이 구역에서 발견할 가게"}</h3><p>{floor}층에서 {matchingStores.length}곳 표시 · 카드를 선택하면 촬영 지점과 연결됩니다.</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!matchingStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
         {matchingStores.length ? <div className="store-grid">{matchingStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>

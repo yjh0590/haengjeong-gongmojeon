@@ -1,0 +1,181 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ITDA · 사용자별 가이드북</title><style>
+:root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color:#23364d;background:#eef3f9}*{box-sizing:border-box}body{margin:0}header{padding:38px 20px 28px;background:linear-gradient(115deg,#0b62b9,#148dcc);color:white}.wrap{max-width:960px;margin:auto}h1,h2{letter-spacing:-.04em}header h1{font-size:34px;margin:4px 0}header p{line-height:1.7}nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}nav a{border:1px solid #ffffff99;border-radius:12px;color:white;padding:11px 16px;text-decoration:none;font-weight:750}nav a:hover{background:#ffffff22}.guide{background:#fff;border:1px solid #dfe9f3;border-radius:20px;padding:25px 36px;margin:24px 16px 36px;box-shadow:0 7px 24px #34567812}.guide h1{font-size:28px;border-bottom:3px solid #3382ce;padding-bottom:13px}.guide h2{font-size:21px;margin-top:34px;color:#18539b}.guide.owner h1{border-color:#ed8a3b}.guide.owner h2{color:#a65622}.guide.admin h1{border-color:#39945b}.guide.admin h2{color:#256d44}p,li{font-size:15px;line-height:1.85}li{padding:2px 0}blockquote{border-left:4px solid #e7a13a;padding:8px 16px;background:#fff7e7;margin:15px 0}code{background:#eef3fa;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}.small{opacity:.88}footer{text-align:center;font-size:12px;color:#678;margin:25px}@media(max-width:650px){.guide{padding:18px;margin:15px 8px}header h1{font-size:26px}.guide h1{font-size:23px}}@media print{body{background:white}header{background:white;color:black;padding:0}nav,footer{display:none}.guide{box-shadow:none;border:0;break-before:page;margin:0;padding:6px}.guide h2{break-after:avoid}}
+</style></head><body><header><div class="wrap"><small>ITDA · 맛&멋 AI Street</small><h1>처음 사용하는 사람을 위한 가이드북</h1><p>소비자 · 점주 · 관리자 — 역할에 맞는 설명을 골라 읽어 보세요.<br>기준: v5.2 · 2026-11-04</p><nav><a href="#consumer">🗺️ 소비자용</a><a href="#owner">🏪 점주용</a><a href="#admin">⚙️ 관리자용</a><a href="#" onclick="window.print();return false">인쇄 / PDF 저장</a></nav></div></header><main class="wrap"><section id="consumer" class="guide consumer"><h1>ITDA(잇다) 소비자용 사용 가이드</h1>
+<p><strong>대상:</strong> 타임스페이스를 둘러보거나 가게를 찾는 방문객 </p>
+<p><strong>접속 주소:</strong> https://customer.itda.ink </p>
+<p><strong>기준 버전:</strong> ITDA v5.2 · 2026-11-04</p>
+<h2>1. ITDA가 무엇인가요?</h2>
+<p>ITDA는 지역의 가게를 <strong>지도와 거리 사진으로 발견</strong>하도록 돕는 상권 탐색 서비스입니다. 현재 송도 타임스페이스를 시범 구역으로 사용합니다. 네이버지도처럼 실시간 길 안내를 하는 서비스는 아닙니다.</p>
+<h2>2. 시작하기</h2>
+<ul>
+<li>브라우저에서 <code>customer.itda.ink</code>를 엽니다.</li>
+<li>첫 화면에서 <strong>지도에서 가게 찾기</strong>를 눌러 지도 영역으로 이동합니다.</li>
+<li><strong>1층 / 2층 / 3층</strong> 버튼을 눌러 원하는 층을 고릅니다.</li>
+<li>원하는 가게의 <strong>지도 번호·지점 목록·가게 카드</strong>를 눌러 정보를 봅니다.</li>
+</ul>
+<h2>3. 주요 기능</h2>
+<ul>
+<li><strong>검색:</strong> 가게 이름·업종·키워드를 입력합니다.</li>
+<li><strong>필터:</strong> <code>전체</code>, <code>맛</code>, <code>멋</code>, <code>이벤트</code>와 <strong>저장한 가게</strong>를 이용합니다.</li>
+<li><strong>건물별 보기:</strong> 등록된 건물 중 하나를 고릅니다.</li>
+<li><strong>층별 지도:</strong> 선택한 층의 점포만 지도와 목록에 표시합니다.</li>
+<li><strong>거리 사진:</strong> 지도에서 촬영 지점을 누르고 <code>앞·오른쪽·뒤·왼쪽</code> 버튼을 선택합니다. 초록 점은 사진이 등록된 방향을 뜻합니다.</li>
+<li><strong>다음 지점:</strong> 연결된 촬영 지점이 있다면 <strong>○번 지점</strong> 이동 버튼으로 사진을 넘깁니다.</li>
+<li><strong>가게 카드:</strong> 거리 사진 아래 카드에서 점포 사진(있을 때), 소개, 위치, 대표 정보, 특징을 비교합니다. <strong>최대 3개</strong>가 우선 표시되며 등록 점포가 적으면 3개 미만일 수 있습니다.</li>
+<li><strong>상세 정보:</strong> 가게 카드를 누르면 대표 메뉴·가격·태그·이벤트 등을 확인할 수 있습니다.</li>
+<li><strong>즐겨찾기:</strong> 하트/저장 버튼으로 가게를 보관합니다. 현재 저장 기능은 같은 브라우저에 의존하므로 다른 기기와 자동 동기화되지 않을 수 있습니다.</li>
+</ul>
+<h2>4. 따라 해 보기: 2층 가게 찾기</h2>
+<ul>
+<li><strong>지도에서 가게 찾기</strong>를 선택합니다.</li>
+<li>지도의 오른쪽에서 <strong>2층</strong>을 선택합니다.</li>
+<li>2층 지점 중 원하는 번호나 가게명을 선택합니다.</li>
+<li>거리 사진에서 <code>앞/좌/우/뒤</code>를 눌러 외관을 확인합니다.</li>
+<li>가게 카드에서 <strong>가게 상세</strong>를 열거나 즐겨찾기에 저장합니다.</li>
+</ul>
+<h2>5. 알아두세요</h2>
+<ul>
+<li>현 단계의 지도와 일부 점포·이벤트 정보는 <strong>시범 데이터</strong>이며, 실측 좌표 및 실시간 영업 정보가 아닐 수 있습니다.</li>
+<li>등록된 사진은 <strong>일반 방향별 사진</strong>입니다. 360도 실시간 거리뷰가 아닙니다.</li>
+<li>2·3층 점포도 <strong>1층 외관 또는 출입구 사진</strong>에 연결될 수 있습니다. 실제 계단·엘리베이터 경로는 현장에서 확인하세요.</li>
+<li>가게의 현재 영업 여부, 가격, 이벤트 적용 여부는 직접 확인해야 합니다.</li>
+<li>일부 카드에는 사진 대신 <strong>사진 미등록 자리</strong>가 나타날 수 있습니다.</li>
+</ul>
+<h2>6. 문제가 생기면</h2>
+<ul>
+<li><strong>사진이 안 나와요:</strong> 다른 촬영 지점이나 방향을 눌러 보세요. 해당 사진이 미등록일 수 있습니다.</li>
+<li><strong>가게가 안 나와요:</strong> 층·건물·검색어·카테고리·즐겨찾기 필터를 확인하세요.</li>
+<li><strong>내용이 시범이라고 떠요:</strong> 서버 게시가 없거나 연결이 안 된 상태일 수 있습니다. 실제 영업 정보로 사용하지 마세요.</li>
+</ul></section>
+<section id="owner" class="guide owner"><h1>ITDA(잇다) 점주용 사용 가이드</h1>
+<p><strong>대상:</strong> 점포 정보를 기반으로 홍보 문구를 만들어 보고 관리자에게 검토 요청할 점주 </p>
+<p><strong>접속 주소:</strong> https://owner.itda.ink </p>
+<p><strong>기준 버전:</strong> ITDA v5.2 · 2026-11-04</p>
+<h2>1. 어떤 서비스인가요?</h2>
+<p>매장의 메뉴·분위기·홍보 목적을 바탕으로 <strong>홍보 아이디어, 문구, 짧은 영상 대본</strong>을 시연하고, 계정이 연결된 점주라면 관리자에게 홍보안을 제출할 수 있습니다.</p>
+<blockquote><strong>중요:</strong> 현 버전의 &#x27;AI 마케팅 제안&#x27;은 <strong>예시 템플릿 기반 시연</strong>입니다. 생성형 AI API가 실시간으로 문구를 생성하는 기능은 아직 연동되지 않았습니다.</blockquote>
+<h2>2. 계정 없이 사용해 보기</h2>
+<ul>
+<li><code>owner.itda.ink</code>에 접속합니다.</li>
+<li>시범 점포를 선택합니다.</li>
+<li>가게 상황, 홍보 목표, 원하는 조건 등을 입력하거나 선택합니다.</li>
+<li><strong>AI 프로모션 생성</strong>을 눌러 제안된 콘텐츠를 확인합니다.</li>
+<li>원하는 결과를 검토하고 <strong>이 홍보안 시연 초안 저장</strong>을 선택할 수 있습니다.</li>
+</ul>
+<p>이 과정은 시연·초안 작성이며 <strong>소비자 홈페이지에 자동 게시되지 않습니다</strong>.</p>
+<h2>3. 점주 로그인과 실제 제출</h2>
+<ul>
+<li>운영자에게 <strong>Supabase Auth 점주 계정 발급 및 담당 점포 배정</strong>을 요청합니다.</li>
+<li>페이지 상단에서 점주 이메일과 비밀번호로 로그인합니다.</li>
+<li>내 담당 점포인지 확인합니다. 배정되지 않은 점포는 홍보안을 제출할 수 없습니다.</li>
+<li>홍보 내용을 결정하고 <strong>시연 초안 저장</strong>을 진행합니다.</li>
+<li><strong>홍보 종료일</strong>을 지정합니다.</li>
+<li><strong>검토 요청 보내기</strong>를 눌러 관리자에게 제출합니다.</li>
+<li>상단 <strong>내 홍보안 제출 내역</strong>에서 <code>검토 중 / 승인됨 / 반려됨</code> 상태를 확인합니다.</li>
+<li>관리자 승인 후 소비자용 서비스의 이벤트 문구에 반영됩니다.</li>
+</ul>
+<h2>4. 좋은 홍보안 작성 방법</h2>
+<ul>
+<li><strong>메뉴/서비스:</strong> 실제 제공하는 대표 상품을 적습니다.</li>
+<li><strong>고객:</strong> 학생·직장인 등 목표 고객을 특정합니다.</li>
+<li><strong>시간·조건:</strong> 혜택의 적용 기간과 학생 인증 등 조건을 구체적으로 적습니다.</li>
+<li><strong>사실 확인:</strong> 할인 가격·서비스 제공 여부를 직접 검증합니다.</li>
+<li><strong>표현 검수:</strong> 과장·허위 문구, 타인 사진 무단 사용을 피합니다.</li>
+</ul>
+<p>예: <code>오후 5~8시 / 학생증 확인 / 음료 제공</code>은 실제 점주가 승인한 행사일 때만 게시할 수 있습니다.</p>
+<h2>5. 유의사항</h2>
+<ul>
+<li>점포 생성·수정은 <strong>관리자용 점포 관리</strong>에서 진행합니다.</li>
+<li><strong>홍보안 제출</strong>과 <strong>최종 공개</strong>는 다른 단계입니다. 점주의 제출만으로 공개되지 않습니다.</li>
+<li>같은 점포에 <code>검토 중</code>인 홍보안이 있는 동안 새 제출이 제한될 수 있습니다.</li>
+<li>온라인으로 게시된 점포 데이터가 없으면 로그인 또는 제출이 제한될 수 있습니다.</li>
+<li>이미지 자동 생성, 숏폼 자동 제작 및 완전 자동 게시 등은 현 단계에서 <strong>향후 계획 기능</strong>입니다.</li>
+</ul>
+<h2>6. 문제가 생기면</h2>
+<ul>
+<li><strong>로그인할 수 없어요:</strong> 관리자에게 계정 발급·점포 배정·Supabase 설정을 확인해 달라고 요청하세요.</li>
+<li><strong>제출 버튼이 눌리지 않아요:</strong> 로그인 여부, 담당 점포, 게시 데이터, 검토 중인 요청, 홍보 종료일을 확인하세요.</li>
+<li><strong>승인했는데 안 보여요:</strong> 실제 소비자 화면에서 해당 점포 이벤트 문구를 확인하고, 승인 여부 및 종료일을 점검하세요.</li>
+</ul></section>
+<section id="admin" class="guide admin"><h1>ITDA(잇다) 관리자용 운영 가이드</h1>
+<p><strong>대상:</strong> 점포·지도·촬영 지점·거리 사진·홍보안을 관리하는 운영자 </p>
+<p><strong>접속 주소:</strong> https://editor.itda.ink </p>
+<p><strong>기준 버전:</strong> ITDA v5.2 · 2026-11-04</p>
+<h2>1. 관리자 역할과 시작하기</h2>
+<p>관리자는 정확한 점포 정보를 등록하고, 지도와 사진을 연결해, 검토한 자료만 소비자에게 공개합니다.</p>
+<ul>
+<li><code>editor.itda.ink</code>에 접속합니다.</li>
+<li><strong>Supabase Auth 관리자 계정</strong>으로 로그인합니다. 승인된 관리자 계정이어야 편집/게시 권한이 있습니다.</li>
+<li>대시보드에서 <strong>점포 등록·게시 / 전체 지도 편집 / 거리 사진 편집 / 홍보안 검토·승인</strong> 메뉴로 이동합니다.</li>
+</ul>
+<h2>2. 점포 등록·수정 (`/catalog`)</h2>
+<ul>
+<li><strong>점포 목록 → 추가</strong> 또는 기존 점포를 선택합니다.</li>
+<li>이름, 업종(<code>맛</code>/<code>멋</code>), 동, 층(1·2·3층), 호수, 설명, 대표 메뉴·가격, 태그 등을 입력합니다.</li>
+<li>입력한 내용이 <strong>브라우저 임시 초안</strong>에 저장되었는지 확인합니다.</li>
+<li>실제 공개 전까지 <strong>전체 게시</strong>를 누르지 않으면 소비자 사이트에 반영되지 않습니다.</li>
+</ul>
+<h2>3. 지도·촬영 지점 편집 (`/map-editor`)</h2>
+<ul>
+<li>상권 안내도에서 <strong>상권 경계</strong>, <strong>보행 통로</strong>, <strong>촬영 지점</strong>, <strong>점포 위치</strong> 모드를 선택합니다.</li>
+<li>실제 현장 자료를 기준으로 지도 위 위치를 클릭해 좌표를 등록합니다.</li>
+<li>각 <strong>촬영 지점</strong>의 이름과 방향별 연결 지점을 설정합니다.</li>
+<li><strong>점포 위치</strong>에서 실제 점포와 촬영 지점을 연결합니다.</li>
+<li>층별 점포 필터를 사용해 1·2·3층 좌표를 검토합니다.</li>
+<li><strong>변경사항 저장</strong>을 누릅니다.</li>
+<li><strong>현장 자료·연결 점검</strong>에서 미등록 사진, 미연결 점포, 좌표 누락, 경로 문제를 확인합니다.</li>
+<li>필요하면 <strong>촬영 계획표 CSV 내려받기</strong>로 현장 촬영 계획을 만듭니다.</li>
+</ul>
+<p>현재 지도는 시범 도식이며, 실측 길찾기를 보장하지 않습니다. 저작권이 있는 지도 캡처는 별도 사용 허락 없이 공개하지 마세요.</p>
+<h2>4. 거리 사진 등록 (`/street-editor`)</h2>
+<ul>
+<li>촬영 지점과 <code>앞·뒤·왼쪽·오른쪽</code> 방향을 고릅니다.</li>
+<li><strong>JPG·PNG·WEBP 사진 등록</strong>을 눌러 브라우저 임시 사진을 올립니다.</li>
+<li>가게가 보이는 경우 사진 위의 영역 꼭짓점을 차례로 클릭한 뒤 <strong>영역 저장</strong>을 누릅니다. 영역은 3개 이상 점이 필요합니다.</li>
+<li><strong>현재 사진 서버 업로드</strong>를 눌러 Supabase Storage에 원본 파일을 등록합니다.</li>
+<li>업로드 성공 메시지와 서버 사진 상태를 확인합니다.</li>
+<li>필요한 방향만큼 반복합니다.</li>
+</ul>
+<p><strong>보안 주의:</strong> 공개 Storage 버킷에서는 <strong>파일 주소를 아는 사람이 게시 전에도 사진을 볼 수 있습니다</strong>. 촬영 전에 이용 허락·저작권을 확인하고 얼굴·번호판 등은 비식별 처리하세요.</p>
+<h2>5. 점주 홍보안 검토 (`/promotions`)</h2>
+<ul>
+<li>점주가 제출한 홍보안을 엽니다.</li>
+<li>상품·행사 조건, 가격, 날짜, 과장 여부, 점주 동의를 확인합니다.</li>
+<li>사실이 맞으면 <strong>승인 · 소비자 게시</strong>, 수정이 필요하면 <strong>반려</strong>를 선택합니다.</li>
+<li>승인된 홍보 문구는 소비자 홈페이지에 반영될 수 있습니다. 진행 종료일 이후에는 숨겨집니다.</li>
+</ul>
+<p>점주 로그인·제출 기능은 Supabase의 점주 계정 배정과 관련 SQL 설정이 필요합니다.</p>
+<h2>6. 소비자용 전체 게시 (`/catalog`)</h2>
+<ul>
+<li>저장된 점포·지도 좌표·사진 연결·영역 데이터를 다시 확인합니다.</li>
+<li>사진 원본이 <strong>Supabase Storage에 업로드</strong>되었는지 확인합니다. 브라우저 임시 사진은 서버 게시에 포함되지 않습니다.</li>
+<li><strong>관리자 승인 · 전체 게시</strong>를 선택합니다.</li>
+<li>확인창에서 공개할 데이터 개수를 검토하고 게시합니다.</li>
+<li><code>https://customer.itda.ink</code>에서 강제 새로고침해 지도, 층, 카드, 거리 사진이 제대로 노출되는지 확인합니다.</li>
+</ul>
+<p><strong>주의:</strong> 점주 홍보안 별도 승인과 관리자 <strong>전체 데이터 게시</strong>는 서로 다른 흐름입니다. 전체 게시 전에 기존 공개본과 최신 승인 이벤트의 충돌 여부를 확인하세요.</p>
+<h2>7. 백업·복원</h2>
+<ul>
+<li>대시보드의 <strong>사진 포함 전체 백업</strong>을 주기적으로 내려받습니다.</li>
+<li>복원은 <strong>현재 브라우저 초안을 덮어쓸 수 있으므로</strong> 기존 작업과 비교한 뒤 사용합니다.</li>
+<li>지도 설정 JSON에는 <strong>이미지가 포함되지 않을 수 있습니다</strong>. 사진 포함 백업과 지도 설정 내보내기는 목적이 다릅니다.</li>
+<li>서버 사진 공개 URL 연결과 파일 원본은 구분해서 관리하세요.</li>
+</ul>
+<h2>8. 게시 전 최종 체크리스트</h2>
+<ul>
+<li>[ ] 점포명·위치·층수·가격·이벤트 조건 검증</li>
+<li>[ ] 건물·점포 위치 및 촬영 지점 연결 확인</li>
+<li>[ ] 사진 4방향 등록 상태 및 개인정보 비식별 처리</li>
+<li>[ ] 지도·사진 저작권 및 공개 허락 확인</li>
+<li>[ ] 모바일 소비자 화면에서 카드·검색·층 선택 확인</li>
+<li>[ ] 게시 직전 백업 저장</li>
+<li>[ ] 전체 게시 이후 실제 소비자 화면 점검</li>
+</ul>
+<h2>9. 문제가 생기면</h2>
+<ul>
+<li><strong>관리자 로그인이 안 돼요:</strong> Supabase Auth 계정과 관리자 명단 등록 상태를 확인합니다.</li>
+<li><strong>사진 업로드 오류:</strong> Storage 버킷 <code>itda-media</code>, 파일 형식, 네트워크, Storage 정책을 확인합니다.</li>
+<li><strong>사진이 소비자에게 안 보여요:</strong> 서버 업로드 완료 여부, 전체 게시 여부, 해당 지점·방향 연결을 확인합니다.</li>
+<li><strong>다른 기기에서 초안이 안 보여요:</strong> 브라우저 초안은 기기 간 자동 공유되지 않습니다. 백업/게시 과정을 사용하세요.</li>
+</ul></section>
+</main><footer>ITDA · 시범 운영용 가이드. 실제 서비스 운영 시 최신 화면과 데이터를 확인하세요.</footer></body></html>

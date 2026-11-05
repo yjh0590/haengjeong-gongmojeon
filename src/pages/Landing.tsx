@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { ArrowRight, Compass, MapPinned, Sparkles, Store, Users } from "lucide-react";
+import { ArrowRight, Compass, MapPinned, Sparkles, Store, Users, ImagePlus } from "lucide-react";
 import { appUrl } from "../config/site";
+import { MASCOT_IMAGE_URL } from "../config/mascot";
 import "../styles/Portal.css";
 
 const cards = [
@@ -13,7 +14,7 @@ export default function Landing() {
     <div className="portal-glow" aria-hidden="true"/>
     <header className="portal-top"><a className="portal-logo" href={appUrl("landing")}><span className="portal-mark"><Sparkles size={22}/></span><span><strong>ITDA</strong><small>맛&멋 AI Street</small></span></a><span className="portal-meta">송도 타임스페이스 · 시범 서비스</span></header>
     <main className="portal-content">
-      <div className="portal-lead"><span className="portal-kicker"><MapPinned size={16}/> OUR LOCAL CONNECTION</span><h1>동네의 맛과 멋을,<br/><em>잇다.</em></h1><p>지역의 가게와 사람을 연결하는 AI Street.<br/>방문 목적에 맞는 서비스를 선택해 주세요.</p></div>
+      <div className="portal-lead"><div className="portal-mascot-slot" aria-label="추후 마스코트 이미지가 들어갈 자리"><div className="portal-mascot-frame">{MASCOT_IMAGE_URL ? <img src={MASCOT_IMAGE_URL} alt="ITDA 마스코트"/> : <><ImagePlus size={27}/><span>마스코트 준비 중</span></>}</div><small>캐릭터 이미지 확정 후 교체할 수 있어요</small></div><span className="portal-kicker"><MapPinned size={16}/> OUR LOCAL CONNECTION</span><h1>동네의 맛과 멋을,<br/><em>잇다.</em></h1><p>지역의 가게와 사람을 연결하는 AI Street.<br/>방문 목적에 맞는 서비스를 선택해 주세요.</p></div>
       <div className="portal-region-strip" aria-label="지역별 서비스 범위">
         <span className="portal-region-tag"><i aria-hidden="true"/> 인천 · 로컬 AI Street</span>
         <span className="portal-region-tag songdo"><i aria-hidden="true"/> 송도 · 연수 <small>시범 운영</small></span>
