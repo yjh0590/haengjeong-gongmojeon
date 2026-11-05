@@ -19,6 +19,11 @@ import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnot
 import CustomerBanner from "../components/CustomerBanner";
 import { koreanDate } from "../data/publicPromotions";
 import { storesForStreetView } from "../data/streetViewStores";
+import { usePageTab } from "../hooks/usePageTab";
+import SiteBrand from "../components/SiteBrand";
+import { pageTitle } from "../config/brand";
+import CharacterAccent from "../components/CharacterAccent";
+import { storeMenuItems } from "../data/storeMenuItems";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
 const mapFloors = [1, 2, 3] as const;
@@ -26,6 +31,7 @@ const directions: ViewDirection[] = ["forward", "right", "back", "left"];
 const directionName: Record<ViewDirection, string> = { forward: "앞", back: "뒤", left: "왼쪽", right: "오른쪽" };
 const FAVORITES_KEY = "matmeot-favorites-v1";
 const APPROVAL_KEY = "matmeot-approved-promotion";
+const customerViews = ["map", "street"] as const;
 
 function readFavorites(): number[] {
   try {
@@ -54,6 +60,7 @@ function matchStore(store: StoreData, filter: FilterType, query: string) {
 }
 
 export default function Customer() {
+  const { tab, openTab } = usePageTab(customerViews, "map");
   const localNodes = useStreetNodes();
   const localGeometry = useMapGeometry();
   const draftStores = useStoreDraft();
@@ -92,7 +99,7 @@ export default function Customer() {
   const explorerRef = useRef<HTMLElement>(null);
   const mapRef = useRef<HTMLElement>(null);
 
-  useEffect(() => { document.title = "거리 탐색 · 맛&멋 AI Street"; }, []);
+  useEffect(() => { document.title = pageTitle("customer", `손님 · ${tab === "street" ? "거리 사진" : "거리 탐색"}`); }, [tab]);
   useEffect(() => {
     if (!detailsOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setDetailsOpen(false); };
@@ -148,8 +155,9 @@ export default function Customer() {
   const hasStoreFilter = Boolean(query.trim() || onlySaved || filter !== "전체" || showDiscoveries);
 
   const jumpToExplorer = () => explorerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  const focusNode = (nodeId: string, preferred: ViewDirection = "forward") => {
+  const focusNode = (nodeId: string, preferred: ViewDirection = "forward", showStreet = true) => {
     setCurrentNodeId(nodeId);
+    if (showStreet) openTab("street");
     if (hasPhoto(nodeId,preferred)) { setCurrentView(preferred); return; }
     const next=directions.find(d=>hasPhoto(nodeId,d));
     setCurrentView(next || firstAvailableView(nodeId, streetNodes, preferred));
@@ -158,6 +166,7 @@ export default function Customer() {
     const visibleFacade = facades.find(item => item.storeId === storeId && item.nodeId === currentNodeId && item.view === currentView);
     const linked = (visibleFacade && streetNodes.find(node => node.id === visibleFacade.nodeId)) ||
       streetNodes.find(node => node.stores.includes(storeId));
+    if (linked) openTab("street");
     if (linked && !visibleFacade) {
       const annotation = facades.find(item => item.storeId === storeId && item.nodeId === linked.id);
       focusNode(linked.id, annotation?.view || "forward");
@@ -194,7 +203,7 @@ export default function Customer() {
     const storesOnFloor = effectiveStores.filter(store => store.floor === nextFloor &&
       (building === "전체" || store.building === building));
     const linkedNodes = streetNodes.filter(node => node.stores.some(id => storesOnFloor.some(store => store.id === id)));
-    if (linkedNodes.length && !linkedNodes.some(node => node.id === currentNodeId)) focusNode(linkedNodes[0].id);
+    if (linkedNodes.length && !linkedNodes.some(node => node.id === currentNodeId)) focusNode(linkedNodes[0].id, "forward", false);
   };
   const toggleFavorite = (storeId: number) => {
     setFavorites((previous) => {
@@ -234,25 +243,25 @@ export default function Customer() {
 
   return <div className="app-shell">
     <header className="top-navigation">
-      <button className="brand" type="button" onClick={() => { setShowDiscoveries(false); window.scrollTo({ top: 0, behavior: "smooth" }); }} aria-label="맛앤멋 AI Street 처음으로">
-        <span className="brand-symbol"><Sparkles size={20} /></span>
-        <span className="brand-text"><strong>맛&멋</strong><span>AI Street</span></span>
+      <button className="brand" type="button" onClick={() => { setShowDiscoveries(false); openTab("map"); window.scrollTo({ top: 0, behavior: "smooth" }); }} aria-label="맛앤멋 AI Street 처음으로">
+        <SiteBrand role="customer" />
       </button>
       <nav className="desktop-nav" aria-label="주요 메뉴">
-        <button className={`nav-item ${!showDiscoveries ? "active" : ""}`} type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}>거리 탐색</button>
-        <button className={`nav-item ${showDiscoveries ? "active" : ""}`} type="button" onClick={() => { setShowDiscoveries(true); setFilter("이벤트"); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견</button>
-        <a className="nav-item mode-switch-link" href={appUrl("owner")}>점주용 화면 <ArrowRight size={14} /></a>
+        <button className={`nav-item ${tab === "map" ? "active" : ""}`} type="button" aria-current={tab === "map" ? "page" : undefined} onClick={() => openTab("map")}>거리 탐색</button>
+        <button className={`nav-item ${tab === "street" ? "active" : ""}`} type="button" aria-current={tab === "street" ? "page" : undefined} onClick={() => openTab("street")}>거리 사진</button>
       </nav>
       <span className="location-pill"><MapPin size={15} /> 송도 타임스페이스 <span className="demo-dot">시범 구역</span></span>
     </header>
 
     <main className="page">
-      <CustomerBanner
+      {tab === "map" && <CustomerBanner
         stores={effectiveStores.filter(store => matchStore(store, filter, query))}
         published={publication.status === "published"} filter={filter} query={query}
         onQueryChange={value => { setQuery(value); setShowDiscoveries(false); }}
         onSearch={searchFromBanner} onSelectStore={openBannerStore}
-      />
+      />}
+
+      {tab === "street" && <div className="customer-photo-heading"><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 만나는 우리 동네</h1><p>촬영 지점과 방향을 바꾸며 가게 주변을 살펴보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div><CharacterAccent character="porumi" /></div>}
 
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         <div className="site-data-status" role="status">{publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
@@ -286,7 +295,7 @@ export default function Customer() {
         {showDiscoveries && <div className="discovery-banner"><Zap size={17}/><div><strong>오늘의 발견 · 시연용 이벤트</strong><span>등록된 홍보 문구를 지도에서 강조해 보여줘요. 실제 행사 진행 여부는 점포에 확인해야 합니다.</span></div><button type="button" onClick={() => { setShowDiscoveries(false); setFilter("전체"); }} aria-label="오늘의 발견 닫기"><X size={17}/></button></div>}
 
         <div className="explore-layout">
-          <section className="map-panel" ref={mapRef} aria-label="구역 안내도">
+          <section className="map-panel" ref={mapRef} aria-label="구역 안내도" hidden={tab !== "map"}>
             <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><MapIcon size={19}/> 타임스페이스 {floor}층 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
             <p className="map-instruction">층 버튼을 눌러 1층·2층·3층을 바꿔 보세요. 지도에는 선택한 층의 점포 지점만 표시되고, 촬영 지점은 해당 층 점포와 연결된 위치를 기준으로 보여줍니다.</p>
             {mapBackground && <div className="map-visual-switch" role="group" aria-label="지도 배경 선택">
@@ -331,8 +340,9 @@ export default function Customer() {
             </div>
           </section>
 
-          <section className="street-panel" aria-label="실제 거리 사진">
+          <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
             <div className="panel-header"><div><span className="panel-eyebrow">STREET PHOTO</span><h3><Eye size={19}/> {currentNode.name} · {directionName[currentView]} 방향</h3></div><span className={`photo-badge ${currentImage ? "is-ready" : ""}`}>{currentImage ? "촬영 사진" : "촬영 준비"}</span></div>
+            <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{floorPhotoNodes.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}</button>)}</div>
             <div className={`street-image ${currentImage ? "has-photo" : "is-placeholder"}`}>
               {currentImage ? <img src={currentImage} alt={`${currentNode.name}에서 바라본 ${directionName[currentView]} 방향 실제 거리 사진`} className="street-photo"/> : <div className="street-empty"><Camera size={42}/><strong>이 방향의 사진을 준비 중이에요</strong><span>촬영 후 사진을 등록하면 이곳에 표시됩니다.</span></div>}
               {currentImage && activeFacades.length > 0 && <svg className="facade-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="사진 속 가게 영역">
@@ -400,8 +410,9 @@ export default function Customer() {
       <div className="modal-visual"><span className={`category-pill ${selectedStore.type === "맛" ? "food" : "style"}`}>{selectedStore.type} · {selectedStore.category}</span><div><Store size={28}/><span>LOCAL STORE</span></div></div>
       <div className="modal-body"><span className="modal-overline">{selectedStore.building} · {selectedStore.floor}층 · {selectedStore.unit || "위치 확인 전"} · {publication.status === "published"?"등록 점포":"시범 점포"}</span><h2 id="store-modal-title">{selectedStore.name}</h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
         <div className="store-information"><div><span>대표 메뉴·서비스</span><strong>{selectedStore.menu}</strong></div><div><span>가격</span><strong>{selectedStore.price}</strong></div><div><span>추천 점수 예시</span><strong>{selectedStore.aiScore}점</strong></div></div>
+        <section className="customer-menu-list" aria-label="메뉴와 가격"><h3>메뉴·서비스와 가격</h3><dl>{storeMenuItems(selectedStore).map((item, index) => <div key={index}><dt>{item.name || "메뉴 확인 중"}</dt><dd>{item.price || "가격 문의"}</dd></div>)}</dl></section>
         {selectedStore.event && <div className="event-card"><Zap size={19}/><div><small>등록된 홍보 문구 · 진행 여부 확인 필요</small><strong>{selectedStore.event}</strong></div></div>}
-        <div className="modal-buttons"><button type="button" className={`save-button ${favorites.includes(selectedStore.id) ? "saved" : ""}`} onClick={() => toggleFavorite(selectedStore.id)}>{favorites.includes(selectedStore.id) ? <Check size={17}/> : <Bookmark size={17}/>} {favorites.includes(selectedStore.id) ? "저장됨" : "즐겨찾기"}</button><button type="button" className="route-button" disabled={!streetNodes.some(n=>n.stores.includes(selectedStore.id))} onClick={() => { focusNode(locateStoreNode(selectedStore.id, streetNodes)); setDetailsOpen(false); mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}><LocateFixed size={17}/> 안내도에서 위치 보기</button></div>
+        <div className="modal-buttons"><button type="button" className={`save-button ${favorites.includes(selectedStore.id) ? "saved" : ""}`} onClick={() => toggleFavorite(selectedStore.id)}>{favorites.includes(selectedStore.id) ? <Check size={17}/> : <Bookmark size={17}/>} {favorites.includes(selectedStore.id) ? "저장됨" : "즐겨찾기"}</button><button type="button" className="route-button" disabled={!streetNodes.some(n=>n.stores.includes(selectedStore.id))} onClick={() => { focusNode(locateStoreNode(selectedStore.id, streetNodes), "forward", false); openTab("map"); setDetailsOpen(false); mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}><LocateFixed size={17}/> 안내도에서 위치 보기</button></div>
         <button type="button" className="modal-guide-button" disabled={!streetNodes.some(n=>n.stores.includes(selectedStore.id))} onClick={() => guideToStore(selectedStore.id)}><Navigation size={16}/> 현재 지점부터 사진 연결 따라가기</button>
         <small className="modal-note"><Info size={13}/> {streetNodes.some(n=>n.stores.includes(selectedStore.id)) ? "상세 위치·영업 현황은 현장 확인이 필요합니다. 실측 길찾기는 제공하지 않습니다." : "이 가게는 촬영 지점과 아직 연결되지 않았습니다. 관리자 지도 편집이 필요합니다."}</small>
       </div></section></div>}

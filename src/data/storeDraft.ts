@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { stores as examples } from "./stores";
 import type { StoreData } from "../types/street";
+import { validMenuItems } from "./storeMenuItems";
 
 export const STORE_DRAFT_KEY = "itda-store-draft-v4";
 export const STORE_DRAFT_EVENT = "itda-store-draft-changed";
@@ -15,7 +16,7 @@ export function validStores(input: unknown): input is StoreData[] {
     if (!Number.isSafeInteger(s.id) || s.id < 1 || ids.has(s.id) ||
       ![1, 2, 3].includes(s.floor) || !["맛", "멋"].includes(s.type) ||
       ![s.name, s.building, s.category, s.description, s.menu, s.price, s.walking].every(v => typeof v === "string" && v.length <= 2000) ||
-      !s.name.trim() || !s.building.trim() ||
+      !s.name.trim() || !s.building.trim() || !validMenuItems(s.menuItems) ||
       (s.unit !== undefined && (typeof s.unit !== "string" || s.unit.length > 150)) ||
       (s.event !== undefined && (typeof s.event !== "string" || s.event.length > 2000)) ||
       (s.eventUntil !== undefined && (typeof s.eventUntil !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s.eventUntil))) ||

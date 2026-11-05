@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { ClipboardList, PauseCircle, RefreshCw, Save, ShieldCheck } from "lucide-react";
 import EditorShell from "../components/EditorShell";
 import { useAdminAuth } from "../auth/AdminGate";
@@ -33,7 +33,7 @@ export default function PromotionReview() {
     } catch(error){setNotice(error instanceof Error?error.message:"정보를 불러오지 못했습니다.");}
     finally{setBusy(false);}
   };
-  useEffect(()=>{document.title="ITDA · 점주 홍보 게시 관리";void refresh();},[]);
+  useEffect(()=>{document.title="맛&멋 AI Street | 관리자 · 홍보 게시";void refresh();},[]);
   const savePolicy = async(event:FormEvent) => {
     event.preventDefault();
     if(!policy || busy || !Number.isInteger(dailyLimit) || dailyLimit<1 || dailyLimit>30)return;

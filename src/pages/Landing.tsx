@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, MapPinned, Store, Settings2, Check } from "lucide-react";
 import { appUrl } from "../config/site";
 import "../styles/Landing.css";
+import SiteBrand from "../components/SiteBrand";
+import CharacterAccent from "../components/CharacterAccent";
 
 const navigation = [
   { href: "#services", label: "서비스 둘러보기" },
@@ -64,8 +66,8 @@ export default function Landing() {
     <a className="landing-skip" href="#main-content">본문 바로가기</a>
     <header className="landing-header" ref={header}>
       <div className="landing-header-inner">
-        <a className="landing-logo" href={appUrl("landing")} aria-label="맛&멋 AI Street 홈">
-          <strong>ITDA<span aria-hidden="true" /></strong><small>맛&멋 AI Street</small>
+        <a className="landing-brand-link" href={appUrl("landing")} aria-label="맛&멋 AI Street 홈">
+          <SiteBrand role="landing" />
         </a>
         <nav className="landing-desktop-nav" aria-label="주 메뉴">
           {navigation.map(item => <a key={item.href} href={item.href}>{item.label}</a>)}
@@ -113,6 +115,7 @@ export default function Landing() {
       <section id="guide" className="landing-guide landing-content-section" aria-labelledby="landing-guide-title">
         <div className="landing-guide-heading">
           <div><p className="landing-section-label">HOW TO USE</p><h2 id="landing-guide-title">이렇게 시작해 보세요.</h2></div>
+          <CharacterAccent className="landing-guide-character" />
           <div className="landing-audience-switch" role="group" aria-label="이용자별 사용 방법">
             {(["customer", "owner"] as const).map(role => <button key={role} type="button" aria-pressed={audience === role}
               aria-controls="landing-guide-content" onClick={() => setAudience(role)}>{guides[role].label}</button>)}

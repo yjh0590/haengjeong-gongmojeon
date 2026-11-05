@@ -15,6 +15,8 @@ export type StoreData = {
   description: string;
   menu: string;
   price: string;
+  /** Optional detailed menu; older publications keep the representative menu and price. */
+  menuItems?: { name: string; price: string }[];
   event?: string;
   /** Last calendar day the current promotion is visible (YYYY-MM-DD). */
   eventUntil?: string;

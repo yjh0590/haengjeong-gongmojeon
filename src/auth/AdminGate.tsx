@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import type { FormEvent, ReactNode } from "react";
 import { ArrowRight, KeyRound, LockKeyhole, LogOut, ShieldCheck, ShieldAlert } from "lucide-react";
 import { appUrl } from "../config/site";
+import SiteBrand from "../components/SiteBrand";
 import { publicationConfigured, refreshAdminSession, signInAdmin, signOutAdmin, verifyAdminSession, type AdminSession } from "../data/sitePublication";
 import "../styles/AdminGate.css";
 
@@ -49,7 +50,7 @@ export default function AdminGate({children}: {children: ReactNode}) {
   const route = window.location.pathname;
 
   useEffect(() => {
-    document.title = "ITDA · 관리자 로그인";
+    document.title = "맛&멋 AI Street | 관리자 · 로그인";
     if (!publicationConfigured) return;
     let active = true;
     const saved = readSavedSession();
@@ -98,6 +99,7 @@ export default function AdminGate({children}: {children: ReactNode}) {
   </AdminContext.Provider>;
 
   return <main className="itda-auth-page"><section className="itda-auth-card">
+    <a className="auth-brand-link" href={appUrl("landing")}><SiteBrand role="editor" /></a>
     <div className="itda-auth-icon"><LockKeyhole size={27}/></div>
     <span className="itda-auth-eyebrow">ITDA · ADMIN ONLY</span>
     <h1>관리자 로그인</h1>

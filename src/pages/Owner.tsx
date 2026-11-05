@@ -31,6 +31,8 @@ import { fetchOwnerStoreIds, fetchPromotionRequests, getSavedOwnerSession, refre
 import { koreanDate } from "../data/publicPromotions";
 import { usePageTab } from "../hooks/usePageTab";
 import { ownerViews, OwnerPortalHeader, OwnerPortalHome, OwnerPortalStores, OwnerPortalGuide, OwnerPortalFooter, type OwnerView } from "../components/OwnerPortal";
+import { pageTitle } from "../config/brand";
+import CharacterAccent from "../components/CharacterAccent";
 
 type Promotion = {
   id: number;
@@ -60,7 +62,11 @@ function Owner() {
   const [quotaError,setQuotaError] = useState("");
   const publicationRequest = useRef<{fingerprint:string;key:string} | null>(null);
   const publicationInFlight = useRef(false);
-  const visibleStores = ownerSession ? sharedStores.filter(store=>ownerStoreIds.includes(store.id)) : sharedStores;
+  const assignedStores = useMemo(() => publication.status === "published" && ownerSession
+    ? sharedStores.filter(store => ownerStoreIds.includes(store.id)) : [],
+  [publication.status, ownerSession, sharedStores, ownerStoreIds]);
+  const visibleStores = useMemo(() => ownerSession ? assignedStores : sharedStores,
+    [ownerSession, assignedStores, sharedStores]);
 
   useEffect(()=>{
     let active=true;
@@ -69,13 +75,13 @@ function Owner() {
     refreshOwnerSession(saved).then(async next=>{
       const [ids, history] = await Promise.all([fetchOwnerStoreIds(next.token),fetchPromotionRequests(next.token)]);
       if (!active) return;
-      saveOwnerSession(next);setOwnerSession(next);setOwnerStoreIds(ids);setOwnerHistory(history);
+      saveOwnerSession(next);setOwnerSession(next);setOwnerStoreIds(ids);setOwnerHistory(history);setOwnerMessage("담당 매장이 연결됐어요. 게시 횟수와 종료일을 확인해 주세요.");
     }).catch(()=>{if(active){saveOwnerSession(null);setOwnerMessage("점주 로그인이 만료됐습니다. 다시 로그인해 주세요.");}});
     return ()=>{active=false};
   },[]);
   useEffect(()=>{
     if (!visibleStores.some(s=>s.id===selectedStoreId) && visibleStores[0]) setSelectedStoreId(visibleStores[0].id);
-  },[publication.data,ownerSession,ownerStoreIds,selectedStoreId]);
+  },[visibleStores,selectedStoreId]);
   useEffect(() => {
     setQuota(null);setQuotaError("");
     if (!ownerSession || !ownerStoreIds.includes(selectedStoreId)) { setQuotaLoading(false); return; }
@@ -145,8 +151,8 @@ function Owner() {
     finally {publicationInFlight.current=false;setOwnerBusy(false);}
   };
   useEffect(() => {
-    const titles = { home: "점주 파트너", stores: "매장 정보", marketing: "홍보하기", account: "점주 계정 · 게시 내역", guide: "점주 이용 안내" };
-    document.title = `${titles[tab]} · 맛&멋 AI Street`;
+    const titles = { home: "대시보드", stores: "매장 정보", marketing: "홍보하기", account: "게시 내역", guide: "이용 안내" };
+    document.title = pageTitle("owner", `점주 · ${titles[tab]}`);
   }, [tab]);
 
   const [goal, setGoal] = useState(
@@ -285,14 +291,14 @@ function Owner() {
       <OwnerPortalHeader view={tab} onNavigate={navigate} />
       <main className="owner-container" id="owner-page-main" tabIndex={-1}>
         {tab === "home" && <OwnerPortalHome onNavigate={navigate} onOpenTool={openPortalTool} />}
-        {tab === "stores" && <div className="owner-portal-workspace"><OwnerPortalStores stores={visibleStores} published={publication.status === "published"} signedIn={Boolean(ownerSession)} onNavigate={navigate} onPromote={id => { setSelectedStoreId(id); setPromotions([]); setSelectedPromotionId(null); setApproved(false); navigate("marketing"); }} /></div>}
+        {tab === "stores" && <div className="owner-portal-workspace"><OwnerPortalStores stores={assignedStores} selectedId={selectedStoreId} published={publication.status === "published"} signedIn={Boolean(ownerSession)} onSelect={setSelectedStoreId} onNavigate={navigate} onPromote={id => { setSelectedStoreId(id); setPromotions([]); setSelectedPromotionId(null); setApproved(false); navigate("marketing"); }} /></div>}
         {tab === "guide" && <div className="owner-portal-workspace"><OwnerPortalGuide onNavigate={navigate} /></div>}
         <div className="owner-portal-workspace" hidden={tab !== "account"}>
-        <p className="owner-portal-eyebrow">ITDA PARTNER ACCOUNT</p><h1>점주 계정과 게시 내역</h1>
+        <div className="owner-account-heading"><div><p className="owner-portal-eyebrow">MY ACTIVITY</p><h1>게시 내역</h1><p className="owner-portal-description">우리 가게가 전한 소식과 점주 계정을 확인하세요.</p></div><CharacterAccent character="porumi" /></div>
         <section className="itda-owner-connect" aria-label="서버 연동 및 점주 인증">
           <div className="itda-owner-connect-head">
             <div><span>ITDA CONNECTED STORES</span><h2>담당 점포 · 직접 게시</h2>
-              <p>{publication.status === "published" ? `관리자 게시 점포 ${sharedStores.length}곳을 연결했어요.` : "관리자 게시본이 아직 없거나 연결되지 않아 시연용 점포가 표시됩니다."} 점포 등록·수정은 관리자용에서 수행합니다.</p>
+              <p>{ownerSession ? `내 계정에 연결된 담당 매장 ${assignedStores.length}곳입니다.` : "관리자가 초대한 계정으로 로그인하면 담당 매장과 게시 내역을 확인할 수 있습니다."}</p>
             </div>
             {ownerSession && <button type="button" className="itda-owner-signout" disabled={ownerBusy} onClick={ownerLogout}><LogOut size={16}/> 점주 로그아웃</button>}
           </div>
@@ -304,16 +310,17 @@ function Owner() {
           </form> : <p className="itda-owner-identity"><ShieldCheck size={17}/> {ownerSession.email} · 담당 점포 {visibleStores.length}곳 · 한도 내 직접 게시</p>}
           <p className="itda-owner-message" role="status">{ownerMessage}</p>
           {ownerSession && <div className="itda-owner-history"><strong>내 홍보 게시 내역</strong>
-            {ownerHistory.length ? ownerHistory.slice(0,10).map(req=><div key={req.id}><span>{sharedStores.find(s=>s.id===req.store_id)?.name||`가게 #${req.store_id}`} · {req.title}</span><b className={`itda-owner-state-${req.status}`}>{promotionStatusLabel(req.status)}</b></div>) : <small>아직 게시한 홍보안이 없습니다.</small>}
+            {ownerHistory.length ? ownerHistory.slice(0,10).map(req=><div key={req.id}><span><strong>{req.title}</strong><small>{assignedStores.find(s=>s.id===req.store_id)?.name||`가게 #${req.store_id}`} · {new Date(req.created_at).toLocaleDateString("ko-KR", {timeZone: "Asia/Seoul"})} 게시 · {req.ends_on}까지</small></span><b className={`itda-owner-state-${req.status}`}>{promotionStatusLabel(req.status)}</b></div>) : <div className="owner-history-empty"><ClipboardCheck size={28} aria-hidden="true"/><span><strong>첫 소식을 기다리고 있어요</strong><small>홍보 문구를 확인하고 게시하면 여기에 기록됩니다.</small></span><button type="button" onClick={() => navigate("marketing")}>홍보하기</button></div>}
           </div>}
         </section>
         </div>
         <div className="owner-portal-workspace" hidden={tab !== "marketing"}>
+        {ownerSession && !visibleStores.length ? <div className="owner-store-access"><CharacterAccent /><h1>담당 매장 정보를 확인할 수 없어요</h1><p>관리자에게 매장 연결을 확인해 주세요. 게시된 매장 정보를 불러온 뒤 홍보할 수 있습니다.</p><button type="button" className="owner-primary-action" onClick={() => navigate("stores")}>매장 정보 확인</button></div> : <>
         <section className="owner-intro">
           <div>
             <div className="owner-ai-label">
               <Bot size={15} />
-              AI MARKETING ASSISTANT
+              PROMOTION ASSISTANT
             </div>
 
             <h1>
@@ -349,7 +356,7 @@ function Owner() {
 
               <div className="flow-step">
                 <span>2</span>
-                AI 제안
+                홍보안
               </div>
 
               <ChevronRight size={15} />
@@ -388,6 +395,8 @@ function Owner() {
               </label>
 
               <select
+                aria-label="홍보할 가게"
+                disabled={visibleStores.length <= 1}
                 value={selectedStoreId}
                 onChange={(event) => {
                   setSelectedStoreId(
@@ -545,7 +554,7 @@ function Owner() {
                   <WandSparkles
                     size={19}
                   />
-                  AI 프로모션 생성
+                  예시 홍보안 만들기
                   <Sparkles size={16} />
                 </>
               )}
@@ -559,10 +568,10 @@ function Owner() {
 
                 <div>
                   <span>
-                    AI CONTEXT
+                    PROMOTION BRIEF
                   </span>
                   <strong>
-                    현재 분석 정보
+                    입력 내용 확인
                   </strong>
                 </div>
               </div>
@@ -602,7 +611,7 @@ function Owner() {
 
                   <strong>
                     {constraint
-                      ? "반영 예정"
+                      ? "입력 완료"
                       : "제한 없음"}
                   </strong>
                 </div>
@@ -612,10 +621,7 @@ function Owner() {
                 <Sparkles size={15} />
 
                 <p>
-                  AI는 할인율이나 가격을
-                  임의로 결정하지 않고,
-                  사장님의 입력 조건 안에서
-                  아이디어를 제안합니다.
+                  현재는 가게 정보를 넣은 예시 문구를 제공합니다. 행사 조건과 가격을 확인한 후 사용해 주세요.
                 </p>
               </div>
             </div>
@@ -627,7 +633,7 @@ function Owner() {
             <div className="result-heading">
               <div>
                 <span>
-                  STEP 02 · AI RESULT
+                  STEP 02 · PROMOTION IDEAS
                 </span>
 
                 <h2>
@@ -941,6 +947,7 @@ function Owner() {
             <span>다음 단계</span>
           </div>
         </section>
+        </>}
         </div>
       </main>
       <OwnerPortalFooter />

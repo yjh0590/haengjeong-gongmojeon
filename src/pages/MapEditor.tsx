@@ -12,6 +12,7 @@ import { inspectStreetNetwork } from "../data/routeGuide";
 import type { StreetNode, ViewDirection } from "../types/street";
 import "../styles/MapEditor.css";
 import { appUrl, sameOriginPreview } from "../config/site";
+import SiteBrand from "../components/SiteBrand";
 
 const vw: ViewDirection[] = ["forward","back","left","right"];
 const directionNames: Record<ViewDirection,string> = { forward:"앞",back:"뒤",left:"왼쪽",right:"오른쪽" };
@@ -61,7 +62,7 @@ export default function MapEditor() {
   const photosMissing = nodes.filter(node => !vw.some(direction => Boolean(node.views[direction] || urls[`${node.id}:${direction}`] || mediaDraft.photos[`${node.id}:${direction}`])));
   const missingCoordinates = nodes.filter(node => !geometry.nodes[node.id]);
 
-  useEffect(()=>{document.title="전체 지도 편집 · 맛&멋 AI Street";},[]);
+  useEffect(()=>{document.title="맛&멋 AI Street | 관리자 · 지도 관리";},[]);
   const mapClick = (event: MouseEvent<SVGSVGElement>)=>{
     const p=asXY(event);
     if (mode==="boundary") setGeometry(g=>({...g,boundary:[...g.boundary,p]}));
@@ -163,7 +164,7 @@ export default function MapEditor() {
     }catch(e){setMessage(e instanceof Error?e.message:"JSON 파일을 가져오지 못했어요.");}
   };
   return <main className="map-editor-page">
-    <header className="map-editor-top"><a href={sameOriginPreview()}><ArrowLeft size={16}/> 소비자 화면으로</a><strong>맛&멋 AI Street · 전체 상권 지도 편집</strong><a href={appUrl("editor","/street-editor")}><Camera size={16}/> 거리 사진 편집</a></header>
+    <header className="map-editor-top"><a href={sameOriginPreview()}><ArrowLeft size={16}/> 소비자 화면으로</a><SiteBrand role="editor" /><a href={appUrl("editor","/street-editor")}><Camera size={16}/> 거리 사진 편집</a></header>
     <section className="map-editor-head"><span>AREA MAPPING · 현장 준비</span><h1>송도 타임스페이스 전체 지도</h1><p>선으로 둘러싼 상권 전체를 관리 범위로 설정하고, 건물·통로를 따라 촬영 지점과 가게 위치를 지정하는 도구입니다. 현재 기본 좌표는 시범용이며 실제 지형·거리·방향을 나타내지 않습니다.</p></section>
     <div className="map-editor-layout">
       <section className="map-editor-map-panel">

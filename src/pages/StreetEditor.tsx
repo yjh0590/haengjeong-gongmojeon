@@ -10,6 +10,7 @@ import { FACADE_KEY, getFacadeAnnotations, type FacadeAnnotation, type Point } f
 import type { ViewDirection } from "../types/street";
 import "../styles/StreetEditor.css";
 import { appUrl, sameOriginPreview } from "../config/site";
+import SiteBrand from "../components/SiteBrand";
 
 const views: ViewDirection[] = ["forward", "back", "left", "right"];
 const names: Record<ViewDirection, string> = { forward: "정면", back: "뒤", left: "왼쪽", right: "오른쪽" };
@@ -44,7 +45,7 @@ export default function StreetEditor() {
   const availableStores = useMemo(() => stores.filter((s) => node.stores.includes(s.id)), [node]);
   const existing = annotations.find((a) => a.nodeId === nodeId && a.view === view && a.storeId === storeId);
 
-  useEffect(() => { document.title = "가게 영역 편집 · 맛&멋 AI Street"; }, []);
+  useEffect(() => { document.title = "맛&멋 AI Street | 관리자 · 거리 사진"; }, []);
   useEffect(() => {
     const found = annotations.find((a) => a.nodeId === nodeId && a.view === view && a.storeId === storeId);
     setPoints(found ? found.points : []);
@@ -139,7 +140,7 @@ export default function StreetEditor() {
   };
 
   return <main className="street-editor">
-    <header className="editor-header"><a href={sameOriginPreview()}><ArrowLeft size={18}/> 소비자용 거리 탐색</a><strong>맛&멋 AI Street · 거리 사진 편집 도구</strong><a href={appUrl("editor","/map-editor")}>전체 지도 편집</a></header>
+    <header className="editor-header"><a href={sameOriginPreview()}><ArrowLeft size={18}/> 소비자용 거리 탐색</a><SiteBrand role="editor" /><a href={appUrl("editor","/map-editor")}>전체 지도 편집</a></header>
     <section className="editor-intro"><span><Camera size={16}/> PHOTO ANNOTATION</span><h1>사진 속 가게 영역 지정하기</h1><p>사진 임시 등록 → 외곽선 지정 → Supabase 서버 업로드 → 점포 관리에서 전체 게시 순서로 진행하세요. 자동 인식 AI나 360도 파노라마는 아직 구현되지 않았습니다.</p></section>
     <div className="editor-layout"><section className="editor-main"><div className="editor-subheader"><h2>{node.name} · {names[view]} 사진</h2><span>{image ? "클릭해서 꼭짓점 추가" : "사진 미등록"}</span></div>
       <div className={`editor-canvas ${image?"has-photo":""}`} onClick={addPoint} role="presentation">

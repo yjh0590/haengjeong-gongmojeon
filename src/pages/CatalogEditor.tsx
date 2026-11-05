@@ -10,6 +10,8 @@ import { FACADE_KEY } from "../data/facadeAnnotations";
 import { saveMediaDraft, useMediaDraft } from "../data/mediaStorage";
 import type { StoreData, StoreType } from "../types/street";
 import "../styles/CatalogEditor.css";
+import { storeMenuItems } from "../data/storeMenuItems";
+import SiteBrand from "../components/SiteBrand";
 
 function downloadJson(filename: string, value: unknown) {
   const blob = new Blob([JSON.stringify(value, null, 2)], { type: "application/json" });
@@ -41,7 +43,7 @@ export default function CatalogEditor() {
   const { session, getSession } = useAdminAuth();
   const mediaDraft = useMediaDraft();
   const upload = useRef<HTMLInputElement>(null);
-  useEffect(() => { document.title = "ITDA · 점포 등록·게시 관리"; }, []);
+  useEffect(() => { document.title = "맛&멋 AI Street | 관리자 · 매장 관리"; }, []);
   useEffect(() => {
     if (!publicationConfigured) return;
     let active = true;
@@ -108,7 +110,7 @@ export default function CatalogEditor() {
     finally{setLoading(false);}
   };
   return <main className="catalog-page">
-    <header className="catalog-header"><a href={appUrl("editor", "/editor")}><ArrowLeft size={17}/> 관리자 대시보드</a><strong>ITDA · 점포 데이터 관리</strong><a href={appUrl("editor", "/map-editor")}><MapPinned size={17}/> 지도 편집</a></header>
+    <header className="catalog-header"><a href={appUrl("editor", "/editor")}><ArrowLeft size={17}/> 관리자 대시보드</a><SiteBrand role="editor" /><a href={appUrl("editor", "/map-editor")}><MapPinned size={17}/> 지도 편집</a></header>
     <section className="catalog-heading"><span>STORE DATA & PUBLICATION</span><h1>가게를 등록하고, 검토한 뒤 게시하세요.</h1><p>이름·동·층·호수·홍보 정보는 여기서 수정하고, 실제 위치와 촬영 지점은 지도 편집기에서 지정합니다. 모든 변경은 게시하기 전까지 임시 초안입니다.</p></section>
     <div className="catalog-stats">
       <div><b>{rows.length}</b><small>브라우저 초안 가게</small></div><div><b>{remote ? remote.data.stores.length : "—"}</b><small>온라인 게시 가게</small></div><div><b>{remote ? new Date(remote.publishedAt).toLocaleDateString("ko-KR") : "미게시"}</b><small>마지막 온라인 게시</small></div>
@@ -130,6 +132,14 @@ export default function CatalogEditor() {
           <label className="wide">소개<textarea rows={3} value={current.description} onChange={e=>patch({description:e.target.value})} maxLength={1000}/></label>
           <label>대표 상품·메뉴<input value={current.menu} onChange={e=>patch({menu:e.target.value})} maxLength={100}/></label>
           <label>가격 정보<input value={current.price} onChange={e=>patch({price:e.target.value})} maxLength={100}/></label>
+          <fieldset className="catalog-menu-items wide"><legend>메뉴·서비스별 가격</legend><p>점주 매장 정보와 손님 상세 화면에 표시됩니다. 대표 메뉴·가격은 위 입력란에서 관리합니다.</p>
+            {(current.menuItems || []).map((item, index) => <div className="catalog-menu-row" key={index}>
+              <label>메뉴·서비스 {index + 1}<input aria-label={`메뉴·서비스 ${index + 1}`} value={item.name} maxLength={150} onChange={e => patch({menuItems: current.menuItems!.map((entry, i) => i === index ? {...entry, name: e.target.value} : entry)})}/></label>
+              <label>가격<input aria-label={`메뉴 ${index + 1} 가격`} value={item.price} maxLength={150} onChange={e => patch({menuItems: current.menuItems!.map((entry, i) => i === index ? {...entry, price: e.target.value} : entry)})}/></label>
+              <button type="button" aria-label={`메뉴 ${index + 1} 삭제`} onClick={() => patch({menuItems: current.menuItems!.filter((_, i) => i !== index)})}><Trash2 size={16}/></button>
+            </div>)}
+            <button type="button" disabled={(current.menuItems?.length || 0) >= 50} onClick={() => patch({menuItems: [...(current.menuItems || storeMenuItems(current)), {name: "", price: ""}].slice(0, 50)})}><Plus size={16}/> 메뉴·서비스 추가</button>
+          </fieldset>
           <label className="wide">이벤트·홍보 (선택)<textarea rows={2} value={current.event || ""} placeholder="행사 기간과 내용이 확인된 경우만 입력" onChange={e=>patch({event:e.target.value || undefined})} maxLength={1000}/></label>
           <label>이벤트 종료일 (선택)<input type="date" value={current.eventUntil || ""} onChange={e=>patch({eventUntil:e.target.value || undefined})}/></label>
           <label className="wide">검색 태그 (쉼표로 구분)<input value={tagsText} onChange={e=>{setTagsText(e.target.value);patch({tags:e.target.value.split(",").map(t=>t.trim()).filter(Boolean).slice(0,30)});}} placeholder="데이트, 조용한, 학생추천"/></label>
