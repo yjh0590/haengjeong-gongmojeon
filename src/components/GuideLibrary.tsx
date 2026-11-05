@@ -58,7 +58,7 @@ export default function GuideLibrary() {
         <div className="guide-reader-main">
           <div className="guide-reader-content" ref={reader} key={book.id} tabIndex={-1} aria-label={`${book.label} 안내서 본문`}>
             <article className={`guide-reader-page guide-page-${book.id}`}>
-              {page.image && <div className="guide-page-art"><img src={page.image} alt={page.imageAlt || ""} width="600" height="400"/></div>}
+              {page.image && <div className={`guide-page-art${page.art ? ` guide-art-${page.art}` : ""}`}><img src={page.image} alt={page.imageAlt || ""} width="1200" height="800"/></div>}
               <div className="guide-page-copy"><p className="guide-page-number" aria-live="polite">{book.label} · {pageIndex + 1} / {book.pages.length}</p><h3>{page.title}</h3><p className="guide-page-lead">{page.lead}</p>
                 <ol className="guide-picture-steps">{page.steps.map((step, index) => <li key={step.title}><GuidePicture picture={step.picture}/><span className="guide-picture-number">{index + 1}</span><strong>{step.title}</strong><p>{step.caption}</p></li>)}</ol>
                 {page.note && <p className="guide-page-note"><Check size={17} aria-hidden="true"/>{page.note}</p>}
