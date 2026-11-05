@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft, ArrowRight, ArrowUp, Bookmark, Camera, Check, ChevronDown,
-  ChevronRight, Compass, Eye, Heart, Info, Layers3, LocateFixed, Map,
+  ChevronRight, Compass, Eye, Heart, Info, Layers3, LocateFixed, Map as MapIcon,
   MapPin, Navigation, Search, Sparkles, Store, Utensils, X, Zap,
 } from "lucide-react";
 import "../styles/Customer.css";
@@ -231,7 +231,7 @@ export default function Customer() {
           <h1>지도에서 발견하고,<br /><span>거리에서 찾아보세요.</span></h1>
           <p>소비자 전용 거리 탐색 서비스예요. 가게를 고르면 촬영한 거리 사진으로 이어져요.<br className="desktop-break"/> 타임스페이스의 맛과 멋을 한곳에서 쉽게 탐색해 보세요.</p>
           <div className="hero-actions">
-            <button className="primary-action" type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}><Map size={18}/> 지도에서 가게 찾기 <ArrowRight size={16}/></button>
+            <button className="primary-action" type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}><MapIcon size={18}/> 지도에서 가게 찾기 <ArrowRight size={16}/></button>
             <button className="secondary-action" type="button" onClick={() => { setShowDiscoveries(true); setFilter("이벤트"); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}><Zap size={17}/> 오늘의 발견</button>
           </div>
         </div>
@@ -283,7 +283,7 @@ export default function Customer() {
 
         <div className="explore-layout">
           <section className="map-panel" ref={mapRef} aria-label="구역 안내도">
-            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><Map size={19}/> 타임스페이스 {floor}층 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
+            <div className="panel-header"><div><span className="panel-eyebrow">INTERACTIVE MAP</span><h3><MapIcon size={19}/> 타임스페이스 {floor}층 상권 안내</h3></div><span className="map-badge">디자인 개념도 · 실측 전</span></div>
             <p className="map-instruction">오른쪽 층 버튼을 눌러 1층·2층·3층을 바꿔 보세요. 지도에는 선택한 층의 점포 지점만 표시되고, 촬영 지점은 해당 층 점포와 연결된 위치를 기준으로 보여줍니다.</p>
             {mapBackground && <div className="map-visual-switch" role="group" aria-label="지도 배경 선택">
               <button type="button" className={mapVisualMode === "schematic" ? "selected" : ""} aria-pressed={mapVisualMode === "schematic"} onClick={() => setMapVisualMode("schematic")}>간편 안내도</button>
