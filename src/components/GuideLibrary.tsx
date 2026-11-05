@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "react";
+﻿import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Check, LayoutGrid, MapPinned, ShieldCheck, Store, X } from "lucide-react";
 import { appUrl } from "../config/site";
 import { guidebooks, type GuidebookId } from "../data/guidebooks";
@@ -7,7 +7,7 @@ import GuidePicture from "./GuidePicture";
 
 const coverIcons = { customer: MapPinned, owner: Store, admin: ShieldCheck, characters: BookOpen };
 
-export default function GuideLibrary({ triggerRef }: { triggerRef: RefObject<HTMLButtonElement | null> }) {
+export default function GuideLibrary() {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const reader = useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ export default function GuideLibrary({ triggerRef }: { triggerRef: RefObject<HTM
   function select(id: GuidebookId | null) { setSelected(id); setPageIndex(0); }
 
   return <>
-    <button ref={triggerRef} id="guide" className="guide-floating-widget" type="button" onClick={event => open(event)} aria-haspopup="dialog" aria-controls="itda-guide-dialog" aria-label="홈페이지 사용 안내서 열기">
+    <button id="guide" className="guide-floating-widget" type="button" onClick={event => open(event)} aria-haspopup="dialog" aria-controls="itda-guide-dialog" aria-label="홈페이지 사용 안내서 열기">
       <span className="guide-widget-cover"><span className="guide-widget-ribbon" aria-hidden="true"/><span className="guide-widget-label">ITDA GUIDE</span><span className="guide-widget-emblem"><BookOpen size={32} strokeWidth={1.4} aria-hidden="true"/></span><strong>홈페이지<br/>사용 안내서</strong><small>펼쳐보기 <ArrowRight size={13} aria-hidden="true"/></small></span>
     </button>
 

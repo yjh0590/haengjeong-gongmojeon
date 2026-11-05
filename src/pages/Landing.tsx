@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import { ArrowRight, ArrowUpRight, MapPinned, Store, Settings2 } from "lucide-react";
 import { appUrl } from "../config/site";
 import "../styles/Landing.css";
@@ -6,40 +6,12 @@ import SiteBrand from "../components/SiteBrand";
 import CharacterAccent from "../components/CharacterAccent";
 import GuideLibrary from "../components/GuideLibrary";
 
-const navigation = [
-  { href: "#services", label: "서비스 둘러보기" },
-  { href: "#guide", label: "이용 방법" },
-];
-
 export default function Landing() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const guideTrigger = useRef<HTMLButtonElement>(null);
-  const header = useRef<HTMLElement>(null);
-  const menuToggle = useRef<HTMLButtonElement>(null);
   const services = useRef<HTMLElement>(null);
 
   useEffect(() => {
     document.title = "맛&멋 AI Street | 메인";
   }, []);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-        menuToggle.current?.focus();
-      }
-    }
-    function onPointerDown(event: PointerEvent) {
-      if (event.target instanceof Node && !header.current?.contains(event.target)) setMenuOpen(false);
-    }
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", onPointerDown);
-    };
-  }, [menuOpen]);
 
   /** The cards are already on screen, so "find a service" points at them instead of scrolling. */
   function showServices(event: MouseEvent<HTMLAnchorElement>) {
@@ -53,32 +25,12 @@ export default function Landing() {
     ));
   }
 
-  function onNavigate(event: MouseEvent<HTMLAnchorElement>, href: string) {
-    setMenuOpen(false);
-    if (href === "#services") showServices(event);
-    if (href === "#guide") { event.preventDefault(); guideTrigger.current?.click(); }
-  }
-
   return <div className="itda-landing">
     <a className="landing-skip" href="#main-content">본문 바로가기</a>
-    <header className="landing-header" ref={header}>
-      <div className="landing-header-inner">
-        <a className="landing-brand-link" href={appUrl("landing")} aria-label="맛&멋 AI Street 홈">
-          <SiteBrand role="landing" />
-        </a>
-        <nav className="landing-desktop-nav" aria-label="주 메뉴">
-          {navigation.map(item => <a key={item.href} href={item.href} aria-haspopup={item.href === "#guide" ? "dialog" : undefined} onClick={event => onNavigate(event, item.href)}>{item.label}</a>)}
-        </nav>
-        <button className="landing-menu-toggle" ref={menuToggle} type="button"
-          aria-label={menuOpen ? "전체 메뉴 닫기" : "전체 메뉴 열기"}
-          aria-expanded={menuOpen} aria-controls="landing-full-menu"
-          onClick={() => setMenuOpen(open => !open)}><span /><span /><span /></button>
-      </div>
-      <nav id="landing-full-menu" className="landing-full-menu" aria-label="전체 메뉴" hidden={!menuOpen}>
-        {navigation.map((item, index) => <a key={item.href} href={item.href} aria-haspopup={item.href === "#guide" ? "dialog" : undefined} onClick={event => onNavigate(event, item.href)}>
-          {item.label}<span>0{index + 1}</span>
-        </a>)}
-      </nav>
+    <header className="landing-header">
+      <a className="landing-brand-link" href={appUrl("landing")} aria-label="맛&멋 AI Street 홈">
+        <SiteBrand role="landing" />
+      </a>
     </header>
     <main id="main-content" tabIndex={-1}>
       <section className="landing-hero" aria-labelledby="landing-hero-title">
@@ -91,7 +43,7 @@ export default function Landing() {
           <p className="landing-hero-desc">가고 싶은 가게를 찾고, 우리 가게의 소식을 전하는<br />송도 타임스페이스 상권 서비스</p>
           <a className="landing-start-button" href="#services" onClick={showServices}>나에게 맞는 서비스 찾기 <ArrowRight size={24} aria-hidden="true" /></a>
         </div>
-        <GuideLibrary triggerRef={guideTrigger} />
+        <GuideLibrary />
       </section>
       <section id="services" ref={services} className="landing-services" aria-label="주요 서비스">
         <a href={appUrl("customer")} className="landing-service-card">
