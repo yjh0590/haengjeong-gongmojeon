@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft, ArrowRight, ArrowUp, Bookmark, Camera, Check, ChevronDown,
-  ChevronRight, Compass, Eye, Heart, Info, Layers3, LocateFixed, Map as MapIcon,
+  ChevronRight, Eye, Heart, Info, Layers3, LocateFixed, Map as MapIcon,
   MapPin, Navigation, Search, Sparkles, Store, Utensils, X, Zap,
 } from "lucide-react";
 import "../styles/Customer.css";
@@ -16,6 +16,7 @@ import { useMapGeometry, MAP_BG_KEY } from "../data/mapGeometry";
 import { useDraftPhotoUrls, photoKey } from "../data/localStreetPhotos";
 import { publicMediaUrl, useMediaDraft } from "../data/mediaStorage";
 import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnotations";
+import CustomerBanner from "../components/CustomerBanner";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
 const mapFloors = [1, 2, 3] as const;
@@ -83,7 +84,6 @@ export default function Customer() {
   const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [showDiscoveries, setShowDiscoveries] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
   const [mapVisualMode, setMapVisualMode] = useState<"schematic" | "uploaded">("schematic");
   const [draftFacades, setDraftFacades] = useState<FacadeAnnotation[]>(getFacadeAnnotations);
   const facades: FacadeAnnotation[] = publication.data?.facades || draftFacades;
@@ -209,6 +209,30 @@ export default function Customer() {
     const candidate = [...matchingStores].sort((a, b) => b.aiScore - a.aiScore)[0];
     if (candidate) focusStore(candidate.id, true);
   };
+  const searchFromBanner = (nextFilter: FilterType, nextQuery: string) => {
+    const results = effectiveStores.filter(store => matchStore(store, nextFilter, nextQuery));
+    setFilter(nextFilter);
+    setQuery(nextQuery);
+    setOnlySaved(false);
+    setShowDiscoveries(false);
+    setBuilding("전체");
+    setSelectedStoreId(null);
+    setRouteTargetId(null);
+    setDetailsOpen(false);
+    // Start on a floor with results so a cafe/shop on another floor is visible.
+    const result = results.find(store => store.floor === floor) || results[0];
+    if (result) chooseFloor(result.floor);
+    jumpToExplorer();
+  };
+  const openBannerStore = (storeId: number) => {
+    setFilter("전체");
+    setQuery("");
+    setOnlySaved(false);
+    setShowDiscoveries(false);
+    setBuilding("전체");
+    setRouteTargetId(null);
+    focusStore(storeId, true);
+  };
 
   return <div className="app-shell">
     <header className="top-navigation">
@@ -225,25 +249,12 @@ export default function Customer() {
     </header>
 
     <main className="page">
-      <section className="hero">
-        <div className="hero-copy">
-          <span className="eyebrow"><Sparkles size={14}/> CONSUMER SERVICE · LOCAL DISCOVERY</span>
-          <h1>지도에서 발견하고,<br /><span>거리에서 찾아보세요.</span></h1>
-          <p>소비자 전용 거리 탐색 서비스예요. 가게를 고르면 촬영한 거리 사진으로 이어져요.<br className="desktop-break"/> 타임스페이스의 맛과 멋을 한곳에서 쉽게 탐색해 보세요.</p>
-          <div className="hero-actions">
-            <button className="primary-action" type="button" onClick={() => { setShowDiscoveries(false); jumpToExplorer(); }}><MapIcon size={18}/> 지도에서 가게 찾기 <ArrowRight size={16}/></button>
-            <button className="secondary-action" type="button" onClick={() => { setShowDiscoveries(true); setFilter("이벤트"); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}><Zap size={17}/> 오늘의 발견</button>
-          </div>
-        </div>
-        <div className="hero-aside" aria-label="이용 안내">
-          <span className="hero-aside-kicker"><Compass size={16}/> 한눈에 보는 탐색 방법</span>
-          <div className="hero-step"><span>01</span><div><strong>지도에서 가게 선택</strong><small>맛집·문화·이벤트를 찾아요</small></div></div>
-          <div className="hero-step"><span>02</span><div><strong>거리 사진으로 위치 확인</strong><small>촬영된 방향을 둘러볼 수 있어요</small></div></div>
-          <div className="hero-step"><span>03</span><div><strong>마음에 들면 저장</strong><small>다음에 다시 쉽게 찾아요</small></div></div>
-          <button className="hero-help" type="button" onClick={() => setShowHelp((p) => !p)} aria-expanded={showHelp}><Info size={15}/> {showHelp ? "안내 접기" : "거리 탐색은 어떻게 작동하나요?"} <ChevronDown size={15}/></button>
-          {showHelp && <p className="hero-help-body">현재 사진 2장은 일반 거리 사진이며 360도 파노라마가 아닙니다. 지도는 실측 위치도가 아닌 시연용 구역 안내도예요. 실제 촬영·측량 데이터가 확보되면 교체할 수 있도록 만들었습니다.</p>}
-        </div>
-      </section>
+      <CustomerBanner
+        stores={effectiveStores.filter(store => matchStore(store, filter, query))}
+        published={publication.status === "published"} filter={filter} query={query}
+        onQueryChange={value => { setQuery(value); setShowDiscoveries(false); }}
+        onSearch={searchFromBanner} onSelectStore={openBannerStore}
+      />
 
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         <div className="section-heading">
