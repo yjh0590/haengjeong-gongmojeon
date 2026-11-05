@@ -224,29 +224,6 @@
   .itda-landing .landing-guide-character.character-scene{width:220px;max-width:100%;align-self:center}
 }
 
-/* v3: keep the banner colors visible around the composited duo. */
-.itda-landing .landing-hero{background:#21559b}
-.itda-landing .landing-hero-content{position:relative;z-index:2;padding-right:50%;pointer-events:none}
-.itda-landing .landing-hero-content a{pointer-events:auto}
-.itda-landing .landing-hero-characters.character-scene{position:absolute;z-index:1;right:2%;bottom:-24px;width:min(57%,800px);max-width:none;height:auto;mix-blend-mode:normal;mask-image:none;filter:drop-shadow(0 8px 9px #17345c24)}
-.itda-landing .landing-hero-bottom{z-index:3}
-.itda-landing .landing-guide-heading{justify-content:space-between}
-@media(max-width:1000px) and (min-width:601px){
-  .itda-landing .landing-hero-content{padding-right:46%}
-  .itda-landing .landing-hero-characters.character-scene{width:56%;right:0;bottom:-18px}
-  .itda-landing h1{font-size:40px}
-  .itda-landing .landing-hero-desc{font-size:16px}
-  .itda-landing .landing-start-button{font-size:14px;gap:20px;padding:15px 20px}
-}
-@media(max-width:600px){
-  .itda-landing .landing-hero{height:auto;min-height:0;display:flex;flex-direction:column;padding-bottom:58px}
-  .itda-landing .landing-hero-content{width:100%;margin:0;padding:36px 7% 0;order:0}
-  .itda-landing .landing-hero-characters.character-scene{position:relative;right:auto;bottom:auto;width:94%;max-width:440px;margin:12px auto 0;order:1}
-  .itda-landing .landing-hero h1{font-size:clamp(32px,8vw,40px)}
-  .itda-landing .landing-hero-desc{font-size:14px;line-height:1.85}
-}
-
-
 /* v4: continuous illustrated environments, with the previous page palette restored. */
 .scene-banner-media{position:absolute;inset:0;z-index:-3;display:block;width:100%;height:100%;pointer-events:none}
 .scene-banner-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:70% center}
@@ -304,13 +281,7 @@
   .scene-context-merchant::before{background:linear-gradient(180deg,#43220b66,transparent 50%)}
   .owner-redesign .owner-store-profile.scene-context-banner{min-height:620px}
 }
-/* Anchor the main duo at the banner edge rather than standing over the water. */
-.itda-landing .landing-hero-characters.character-scene{width:min(70%,1000px);right:-1%;bottom:-150px;filter:none}
-@media(max-width:1000px) and (min-width:601px){.itda-landing .landing-hero-characters.character-scene{width:60%;right:0;bottom:-100px}}
 @media(max-width:600px){
-  .itda-landing .landing-hero{padding-bottom:0}
-  .itda-landing .landing-hero-characters.character-scene{position:relative;right:auto;bottom:auto;width:110%;max-width:none;margin:8px -5% -100px}
-  .itda-landing .landing-hero-bottom{display:none}
   .app-shell .customer-banner .scene-banner-media img{object-position:right center}
   .owner-redesign .owner-portal-hero-copy p{max-width:none;width:92%;word-break:keep-all}
 }
