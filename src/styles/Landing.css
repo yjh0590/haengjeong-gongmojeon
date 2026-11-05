@@ -1,0 +1,860 @@
+/* Uploaded homepage design, scoped to preserve the other application screens. */
+.itda-landing  {
+  --blue:#254ca7;
+  --navy:#1d2c4c;
+  --muted:#6d7a90
+}
+.itda-landing *  {
+  box-sizing:border-box
+}
+html:has(.itda-landing)  {
+  scroll-behavior:smooth;
+  scroll-padding-top:100px
+}
+.itda-landing  {
+  margin:0;
+  color:var(--navy);
+  background:#fff;
+  font-family:Arial,'Noto Sans KR','Malgun Gothic',sans-serif;
+  -webkit-font-smoothing:antialiased
+}
+.itda-landing a  {
+  color:inherit;
+  text-decoration:none
+}
+.itda-landing button  {
+  font:inherit;
+  cursor:pointer
+}
+.itda-landing button,
+.itda-landing a  {
+  -webkit-tap-highlight-color:transparent
+}
+.itda-landing a:focus-visible,
+.itda-landing button:focus-visible  {
+  outline:3px solid #689df4;
+  outline-offset:5px
+}
+.itda-landing .landing-header-inner  {
+  height:104px;
+  max-width:1440px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  position:relative;
+  z-index:20;
+  background:white
+}
+.itda-landing .landing-logo  {
+  position:relative;
+  color:#274b9e;
+  font-size:43px;
+  font-weight:900;
+  letter-spacing:-5px;
+  font-style:italic;
+  padding-right:8px
+}
+.itda-landing .landing-logo-line  {
+  position:absolute;
+  left:16px;
+  top:-3px;
+  width:31px;
+  height:7px;
+  transform:skew(-35deg);
+  background:#274b9e
+}
+.itda-landing .landing-desktop-nav  {
+  display:flex;
+  gap:65px;
+  font-size:17px;
+  font-weight:700
+}
+.itda-landing .landing-desktop-nav a  {
+  padding:12px 0;
+  position:relative
+}
+.itda-landing .landing-desktop-nav a:after  {
+  content:'';
+  position:absolute;
+  bottom:3px;
+  left:0;
+  width:0;
+  height:2px;
+  background:var(--blue);
+  transition:width .2s
+}
+.itda-landing .landing-desktop-nav a:hover:after  {
+  width:100%
+}
+.itda-landing .landing-menu-toggle  {
+  border:0;
+  background:transparent;
+  width:40px;
+  height:40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px
+}
+.itda-landing .landing-menu-toggle span  {
+  width:24px;
+  height:2px;
+  background:var(--navy);
+  transition:transform .2s
+}
+.itda-landing .landing-menu-toggle[aria-expanded=true] span:first-child  {
+  transform:translateY(8px) rotate(45deg)
+}
+.itda-landing .landing-menu-toggle[aria-expanded=true] span:nth-child(2)  {
+  opacity:0
+}
+.itda-landing .landing-menu-toggle[aria-expanded=true] span:last-child  {
+  transform:translateY(-8px) rotate(-45deg)
+}
+.itda-landing .landing-full-menu  {
+  position:absolute;
+  z-index:19;
+  background:white;
+  right:0;
+  left:0;
+  padding:30px max(6%,calc((100vw - 1268px)/2));
+  box-shadow:0 20px 30px #102c5414
+}
+.itda-landing .landing-full-menu:not([hidden])  {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:30px
+}
+.itda-landing .landing-full-menu a  {
+  padding:22px 0;
+  border-top:1px solid #dae2f0;
+  font-weight:700;
+  font-size:20px;
+  display:flex;
+  justify-content:space-between
+}
+.itda-landing .landing-full-menu a span  {
+  font-size:12px;
+  color:#8b9ab0
+}
+.itda-landing .landing-hero  {
+  height:620px;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:#537fae
+}
+.itda-landing .landing-hero-image  {
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  background:url('/brand/incheon-bridge.jpg') center 57%/cover no-repeat
+}
+.itda-landing .landing-hero-overlay  {
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:linear-gradient(90deg,rgba(24,65,143,.82),rgba(34,78,149,.36) 52%,rgba(30,79,148,.02))
+}
+.itda-landing .landing-hero-content  {
+  max-width:1268px;
+  margin:auto;
+  padding:66px 0 0
+}
+.itda-landing .landing-eyebrow  {
+  color:#e1ebfc;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:3px;
+  margin:0 0 23px
+}
+.itda-landing h1  {
+  color:white;
+  font-size:52px;
+  line-height:1.27;
+  letter-spacing:-2px;
+  margin:0 0 22px;
+  font-weight:750
+}
+.itda-landing .landing-hero-desc  {
+  font-size:19px;
+  line-height:1.7;
+  color:#f0f5ff;
+  margin:0 0 28px;
+  letter-spacing:-.5px
+}
+.itda-landing .landing-start-button  {
+  display:inline-flex;
+  gap:43px;
+  align-items:center;
+  background:white;
+  color:#25468b;
+  border:1px solid #dce7ff;
+  padding:16px 27px;
+  border-radius:40px;
+  font-size:16px;
+  font-weight:700;
+  box-shadow:0 4px 10px #0d2b5b14;
+  transition:transform .2s
+}
+.itda-landing .landing-start-button:hover  {
+  transform:translateY(-3px)
+}
+.itda-landing .landing-start-button span  {
+  font-size:24px;
+  line-height:1
+}
+.itda-landing .landing-hero-bottom  {
+  position:absolute;
+  bottom:27px;
+  left:6%;
+  right:6%;
+  display:flex;
+  justify-content:space-between;
+  color:#edf3ff;
+  font-size:11px;
+  letter-spacing:1px
+}
+.itda-landing .landing-hero-bottom a  {
+  font-size:9px;
+  display:flex;
+  gap:20px;
+  align-items:center
+}
+.itda-landing .landing-hero-bottom a span  {
+  font-size:20px
+}
+.itda-landing .landing-services  {
+  max-width:1320px;
+  margin:26px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  padding:0 26px
+}
+.itda-landing .landing-service-card  {
+  background:#f3f6fc;
+  border-radius:18px;
+  padding:34px 20px 30px;
+  text-align:center;
+  position:relative;
+  transition:background .2s,transform .2s
+}
+.itda-landing .landing-service-card:hover  {
+  background:#e9effb;
+  transform:translateY(-4px)
+}
+.itda-landing .landing-service-card > svg:not(.landing-card-arrow)  {
+  width:58px;
+  height:58px;
+  stroke:#446cc2;
+  stroke-width:2.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  margin-bottom:13px;
+  filter:drop-shadow(2px 2px 0 white)
+}
+.itda-landing .landing-service-card h2  {
+  font-size:21px;
+  margin:0 0 10px;
+  letter-spacing:-.8px
+}
+.itda-landing .landing-service-card p  {
+  font-size:16px;
+  color:#748095;
+  margin:0;
+  letter-spacing:-.3px
+}
+.itda-landing .landing-card-arrow  {
+  position:absolute;
+  top:19px;
+  right:23px;
+  color:#8096bd;
+  opacity:0;
+  transition:opacity .2s
+}
+.itda-landing .landing-service-card:hover .landing-card-arrow  {
+  opacity:1
+}
+.itda-landing .landing-content-section  {
+  max-width:1268px;
+  margin:auto
+}
+.itda-landing .landing-about  {
+  padding:112px 0 80px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:50px
+}
+.itda-landing .landing-section-label  {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2.2px;
+  color:#5272ac;
+  margin:0 0 21px
+}
+.itda-landing h2  {
+  font-size:34px;
+  line-height:1.5;
+  letter-spacing:-1.2px;
+  margin:0
+}
+.itda-landing .landing-about h2 span  {
+  color:#7f8da4
+}
+.itda-landing .landing-about>p  {
+  font-size:16px;
+  line-height:1.95;
+  color:#738096;
+  margin:0 50px 0 0
+}
+.itda-landing .landing-stories  {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:36px;
+  padding-bottom:100px
+}
+.itda-landing .landing-stories article  {
+  border-top:1px solid #cbd6e7;
+  padding-top:23px;
+  scroll-margin-top:130px
+}
+.itda-landing .landing-number  {
+  font-size:10px;
+  letter-spacing:1px;
+  color:#6a83ad
+}
+.itda-landing .landing-stories h3  {
+  font-size:23px;
+  letter-spacing:-.8px;
+  margin:26px 0 13px
+}
+.itda-landing .landing-stories p  {
+  font-size:15px;
+  line-height:1.85;
+  color:#7b879b
+}
+.itda-landing .landing-detail-link  {
+  border:0;
+  border-bottom:1px solid #aab9d2;
+  background:none;
+  padding:12px 0;
+  font-size:13px;
+  color:#3b598b;
+  display:flex;
+  justify-content:space-between;
+  width:100%;
+  margin-top:22px
+}
+.itda-landing .landing-detail-link:hover  {
+  color:#173e8e
+}
+.itda-landing .landing-news  {
+  border-top:1px solid #e0e6ef;
+  padding:65px 0 76px
+}
+.itda-landing .landing-section-heading  {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px
+}
+.itda-landing .landing-section-heading h2  {
+  font-size:29px
+}
+.itda-landing .landing-section-heading .landing-section-label  {
+  margin-bottom:13px
+}
+.itda-landing .landing-demo-label  {
+  border:1px solid #dce3ed;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:11px;
+  color:#7d899c
+}
+.itda-landing .landing-news-item  {
+  display:flex;
+  align-items:center;
+  gap:30px;
+  text-align:left;
+  border:0;
+  border-bottom:1px solid #e0e6ef;
+  background:transparent;
+  width:100%;
+  padding:27px 0;
+  color:var(--navy)
+}
+.itda-landing .landing-news-type  {
+  font-size:12px;
+  color:var(--blue);
+  background:#eff4fc;
+  padding:6px 12px;
+  border-radius:5px
+}
+.itda-landing .landing-news-item strong  {
+  font-weight:500;
+  font-size:16px
+}
+.itda-landing .landing-news-arrow  {
+  margin-left:auto;
+  color:var(--blue)
+}
+.itda-landing .landing-sample-note  {
+  font-size:11px;
+  color:#8c97a8;
+  margin-top:18px
+}
+.itda-landing .landing-contact  {
+  padding:56px 65px;
+  background:#eff4fc;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-radius:20px;
+  margin-bottom:85px
+}
+.itda-landing .landing-contact h2  {
+  font-size:33px
+}
+.itda-landing .landing-contact p:not(.landing-section-label)  {
+  font-size:14px;
+  color:#72819b;
+  margin-bottom:0
+}
+.itda-landing .landing-contact-button  {
+  background:var(--blue);
+  color:white;
+  border:0;
+  border-radius:40px;
+  padding:19px 25px;
+  display:flex;
+  gap:55px;
+  font-size:14px
+}
+.itda-landing .landing-contact-button:hover  {
+  background:#1b3e8c
+}
+.itda-landing .landing-footer  {
+  padding:42px 6%;
+  border-top:1px solid #e6eaf0;
+  display:flex;
+  align-items:start;
+  gap:45px;
+  color:#8c98ab
+}
+.itda-landing .landing-footer-logo  {
+  font-style:italic;
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:-3px;
+  color:#8c9ab1
+}
+.itda-landing .landing-footer p  {
+  font-size:12px;
+  margin:2px 0 13px
+}
+.itda-landing .landing-footer small  {
+  display:block;
+  font-size:10px;
+  line-height:1.9
+}
+.itda-landing .landing-back-top  {
+  margin-left:auto;
+  font-size:11px;
+  padding:7px 0
+}
+.itda-landing .landing-dialog  {
+  border:0;
+  border-radius:20px;
+  max-width:470px;
+  width:calc(100% - 40px);
+  padding:42px;
+  color:var(--navy);
+  box-shadow:0 20px 90px #122c4b22
+}
+.itda-landing .landing-dialog::backdrop  {
+  background:#14274680;
+  backdrop-filter:blur(4px)
+}
+.itda-landing .landing-dialog h2  {
+  font-size:26px
+}
+.itda-landing #landing-dialog-text  {
+  font-size:15px;
+  line-height:1.9;
+  color:#6c7990;
+  white-space:pre-line
+}
+.itda-landing .landing-dialog-close  {
+  position:absolute;
+  right:17px;
+  top:11px;
+  background:transparent;
+  border:0;
+  font-size:28px;
+  color:#738199
+}
+.itda-landing .landing-dialog-confirm  {
+  width:100%;
+  border:0;
+  border-radius:9px;
+  color:white;
+  background:var(--blue);
+  padding:13px;
+  margin-top:18px
+}
+@media(min-width:1441px) {
+  .itda-landing .landing-hero-content  {
+  padding-top:66px
+}
+
+}
+@media(max-width:1400px) {
+  .itda-landing .landing-hero-content,
+.itda-landing .landing-content-section  {
+  margin-left:7%;
+  margin-right:7%
+}
+
+}
+@media(max-width:800px) {
+  .itda-landing .landing-header-inner  {
+  height:78px;
+  padding:0 6%
+}
+.itda-landing .landing-logo  {
+  font-size:35px
+}
+.itda-landing .landing-logo-line  {
+  width:25px;
+  height:6px
+}
+.itda-landing .landing-desktop-nav  {
+  gap:30px;
+  font-size:14px
+}
+.itda-landing .landing-hero  {
+  height:530px
+}
+.itda-landing .landing-hero-content  {
+  padding-top:55px;
+  margin-left:8%
+}
+.itda-landing h1  {
+  font-size:42px
+}
+.itda-landing .landing-hero-desc  {
+  font-size:17px
+}
+.itda-landing .landing-hero-bottom>span  {
+  display:none
+}
+.itda-landing .landing-hero-bottom  {
+  justify-content:flex-end
+}
+.itda-landing .landing-services  {
+  gap:16px;
+  padding:0 16px;
+  margin-top:18px
+}
+.itda-landing .landing-service-card  {
+  padding:27px 12px
+}
+.itda-landing .landing-service-card h2  {
+  font-size:18px
+}
+.itda-landing .landing-service-card p  {
+  font-size:14px
+}
+.itda-landing .landing-about  {
+  padding:75px 0 45px;
+  align-items:start;
+  gap:25px
+}
+.itda-landing .landing-about h2  {
+  font-size:25px
+}
+.itda-landing .landing-about>p  {
+  font-size:13px;
+  margin:20px 0 0
+}
+.itda-landing .landing-stories  {
+  gap:20px;
+  padding-bottom:60px
+}
+.itda-landing .landing-stories h3  {
+  font-size:20px
+}
+.itda-landing .landing-stories p  {
+  font-size:13px
+}
+.itda-landing .landing-contact  {
+  padding:40px
+}
+.itda-landing .landing-contact h2  {
+  font-size:28px
+}
+
+}
+@media(max-width:520px) {
+  html:has(.itda-landing)  {
+  scroll-padding-top:30px
+}
+.itda-landing .landing-header-inner  {
+  height:74px
+}
+.itda-landing .landing-desktop-nav  {
+  gap:22px;
+  font-size:13px
+}
+.itda-landing .landing-logo  {
+  font-size:31px;
+  letter-spacing:-4px
+}
+.itda-landing .landing-logo-line  {
+  width:23px;
+  left:12px
+}
+.itda-landing .landing-menu-toggle  {
+  width:26px
+}
+.itda-landing .landing-menu-toggle span  {
+  width:21px
+}
+.itda-landing .landing-hero  {
+  height:510px
+}
+.itda-landing .landing-hero-image  {
+  background-position:61% center
+}
+.itda-landing .landing-hero-overlay  {
+  background:linear-gradient(90deg,#244e9ec9,#2b5ca26b 70%,#265bad29)
+}
+.itda-landing .landing-hero-content  {
+  margin-left:8%;
+  padding-top:48px
+}
+.itda-landing .landing-eyebrow  {
+  font-size:9px;
+  letter-spacing:2px;
+  margin-bottom:24px
+}
+.itda-landing h1  {
+  font-size:36px;
+  line-height:1.34;
+  letter-spacing:-1.6px
+}
+.itda-landing .landing-hero-desc  {
+  font-size:16px;
+  line-height:1.75;
+  margin-bottom:25px
+}
+.itda-landing .landing-start-button  {
+  font-size:14px;
+  padding:13px 21px;
+  gap:32px
+}
+.itda-landing .landing-hero-bottom  {
+  bottom:20px
+}
+.itda-landing .landing-hero-bottom a  {
+  font-size:8px
+}
+.itda-landing .landing-services  {
+  gap:9px;
+  padding:0 12px;
+  margin-top:13px
+}
+.itda-landing .landing-service-card  {
+  border-radius:12px;
+  padding:23px 5px
+}
+.itda-landing .landing-service-card > svg:not(.landing-card-arrow)  {
+  width:40px;
+  height:40px;
+  margin-bottom:10px
+}
+.itda-landing .landing-service-card h2  {
+  font-size:14px;
+  letter-spacing:-.8px;
+  margin-bottom:8px
+}
+.itda-landing .landing-service-card p  {
+  font-size:11px;
+  letter-spacing:-.5px
+}
+.itda-landing .landing-card-arrow  {
+  display:none
+}
+.itda-landing .landing-content-section  {
+  margin-left:7%;
+  margin-right:7%
+}
+.itda-landing .landing-about  {
+  display:block;
+  padding-top:60px
+}
+.itda-landing .landing-section-label  {
+  font-size:9px;
+  margin-bottom:15px
+}
+.itda-landing .landing-about h2  {
+  font-size:26px
+}
+.itda-landing .landing-about>p  {
+  font-size:14px;
+  line-height:1.9;
+  margin-top:24px
+}
+.itda-landing .landing-stories  {
+  grid-template-columns:1fr;
+  gap:30px;
+  padding-bottom:50px
+}
+.itda-landing .landing-stories article  {
+  padding-top:18px
+}
+.itda-landing .landing-stories h3  {
+  margin:17px 0 9px
+}
+.itda-landing .landing-stories p  {
+  font-size:14px
+}
+.itda-landing .landing-detail-link  {
+  margin-top:8px
+}
+.itda-landing .landing-news  {
+  padding:40px 0 45px
+}
+.itda-landing .landing-section-heading h2  {
+  font-size:23px
+}
+.itda-landing .landing-demo-label  {
+  font-size:9px;
+  padding:6px 8px
+}
+.itda-landing .landing-news-item  {
+  gap:13px;
+  padding:20px 0
+}
+.itda-landing .landing-news-item strong  {
+  font-size:13px;
+  line-height:1.7
+}
+.itda-landing .landing-news-type  {
+  font-size:10px;
+  white-space:nowrap
+}
+.itda-landing .landing-contact  {
+  display:block;
+  padding:31px 26px;
+  margin-bottom:45px
+}
+.itda-landing .landing-contact h2  {
+  font-size:27px
+}
+.itda-landing .landing-contact p:not(.landing-section-label)  {
+  font-size:12px
+}
+.itda-landing .landing-contact-button  {
+  margin-top:27px;
+  font-size:12px;
+  padding:15px 21px;
+  gap:40px
+}
+.itda-landing .landing-footer  {
+  padding:30px 7%;
+  gap:25px;
+  flex-wrap:wrap
+}
+.itda-landing .landing-back-top  {
+  margin-left:0
+}
+.itda-landing .landing-footer p  {
+  font-size:10px
+}
+.itda-landing .landing-footer small  {
+  font-size:9px
+}
+.itda-landing .landing-full-menu:not([hidden])  {
+  grid-template-columns:1fr 1fr;
+  gap:10px 30px
+}
+.itda-landing .landing-full-menu a  {
+  font-size:17px;
+  padding:17px 0
+}
+
+}
+@media(prefers-reduced-motion:reduce) {
+  html:has(.itda-landing)  {
+  scroll-behavior:auto
+}
+.itda-landing *  {
+  transition:none!important
+}
+
+}
+
+/* ITDA branding and functional React navigation. */
+.itda-landing { min-height: 100vh; }
+.itda-landing *, .itda-landing *::before, .itda-landing *::after { box-sizing: border-box; }
+.itda-landing section, .itda-landing article { scroll-margin-top: 30px; }
+.itda-landing .landing-skip { position: fixed; left: 16px; top: 12px; z-index: 50; padding: 12px 20px; background: #fff; color: var(--blue); transform: translateY(-160%); }
+.itda-landing .landing-skip:focus { transform: translateY(0); }
+.itda-landing .landing-header { position: relative; z-index: 20; background: #fff; }
+.itda-landing .landing-header-inner { gap: 24px; }
+.itda-landing .landing-logo { display: flex; flex-direction: column; align-items: center; font-size: inherit; font-style: normal; letter-spacing: normal; padding: 0; flex-shrink: 0; }
+.itda-landing .landing-logo strong { position: relative; font-size: 40px; line-height: 1; font-weight: 900; letter-spacing: -3px; font-style: italic; padding-right: 5px; }
+.itda-landing .landing-logo strong span { position: absolute; left: 13px; top: -5px; width: 30px; height: 6px; transform: skew(-35deg); background: #274b9e; }
+.itda-landing .landing-logo small { font-size: 10px; font-weight: 700; margin-top: 6px; letter-spacing: .4px; }
+.itda-landing .landing-menu-toggle { height: 44px; flex-shrink: 0; }
+.itda-landing .landing-full-menu:not([hidden]) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.itda-landing .landing-hero-image { width: 100%; height: 100%; object-fit: cover; object-position: center 57%; background: none; }
+.itda-landing .landing-services { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.itda-landing .landing-stories { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.itda-landing .landing-stories article { display: flex; flex-direction: column; }
+.itda-landing .landing-stories p { margin: 0 0 22px; }
+.itda-landing .landing-detail-link { align-items: center; gap: 12px; margin-top: auto; }
+.itda-landing .landing-service-card:focus-visible .landing-card-arrow { opacity: 1; }
+.itda-landing .landing-start-button, .itda-landing .landing-contact-button { align-items: center; }
+.itda-landing .landing-section-heading { gap: 16px; }
+.itda-landing .landing-demo-label, .itda-landing .landing-news-type { white-space: nowrap; flex-shrink: 0; }
+.itda-landing .landing-news-item:hover strong { color: var(--blue); }
+.itda-landing .landing-news-arrow { flex-shrink: 0; }
+.itda-landing .landing-sample-note { font-size: 12px; line-height: 1.8; color: #657189; }
+.itda-landing .landing-about > p, .itda-landing .landing-service-card p, .itda-landing .landing-stories p { color: #657189; }
+.itda-landing .landing-contact { gap: 32px; }
+.itda-landing .landing-contact-button { flex-shrink: 0; }
+.itda-landing .landing-contact p:not(.landing-section-label) { font-size: 14px; line-height: 1.8; color: #657189; margin-bottom: 0; }
+.itda-landing .landing-footer { color: #657189; }
+.itda-landing .landing-footer-logo { letter-spacing: -2px; }
+.itda-landing .landing-footer small a:hover { text-decoration: underline; }
+.itda-landing .landing-footer-links { margin-left: auto; display: flex; gap: 24px; flex-shrink: 0; font-size: 11px; padding: 7px 0; }
+.itda-landing .landing-dialog { max-height: calc(100dvh - 40px); overflow-y: auto; background: #fff; }
+.itda-landing .landing-dialog-close { width: 36px; height: 36px; }
+@media (max-width: 800px) {
+  .itda-landing .landing-logo strong { font-size: 33px; }
+  .itda-landing .landing-contact-button { gap: 24px; }
+}
+@media (max-width: 600px) {
+  .itda-landing .landing-desktop-nav { display: none; }
+  .itda-landing .landing-full-menu:not([hidden]) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 30px; }
+  .itda-landing .landing-full-menu a { font-size: 17px; padding: 17px 0; }
+}
+@media (max-width: 520px) {
+  .itda-landing .landing-logo strong { font-size: 31px; }
+  .itda-landing .landing-logo strong span { width: 23px; left: 12px; height: 5px; }
+  .itda-landing .landing-logo small { font-size: 9px; }
+  .itda-landing .landing-hero-image { object-position: 61% center; }
+  .itda-landing .landing-stories { grid-template-columns: 1fr; }
+  .itda-landing .landing-stories p { margin-bottom: 8px; }
+  .itda-landing .landing-contact-button { display: inline-flex; gap: 40px; }
+  .itda-landing .landing-contact p:not(.landing-section-label) { font-size: 12px; }
+  .itda-landing .landing-footer-links { margin-left: 0; }
+  .itda-landing .landing-dialog { padding: 38px 26px 26px; }
+}
