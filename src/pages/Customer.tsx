@@ -25,7 +25,7 @@ import { pageTitle } from "../config/brand";
 import SceneBanner from "../components/SceneBanner";
 import NextStopCards from "../components/NextStopCards";
 import "../styles/ServiceUpgrade.css";
-import { cStreetTour, timespaceSite } from "../data/cStreetTour";
+import { cStreetPhotoPath, cStreetTour, timespaceSite } from "../data/cStreetTour";
 import StoreName from "../components/StoreName";
 import { splitStoreName } from "../data/storeName";
 import { validStorefrontImage } from "../data/storefrontImage";
@@ -225,7 +225,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       const group = groups.get(store.building) || {count: 0, x: 0, y: 0, event: false};
       groups.set(store.building, {count: group.count + 1, x: group.x + point.x, y: group.y + point.y, event: group.event || Boolean(store.event)});
     }
-    const badges = [...groups].map(([name, group]) => ({building: name, count: group.count, x: Math.round(group.x / group.count), y: Math.round(group.y / group.count), event: group.event}));
+    // A~D badges sit at their building's centre so they never cover the green street; other blocks use their stores' centre.
+    const badges = [...groups].map(([name, group]) => ({building: name, count: group.count, ...(blockAnchors[name] || {x: Math.round(group.x / group.count), y: Math.round(group.y / group.count)}), event: group.event}));
     // Every block keeps a (muted) badge so the map always names A~D, even on floors without its stores.
     for (const [name, anchor] of Object.entries(blockAnchors)) if (!groups.has(name)) badges.push({building: name, count: 0, ...anchor, event: false});
     return badges;
@@ -239,8 +240,9 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   // The street view always starts at the first photographed point (today: C동 거리 입구).
   const streetStartNode = mappedPhotoNodes[0] || streetNodes.find(node => directions.some(view => hasPhoto(node.id, view)));
   // Map band along each photographed connection, e.g. C동 거리 입구 -> C동 거리.
-  // The last point's forward photo looks further down the street, so the band continues past it.
-  const photoStreetSegments = mappedPhotoNodes.flatMap(node => node.connections
+  // The C-block street follows the white street drawn on the schematic; other photographed links fall back
+  // to a straight band that continues past the last point (its front photo looks further down the street).
+  const photoStreetPaths = mappedPhotoNodes.some(node => node.id === "c-entry") ? [cStreetPhotoPath] : mappedPhotoNodes.flatMap(node => node.connections
     .filter(connection => mappedPhotoNodes.some(other => other.id === connection.to))
     .map(connection => {
       const a = geometry.nodes[node.id], b = geometry.nodes[connection.to];
@@ -474,13 +476,13 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
-                {photoStreetSegments.length > 0 && <g className="map-photo-street" role="button" tabIndex={0} aria-label={`거리 사진이 있는 길 · ${streetStartNode?.name || ""}부터 거리뷰 보기`} onClick={openStreetView} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openStreetView(); } }}>
-                  {photoStreetSegments.map(([a, b], i) => <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="map-photo-street-halo"/>)}
-                  {photoStreetSegments.map(([a, b], i) => <line key={`s${i}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="map-photo-street-line"/>)}
+                {photoStreetPaths.length > 0 && <g className="map-photo-street" role="button" tabIndex={0} aria-label={`거리 사진이 있는 길 · ${streetStartNode?.name || ""}부터 거리뷰 보기`} onClick={openStreetView} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openStreetView(); } }}>
+                  {photoStreetPaths.map((path, i) => <polyline key={i} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-halo"/>)}
+                  {photoStreetPaths.map((path, i) => <polyline key={`s${i}`} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-line"/>)}
                 </g>}
                 {/* Footprints only mark where street photos were taken; the 거리뷰 보기 button and the green street open them. */}
                 {mappedPhotoNodes.map((node) => { const p = geometry.nodes[node.id]; return <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} aria-hidden="true">
-                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "8" : "6.5"} className="map-node-dot"/>
+                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "5.5" : "4.5"} className="map-node-dot"/>
                   </g>; })}
                 {/* One badge per block instead of a numbered pin per store; the block's stores are listed on the right. */}
                 {blockBadges.filter(badge => !(selectedStore && selectedStore.floor === floor && selectedStore.building === badge.building && storePoint(selectedStore))).map(badge => { const active = building === badge.building; const toggle = () => { setBuilding(active ? "전체" : badge.building); setSelectedStoreId(null); setRouteTargetId(null); };

@@ -13,10 +13,14 @@ export const cStreetTour: SitePublication = {
     {id:'c-entry',number:1,name:'C동 거리 입구',subtitle:'오락실 앞 · 거리 진입부',views:{forward:'/street/c-block/entrance.jpg'},stores:[9101,9102,9103],viewStores:{forward:[]},connections:[{direction:'forward',to:'c-street',arrivalView:'forward',label:'거리 안으로 들어가기'}]},
     {id:'c-street',number:2,name:'C동 거리',subtitle:'같은 촬영 지점 · 앞과 뒤 방향',views:{forward:'/street/c-block/street-forward.jpg',back:'/street/c-block/street-back-retouched.png'},stores:[9101,9102,9103],viewStores:{forward:[],back:[],left:[9101,9102,9103],right:[]},connections:[]},
   ],
-  // Schematic positions on the street between the C block and the opposite row (timespace-schematic.svg).
-  geometry: {boundary:[],passages:[],nodes:{'c-entry':{x:258,y:214},'c-street':{x:290,y:178}},stores:{'9101':{x:232,y:195},'9102':{x:250,y:172},'9103':{x:268,y:149}}},
+  // Schematic positions on the white street between the B and C blocks (timespace-schematic.svg): the back
+  // photo shows the B and C bridge markers on either side, and C is on the left when walking in.
+  geometry: {boundary:[],passages:[],nodes:{'c-entry':{x:214,y:189},'c-street':{x:252,y:194}},stores:{'9101':{x:212,y:181},'9102':{x:221,y:185},'9103':{x:229,y:189}}},
   facades: [],
 };
+
+/** Centre line of the photographed street, measured from the white street pixels of timespace-schematic.svg. */
+export const cStreetPhotoPath = [{x: 211, y: 189}, {x: 240, y: 188}, {x: 284, y: 211}];
 
 /** Customer site dataset: the C-block photo tour plus the photo-verified A-D block stores on floors 1-3. */
 export const timespaceSite: SitePublication = {

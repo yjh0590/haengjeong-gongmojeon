@@ -83,7 +83,8 @@ const pins = Object.values(timespaceSite.geometry.stores);
 for (const store of timespaceSite.stores) for (const other of timespaceSite.stores) {
   if (store.id < other.id && store.floor === other.floor) {
     const a = timespaceSite.geometry.stores[store.id], b = timespaceSite.geometry.stores[other.id];
-    assert(Math.hypot(a.x - b.x, a.y - b.y) >= 20, `pins too close: ${store.name} / ${other.name}`);
+    // Only the selected store gets a pin now, so pins just must not sit on the same spot.
+    assert(Math.hypot(a.x - b.x, a.y - b.y) >= 8, `pins too close: ${store.name} / ${other.name}`);
   }
 }
 assert(pins.every(p => p.x >= 0 && p.x <= 500 && p.y >= 0 && p.y <= 374));
