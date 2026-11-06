@@ -11,6 +11,7 @@ assert.equal(photos.length,9);
 assert.equal(photos.filter(r=>r.photo.sourceUrl).length,6);
 assert.deepEqual([...new Set(photos.map(r=>r.floor))].sort(),[1,2,3]);
 assert.equal(new Set(photos.map(r=>r.photo.path)).size,9);
+assert.equal(photos.filter(r=>r.photo.retouch).length,4);
 for(const record of catalog.records) {
   const original=source.records.find(r=>r.id===record.id);
   assert.equal(record.name,original.name);
@@ -23,6 +24,16 @@ for(const record of catalog.records) {
   assert.equal(image.subarray(0,3).toString('hex'),'ffd8ff');
   assert(image.length>1000);
   assert(record.photo.note && record.photo.credit);
+  assert.match(record.photo.presentation.position,/^\d+% \d+%$/);
+  assert(record.photo.presentation.scale>=1 && record.photo.presentation.scale<=3);
+  if(record.photo.retouch){
+    assert.notEqual(record.photo.retouch.path,record.photo.path);
+    const edited=fs.readFileSync(path.join(root,'public',record.photo.retouch.path));
+    assert.equal(edited.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+    assert.equal(edited.readUInt32BE(16),record.photo.retouch.width);
+    assert.equal(edited.readUInt32BE(20),record.photo.retouch.height);
+    assert(record.photo.retouch.note.includes('AI'));
+  }
 }
 assert.equal(photos.find(r=>r.id==='S01-086').building,'B');
 assert.equal(photos.find(r=>r.id==='S01-050').building,'C');

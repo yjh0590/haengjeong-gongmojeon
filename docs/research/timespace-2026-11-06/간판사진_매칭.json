@@ -12,7 +12,12 @@
       "category": "안경",
       "note": "2층 분홍색 으뜸플러스안경 간판. 1층 하남돼지집도 함께 찍힌 과거 외관 사진입니다.",
       "width": 1150,
-      "height": 862
+      "height": 862,
+      "presentation": {
+        "position": "35% 0%",
+        "scale": 2.1
+      },
+      "retouch": null
     },
     {
       "recordId": "S01-050",
@@ -23,7 +28,12 @@
       "category": "미용실",
       "note": "마끼에 입구 간판과 매장 주소를 대조했습니다. 예약 페이지는 C동 308호, 등록 자료는 307·308호로 표기됩니다.",
       "width": 1080,
-      "height": 720
+      "height": 720,
+      "presentation": {
+        "position": "50% 45%",
+        "scale": 1
+      },
+      "retouch": null
     },
     {
       "recordId": "S01-044",
@@ -34,7 +44,12 @@
       "category": "미용실",
       "note": "MAME 입구 간판과 D동 313호 매장 정보를 대조했습니다.",
       "width": 1080,
-      "height": 720
+      "height": 720,
+      "presentation": {
+        "position": "70% 50%",
+        "scale": 1
+      },
+      "retouch": null
     },
     {
       "recordId": "S01-174",
@@ -44,7 +59,17 @@
       "category": "고깃집",
       "note": "2026년 7월 게시 사진. 석암생소금구이 간판과 하모니로 158 B동 주소를 대조했습니다.",
       "width": 1289,
-      "height": 963
+      "height": 963,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/seokam-clean.png",
+        "width": 1451,
+        "height": 1084,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      }
     },
     {
       "recordId": "S01-134",
@@ -54,7 +79,17 @@
       "category": "철판요리",
       "note": "2022년 5월 게시 사진. 간판은 大판 SINCE 1985입니다. 글에서는 2호점 입구로 소개하며 정확한 호수와 현재 외관은 현장 확인이 필요합니다.",
       "width": 900,
-      "height": 900
+      "height": 900,
+      "presentation": {
+        "position": "50% 85%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/daepan-clean.png",
+        "width": 1254,
+        "height": 1254,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      }
     },
     {
       "recordId": "S01-162",
@@ -64,7 +99,17 @@
       "category": "고깃집",
       "note": "2025년 게시 글의 녹돼야지 간판 사진. 원본 275×275px이므로 확대 시 선명도가 제한됩니다.",
       "width": 275,
-      "height": 275
+      "height": 275,
+      "presentation": {
+        "position": "50% 75%",
+        "scale": 1.05
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/nok-clean.png",
+        "width": 1254,
+        "height": 1254,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      }
     },
     {
       "recordId": "S06-001",
@@ -74,7 +119,12 @@
       "category": "오락실",
       "note": "사용자가 제공한 C동 오락실 외관 사진입니다.",
       "width": 1081,
-      "height": 1440
+      "height": 1440,
+      "presentation": {
+        "position": "50% 20%",
+        "scale": 1
+      },
+      "retouch": null
     },
     {
       "recordId": "S01-178",
@@ -84,7 +134,12 @@
       "category": "한식",
       "note": "사용자가 제공한 오락실 오른쪽 오봉집 외관 사진입니다.",
       "width": 1081,
-      "height": 1440
+      "height": 1440,
+      "presentation": {
+        "position": "50% 40%",
+        "scale": 1
+      },
+      "retouch": null
     },
     {
       "recordId": "S01-059",
@@ -94,7 +149,17 @@
       "category": "편의점",
       "note": "사용자가 제공한 오봉집 오른쪽 세븐일레븐 외관 사진입니다.",
       "width": 1081,
-      "height": 1440
+      "height": 1440,
+      "presentation": {
+        "position": "50% 25%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/seven-eleven-clean.png",
+        "width": 1087,
+        "height": 1447,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      }
     }
   ]
 }
