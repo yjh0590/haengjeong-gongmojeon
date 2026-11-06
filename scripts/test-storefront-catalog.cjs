@@ -9,11 +9,12 @@ const source = JSON.parse(fs.readFileSync(path.join(root,'docs/research/timespac
 assert.equal(catalog.records.length, source.records.length);
 assert.equal(new Set(catalog.records.map(r=>r.id)).size, source.records.length);
 const photos = catalog.records.filter(r=>r.photo);
-assert.equal(photos.length,24);
-assert.equal(photos.filter(r=>r.photo.sourceUrl).length,21);
-assert.deepEqual([...new Set(photos.map(r=>r.floor))].sort((a,b)=>a-b),[-1,1,2,3,4,5]);
-assert.equal(new Set(photos.map(r=>r.photo.path)).size,24);
-assert.equal(photos.filter(r=>r.photo.retouch).length,8);
+assert.equal(photos.length,34);
+assert.equal(photos.filter(r=>r.photo.sourceUrl).length,31);
+assert.deepEqual([...new Set(photos.map(r=>r.floor))].sort((a,b)=>a-b),[-1,1,2,3,4,5,6,11]);
+assert.equal(new Set(photos.map(r=>r.photo.path)).size,34);
+assert.equal(photos.filter(r=>r.photo.retouch).length,12);
+for(const building of ['A','B','C','D'])assert.equal(photos.filter(r=>r.building===building).length,8,`Unequal building count: ${building}`);
 for(const building of ['A','B','C','D'])for(const floor of [1,2,3])assert(photos.some(r=>r.building===building && r.floor===floor),`Missing area: ${building}${floor}`);
 for(const record of catalog.records) {
   const original=source.records.find(r=>r.id===record.id);
@@ -44,4 +45,4 @@ for(const record of catalog.records) {
 assert.equal(photos.find(r=>r.id==='S01-086').building,'B');
 assert.equal(photos.find(r=>r.id==='S01-050').building,'C');
 assert.equal(photos.find(r=>r.id==='S01-044').building,'D');
-console.log('PASS: all 387 source records preserved, 24 distinct photos, 21 web sources, 12 areas, 8 separate edits, valid dimensions and ID/address matching');
+console.log('PASS: all 387 source records preserved, 34 distinct photos, 31 web sources, 12 areas, 12 separate edits, valid dimensions and ID/address matching');

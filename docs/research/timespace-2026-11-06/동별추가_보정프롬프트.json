@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "songdoc",
+    "mode": "built-in edit",
+    "original": "story-6798.webp",
+    "output": "public/street/timespace-signs/songdoc-clean.png",
+    "prompt": "Use case: precise-object-edit. Edit ONLY this actual Songdo TimeSpace storefront photograph. Remove the real seated person behind the lower-left storefront glass, including human reflections. Conservatively reconstruct the occluded areas as empty glazing/interior using only adjacent visible surfaces. Preserve original aspect ratio, camera viewpoint, storefront architecture, awnings, lights, furniture, every Korean/English sign, all logos, posted menus, and original photographic appearance. Do not add new objects or redesign any shop. Preserve printed cartoon mascots and printed people on permanent advertising signs. No real humans or human reflections. No new text or watermark."
+  },
+  {
+    "slug": "godong",
+    "mode": "built-in edit",
+    "original": "balance-godong-1.jpg",
+    "output": "public/street/timespace-signs/godong-clean.png",
+    "prompt": "Use case: precise-object-edit. Edit ONLY this actual Songdo TimeSpace storefront photograph. Remove seated customers visible behind the lower central window, and any real human reflections. Conservatively reconstruct the occluded areas as empty glazing/interior using only adjacent visible surfaces. Preserve original aspect ratio, camera viewpoint, storefront architecture, awnings, lights, furniture, every Korean/English sign, all logos, posted menus, and original photographic appearance. Do not add new objects or redesign any shop. Preserve printed cartoon mascots and printed people on permanent advertising signs. No real humans or human reflections. No new text or watermark."
+  },
+  {
+    "slug": "hanmaum",
+    "mode": "built-in edit",
+    "original": "balance-hanmaum-0.jpg",
+    "output": "public/street/timespace-signs/hanmaum-clean.png",
+    "prompt": "Use case: precise-object-edit. Edit ONLY this actual Songdo TimeSpace storefront photograph. Remove every real patron and worker visible behind the shop window, including pixelated censor patches attached to them. Conservatively reconstruct the occluded areas as empty glazing/interior using only adjacent visible surfaces. Preserve original aspect ratio, camera viewpoint, storefront architecture, awnings, lights, furniture, every Korean/English sign, all logos, posted menus, and original photographic appearance. Do not add new objects or redesign any shop. Preserve printed cartoon mascots and printed people on permanent advertising signs. No real humans or human reflections. No new text or watermark."
+  },
+  {
+    "slug": "yumi",
+    "mode": "built-in edit",
+    "original": "balance-yumi-0.jpg",
+    "output": "public/street/timespace-signs/yumi-clean.png",
+    "prompt": "Use case: precise-object-edit. Edit ONLY this actual Songdo TimeSpace storefront photograph. Remove the photographer reflected in the central glass and the other real people reflected in or seen through all glass panes. Preserve reflected vehicles, trees and architectural reflections. Conservatively reconstruct the occluded areas as empty glazing/interior using only adjacent visible surfaces. Preserve original aspect ratio, camera viewpoint, storefront architecture, awnings, lights, furniture, every Korean/English sign, all logos, posted menus, and original photographic appearance. Do not add new objects or redesign any shop. Preserve printed cartoon mascots and printed people on permanent advertising signs. No real humans or human reflections. No new text or watermark."
+  }
+]

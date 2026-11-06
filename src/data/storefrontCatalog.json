@@ -16,7 +16,24 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-001",
+        "path": "/street/timespace-signs/songdo-hospital.jpg",
+        "sourceUrl": "https://songdostory.com/stores/%ec%86%a1%eb%8f%84%ed%95%9c%eb%b0%a9%eb%b3%91%ec%9b%90-%ec%9d%b8%ec%b2%9c-%ec%9d%98%eb%a3%8c%ea%b8%b0%ea%b4%80%ec%86%8c%ea%b0%9c/",
+        "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/sd-h087-clinic-scaled.jpg",
+        "credit": "송도스토리",
+        "category": "한방병원",
+        "kind": "실내 간판",
+        "note": "공개 매장 안내의 하모니로 158 A동 6층 주소와 기존 기록을 대조했습니다. SONGDO HOSPITAL OF KOREAN MEDICINE 실내 표지가 보이는 대기 공간입니다.",
+        "width": 2560,
+        "height": 1707,
+        "presentation": {
+          "position": "25% 60%",
+          "scale": 1
+        },
+        "retouch": null,
+        "originalSha256": "ee6eb6b21d48276275425f483dcf1bc3f4d3978afc3b57a08346a88a4fa76e6b"
+      }
     },
     {
       "id": "S01-002",
@@ -1316,7 +1333,7 @@
     {
       "id": "S01-066",
       "name": "송도씨",
-      "category": "커피숍",
+      "category": "베이커리",
       "building": "A",
       "floor": 1,
       "rooms": "102",
@@ -1328,7 +1345,29 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-066",
+        "path": "/street/timespace-signs/songdoc.webp",
+        "sourceUrl": "https://songdostory.com/stores/%ec%86%a1%eb%8f%84%ec%94%a8-%ed%83%80%ec%9e%84%ec%8a%a4%ed%8e%98%ec%9d%b4%ec%8a%a4-%ec%86%8c%ea%b8%88%eb%b9%b5-%ec%a0%84%eb%ac%b8%ec%a0%90/",
+        "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-cf026-20261010.webp",
+        "credit": "송도스토리",
+        "category": "베이커리",
+        "kind": "입구·외관",
+        "note": "송도씨 간판과 입구 사진. 공개 매장 안내의 A동 102호와 기존 기록을 대조했습니다. 프리오픈 당시 게시물이 보여 현재 외관과 다를 수 있습니다.",
+        "width": 1200,
+        "height": 900,
+        "presentation": {
+          "position": "60% 30%",
+          "scale": 1
+        },
+        "retouch": {
+          "path": "/street/timespace-signs/songdoc-clean.png",
+          "width": 1448,
+          "height": 1086,
+          "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+        },
+        "originalSha256": "c25214c3f0d9cfef133ccca04262755e23951eb3a1fd0bccf54bcd599cc7d607"
+      }
     },
     {
       "id": "S01-067",
@@ -1549,7 +1588,24 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-079",
+        "path": "/street/timespace-signs/ainaerae.jpg",
+        "sourceUrl": "https://songdostory.com/stores/%ec%95%84%ec%9d%b4%eb%82%98%eb%9e%98%ec%a0%95%ec%8b%a0%ea%b1%b4%ea%b0%95%ec%9d%98%ed%95%99%ea%b3%bc%ec%9d%98%ec%9b%90-%ec%9d%b8%ec%b2%9c-%ec%86%a1%eb%8f%84-%ec%9d%98%eb%a3%8c%ea%b8%b0%ea%b4%80/",
+        "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/sd-h075-clinic.jpg",
+        "credit": "송도스토리",
+        "category": "의원",
+        "kind": "실내 간판",
+        "note": "아이나래 접수대 벽면 간판. 공개 안내의 A동 5층 511·512·513호와 기존 기록을 대조했습니다. 외부 입구 사진은 아닙니다.",
+        "width": 1440,
+        "height": 1081,
+        "presentation": {
+          "position": "65% 40%",
+          "scale": 1
+        },
+        "retouch": null,
+        "originalSha256": "323e6fabeda1e4a5873282af811a9df17c6bc4f42a6b25f5b988e899031e54e6"
+      }
     },
     {
       "id": "S01-080",
@@ -1981,7 +2037,24 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-101",
+        "path": "/street/timespace-signs/vans.webp",
+        "sourceUrl": "https://songdostory.com/stores/%eb%b0%b4%ec%8a%a4%ec%9d%98%ec%9b%90-%ec%9d%b8%ec%b2%9c-%ec%86%a1%eb%8f%84-%ec%9d%98%eb%a3%8c%ea%b8%b0%ea%b4%80%ec%86%8c%ea%b0%9c/",
+        "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/sd-351-efa41f45911268d9c8e1.webp",
+        "credit": "송도스토리",
+        "category": "의원",
+        "kind": "실내 로고",
+        "note": "공개 매장 안내의 하모니로 158 B동 11층 주소와 기존 기록을 대조했습니다. 접수대 뒤 원형 VS 로고가 보이는 실내 사진이며 외부 입구·한글 간판 사진은 미확보입니다.",
+        "width": 733,
+        "height": 591,
+        "presentation": {
+          "position": "30% 25%",
+          "scale": 1.8
+        },
+        "retouch": null,
+        "originalSha256": "efa41f45911268d9c8e1a522bf8de3b42e94aaf87b7a6ac547f9598ae3879d65"
+      }
     },
     {
       "id": "S01-102",
@@ -2400,7 +2473,7 @@
     {
       "id": "S01-125",
       "name": "카이토(KAITO)",
-      "category": "일식",
+      "category": "일식·오마카세",
       "building": "A",
       "floor": 1,
       "rooms": "103",
@@ -2412,7 +2485,23 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-125",
+        "path": "/street/timespace-signs/kaito.jpg",
+        "sourceUrl": "https://gtdflow.tistory.com/26",
+        "credit": "소박하지만 우아하고 싶어",
+        "category": "일식·오마카세",
+        "kind": "입구·외관",
+        "note": "2026년 4월 타임스페이스 방문 글의 카이토 입구와 기존 A동 103호 기록을 대조했습니다. 카이토(かいと/kaito) 표지가 보입니다.",
+        "width": 4000,
+        "height": 2252,
+        "presentation": {
+          "position": "25% 60%",
+          "scale": 1
+        },
+        "retouch": null,
+        "originalSha256": "a78399f2d7f32e5951af94210294445a8449abed43999b8b16c6ca10d507b702"
+      }
     },
     {
       "id": "S01-126",
@@ -2700,7 +2789,7 @@
     {
       "id": "S01-140",
       "name": "다니 스테이크 하우스",
-      "category": "기타",
+      "category": "스테이크",
       "building": "D",
       "floor": 1,
       "rooms": "129, 130",
@@ -2712,7 +2801,23 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-140",
+        "path": "/street/timespace-signs/dani.jpg",
+        "sourceUrl": "https://darkhustler.tistory.com/33",
+        "credit": "darkhustler",
+        "category": "스테이크",
+        "kind": "입구·외관",
+        "note": "2022년 9월 방문 글의 D동 1층 DANY STEAKHOUSE 외관입니다. 글에서 C동으로 표시되는 지도와 달리 실제 D동임을 설명하며 기존 D동 129·130호 기록과 대조했습니다.",
+        "width": 500,
+        "height": 335,
+        "presentation": {
+          "position": "60% 30%",
+          "scale": 1
+        },
+        "retouch": null,
+        "originalSha256": "20b472871fa653a413426f4b58ec16665045d709fd8f90a2bbabeb7f49ac8056"
+      }
     },
     {
       "id": "S01-141",
@@ -2734,7 +2839,7 @@
     {
       "id": "S01-142",
       "name": "한마음정육식당 송도타임스페이스점",
-      "category": "식육(숯불구이)",
+      "category": "고깃집",
       "building": "B",
       "floor": 2,
       "rooms": "205, 206, 207, 208",
@@ -2746,7 +2851,28 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-142",
+        "path": "/street/timespace-signs/hanmaum.jpg",
+        "sourceUrl": "https://meoggobogo.tistory.com/136",
+        "credit": "식견 · 먹고 보고",
+        "category": "고깃집",
+        "kind": "입구·외관",
+        "note": "2024년 12월 게시된 한마음정육식당 입구. 글의 B동 2층 205호와 기존 205~208호 기록을 대조했습니다.",
+        "width": 1122,
+        "height": 787,
+        "presentation": {
+          "position": "60% 30%",
+          "scale": 1
+        },
+        "retouch": {
+          "path": "/street/timespace-signs/hanmaum-clean.png",
+          "width": 1498,
+          "height": 1050,
+          "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+        },
+        "originalSha256": "ff6b95d9d9ccc18d2c2f86225093608037bc86be2d506f039d35c6278ab5b590"
+      }
     },
     {
       "id": "S01-143",
@@ -2818,7 +2944,7 @@
     {
       "id": "S01-146",
       "name": "유미카츠 인천대입구역점",
-      "category": "한식",
+      "category": "돈카츠",
       "building": "B",
       "floor": 1,
       "rooms": "114",
@@ -2830,7 +2956,28 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-146",
+        "path": "/street/timespace-signs/yumi.jpg",
+        "sourceUrl": "https://silver-bronze.tistory.com/entry/%EC%9D%B8%EC%B2%9C%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD-%EB%8F%88%EC%B9%B4%EC%B8%A0-%EB%A7%9B%EC%A7%91-%EC%9C%A0%EB%AF%B8%EC%B9%B4%EC%B8%A0%ED%86%A0%EB%A7%88%ED%98%B8%ED%81%AC%EC%B9%B4%EC%B8%A0-%EB%96%A1%EB%B3%B6%EC%B9%B4%EC%B8%A0-%EC%B9%98%EC%A6%88%EC%B9%B4%EC%B8%A0-%EB%82%B4%EB%8F%88%EB%82%B4%EC%82%B0-%EC%B0%90%ED%9B%84%EA%B8%B0",
+        "credit": "은동",
+        "category": "돈카츠",
+        "kind": "입구·외관",
+        "note": "2023년 3월 방문 글의 B동 114호 유미카츠 외관입니다. 기존 기록과 주소·상호를 대조했습니다.",
+        "width": 3024,
+        "height": 3206,
+        "presentation": {
+          "position": "65% 25%",
+          "scale": 1
+        },
+        "retouch": {
+          "path": "/street/timespace-signs/yumi-clean.png",
+          "width": 1218,
+          "height": 1292,
+          "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+        },
+        "originalSha256": "279cf8edfa2d492e515d9897b690c1e657bd6d60589016d51b3fe4db18590755"
+      }
     },
     {
       "id": "S01-147",
@@ -3194,7 +3341,7 @@
     {
       "id": "S01-166",
       "name": "고동경양 인천송도타임스페이스",
-      "category": "한식",
+      "category": "경양식",
       "building": "A",
       "floor": 1,
       "rooms": "124",
@@ -3206,12 +3353,33 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-166",
+        "path": "/street/timespace-signs/godong.jpg",
+        "sourceUrl": "https://ks7539.tistory.com/entry/%EC%9D%B8%EC%B2%9C-%EC%86%A1%EB%8F%84-%EA%B3%A0%EB%8F%99%ED%95%A8%EB%B0%95-%EB%A7%9B%EC%A7%91-%EC%97%AC%ED%96%89-%EB%82%B4%EB%8F%88%EB%82%B4%EC%82%B0",
+        "credit": "미소네 여행장이",
+        "category": "경양식",
+        "kind": "입구·외관",
+        "note": "2023년 4월 방문 글의 A동 124호 고동함박 외관입니다. 기존 인허가 상호는 고동경양으로 표기가 다르며 원본 상호를 유지했습니다. 당시 간판 사진으로 현재 상호·외관은 방문 전 확인이 필요합니다.",
+        "width": 699,
+        "height": 905,
+        "presentation": {
+          "position": "55% 35%",
+          "scale": 1
+        },
+        "retouch": {
+          "path": "/street/timespace-signs/godong-clean.png",
+          "width": 1102,
+          "height": 1428,
+          "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+        },
+        "originalSha256": "b4a0980424fdec47db4073f7a710b7bda16ec7d8ff5e1eb0aa56a8abc986b654"
+      }
     },
     {
       "id": "S01-167",
       "name": "Lucass Pizza(루카스피자)",
-      "category": "경양식",
+      "category": "피자",
       "building": "B",
       "floor": 1,
       "rooms": "120",
@@ -3223,7 +3391,23 @@
         "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
         "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
       },
-      "photo": null
+      "photo": {
+        "recordId": "S01-167",
+        "path": "/street/timespace-signs/lucas.jpg",
+        "sourceUrl": "https://meoggobogo.tistory.com/70",
+        "credit": "식견 · 먹고 보고",
+        "category": "피자",
+        "kind": "입구·외관",
+        "note": "2024년 방문 글의 타임스페이스 B동 루카스피자 외관. 기존 B동 120호 기록과 상호·건물을 대조했습니다. 원본 해상도가 작아 확대 시 선명도에 한계가 있습니다.",
+        "width": 331,
+        "height": 437,
+        "presentation": {
+          "position": "50% 0%",
+          "scale": 1
+        },
+        "retouch": null,
+        "originalSha256": "3f336e206bcbe012f30f8aac4abcfcf927779edd3146ea51ad857840ae9f9e6c"
+      }
     },
     {
       "id": "S01-168",

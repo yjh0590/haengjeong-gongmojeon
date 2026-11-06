@@ -58,9 +58,9 @@ export default function StorefrontDirectory() {
     <details className="sign-area-overview" open>
       <summary>동·층별 사진 보기 <span>1~3층 {areas.filter(area => area.count>0).length}/12개 구역에 연결</span></summary>
       <div className="sign-area-grid" role="group" aria-label="동과 층별 간판 사진">
-        {['A','B','C','D'].map(block => <div key={block}><strong>{block}동</strong>{areas.filter(area => area.building===block).map(area => <button type="button" key={area.floor} aria-label={`${block}동 ${area.floor}층 사진 ${area.count}개`} aria-pressed={building===block && floor===String(area.floor) && !allRecords} onClick={() => {setBuilding(block);setFloor(String(area.floor));setAllRecords(false);setQuery('');setPage(0);}}><span>{area.floor}층</span><b>{area.count ? `${area.count}곳` : '사진 확인 전'}</b></button>)}</div>)}
+        {['A','B','C','D'].map(block => <div key={block}><button type="button" className="sign-building-total" aria-label={`${block}동 전체 층 사진 ${photoRecords.filter(entry => entry.building===block).length}개`} aria-pressed={building===block && floor==='전체' && !allRecords} onClick={() => {setBuilding(block);setFloor('전체');setAllRecords(false);setQuery('');setPage(0);}}><span>{block}동</span><b>전체 {photoRecords.filter(entry => entry.building===block).length}곳</b></button>{areas.filter(area => area.building===block).map(area => <button type="button" key={area.floor} aria-label={`${block}동 ${area.floor}층 사진 ${area.count}개`} aria-pressed={building===block && floor===String(area.floor) && !allRecords} onClick={() => {setBuilding(block);setFloor(String(area.floor));setAllRecords(false);setQuery('');setPage(0);}}><span>{area.floor}층</span><b>{area.count ? `${area.count}곳` : '사진 확인 전'}</b></button>)}</div>)}
       </div>
-      <p>각 구역에 연결된 사진 카드 수입니다. 전체 입점 가게 수나 수집 완료율은 아닙니다.</p>
+      <p>동별 전체 수는 모든 층을 포함합니다. 아래 1~3층 수와는 기준이 다르며, 전체 입점 가게 수나 수집 완료율은 아닙니다.</p>
     </details>
     <div className="sign-result-heading" ref={resultsRef}><p role="status"><strong>{rows.length}</strong>{allRecords ? '개 출처별 기록 · 중복 포함' : '개 사진 카드'}<span>층 → 동 → 호수 순</span></p><button type="button" onClick={reset}>조건 초기화</button></div>
     <p className="sign-data-note">{catalog.collectedOn} 수집 자료입니다. 현재 영업 여부와 외관은 달라질 수 있습니다. {allRecords ? '전체 387건은 출처별 기록이며 가게 수가 아닙니다. ' : ''}실제 거리의 좌우 순서는 아직 확인되지 않았습니다.</p>
