@@ -349,3 +349,10 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
   .app-shell .store-grid .store-card-top .category-pill{font-size:0;padding:4px;max-width:none}
   .app-shell .store-grid .store-card-top .category-pill svg{width:12px;height:12px}
 }
+
+/* Same space between the top banner and the first card on every tab (map, street, list). */
+.app-shell .customer-banner,.app-shell .customer-photo-heading,.app-shell .service-directory-heading{margin-bottom:0!important}
+.app-shell .customer-photo-heading,.app-shell .service-directory-heading{margin-top:16px}
+.app-shell .explore-section,.app-shell .itda-customer-content-v47 .explore-section{margin-top:20px!important}
+.app-shell .explore-section>:first-child{margin-top:0!important}
+@media(max-width:600px){.app-shell .explore-section,.app-shell .itda-customer-content-v47 .explore-section{margin-top:14px!important}}
