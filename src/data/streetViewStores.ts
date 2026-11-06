@@ -1,6 +1,12 @@
 import type { FacadeAnnotation } from "./facadeAnnotations";
 import type { StoreData, ViewDirection } from "../types/street";
 
+/** Side buttons are relative to the photographed heading, not a new photo or a walk. */
+export function streetSideView(heading: ViewDirection, side: "left" | "right"): ViewDirection {
+  const compass: ViewDirection[] = ["forward", "right", "back", "left"];
+  return compass[(compass.indexOf(heading) + (side === "left" ? 3 : 1)) % 4];
+}
+
 /** Explicit card order first, then legacy outlines ordered from left to right. No truncation. */
 export function storesForStreetView(
   stores: StoreData[], facades: FacadeAnnotation[], nodeId: string, view: ViewDirection,

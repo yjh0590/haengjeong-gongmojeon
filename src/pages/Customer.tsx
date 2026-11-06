@@ -18,7 +18,7 @@ import { publicMediaUrl, useMediaDraft } from "../data/mediaStorage";
 import { getFacadeAnnotations, type FacadeAnnotation } from "../data/facadeAnnotations";
 import CustomerBanner from "../components/CustomerBanner";
 import { koreanDate } from "../data/publicPromotions";
-import { storesForStreetView, streetStorePage } from "../data/streetViewStores";
+import { storesForStreetView, streetStorePage, streetSideView } from "../data/streetViewStores";
 import { usePageTab } from "../hooks/usePageTab";
 import SiteBrand from "../components/SiteBrand";
 import { pageTitle } from "../config/brand";
@@ -100,6 +100,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const [favorites, setFavorites] = useState<number[]>(readFavorites);
   const [currentNodeId, setCurrentNodeId] = useState(demoTour ? "c-entry" : "point1");
   const [currentView, setCurrentView] = useState<ViewDirection>("forward");
+  const [lookSide, setLookSide] = useState<"left" | "right" | null>(null);
   const [photoSize, setPhotoSize] = useState<{src: string; width: number; height: number} | null>(null);
   const [storePaging, setStorePaging] = useState({ context: "", page: 0 });
   const [photoTravel, setPhotoTravel] = useState<{ previous: string; kind: "forward" | "left" | "right"; stamp: number } | null>(null);
@@ -120,6 +121,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const mapRef = useRef<HTMLElement>(null);
   const modalRef = useRef<HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const streetStoresRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { document.title = pageTitle("customer"); }, []);
   useEffect(() => () => { if (travelTimer.current) clearTimeout(travelTimer.current); }, []);
@@ -191,10 +193,12 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const featuredStores = useMemo(() => effectiveStores.filter((store) => Boolean(store.event)), [effectiveStores]);
   const activeFacades = facades.filter((a) => a.nodeId === currentNodeId && a.view === currentView &&
     effectiveStores.some((s) => s.id === a.storeId));
+  const storeView = lookSide ? streetSideView(currentView, lookSide) : currentView;
+  const showSideControls = currentImage && (hasPhoto(currentNodeId, "back") || ["left", "right"].some(side => currentNode.viewStores?.[side as ViewDirection] !== undefined));
   const spotlightStores = useMemo(() =>
-    storesForStreetView(matchingStores, facades, currentNodeId, currentView, currentNode.viewStores?.[currentView]),
-  [matchingStores, facades, currentNodeId, currentView, currentNode.viewStores]);
-  const pagingContext = `${currentNodeId}:${currentView}:${spotlightStores.map(store => store.id).join(",")}`;
+    storesForStreetView(matchingStores, facades, currentNodeId, storeView, currentNode.viewStores?.[storeView]),
+  [matchingStores, facades, currentNodeId, storeView, currentNode.viewStores]);
+  const pagingContext = `${currentNodeId}:${currentView}:${lookSide || "straight"}:${spotlightStores.map(store => store.id).join(",")}`;
   const storePage = streetStorePage(spotlightStores, storePaging.context === pagingContext ? storePaging.page : 0);
   const turnStorePage = (page: number) => setStorePaging({ context: pagingContext, page });
   const hasStoreFilter = tab === "list" || Boolean(query.trim() || onlySaved || filter !== "전체" || showDiscoveries);
@@ -209,6 +213,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const focusNode = (nodeId: string, preferred: ViewDirection = "forward", showStreet = true) => {
     if (nodeId !== currentNodeId && showStreet) animatePhoto("forward");
     setCurrentNodeId(nodeId);
+    setLookSide(null);
     setSelectedStoreId(null);
     if (showStreet) openTab("street");
     if (hasPhoto(nodeId,preferred)) { setCurrentView(preferred); return; }
@@ -227,10 +232,13 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       streetNodes.find(node => Object.values(node.viewStores || {}).some(ids => ids.includes(storeId))) ||
       streetNodes.find(node => node.stores.includes(storeId));
     if (linked) openTab("street");
-    if (linked && !visibleFacade && !(linked.id === currentNodeId && currentNode.viewStores?.[currentView]?.includes(storeId))) {
+    if (linked && !visibleFacade && !spotlightStores.some(store => store.id === storeId) && !(linked.id === currentNodeId && currentNode.viewStores?.[currentView]?.includes(storeId))) {
       const annotation = facades.find(item => item.storeId === storeId && item.nodeId === linked.id);
       const cardView = directions.find(view => linked.viewStores?.[view]?.includes(storeId));
-      focusNode(linked.id, annotation?.view || cardView || "forward");
+      const preferred = annotation?.view || cardView || "forward";
+      const heading = hasPhoto(linked.id, preferred) ? preferred : directions.find(view => hasPhoto(linked.id, view)) || "forward";
+      focusNode(linked.id, heading);
+      if (cardView && cardView !== heading) setLookSide((["left", "right"] as const).find(side => streetSideView(heading, side) === cardView) || null);
     }
     setSelectedStoreId(storeId);
     const chosen = effectiveStores.find((s) => s.id === storeId);
@@ -430,6 +438,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
               </svg>}
               {photoTravel && <img key={photoTravel.stamp} src={photoTravel.previous} className={`street-travel-layer travel-${photoTravel.kind}`} alt="" aria-hidden="true"/>}
               {nextPhotoLink && <button className="street-step-next" type="button" onClick={() => focusNode(nextPhotoLink.to, nextPhotoLink.arrivalView || nextPhotoLink.direction)}><ArrowUp size={22}/><span>{nextPhotoLink.label || "다음 사진으로 이동"}</span></button>}
+              {showSideControls && <div className="street-side-actions" role="group" aria-label="거리 양쪽 가게 보기">{(["left", "right"] as const).map(side => <button key={side} type="button" aria-pressed={lookSide === side} aria-controls="street-visible-stores" onClick={() => {setLookSide(side);setSelectedStoreId(null);window.requestAnimationFrame(() => streetStoresRef.current?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",block:"start"}));}}>{side === "left" && <ArrowLeft size={20}/>}<span>{directionName[side]} 가게 보기</span>{side === "right" && <ArrowRight size={20}/>}</button>)}</div>}
               <span className="street-photo-caption"><MapPin size={13}/> {currentNode.subtitle}</span>
             </div>
             <div className="direction-controls"><span>보는 방향</span><div>{(["forward", "back"] as const).map(direction => <button key={direction} type="button" className={currentView === direction ? "active" : ""} disabled={!hasPhoto(currentNodeId,direction)} onClick={() => changeView(direction)} aria-label={`${directionName[direction]} 방향 보기`} title={`${directionName[direction]} 방향 보기`} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={22}/> : <ArrowDown size={22}/>}</button>)}</div></div>
@@ -438,13 +447,14 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
 
             </div>
-            <div className="street-store-showcase" aria-label="현재 방향에 연결된 가게" aria-live="polite">
+            <div className="street-store-showcase" id="street-visible-stores" ref={streetStoresRef} aria-label="현재 방향에 연결된 가게" aria-live="polite">
               <div className="street-store-showcase-head">
                 <div>
                   <span className="panel-eyebrow">STORES IN VIEW</span>
-                  <h4>{directionName[currentView]} 방향에서 만나는 가게</h4>
-                  <p>{currentNode.name} · {directionName[currentView]} 방향 · 전체 {spotlightStores.length}곳을 3개씩 둘러보세요.</p>
+                  <h4>{lookSide ? `${directionName[lookSide]} 면에서 만나는 가게` : showSideControls && !spotlightStores.length ? "어느 쪽 가게를 볼까요?" : `${directionName[currentView]} 방향에서 만나는 가게`}</h4>
+                  <p>{currentNode.name} · {directionName[currentView]}을 보는 중{lookSide ? ` · ${directionName[lookSide]} 면 ${spotlightStores.length}곳` : ""}{spotlightStores.length > 0 ? " · 가게 카드를 3개씩 둘러보세요." : showSideControls ? " · 거리 사진의 왼쪽·오른쪽 버튼을 눌러보세요." : nextPhotoLink ? " · 거리 안으로 들어가 가게를 둘러보세요." : " · 연결된 가게를 준비 중이에요."}</p>
                 </div>
+                {showSideControls && <div className="street-store-side-tabs" role="group" aria-label="가게 면 선택">{(["left", "right"] as const).map(side => <button key={side} type="button" aria-pressed={lookSide === side} onClick={() => {setLookSide(side);setSelectedStoreId(null);}}>{side === "left" ? <ArrowLeft size={17}/> : <ArrowRight size={17}/>} {directionName[side]} 면</button>)}</div>}
               </div>
               {storePage.pageCount > 0 && <div className="street-store-pagination"><button type="button" disabled={storePage.page === 0} onClick={() => turnStorePage(storePage.page - 1)} aria-label="이전 가게 3곳"><ArrowLeft size={18}/> 이전 가게</button><span role="status">{storePage.page * 3 + 1}–{Math.min(spotlightStores.length, storePage.page * 3 + 3)} / {spotlightStores.length}곳</span><button type="button" disabled={storePage.page + 1 >= storePage.pageCount} onClick={() => turnStorePage(storePage.page + 1)} aria-label="다음 가게 3곳">다음 가게 <ArrowRight size={18}/></button></div>}
               <div className="street-store-grid" key={`${pagingContext}:${storePage.page}`}>
@@ -458,7 +468,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                         <span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type} · {store.category}</span>
                         <span className="street-store-card-point">{floorPointNumber.get(store.id) || "-"}번</span>
                       </div>
-                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) && <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} 간판과 외관`} loading="lazy"/>}<strong>{store.name}</strong><span>{store.description}</span></button>
+                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
                       <ul className="street-store-card-meta">
                         <li><MapPin size={14}/> {store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</li>
                         <li><Utensils size={14}/> 대표 정보 · {store.menu}</li>
@@ -468,7 +478,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   </article>;
                 })}
               </div>
-              {!spotlightStores.length && <div className="street-store-empty"><Store size={24} aria-hidden="true" /><strong>{hasStoreFilter ? "조건에 맞는 가게가 이 방향에 없어요" : "이 방향에 연결된 가게가 아직 없어요"}</strong><p>{hasStoreFilter ? "다른 방향을 선택하거나 검색·필터 조건을 바꿔 보세요." : "다른 방향을 선택해 보세요. 가게 정보가 연결되면 이곳에 표시됩니다."}</p></div>}
+              {!spotlightStores.length && <div className="street-store-empty"><Store size={24} aria-hidden="true" /><strong>{!lookSide && showSideControls ? "보고 싶은 쪽을 골라보세요" : hasStoreFilter ? "조건에 맞는 가게가 이쪽에 없어요" : `${lookSide ? directionName[lookSide] + " 면에" : "이 방향에"} 연결된 가게가 아직 없어요`}</strong><p>{!lookSide && showSideControls ? "왼쪽·오른쪽을 선택하면 해당 면의 가게 카드가 나와요." : "다른 쪽을 선택하거나 검색·필터 조건을 바꿔 보세요."}</p></div>}
             </div>
             </div>
           </section>

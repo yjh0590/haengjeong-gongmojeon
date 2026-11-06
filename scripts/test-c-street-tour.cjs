@@ -15,7 +15,7 @@ function load(file) {
 const {cStreetTour: tour, appendCStreetTour} = load('src/data/cStreetTour.ts');
 const {validStores} = load('src/data/storeDraft.ts');
 const {isValidStreetNodes} = load('src/data/streetNetwork.ts');
-const {storesForStreetView, streetStorePage} = load('src/data/streetViewStores.ts');
+const {storesForStreetView, streetStorePage, streetSideView} = load('src/data/streetViewStores.ts');
 const {validStorefrontImage} = load('src/data/storefrontImage.ts');
 assert(validStores(tour.stores));
 assert(isValidStreetNodes(tour.nodes));
@@ -23,8 +23,15 @@ const street = tour.nodes.find(node => node.id === 'c-street');
 assert.deepEqual(Object.keys(street.views).sort(), ['back', 'forward']);
 assert.equal(tour.nodes[0].connections[0].to, street.id);
 assert.equal(tour.nodes[0].connections[0].arrivalView, 'forward');
-assert.deepEqual(storesForStreetView(tour.stores, [], street.id, 'forward', street.viewStores.forward).map(store => store.name), ['대빵 오락실', '오봉집', '세븐일레븐']);
+assert.deepEqual(storesForStreetView(tour.stores, [], street.id, streetSideView('forward','left'), street.viewStores.left).map(store => store.name), ['대빵 오락실', '오봉집', '세븐일레븐']);
 assert.deepEqual(storesForStreetView(tour.stores, [], street.id, 'back', street.viewStores.back), []);
+assert.equal(streetSideView('back','right'),'left');
+assert.equal(streetSideView('forward','right'),'right');
+assert.equal(streetSideView('back','left'),'right');
+assert.equal(streetSideView('left','left'),'back');
+assert.equal(streetSideView('right','right'),'back');
+assert.deepEqual(storesForStreetView(tour.stores, [], street.id, streetSideView('back','left'), street.viewStores.right), []);
+assert.deepEqual(storesForStreetView(tour.stores, [], street.id, 'forward', street.viewStores.forward), []);
 const expanded = [...tour.stores, {...tour.stores[0], id: 9104}];
 assert.equal(streetStorePage(expanded, 1).stores[0].id, 9104);
 for (const src of [...tour.stores.map(store => store.storefrontImage), ...tour.nodes.flatMap(node => Object.values(node.views))]) {
