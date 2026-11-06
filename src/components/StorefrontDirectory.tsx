@@ -18,7 +18,8 @@ function EntryPhoto({ entry, framed = false, original = false }: { entry: Entry;
   return <img src={original ? photo.path : retouch?.path || photo.path} alt={`${entry.name} ${photo.kind}${!original && retouch ? ' · 인물 제거 보정' : ''}`} width={!original && retouch ? retouch.width : photo.width} height={!original && retouch ? retouch.height : photo.height} style={framed ? {objectPosition:photo.presentation.position,transform:`scale(${photo.presentation.scale})`,transformOrigin:photo.presentation.position} : undefined} loading="lazy" onError={() => setFailed(true)}/>;
 }
 
-export default function StorefrontDirectory() {
+export default function StorefrontDirectory({embedded = false}: {embedded?: boolean}) {
+  const pageSize = embedded ? 3 : PAGE_SIZE;
   const [query, setQuery] = useState('');
   const [floor, setFloor] = useState('전체');
   const [building, setBuilding] = useState('전체');
@@ -34,9 +35,9 @@ export default function StorefrontDirectory() {
     if (floor === '그 외' ? [1, 2, 3].includes(entry.floor ?? 0) : floor !== '전체' && entry.floor !== Number(floor)) return false;
     return [entry.name, entry.category, entry.location].join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
   }).sort((a, b) => (a.floor ?? 99) - (b.floor ?? 99) || a.building.localeCompare(b.building, 'ko') || a.rooms.localeCompare(b.rooms, 'ko', {numeric:true}) || a.name.localeCompare(b.name, 'ko')), [query, floor, building, allRecords]);
-  const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const pages = Math.max(1, Math.ceil(rows.length / pageSize));
   const currentPage = Math.min(page, pages - 1);
-  const visible = rows.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+  const visible = rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
   useEffect(() => {
     const dialog = dialogRef.current;
     if (selected && dialog && !dialog.open) {
@@ -48,20 +49,21 @@ export default function StorefrontDirectory() {
   const changePage = (next: number) => { setPage(next); resultsRef.current?.scrollIntoView({behavior:'instant',block:'start'}); };
   const openEntry = (entry: Entry) => {setShowOriginal(false);setSelected(entry);};
 
-  return <section className="sign-directory" aria-labelledby="sign-directory-title">
-    <header className="sign-heading"><div><span className="sign-eyebrow">송도 타임스페이스 · 하모니로 158</span><h1 id="sign-directory-title">간판으로 찾는 우리 동네</h1><p>가게 간판을 먼저 보고, 층과 동을 확인해 보세요.</p></div><div className="sign-photo-count"><Camera size={22}/><strong>{catalog.records.filter(entry => entry.photo).length}</strong><span>사진 연결 매장</span></div></header>
+  return <section className={`sign-directory ${embedded ? "sign-directory-embedded" : ""}`} aria-label={embedded ? "동·층별 가게 사진" : undefined} aria-labelledby={embedded ? undefined : "sign-directory-title"}>
+    {!embedded && <header className="sign-heading"><div><span className="sign-eyebrow">송도 타임스페이스 · 하모니로 158</span><h1 id="sign-directory-title">간판으로 찾는 우리 동네</h1><p>가게 간판을 먼저 보고, 층과 동을 확인해 보세요.</p></div><div className="sign-photo-count"><Camera size={22}/><strong>{catalog.records.filter(entry => entry.photo).length}</strong><span>사진 연결 매장</span></div></header>}
+    {embedded && <div className="sign-building-tabs" role="group" aria-label="거리뷰 동별 가게 선택">{['전체','A','B','C','D','미확인'].map(block => <button key={block} type="button" aria-pressed={building===block} onClick={() => {setBuilding(block);setPage(0);setFloor('전체');setQuery('');}}>{block==='전체'?'전체':block==='미확인'?'동 미확인':`${block}동`} <b>{photoRecords.filter(entry => block==='전체' || entry.building===block).length}</b></button>)}</div>}
     <div className="sign-toolbar">
       <label className="sign-search"><Search size={20}/><input aria-label="간판 가게 검색" placeholder="가게명·업종·호수 검색" value={query} onChange={event => {setQuery(event.target.value);setPage(0);}}/>{query && <button type="button" aria-label="간판 검색어 지우기" onClick={() => {setQuery('');setPage(0);}}><X size={17}/></button>}</label>
       <div className="sign-filters"><div role="group" aria-label="간판 층 선택">{['전체','1','2','3','그 외'].map(value => <button type="button" key={value} aria-pressed={floor===value} onClick={() => {setFloor(value);setPage(0);}}>{value==='전체'?'전체 층':value==='그 외'?'그 외 층':`${value}층`}</button>)}</div><label>건물<select aria-label="간판 건물 선택" value={building} onChange={event => {setBuilding(event.target.value);setPage(0);}}>{['전체','A','B','C','D','미확인'].map(value => <option key={value} value={value}>{value==='전체'?'전체 동':value==='미확인'?'동 미확인':`${value}동`}</option>)}</select></label></div>
-      <label className="sign-record-toggle"><input type="checkbox" checked={allRecords} onChange={event => {setAllRecords(event.target.checked);setPage(0);}}/> 사진 없는 수집 기록도 보기</label>
+      {!embedded && <label className="sign-record-toggle"><input type="checkbox" checked={allRecords} onChange={event => {setAllRecords(event.target.checked);setPage(0);}}/> 사진 없는 수집 기록도 보기</label>}
     </div>
-    <details className="sign-area-overview" open>
+    {!embedded && <details className="sign-area-overview" open>
       <summary>동·층별 사진 보기 <span>1~3층 {areas.filter(area => area.count>0).length}/12개 구역에 연결</span></summary>
       <div className="sign-area-grid" role="group" aria-label="동과 층별 간판 사진">
         {['A','B','C','D'].map(block => <div key={block}><button type="button" className="sign-building-total" aria-label={`${block}동 전체 층 사진 ${photoRecords.filter(entry => entry.building===block).length}개`} aria-pressed={building===block && floor==='전체' && !allRecords} onClick={() => {setBuilding(block);setFloor('전체');setAllRecords(false);setQuery('');setPage(0);}}><span>{block}동</span><b>전체 {photoRecords.filter(entry => entry.building===block).length}곳</b></button>{areas.filter(area => area.building===block).map(area => <button type="button" key={area.floor} aria-label={`${block}동 ${area.floor}층 사진 ${area.count}개`} aria-pressed={building===block && floor===String(area.floor) && !allRecords} onClick={() => {setBuilding(block);setFloor(String(area.floor));setAllRecords(false);setQuery('');setPage(0);}}><span>{area.floor}층</span><b>{area.count ? `${area.count}곳` : '사진 확인 전'}</b></button>)}</div>)}
       </div>
       <p>동별 전체 수는 모든 층을 포함합니다. 아래 1~3층 수와는 기준이 다르며, 전체 입점 가게 수나 수집 완료율은 아닙니다.</p>
-    </details>
+    </details>}
     <div className="sign-result-heading" ref={resultsRef}><p role="status"><strong>{rows.length}</strong>{allRecords ? '개 출처별 기록 · 중복 포함' : '개 사진 카드'}<span>층 → 동 → 호수 순</span></p><button type="button" onClick={reset}>조건 초기화</button></div>
     <p className="sign-data-note">{catalog.collectedOn} 수집 자료입니다. 현재 영업 여부와 외관은 달라질 수 있습니다. {allRecords ? '전체 387건은 출처별 기록이며 가게 수가 아닙니다. ' : ''}실제 거리의 좌우 순서는 아직 확인되지 않았습니다.</p>
     <div className="sign-grid">{visible.map(entry => <article className="sign-card" key={entry.id}>

@@ -15,3 +15,13 @@
 .sign-area-overview{margin-top:18px;border:1px solid #dce6ed;border-radius:18px;background:#fff;padding:18px 22px}.sign-area-overview summary{cursor:pointer;font-weight:700;font-size:15px;line-height:1.6}.sign-area-overview summary>span{font-weight:400;font-size:12px;color:#687e8f;margin-left:10px}.sign-area-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}.sign-area-grid>div{display:grid;gap:7px}.sign-area-grid strong{font-size:14px;padding:0 4px 4px}.sign-area-grid button{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid #e0e9f1;background:#f5f9fc;color:#365a75;border-radius:9px;padding:10px 12px;font:inherit;font-size:13px}.sign-area-grid button b{font-size:12px}.sign-area-grid button[aria-pressed=true]{background:#e8f0ff;border-color:#84a8ee;color:#1c55b8}.sign-area-overview>p{margin:14px 0 0;font-size:12px;color:#718291;line-height:1.6}@media(max-width:600px){.sign-area-overview{padding:16px}.sign-area-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.sign-area-overview summary>span{display:block;margin-left:0}}
 
 .sign-area-grid .sign-building-total{font-weight:750;background:#eaf1fa;border-color:#d1dfef;color:#173d5b;cursor:pointer}.sign-area-grid .sign-building-total[aria-pressed=true]{background:#245ed1;border-color:#245ed1;color:#fff}.sign-area-grid button{cursor:pointer}
+
+.sign-directory-embedded{padding:0}
+.sign-building-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.sign-building-tabs button{display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 13px;border:1px solid #d1dfed;border-radius:12px;background:#fff;color:#365b77;font:inherit;font-size:14px;cursor:pointer}
+.sign-building-tabs button[aria-pressed=true]{background:#245ed1;border-color:#245ed1;color:#fff}
+.sign-building-tabs b{font-size:12px}
+.sign-directory-embedded .sign-filters>label{display:none}
+.sign-directory-embedded .sign-toolbar{padding:16px;gap:12px;background:#f6f9fc}
+.sign-directory-embedded .sign-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:760px){.sign-directory-embedded .sign-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(82vw,300px);overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 12px;gap:14px}.sign-directory-embedded .sign-card{scroll-snap-align:start}.sign-building-tabs{gap:6px}.sign-building-tabs button{padding:9px 11px;font-size:13px}}
