@@ -46,7 +46,14 @@ function slots(block) {
   // Street-facing edge first, then a second row inside the building.
   return [at(0.12, -9), at(0.62, -9), at(0.37, 19), at(0.87, 19), at(1.12, -9)];
 }
-const unitText = rooms => (!rooms || /미확인|미기재/.test(rooms) ? undefined : `${rooms.split(/,\s*/).join('·')}호`);
+// "205, 206, 207, 208" -> "205~208호"; shorter lists keep "307·308호".
+function unitText(rooms) {
+  if (!rooms || /미확인|미기재/.test(rooms)) return undefined;
+  const parts = rooms.split(/,\s*/);
+  const numbers = parts.map(Number);
+  const consecutive = numbers.every((n, i) => Number.isInteger(n) && (i === 0 || n === numbers[i - 1] + 1));
+  return parts.length >= 3 && consecutive ? `${parts[0]}~${parts[parts.length - 1]}호` : `${parts.join('·')}호`;
+}
 
 const rows = catalog.records.filter(r => r.photo && blocks[r.building] && [1, 2, 3].includes(r.floor));
 const used = {};

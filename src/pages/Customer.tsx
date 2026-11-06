@@ -26,6 +26,8 @@ import SceneBanner from "../components/SceneBanner";
 import NextStopCards from "../components/NextStopCards";
 import "../styles/ServiceUpgrade.css";
 import { cStreetTour, timespaceSite } from "../data/cStreetTour";
+import StoreName from "../components/StoreName";
+import { splitStoreName } from "../data/storeName";
 import { validStorefrontImage } from "../data/storefrontImage";
 import "../styles/StreetTour.css";
 import { storeMenuItems } from "../data/storeMenuItems";
@@ -450,7 +452,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   return <g key={badge.building} className={`map-block-badge ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-pressed={active} aria-label={`${badge.building} ${floor}층 가게 ${badge.count}곳 ${active ? "전체 보기로 돌아가기" : "만 보기"}`} onClick={toggle} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggle(); } }}>
                     <rect x={badge.x - 30} y={badge.y - 12} width="60" height="24" rx="12" className="map-block-badge-chip" style={{fill: blockColor(badge.building)}}/><text x={badge.x} y={badge.y + 4} className="map-block-badge-text">{badge.building} {badge.count}곳</text>{badge.event && <circle cx={badge.x + 27} cy={badge.y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
                   </g>; })}
-                {!streetViewMode && selectedStore && selectedStore.floor === floor && (() => { const point = storePoint(selectedStore); if (!point) return null; const label = selectedStore.name.length > 11 ? `${selectedStore.name.slice(0, 10)}…` : selectedStore.name; const width = Math.max(56, label.length * 10 + 22);
+                {!streetViewMode && selectedStore && selectedStore.floor === floor && (() => { const point = storePoint(selectedStore); if (!point) return null; const [pinName] = splitStoreName(selectedStore.name); const label = pinName.length > 13 ? `${pinName.slice(0, 12)}…` : pinName; const width = Math.max(56, label.length * 10 + 22);
                   return <g className="map-store-marker is-active" role="button" tabIndex={0} aria-label={`${selectedStore.name} 상세 보기`} onClick={() => focusStore(selectedStore.id, true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(selectedStore.id, true); } }}>
                     <path d={`M${point.x} ${point.y} l-6 -9 h12 z`} className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><rect x={point.x - width / 2} y={point.y - 33} width={width} height="24" rx="12" className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><text x={point.x} y={point.y - 17} className="map-store-text map-store-name">{label}</text>
                   </g>; })()}
@@ -470,7 +472,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   {matchingStores.length ? [...new Set(matchingStores.map(store => store.building))].sort((a, b) => a.localeCompare(b, "ko")).map(block => <div key={block} className="map-floor-group">
                     <p className="map-floor-group-title"><b><i className="block-dot" style={{background: blockColor(block)}} aria-hidden="true"/>{block}</b><span>{matchingStores.filter(store => store.building === block).length}곳</span></p>
                     {matchingStores.filter(store => store.building === block).map(store => <button key={store.id} type="button" className={selectedStoreId === store.id ? "active" : ""} onClick={() => focusStore(store.id)} aria-label={`${store.name} · ${store.type} · ${block} ${floor}층 ${store.unit || ""}`}>
-                      <span className={`map-floor-type ${store.type === "맛" ? "food" : "style"}`} aria-hidden="true">{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>}</span><span className="map-floor-store-name">{store.name}</span>{store.unit && <small className="map-floor-unit">{store.unit}</small>}
+                      <span className={`map-floor-type ${store.type === "맛" ? "food" : "style"}`} aria-hidden="true">{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>}</span><span className="map-floor-store-name"><StoreName name={store.name}/></span>{store.unit && <small className="map-floor-unit">{store.unit}</small>}
                     </button>)}
                   </div>) : <p className="map-floor-empty">이 층에 표시할 점포가 없어요.</p>}
                 </div>
@@ -517,13 +519,13 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 {storePage.stores.map((store) => {
                   return <article key={`spotlight-${store.id}`} className={`street-store-card ${store.storefrontImage ? "has-storefront" : ""} ${selectedStoreId === store.id ? "is-selected" : ""}`}>
                     <button type="button" className="street-store-card-visual" onClick={() => focusStore(store.id, true)} aria-label={`${store.name} 가게 정보 열기`}>
-                      {validStorefrontImage(store.storefrontImage) ? <img src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/> : <div className={`street-store-card-placeholder ${store.type === "맛" ? "food" : "style"}`}><span>매장 사진 준비 중</span><strong>{store.name}</strong></div>}
+                      {validStorefrontImage(store.storefrontImage) ? <img src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/> : <div className={`street-store-card-placeholder ${store.type === "맛" ? "food" : "style"}`}><span>매장 사진 준비 중</span><strong><StoreName name={store.name}/></strong></div>}
                     </button>
                     <div className="street-store-card-body">
                       <div className="street-store-card-top">
                         <span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type} · {store.category}</span>
                       </div>
-                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
+                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong><StoreName name={store.name}/></strong><span>{store.description}</span></button>
                       <ul className="street-store-card-meta">
                         <li><MapPin size={14}/> {store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</li>
                         <li><Utensils size={14}/> 대표 정보 · {store.menu}</li>
@@ -546,7 +548,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           <h4 className="store-floor-heading">{storeFloor}층<span>{resultStores.filter(store => store.floor === storeFloor).length}곳</span></h4>
           <div className="store-grid">{resultStores.filter(store => store.floor === storeFloor).map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
-          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) && <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/>}<strong>{store.name}</strong><span>{store.description}</span></button>
+          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) && <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/>}<strong><StoreName name={store.name}/></strong><span>{store.description}</span></button>
           {store.event && <div className="store-event"><Zap size={14}/><span>{store.event}</span></div>}
           <div className="store-card-bottom"><span><MapPin size={14}/>{store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</span><button type="button" onClick={() => focusStore(store.id, true)}>거리 사진 보기 <ChevronRight size={15}/></button></div>
           <button className="store-card-route" type="button" disabled={!streetNodes.some(node => node.stores.includes(store.id))} onClick={() => guideToStore(store.id)}><Navigation size={14}/> 현재 촬영 지점에서 찾아보기</button>
@@ -561,7 +563,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     {detailsOpen && selectedStore && <div className="modal-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDetailsOpen(false); }}><section className="store-modal" ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="store-modal-title">
       <button type="button" className="modal-close" onClick={() => setDetailsOpen(false)} aria-label="가게 정보 닫기"><X size={20}/></button>
       {validStorefrontImage(selectedStore.storefrontImage) ? <div className="catalog-storefront-detail"><img src={selectedStore.storefrontImage} alt={`${selectedStore.name} 간판과 외관`}/></div> : <div className="modal-visual"><span className={`category-pill ${selectedStore.type === "맛" ? "food" : "style"}`}>{selectedStore.type} · {selectedStore.category}</span><div><Store size={28}/><span>LOCAL STORE</span></div></div>}
-      <div className="modal-body"><span className="modal-overline">{selectedStore.building} · {selectedStore.floor}층 · {selectedStore.unit || "위치 확인 전"} · {publication.status === "published"?"등록 점포":"시범 점포"}</span><h2 id="store-modal-title">{selectedStore.name}</h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
+      <div className="modal-body"><span className="modal-overline">{selectedStore.building} · {selectedStore.floor}층 · {selectedStore.unit || "위치 확인 전"} · {publication.status === "published"?"등록 점포":"시범 점포"}</span><h2 id="store-modal-title"><StoreName name={selectedStore.name}/></h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
         <div className="store-information"><div><span>대표 메뉴·서비스</span><strong>{selectedStore.menu}</strong></div><div><span>가격</span><strong>{selectedStore.price}</strong></div><div><span>둘러볼 위치</span><strong>{selectedStore.building} {selectedStore.floor}층</strong></div></div>
         <section className="customer-menu-list" aria-label="메뉴와 가격"><h3>메뉴·서비스와 가격</h3><dl>{storeMenuItems(selectedStore).map((item, index) => <div key={index}><dt>{item.name || "메뉴 확인 중"}</dt><dd>{item.price || "가격 문의"}</dd></div>)}</dl></section>
         {selectedStore.event && <div className="event-card"><Zap size={19}/><div><small>등록된 홍보 문구 · 진행 여부 확인 필요</small><strong>{selectedStore.event}</strong></div></div>}

@@ -3,6 +3,7 @@ import type { FilterType, StoreData } from "../types/street";
 import "../styles/CustomerBanner.css";
 import SceneBanner from "./SceneBanner";
 import { validStorefrontImage } from "../data/storefrontImage";
+import StoreName from "./StoreName";
 
 const categories = [
   { label: "맛집", filter: "맛", query: "", icon: Utensils },
@@ -51,7 +52,7 @@ export default function CustomerBanner({ stores, published, filter, query, onQue
         : <img src={`/customer-banner/${photo}`} alt="가게 분위기 예시 사진" width="115" height="137" />}
       <span className="customer-banner-featured-info">
         <span className="customer-banner-chip">{published ? "등록 점포" : "시연용 점포"}</span>
-        <strong>{featured.name}</strong>
+        <strong><StoreName name={featured.name}/></strong>
         <span className="customer-banner-featured-category">{featured.category}</span>
         <span className="customer-banner-tags"><span>{featured.building} {featured.floor}층</span><span>{featured.type}</span></span>
       </span>
