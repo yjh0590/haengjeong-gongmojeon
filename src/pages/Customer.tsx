@@ -194,6 +194,21 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     .filter(store => store.floor === floor && (building === "전체" || store.building === building))
     .sort((a,b) => a.id - b.id), [effectiveStores, floor, building]);
   const floorPointNumber = useMemo(() => new Map(floorStores.map((store,index) => [store.id, index + 1])), [floorStores]);
+  const storePoint = (store: StoreData) => geometry.stores[String(store.id)] ||
+    (publication.status === "published" ? null : geometry.nodes[locateStoreNode(store.id, streetNodes)]) || null;
+  // Map badges: one per block on this floor, at the centre of its stores, ignoring the block filter
+  // so other blocks stay reachable from the map.
+  const blockBadges = (() => {
+    const groups = new Map<string, {count: number; x: number; y: number; event: boolean}>();
+    for (const store of effectiveStores) {
+      if (store.floor !== floor || !matchStore(store, filter, query) || (onlySaved && !favorites.includes(store.id))) continue;
+      const point = storePoint(store);
+      if (!point) continue;
+      const group = groups.get(store.building) || {count: 0, x: 0, y: 0, event: false};
+      groups.set(store.building, {count: group.count + 1, x: group.x + point.x, y: group.y + point.y, event: group.event || Boolean(store.event)});
+    }
+    return [...groups].map(([name, group]) => ({building: name, count: group.count, x: Math.round(group.x / group.count), y: Math.round(group.y / group.count), event: group.event}));
+  })();
   // Photo nodes have no floor field in the current data model. Show a shared photo node
   // only when it is linked to at least one store on the selected floor.
   const floorPhotoNodes = useMemo(() => streetNodes.filter(node =>
@@ -424,14 +439,19 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
                 {(streetViewMode ? availablePhotoNodes : floorPhotoNodes).map((node) => { const p = geometry.nodes[node.id]; return !p ? null : <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.name} · ${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
-                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/>{streetViewMode ? <Footprints x={p.x-10} y={p.y-10} width={20} height={20} color="white" strokeWidth={2}/> : <text x={p.x} y={p.y + 5.2} className="map-node-text">{node.number}</text>}
+                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/><Footprints x={p.x-10} y={p.y-10} width={20} height={20} color="white" strokeWidth={2}/>
                   </g>; })}
-                {!streetViewMode && matchingStores.map((store) => { const nodeP = geometry.nodes[locateStoreNode(store.id, streetNodes)]; const point = geometry.stores[String(store.id)] || (publication.status === "published" ? null : nodeP); if (!point) return null; const x=point.x; const y=point.y; const active = selectedStoreId === store.id;
-                  return <g key={store.id} className={`map-store-marker ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-label={`${store.name} · ${store.floor}층 선택`} onClick={() => focusStore(store.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(store.id); } }}>
-                    <rect x={x - 14} y={y - 14} width="28" height="28" rx="12" className={`map-store-chip ${store.type === "맛" ? "food" : "style"}`}/><text x={x} y={y + 4.3} className="map-store-text">{floorPointNumber.get(store.id)}</text>{store.event && <circle cx={x + 12} cy={y - 11} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
+                {/* One badge per block instead of a numbered pin per store; the block's stores are listed on the right. */}
+                {!streetViewMode && blockBadges.filter(badge => !(selectedStore && selectedStore.floor === floor && selectedStore.building === badge.building && storePoint(selectedStore))).map(badge => { const active = building === badge.building; const toggle = () => { setBuilding(active ? "전체" : badge.building); setSelectedStoreId(null); setRouteTargetId(null); };
+                  return <g key={badge.building} className={`map-block-badge ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-pressed={active} aria-label={`${badge.building} ${floor}층 가게 ${badge.count}곳 ${active ? "전체 보기로 돌아가기" : "만 보기"}`} onClick={toggle} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggle(); } }}>
+                    <rect x={badge.x - 30} y={badge.y - 12} width="60" height="24" rx="12" className="map-block-badge-chip"/><text x={badge.x} y={badge.y + 4} className="map-block-badge-text">{badge.building} {badge.count}곳</text>{badge.event && <circle cx={badge.x + 27} cy={badge.y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
                   </g>; })}
+                {!streetViewMode && selectedStore && selectedStore.floor === floor && (() => { const point = storePoint(selectedStore); if (!point) return null; const label = selectedStore.name.length > 11 ? `${selectedStore.name.slice(0, 10)}…` : selectedStore.name; const width = Math.max(56, label.length * 10 + 22);
+                  return <g className="map-store-marker is-active" role="button" tabIndex={0} aria-label={`${selectedStore.name} 상세 보기`} onClick={() => focusStore(selectedStore.id, true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(selectedStore.id, true); } }}>
+                    <path d={`M${point.x} ${point.y} l-6 -9 h12 z`} className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><rect x={point.x - width / 2} y={point.y - 33} width={width} height="24" rx="12" className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><text x={point.x} y={point.y - 17} className="map-store-text map-store-name">{label}</text>
+                  </g>; })()}
               </svg>
-              <div className="map-legend"><span><i className="legend-node"/>촬영 지점 번호</span><span><i className="legend-food"/>맛</span><span><i className="legend-style"/>멋</span><span><i className="legend-event"/>홍보 표시</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
+              <div className="map-legend"><span><i className="legend-node"/>촬영 지점 (발자국)</span><span><i className="legend-block"/>동별 가게 수 · 누르면 그 동만 보기</span><span><i className="legend-food"/>선택한 맛 가게</span><span><i className="legend-style"/>선택한 멋 가게</span><span><i className="legend-event"/>홍보 중</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
               </div>
               <aside className="map-floor-sidebar" aria-label="층 및 점포 지점 선택">
                 <div className="map-floor-heading"><Layers3 size={16}/><strong>층 선택</strong></div>
