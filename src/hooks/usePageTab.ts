@@ -13,12 +13,14 @@ export function usePageTab<T extends string>(allowed: readonly T[], defaultTab: 
     return () => window.removeEventListener("popstate", onBack);
   }, [fromUrl]);
   const openTab = useCallback((next: T) => {
+    // Already on this tab: keep the scroll position (moving between street photos must not jump to the banner).
+    if (next === fromUrl()) { setTab(next); return; }
     const url = new URL(window.location.href);
     if (next === defaultTab) url.searchParams.delete("view");
     else url.searchParams.set("view", next);
     if (url.href !== window.location.href) window.history.pushState({}, "", url);
     setTab(next);
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, [defaultTab]);
+  }, [defaultTab, fromUrl]);
   return { tab, openTab };
 }
