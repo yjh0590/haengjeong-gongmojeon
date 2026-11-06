@@ -1,3 +1,4 @@
+import "../styles/ServiceUpgrade.css";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Camera, CheckCircle2, ClipboardList, Clock3, Download, FileUp, MapPinned, Settings, Store } from "lucide-react";
 import { appUrl } from "../config/site";

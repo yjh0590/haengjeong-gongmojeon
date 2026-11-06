@@ -23,6 +23,8 @@ import { usePageTab } from "../hooks/usePageTab";
 import SiteBrand from "../components/SiteBrand";
 import { pageTitle } from "../config/brand";
 import SceneBanner from "../components/SceneBanner";
+import NextStopCards from "../components/NextStopCards";
+import "../styles/ServiceUpgrade.css";
 import { storeMenuItems } from "../data/storeMenuItems";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
@@ -31,7 +33,7 @@ const directions: ViewDirection[] = ["forward", "right", "back", "left"];
 const directionName: Record<ViewDirection, string> = { forward: "앞", back: "뒤", left: "왼쪽", right: "오른쪽" };
 const FAVORITES_KEY = "matmeot-favorites-v1";
 const APPROVAL_KEY = "matmeot-approved-promotion";
-const customerViews = ["map", "street"] as const;
+const customerViews = ["map", "street", "list"] as const;
 
 function readFavorites(): number[] {
   try {
@@ -108,15 +110,27 @@ export default function Customer() {
   const facades: FacadeAnnotation[] = publication.data?.facades || draftFacades;
   const explorerRef = useRef<HTMLElement>(null);
   const mapRef = useRef<HTMLElement>(null);
+  const modalRef = useRef<HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { document.title = pageTitle("customer"); }, []);
   useEffect(() => () => { if (travelTimer.current) clearTimeout(travelTimer.current); }, []);
   useEffect(() => {
     if (!detailsOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setDetailsOpen(false); };
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    modalRef.current?.querySelector<HTMLButtonElement>('.modal-close')?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setDetailsOpen(false); return; }
+      if (event.key !== 'Tab') return;
+      const controls = Array.from(modalRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]), a[href], [tabindex="0"]') || []).filter(el => el.getClientRects().length);
+      const first=controls[0],last=controls[controls.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+    };
+    document.addEventListener('keydown',onKey);
+    return()=>{document.body.style.overflow=oldOverflow;document.removeEventListener('keydown',onKey);if(previous?.isConnected)previous.focus();else document.querySelector<HTMLButtonElement>('.desktop-nav button[aria-current="page"]')?.focus();};
   }, [detailsOpen]);
   useEffect(() => {
     const syncData = () => { setApprovedPromotion(readApproved()); setDraftFacades(getFacadeAnnotations()); };
@@ -174,7 +188,7 @@ export default function Customer() {
   const pagingContext = `${currentNodeId}:${currentView}:${spotlightStores.map(store => store.id).join(",")}`;
   const storePage = streetStorePage(spotlightStores, storePaging.context === pagingContext ? storePaging.page : 0);
   const turnStorePage = (page: number) => setStorePaging({ context: pagingContext, page });
-  const hasStoreFilter = Boolean(query.trim() || onlySaved || filter !== "전체" || showDiscoveries);
+  const hasStoreFilter = tab === "list" || Boolean(query.trim() || onlySaved || filter !== "전체" || showDiscoveries);
 
   const jumpToExplorer = () => explorerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const animatePhoto = (kind: "forward" | "left" | "right") => {
@@ -248,10 +262,14 @@ export default function Customer() {
     });
   };
   const pickRecommended = () => {
-    const candidate = [...resultStores].sort((a, b) => b.aiScore - a.aiScore)[0];
+    const candidate = resultStores.find(store => store.event) || resultStores[0];
     if (candidate) focusStore(candidate.id, true);
   };
   const searchFromBanner = (nextFilter: FilterType, nextQuery: string) => {
+    openTab("list");
+    const searchUrl = new URL(window.location.href);
+    if (nextQuery.trim()) searchUrl.searchParams.set("q", nextQuery.trim()); else searchUrl.searchParams.delete("q");
+    window.history.replaceState({}, "", searchUrl);
     const results = effectiveStores.filter(store => matchStore(store, nextFilter, nextQuery));
     setFilter(nextFilter);
     setQuery(nextQuery);
@@ -292,6 +310,7 @@ export default function Customer() {
       <nav className="desktop-nav" aria-label="주요 메뉴">
         <button className={`nav-item ${tab === "map" ? "active" : ""}`} type="button" aria-current={tab === "map" ? "page" : undefined} onClick={() => openTab("map")}>거리 탐색</button>
         <button className={`nav-item ${tab === "street" ? "active" : ""}`} type="button" aria-current={tab === "street" ? "page" : undefined} onClick={() => openTab("street")}>거리 사진</button>
+        <button className={`nav-item ${tab === "list" ? "active" : ""}`} type="button" aria-current={tab === "list" ? "page" : undefined} onClick={() => openTab("list")}>가게 목록</button>
       </nav>
       <span className="location-pill"><MapPin size={15} /> 송도 타임스페이스 <span className="demo-dot">시범 구역</span></span>
     </header>
@@ -306,6 +325,7 @@ export default function Customer() {
 
       {tab === "street" && <div className="customer-photo-heading scene-context-banner scene-context-customer"><SceneBanner scene="photo" /><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 걷는 우리 동네</h1><p>방향을 돌려 가게를 찾고, 다음 사진으로 걸어가 보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div></div>}
 
+      {tab === "list" && <header className="service-directory-heading"><span className="service-kicker">ONE NEIGHBORHOOD, MANY DISCOVERIES</span><h1>오늘은 어떤 가게를 만나볼까요?</h1><p>층을 넘나들며, 나에게 맞는 맛과 멋을 찾아보세요.</p></header>}
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         <div className="site-data-status" role="status">{publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
         <div className="explore-toolbar">
@@ -437,7 +457,7 @@ export default function Customer() {
           </section>
         </div>
 
-        {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : "필터 결과"}</h3><p>{resultStores.length ? `${resultFloors.join("·")}층에서 ${resultStores.length}곳 · 카드를 선택하면 촬영 지점과 연결됩니다.` : "모든 층에서 찾아봤지만 맞는 가게가 없어요."}</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 추천 예시 보기</button></div>
+        {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : tab === "list" ? "동네 가게 전체" : "필터 결과"}</h3><p>{resultStores.length ? `${resultFloors.join("·")}층에서 ${resultStores.length}곳 · 카드를 선택하면 촬영 지점과 연결됩니다.` : "모든 층에서 찾아봤지만 맞는 가게가 없어요."}</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 가게 하나 둘러보기</button></div>
         {resultStores.length ? <div className="store-grid">{resultStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
           <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
@@ -451,13 +471,14 @@ export default function Customer() {
       <footer className="customer-footer"><span>맛&멋 AI Street · 송도 타임스페이스 시범 프로젝트</span><span>{publication.status === "published" ? "관리자 게시 정보 · 실측 위치 및 영업 여부는 별도 확인 필요" : "테스트용 점포 정보 · 실측 지도 및 실시간 영업 정보 미연동"}</span>{currentSurface()==="legacy" && <><a href={appUrl("editor","/map-editor")}>전체 지도 편집 <ArrowRight size={13}/></a><a href={appUrl("editor","/street-editor")}>거리 사진 편집 <ArrowRight size={13}/></a></>}</footer>
     </main>
 
-    {detailsOpen && selectedStore && <div className="modal-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDetailsOpen(false); }}><section className="store-modal" role="dialog" aria-modal="true" aria-labelledby="store-modal-title">
+    {detailsOpen && selectedStore && <div className="modal-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setDetailsOpen(false); }}><section className="store-modal" ref={modalRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="store-modal-title">
       <button type="button" className="modal-close" onClick={() => setDetailsOpen(false)} aria-label="가게 정보 닫기"><X size={20}/></button>
       <div className="modal-visual"><span className={`category-pill ${selectedStore.type === "맛" ? "food" : "style"}`}>{selectedStore.type} · {selectedStore.category}</span><div><Store size={28}/><span>LOCAL STORE</span></div></div>
       <div className="modal-body"><span className="modal-overline">{selectedStore.building} · {selectedStore.floor}층 · {selectedStore.unit || "위치 확인 전"} · {publication.status === "published"?"등록 점포":"시범 점포"}</span><h2 id="store-modal-title">{selectedStore.name}</h2><p>{selectedStore.description}</p><div className="tag-row">{selectedStore.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div>
-        <div className="store-information"><div><span>대표 메뉴·서비스</span><strong>{selectedStore.menu}</strong></div><div><span>가격</span><strong>{selectedStore.price}</strong></div><div><span>추천 점수 예시</span><strong>{selectedStore.aiScore}점</strong></div></div>
+        <div className="store-information"><div><span>대표 메뉴·서비스</span><strong>{selectedStore.menu}</strong></div><div><span>가격</span><strong>{selectedStore.price}</strong></div><div><span>둘러볼 위치</span><strong>{selectedStore.building} {selectedStore.floor}층</strong></div></div>
         <section className="customer-menu-list" aria-label="메뉴와 가격"><h3>메뉴·서비스와 가격</h3><dl>{storeMenuItems(selectedStore).map((item, index) => <div key={index}><dt>{item.name || "메뉴 확인 중"}</dt><dd>{item.price || "가격 문의"}</dd></div>)}</dl></section>
         {selectedStore.event && <div className="event-card"><Zap size={19}/><div><small>등록된 홍보 문구 · 진행 여부 확인 필요</small><strong>{selectedStore.event}</strong></div></div>}
+        <NextStopCards current={selectedStore} stores={effectiveStores} onSelect={id=>{focusStore(id,true);window.requestAnimationFrame(()=>{modalRef.current?.scrollTo({top:0,behavior:"instant"});modalRef.current?.querySelector<HTMLButtonElement>(".modal-close")?.focus();});}}/>
         <div className="modal-buttons"><button type="button" className={`save-button ${favorites.includes(selectedStore.id) ? "saved" : ""}`} onClick={() => toggleFavorite(selectedStore.id)}>{favorites.includes(selectedStore.id) ? <Check size={17}/> : <Bookmark size={17}/>} {favorites.includes(selectedStore.id) ? "저장됨" : "즐겨찾기"}</button><button type="button" className="route-button" disabled={!streetNodes.some(n=>n.stores.includes(selectedStore.id))} onClick={() => { focusNode(locateStoreNode(selectedStore.id, streetNodes), "forward", false); openTab("map"); setDetailsOpen(false); mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }}><LocateFixed size={17}/> 안내도에서 위치 보기</button></div>
         <button type="button" className="modal-guide-button" disabled={!streetNodes.some(n=>n.stores.includes(selectedStore.id))} onClick={() => guideToStore(selectedStore.id)}><Navigation size={16}/> 현재 지점부터 사진 연결 따라가기</button>
         <small className="modal-note"><Info size={13}/> {streetNodes.some(n=>n.stores.includes(selectedStore.id)) ? "상세 위치·영업 현황은 현장 확인이 필요합니다. 실측 길찾기는 제공하지 않습니다." : "이 가게는 촬영 지점과 아직 연결되지 않았습니다. 관리자 지도 편집이 필요합니다."}</small>

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, CheckCircle2, CloudUpload, Download, FileUp, Layers, MapPinned, Plus, RefreshCcw, Save, ShieldCheck, Store, Trash2, UploadCloud } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CloudUpload, Download, FileUp, Layers, MapPinned, Plus, RefreshCcw, Save, ShieldCheck, Store, Trash2, UploadCloud, X, FileCheck2 } from "lucide-react";
 import { appUrl } from "../config/site";
-import { publicationConfigured, fetchPublication, preparePublication, publishSite, type PublishedResponse } from "../data/sitePublication";
+import { publicationConfigured, fetchPublication, preparePublication, publishSite, type PublishedResponse, type SitePublication } from "../data/sitePublication";
 import { useAdminAuth } from "../auth/AdminGate";
 import { readStoreDraft, saveStoreDraft, validStores } from "../data/storeDraft";
 import { saveMapGeometry } from "../data/mapGeometry";
@@ -10,6 +10,7 @@ import { FACADE_KEY } from "../data/facadeAnnotations";
 import { saveMediaDraft, useMediaDraft } from "../data/mediaStorage";
 import type { StoreData, StoreType } from "../types/street";
 import "../styles/CatalogEditor.css";
+import "../styles/ServiceUpgrade.css";
 import { storeMenuItems } from "../data/storeMenuItems";
 import SiteBrand from "../components/SiteBrand";
 
@@ -43,6 +44,10 @@ export default function CatalogEditor() {
   const { session, getSession } = useAdminAuth();
   const mediaDraft = useMediaDraft();
   const upload = useRef<HTMLInputElement>(null);
+  const review = useRef<HTMLDialogElement>(null);
+  const publicationInFlight = useRef(false);
+  const [reviewSnapshot,setReviewSnapshot]=useState<SitePublication|null>(null);
+  const [reviewConfirmed,setReviewConfirmed]=useState(false);
   useEffect(() => { document.title = "맛&멋 AI Street | 관리자"; }, []);
   useEffect(() => {
     if (!publicationConfigured) return;
@@ -82,26 +87,33 @@ export default function CatalogEditor() {
     try {applyRemote(remote);setRows(readStoreDraft());setSelected(remote.data.stores[0]?.id ?? 0);setTagsText(remote.data.stores[0]?.tags.join(", ") || "");setNotice("온라인 게시본을 브라우저 초안으로 불러왔어요.");}
     catch(e){setNotice(e instanceof Error ? e.message : "복원 실패");}
   };
+  const openReview = () => {
+    try{setReviewSnapshot(preparePublication());setReviewConfirmed(false);setNotice('가게와 사진 연결 정보, 공개 범위를 확인해 주세요.');review.current?.showModal();}
+    catch(error){setNotice(error instanceof Error?error.message:"게시할 초안을 확인해 주세요.");}
+  };
   const publish = async () => {
-    if (!session) return;
+    if (!session || !reviewSnapshot || !reviewConfirmed || publicationInFlight.current) return;
+    publicationInFlight.current = true;
     setLoading(true);
     try {
-      const snapshot = preparePublication();
+      const snapshot = reviewSnapshot;
       // A promotion approved in another tab may change the publication since
       // this editor loaded it. Do not silently revert those public updates.
       const newest = await fetchPublication();
       if (newest && newest.publishedAt !== remote?.publishedAt) {
         setRemote(newest);
-        setNotice("온라인 게시본이 변경됐습니다(점주 홍보 승인 또는 다른 관리자 수정). 공개본을 초안으로 가져오거나 내용을 비교한 후 다시 게시해 주세요.");
+        setReviewConfirmed(false);
+        setReviewSnapshot(null);
+        review.current?.close();
+        setNotice("온라인 게시본이 새로 갱신됐어요. 공개본을 확인하고 초안과 비교한 후 다시 검토해 주세요.");
         return;
       }
-      const nPhotos = Object.keys(snapshot.media?.photos || {}).length;
-      if (!confirm(`가게 ${snapshot.stores.length}곳, 촬영 지점 ${snapshot.nodes.length}개, 외곽선 ${snapshot.facades.length}개, 서버 사진 ${nPhotos}장${snapshot.media?.map?", 지도 배경 1장":""}을 손님에게 게시할까요?\n\n브라우저에만 저장한 임시 사진은 게시되지 않습니다.`)) return;
       const date = await publishSite(snapshot, await getSession());
       setRemote({data:snapshot,publishedAt:date});
+      review.current?.close();
       setNotice(`전체 게시 완료 (${new Date(date).toLocaleString("ko-KR")}). 서버 사진 ${Object.keys(snapshot.media?.photos||{}).length}장 연결됨. customer.itda.ink에서 새로고침해 확인하세요.`);
     } catch(e) { setNotice(e instanceof Error ? e.message : "게시 중 오류가 발생했어요."); }
-    finally {setLoading(false);}
+      finally {publicationInFlight.current = false;setLoading(false);}
   };
   const refresh = async () => {
     setLoading(true);
@@ -109,7 +121,9 @@ export default function CatalogEditor() {
     catch(e){setNotice(e instanceof Error ? e.message : "서버 연결 실패");}
     finally{setLoading(false);}
   };
-  return <main className="catalog-page">
+  const changedStores=reviewSnapshot?.stores.filter(store=>JSON.stringify(store)!==JSON.stringify(remote?.data.stores.find(item=>item.id===store.id)))||[];
+  const removedStores=remote?.data.stores.filter(store=>!reviewSnapshot?.stores.some(item=>item.id===store.id))||[];
+  return <main className="catalog-page service-catalog">
     <header className="catalog-header"><a href={appUrl("editor", "/editor")}><ArrowLeft size={17}/> 관리자 대시보드</a><SiteBrand role="editor" /><a href={appUrl("editor", "/map-editor")}><MapPinned size={17}/> 지도 편집</a></header>
     <section className="catalog-heading"><span>STORE DATA & PUBLICATION</span><h1>가게를 등록하고, 검토한 뒤 게시하세요.</h1><p>이름·동·층·호수·홍보 정보는 여기서 수정하고, 실제 위치와 촬영 지점은 지도 편집기에서 지정합니다. 모든 변경은 게시하기 전까지 임시 초안입니다.</p></section>
     <div className="catalog-stats">
@@ -153,9 +167,10 @@ export default function CatalogEditor() {
       <p>게시 범위: <b>점포·층수·지도 좌표·촬영 지점·외곽선 + Supabase Storage에 업로드한 사진·지도 연결 정보</b>. 사진 원본은 Storage에 저장되고 이 게시본에는 해당 파일의 경로만 포함돼요.</p>
       <p>현재 게시 대기: <strong>서버 사진 {Object.keys(mediaDraft.photos).length}장 · 서버 지도 {mediaDraft.map?"1장":"없음"}</strong>. 브라우저 임시 이미지는 포함되지 않습니다. <a href="/street-editor">거리 사진 업로드</a> · <a href="/map-editor">지도 이미지 업로드</a></p>
       <div className="catalog-signed"><ShieldCheck size={19}/><span>관리자: <strong>{session.email}</strong> · 서버 게시 권한 확인됨</span></div>
-      <div className="catalog-actions"><button className="catalog-primary" type="button" disabled={!publicationConfigured || !session || loading} onClick={()=>void publish()}><UploadCloud size={17}/> {loading?"처리 중…":"관리자 승인 · 전체 게시"}</button><button type="button" disabled={!publicationConfigured || loading} onClick={()=>void refresh()}><RefreshCcw size={16}/> 게시본 확인</button><button type="button" disabled={!remote || loading} onClick={loadPublished}><Layers size={16}/> 공개본을 초안으로 가져오기</button></div>
+      <div className="catalog-actions"><button className="catalog-primary" type="button" disabled={!publicationConfigured || !session || loading} onClick={openReview}><FileCheck2 size={17}/> {loading?"처리 중…":"검토하고 전체 게시"}</button><button type="button" disabled={!publicationConfigured || loading} onClick={()=>void refresh()}><RefreshCcw size={16}/> 게시본 확인</button><button type="button" disabled={!remote || loading} onClick={loadPublished}><Layers size={16}/> 공개본을 초안으로 가져오기</button></div>
       <p className="catalog-notice" role="status"><CheckCircle2 size={16}/>{notice}</p>
-      <p className="catalog-caution">관리자 편집 화면은 로그인 후에 열립니다. 온라인 게시 권한은 Supabase Auth와 데이터베이스 RLS가 검증합니다. 최신 홍보안 승인 결과가 다른 창에서 반영됐다면 공개본을 먼저 확인하세요.</p>
+      <p className="catalog-caution">관리자 편집 화면은 로그인 후에 열립니다. 온라인 게시 권한은 Supabase Auth와 데이터베이스 RLS가 검증합니다. 다른 관리자 작업이 공개됐다면 최신 공개본을 먼저 확인하세요.</p>
     </section>
+    <dialog ref={review} className="service-review-dialog" aria-labelledby="catalog-review-title"><header className="service-dialog-heading"><div><span className="service-kicker">READY TO SHARE</span><h2 id="catalog-review-title">검토한 정보를 공개할까요?</h2></div><button type="button" aria-label="게시 검토 닫기" disabled={loading} onClick={()=>review.current?.close()}><X size={22}/></button></header>{reviewSnapshot&&<><div className="service-review-summary"><div><strong>{reviewSnapshot.stores.length}곳</strong><span>전체 가게</span></div><div><strong>{changedStores.length}곳</strong><span>새 정보 · 변경</span></div><div><strong>{removedStores.length}곳</strong><span>삭제 예정</span></div></div><ul className="service-review-list">{changedStores.slice(0,6).map(store=><li key={store.id}><Store size={16}/>{store.name}<span>{store.building} {store.floor}층</span></li>)}</ul><p className="service-input-note">촬영 지점 {reviewSnapshot.nodes.length}개 · 방향별 가게 연결 {reviewSnapshot.nodes.reduce((count,node)=>count+Object.values(node.viewStores||{}).reduce((sum,ids)=>sum+ids.length,0),0)}개 · 서버 사진 {Object.keys(reviewSnapshot.media?.photos||{}).length}장</p><p className="service-input-note">이 게시본은 손님용에 공개됩니다. 브라우저에만 임시 저장한 사진은 공개되지 않습니다. 게시 전 백업을 확인해 주세요.</p><label className="service-confirm"><input type="checkbox" checked={reviewConfirmed} onChange={e=>setReviewConfirmed(e.target.checked)} disabled={loading}/><span>가게·메뉴·가격과 사진 연결을 확인했어요.<br/>현재 검토한 초안을 전체 게시합니다.</span></label><p className="service-notice" role="status">{notice}</p><div className="service-editor-actions"><button type="button" className="service-secondary" disabled={loading} onClick={()=>review.current?.close()}>더 검토하기</button><button type="button" className="service-primary" disabled={!reviewConfirmed||loading||!publicationConfigured} onClick={()=>void publish()}><UploadCloud size={16}/>{loading?"게시 중…":"전체 게시하기"}</button></div></>}</dialog>
   </main>;
 }
