@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "fika",
+    "mode": "edit",
+    "prompt": "Use case: precise-object-edit. Edit target is this real photograph of the FIKA ESPRESSO BAR shop at Songdo TimeSpace. Remove the blurred seated customers visible through the lower cafe windows and the entrance, including their censor patches. Preserve FIKA signs, all glass frames, lights and leasing placards. Reconstruct only formerly occluded areas conservatively using adjacent visible surfaces. Preserve the exact original composition, aspect ratio, architectural geometry, lighting and photographic character. Preserve all original Korean/English/Chinese lettering and logos, do not translate or redesign them. Do not add objects, new storefronts or details. Remove every real human and human reflection; printed people on permanent signs are not real humans and should remain. No watermark."
+  },
+  {
+    "slug": "shallow",
+    "mode": "edit",
+    "prompt": "Use case: precise-object-edit. Edit target is this real photograph of the SHALLOW shop at Songdo TimeSpace. Remove the actual seated patrons visible through the lower glass windows. Keep the trees, tied wooden supports, bench, windows and SHALLOW lettering unchanged. Reconstruct only formerly occluded areas conservatively using adjacent visible surfaces. Preserve the exact original composition, aspect ratio, architectural geometry, lighting and photographic character. Preserve all original Korean/English/Chinese lettering and logos, do not translate or redesign them. Do not add objects, new storefronts or details. Remove every real human and human reflection; printed people on permanent signs are not real humans and should remain. No watermark."
+  },
+  {
+    "slug": "sheep",
+    "mode": "edit",
+    "prompt": "Use case: precise-object-edit. Edit target is this real photograph of the 양목장1274 shop at Songdo TimeSpace. Remove real people at the far left and behind the window, along with pixelated censor blocks attached to people. Keep the red awning, sheep-shaped chairs, plants, signs and store facade unchanged. Reconstruct only formerly occluded areas conservatively using adjacent visible surfaces. Preserve the exact original composition, aspect ratio, architectural geometry, lighting and photographic character. Preserve all original Korean/English/Chinese lettering and logos, do not translate or redesign them. Do not add objects, new storefronts or details. Remove every real human and human reflection; printed people on permanent signs are not real humans and should remain. No watermark."
+  },
+  {
+    "slug": "hongcho",
+    "mode": "edit",
+    "prompt": "Use case: precise-object-edit. Edit target is this real photograph of the 홍초야 shop at Songdo TimeSpace. Remove the real staff visible through the left window and the real person down the corridor. Preserve every shop sign, especially 홍초야 and nearby 우아한밤 signs, all glass, door frames and corridor geometry. Reconstruct only formerly occluded areas conservatively using adjacent visible surfaces. Preserve the exact original composition, aspect ratio, architectural geometry, lighting and photographic character. Preserve all original Korean/English/Chinese lettering and logos, do not translate or redesign them. Do not add objects, new storefronts or details. Remove every real human and human reflection; printed people on permanent signs are not real humans and should remain. No watermark."
+  }
+]

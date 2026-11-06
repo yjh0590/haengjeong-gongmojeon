@@ -1,17 +1,20 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
+const imageMetadata = require('./image-metadata.cjs');
 const root = path.resolve(__dirname, '..');
 const catalog = require('../src/data/storefrontCatalog.json');
 const source = JSON.parse(fs.readFileSync(path.join(root,'docs/research/timespace-2026-11-06/수집기록.json'),'utf8').replace(/^\uFEFF/,''));
 assert.equal(catalog.records.length, source.records.length);
 assert.equal(new Set(catalog.records.map(r=>r.id)).size, source.records.length);
 const photos = catalog.records.filter(r=>r.photo);
-assert.equal(photos.length,9);
-assert.equal(photos.filter(r=>r.photo.sourceUrl).length,6);
-assert.deepEqual([...new Set(photos.map(r=>r.floor))].sort(),[1,2,3]);
-assert.equal(new Set(photos.map(r=>r.photo.path)).size,9);
-assert.equal(photos.filter(r=>r.photo.retouch).length,4);
+assert.equal(photos.length,24);
+assert.equal(photos.filter(r=>r.photo.sourceUrl).length,21);
+assert.deepEqual([...new Set(photos.map(r=>r.floor))].sort((a,b)=>a-b),[-1,1,2,3,4,5]);
+assert.equal(new Set(photos.map(r=>r.photo.path)).size,24);
+assert.equal(photos.filter(r=>r.photo.retouch).length,8);
+for(const building of ['A','B','C','D'])for(const floor of [1,2,3])assert(photos.some(r=>r.building===building && r.floor===floor),`Missing area: ${building}${floor}`);
 for(const record of catalog.records) {
   const original=source.records.find(r=>r.id===record.id);
   assert.equal(record.name,original.name);
@@ -20,10 +23,13 @@ for(const record of catalog.records) {
   assert.match(record.source.url,/^https:\/\//);
   if(!record.photo)continue;
   assert.equal(record.id,record.photo.recordId);
-  const image=fs.readFileSync(path.join(root,'public',record.photo.path));
-  assert.equal(image.subarray(0,3).toString('hex'),'ffd8ff');
+  const file=path.join(root,'public',record.photo.path);
+  const image=fs.readFileSync(file),dimensions=imageMetadata(file);
+  assert.equal(dimensions.width,record.photo.width);
+  assert.equal(dimensions.height,record.photo.height);
+  if(record.photo.originalSha256)assert.equal(crypto.createHash('sha256').update(image).digest('hex'),record.photo.originalSha256);
   assert(image.length>1000);
-  assert(record.photo.note && record.photo.credit);
+  assert(record.photo.note && record.photo.credit && record.photo.kind);
   assert.match(record.photo.presentation.position,/^\d+% \d+%$/);
   assert(record.photo.presentation.scale>=1 && record.photo.presentation.scale<=3);
   if(record.photo.retouch){
@@ -38,4 +44,4 @@ for(const record of catalog.records) {
 assert.equal(photos.find(r=>r.id==='S01-086').building,'B');
 assert.equal(photos.find(r=>r.id==='S01-050').building,'C');
 assert.equal(photos.find(r=>r.id==='S01-044').building,'D');
-console.log('PASS: all source records preserved, 9 distinct photos, 6 web sources, floors 1–3, valid JPEGs and exact ID/address matching');
+console.log('PASS: all 387 source records preserved, 24 distinct photos, 21 web sources, 12 areas, 8 separate edits, valid dimensions and ID/address matching');

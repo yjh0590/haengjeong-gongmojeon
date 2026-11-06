@@ -1,6 +1,6 @@
 {
   "collectedOn": "2026-11-06",
-  "scope": "간판 및 주소를 대조한 9개 매장. 웹 사진 6장, 사용자 사진 3장. 전체 입점 매장의 사진 확보를 의미하지 않습니다.",
+  "scope": "간판·주소 대조 사진 24개 매장. 입구·외벽 간판과 실내 간판을 구분하며 전체 현행 입점 명부나 전 매장의 사진 완성을 의미하지 않습니다.",
   "rights": "웹 사진의 재사용 허락은 확인되지 않았습니다. 출처와 원본을 보존하며 권리를 양도받았다고 표시하지 않습니다.",
   "photos": [
     {
@@ -17,7 +17,8 @@
         "position": "35% 0%",
         "scale": 2.1
       },
-      "retouch": null
+      "retouch": null,
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-050",
@@ -33,7 +34,8 @@
         "position": "50% 45%",
         "scale": 1
       },
-      "retouch": null
+      "retouch": null,
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-044",
@@ -49,7 +51,8 @@
         "position": "70% 50%",
         "scale": 1
       },
-      "retouch": null
+      "retouch": null,
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-174",
@@ -69,7 +72,8 @@
         "width": 1451,
         "height": 1084,
         "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
-      }
+      },
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-134",
@@ -89,7 +93,8 @@
         "width": 1254,
         "height": 1254,
         "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
-      }
+      },
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-162",
@@ -109,7 +114,8 @@
         "width": 1254,
         "height": 1254,
         "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
-      }
+      },
+      "kind": "입구·외관"
     },
     {
       "recordId": "S06-001",
@@ -124,7 +130,8 @@
         "position": "50% 20%",
         "scale": 1
       },
-      "retouch": null
+      "retouch": null,
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-178",
@@ -139,7 +146,8 @@
         "position": "50% 40%",
         "scale": 1
       },
-      "retouch": null
+      "retouch": null,
+      "kind": "입구·외관"
     },
     {
       "recordId": "S01-059",
@@ -159,7 +167,291 @@
         "width": 1087,
         "height": 1447,
         "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
-      }
+      },
+      "kind": "입구·외관"
+    },
+    {
+      "recordId": "S01-048",
+      "path": "/street/timespace-signs/anne.webp",
+      "sourceUrl": "https://songdostory.com/stores/%ec%86%a1%eb%8f%84-%ec%97%90%ec%9d%b4%ec%95%a4%eb%8a%90-%ed%83%80%ec%9e%84%ec%8a%a4%ed%8e%98%ec%9d%b4%ec%8a%a4-%eb%b3%b8%ec%a0%90-%ed%9b%84%ea%b8%b0-%ec%9a%b4%ec%98%81%ec%8b%9c%ea%b0%84/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-bt018-20261015.webp",
+      "credit": "송도스토리",
+      "category": "미용실",
+      "kind": "실내 간판",
+      "note": "A.ANNE 상호가 보이는 입구·접수대 사진. 공개 매장 페이지의 B동 303·304호 주소와 대조했습니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "cc3bc85748b74e99467019e8421548a20555a2b6090f3797fd85b239fcf3274c"
+    },
+    {
+      "recordId": "S01-092",
+      "path": "/street/timespace-signs/nailit.webp",
+      "sourceUrl": "https://songdostory.com/stores/%ec%86%a1%eb%8f%84-%eb%84%a4%ec%9d%bc%ec%9e%87-%ed%9b%84%ea%b8%b0-%ec%98%81%ec%97%85%ec%8b%9c%ea%b0%84/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-bt044-20261015.webp",
+      "credit": "송도스토리",
+      "category": "네일숍",
+      "kind": "실내 간판",
+      "note": "NAIL IT # 벽면 간판 사진. A동 314호 주소와 대조했습니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "2204c8caeeee9fd1fce2d07b7b3ec8fc7358cce41833a519f9fde4c63e93cb4c"
+    },
+    {
+      "recordId": "S01-031",
+      "path": "/street/timespace-signs/yakson.webp",
+      "sourceUrl": "https://songdostory.com/stores/%ec%95%bd%ec%86%90%eb%aa%85%ea%b0%80-%ec%9d%b8%ec%b2%9c-%ec%86%a1%eb%8f%84-%eb%b7%b0%ed%8b%b0%ec%83%b5%ec%86%8c%ea%b0%9c/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-bt050-20261015.webp",
+      "credit": "송도스토리",
+      "category": "피부관리",
+      "kind": "실내 간판",
+      "note": "약손명가 상호가 보이는 접수대 사진. 공개 매장 페이지와 공식 지점 안내의 B동 307·308호 주소를 대조했습니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "4984aec75a7d89b3cdbc0965f4b059f1bc50c913baa12ac54cf8654077c2709f"
+    },
+    {
+      "recordId": "S01-037",
+      "path": "/street/timespace-signs/lavie.webp",
+      "sourceUrl": "https://songdostory.com/stores/%eb%9d%bc%eb%b9%84%ec%95%99%eb%a5%b4%eb%a1%9c%ec%a6%88-%ec%9d%b8%ec%b2%9c-%ec%86%a1%eb%8f%84-%eb%b7%b0%ed%8b%b0%ec%83%b5%ec%86%8c%ea%b0%9c/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-bt007-20261015.webp",
+      "credit": "송도스토리",
+      "category": "미용실",
+      "kind": "실내 간판",
+      "note": "LA VIE EN ROSE 상호가 보이는 접수대·매장 사진. C동 212호 주소와 대조했습니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "e204d28565a4244435674cc552e177b2ac72313e4c1d9944464dd12127420d99"
+    },
+    {
+      "recordId": "S01-053",
+      "path": "/street/timespace-signs/roderby.webp",
+      "sourceUrl": "https://songdostory.com/stores/%ec%86%a1%eb%8f%84-%eb%a1%9c%eb%8d%94%eb%b9%84-%ed%83%80%ec%9e%84%ec%8a%a4%ed%8e%98%ec%9d%b4%ec%8a%a4-%ec%9c%a0%eb%9f%bd%ec%8b%9d-%eb%b9%b5/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-cf005-20261010.webp",
+      "credit": "송도스토리",
+      "category": "베이커리",
+      "kind": "실내 간판",
+      "note": "매장 브랜드가 인쇄된 배너와 접수대 사진. D동 131호 주소와 대조했습니다. 외부 간판 사진은 아닙니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "2d2e21159f933c8212ea68fc75679115a7e00aa8974b33c448e0bb07541231e2"
+    },
+    {
+      "recordId": "S01-160",
+      "path": "/street/timespace-signs/uwahan.jpg",
+      "sourceUrl": "https://tinochoi.tistory.com/entry/%EB%A6%AC%EB%B7%B0-%EC%9A%B0%EC%95%84%ED%95%9C-%EB%B0%A4%EC%9D%B8%EC%B2%9C-%EC%86%A1%EB%8F%84%EC%9D%98-%EB%8F%84%EB%A9%98-%EC%98%A4%EB%9C%A8-%EB%B8%8C%EB%9E%91%EB%93%9CDomaine-Haute-Brande-%EC%97%B0%EC%96%B4-%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%EC%99%80-%ED%86%A0%EB%A7%88%ED%86%A0-%EC%82%B4%EC%82%AC-%EC%86%8C%EC%8A%A4-%ED%95%9C%EC%9A%B0-%EB%A1%9C%EC%A0%9C-%EB%A6%AC%EC%A1%B0%EB%98%90-%EC%88%98%EC%A0%9C%ED%81%AC%EB%A6%BC%EC%B9%98%EC%A6%88-%ED%94%8C%EB%A0%88%EC%9D%B4%ED%8A%B8-%EB%B0%94%EB%8B%90%EB%9D%BC-%EA%B7%B8%EB%A0%88%EB%82%98%EB%94%98-%EC%95%84%EC%9D%B4%EC%8A%A4%ED%81%AC%EB%A6%BC",
+      "credit": "Tino Choi · 티노의 일상미학",
+      "category": "와인·다이닝",
+      "kind": "입구 간판",
+      "note": "2024년 게시된 우아한밤 입구 간판 사진. D동 2층 기록과 대조했습니다. 원본 출처 워터마크를 보존했습니다.",
+      "width": 4032,
+      "height": 3024,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "83f86afbea630763ba0de319ec519a44aa76f22b3459a3ce8ed3d9d5f5479e1c"
+    },
+    {
+      "recordId": "S01-143",
+      "path": "/street/timespace-signs/tafel.jpg",
+      "sourceUrl": "https://estartime.com/%EC%9D%B8%EC%B2%9C-%EC%86%A1%EB%8F%84-%ED%95%AB%ED%94%8C-%EC%99%84%EC%A0%84%EC%A0%95%EB%B3%B5-%ED%83%80%ED%8E%A0%EB%A3%AC%EB%8D%B0-%EC%84%9C%EC%9A%B8-%EC%86%A1%EB%8F%84%EC%A0%90-%EC%99%80%EC%9D%B8/",
+      "credit": "bestbrother · Beautiful Life",
+      "category": "와인·다이닝",
+      "kind": "입구·외관",
+      "note": "2025년 게시된 TAFELRUNDE SEOUL 입구 간판. 사진 속 입간판의 A동 2층 213호 표기와 기존 기록을 대조했습니다.",
+      "width": 768,
+      "height": 1024,
+      "presentation": {
+        "position": "50% 45%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "4384473aa34a105d8f27a60dcf4e81a49844be4cf2a634a2dae746ca981bdc22"
+    },
+    {
+      "recordId": "S01-062",
+      "path": "/street/timespace-signs/shallow.png",
+      "sourceUrl": "https://eundol-life.tistory.com/entry/%EC%86%A1%EB%8F%84-%ED%83%80%EC%9E%84%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4-%EC%B9%B4%ED%8E%98-%EB%A7%9B%EC%A7%91-%EC%83%AC%EB%A1%9C%EC%9A%B0-%EC%BB%A4%ED%94%BC-%EC%86%A1%EB%8F%84%EC%A0%90-SHALLOW",
+      "credit": "eundol-meow · 부자냥 life story",
+      "category": "카페",
+      "kind": "입구·외관",
+      "note": "2023년 게시된 SHALLOW 간판과 매장 외관. 글의 D동 104호 주소와 기존 기록을 대조했습니다.",
+      "width": 700,
+      "height": 933,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/shallow-clean.png",
+        "width": 1086,
+        "height": 1448,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      },
+      "originalSha256": "3c22dde3ba48b8f37088f18667ff683e5267766568de898c35f2e58beb89a6b4"
+    },
+    {
+      "recordId": "S02-133",
+      "path": "/street/timespace-signs/fika.jpg",
+      "sourceUrl": "https://daldamlog.tistory.com/105",
+      "credit": "달담 DALDAM",
+      "category": "카페",
+      "kind": "입구·외관",
+      "note": "2021년 게시된 FIKA 간판과 매장 외관. D동 1층이라는 방문 글·층별 목록과 대조했습니다. 현재 영업 여부와 호수는 미확인입니다.",
+      "width": 4032,
+      "height": 3024,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/fika-clean.png",
+        "width": 1448,
+        "height": 1086,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      },
+      "originalSha256": "bb3c8988027141eb928221a63530abadab714c4119585fbcba32074aadd0f090"
+    },
+    {
+      "recordId": "S01-126",
+      "path": "/street/timespace-signs/sheep.jpg",
+      "sourceUrl": "https://k1983.tistory.com/57",
+      "credit": "햅삐깽",
+      "category": "양갈비",
+      "kind": "입구·외관",
+      "note": "2021년 게시된 양목장1274 간판과 입구. 방문 글의 C동 109·110호 주소와 기존 기록을 대조했습니다.",
+      "width": 773,
+      "height": 435,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/sheep-clean.png",
+        "width": 1672,
+        "height": 941,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      },
+      "originalSha256": "62b0b2d2dbe026e5097e51e84344757de60066a82f6566e3b404b5631a669ba7"
+    },
+    {
+      "recordId": "S01-090",
+      "path": "/street/timespace-signs/hongcho.jpg",
+      "sourceUrl": "https://seongminkim.tistory.com/984",
+      "credit": "성미느 · 하루살이",
+      "category": "닭발·한식",
+      "kind": "입구·외관",
+      "note": "2023년 게시된 홍초야 입구 사진. 글에 명시된 D동 2층 212호 주소와 기존 기록을 대조했습니다.",
+      "width": 4000,
+      "height": 3000,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": {
+        "path": "/street/timespace-signs/hongcho-clean.png",
+        "width": 1448,
+        "height": 1086,
+        "note": "AI로 실제 인물과 반사 속 인물을 제거한 보정 이미지입니다. 가려졌던 부분과 작은 글자는 원본과 다를 수 있으며, 원본 비교에서 촬영 사진을 확인할 수 있습니다."
+      },
+      "originalSha256": "96c2ca4ebe34b9569bf7131b7f29cc9d7046c8b56715a1721d1c012b9d9dedd4"
+    },
+    {
+      "recordId": "S01-065",
+      "path": "/street/timespace-signs/tenpercent.jpg",
+      "sourceUrl": "https://daldamlog.tistory.com/105",
+      "credit": "달담 DALDAM",
+      "category": "카페",
+      "kind": "입구·외관",
+      "note": "2021년 광장 사진 왼쪽에 텐퍼센트커피 간판과 입구가 보입니다. 기존 D동 1층 132호 기록과 대조했으며 주변 건물도 포함된 사진입니다.",
+      "width": 4032,
+      "height": 3024,
+      "presentation": {
+        "position": "0% 50%",
+        "scale": 1.75
+      },
+      "retouch": null,
+      "originalSha256": "85bf9c7a1b75f3c7f014ac2c7fb790b1ad52197545b2e748575ace557b346523"
+    },
+    {
+      "recordId": "S01-043",
+      "path": "/street/timespace-signs/mobio.webp",
+      "sourceUrl": "https://songdostory.com/stores/%ec%86%a1%eb%8f%84-%eb%aa%a8%eb%b0%94%ec%9d%b4%ec%98%a4-%ed%9b%84%ea%b8%b0-%ec%9c%84%ec%b9%98/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-bt086-20261015.webp",
+      "credit": "송도스토리",
+      "category": "두피관리",
+      "kind": "입구·외관",
+      "note": "MOBIO 간판과 입구 사진. 공개 매장 안내는 하모니로 158 B동 지하1층 B23호입니다. 기존 인허가 기록에 동·호수가 없어 그 항목은 미확인으로 보존합니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "1d1efeedf5529b053387d89c6e4843e51b98e4fcc8148f01f74b2504688899e6"
+    },
+    {
+      "recordId": "S01-034",
+      "path": "/street/timespace-signs/bitnarae.webp",
+      "sourceUrl": "https://songdostory.com/stores/%ec%9d%b8%ec%b2%9c-%ec%86%a1%eb%8f%84-%eb%b9%9b%eb%82%98%eb%9e%98%ec%97%90%ec%8a%a4%ed%85%8c%ed%8b%b1-%ec%9c%84%ec%b9%98/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/songdo-bt056-20261015.webp",
+      "credit": "송도스토리",
+      "category": "피부관리",
+      "kind": "건물 외벽 간판",
+      "note": "빛나래 에스테틱 외벽 간판 사진. C동 402호 주소와 기존 기록을 대조했습니다.",
+      "width": 1200,
+      "height": 900,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "18ba0a19111fd6f03c81540f6b897cdf2a6d0cc1e111e0fd2aebbe0a8aafc8f2"
+    },
+    {
+      "recordId": "S01-102",
+      "path": "/street/timespace-signs/routine.jpg",
+      "sourceUrl": "https://songdostory.com/stores/%eb%a3%a8%ed%8b%b4%ec%b9%98%ea%b3%bc%ec%9d%98%ec%9b%90-%ec%9d%b8%ec%b2%9c-%ec%86%a1%eb%8f%84-%ec%9d%98%eb%a3%8c%ea%b8%b0%ea%b4%80%ec%86%8c%ea%b0%9c/",
+      "imageUrl": "https://songdostory.com/wp-content/uploads/2026/10/0-10.jpg",
+      "credit": "송도스토리",
+      "category": "치과의원",
+      "kind": "실내 간판",
+      "note": "루틴치과 상호가 보이는 실내 사진. 공개 매장 안내는 하모니로 158 A동 5층입니다. 기존 인허가 기록의 동 미확인 표기를 보존했습니다.",
+      "width": 960,
+      "height": 1280,
+      "presentation": {
+        "position": "50% 50%",
+        "scale": 1
+      },
+      "retouch": null,
+      "originalSha256": "04fb0d98d7beff7c29ac69cd7df6b3630d754095659c13975d819cad6b7bc658"
     }
   ]
 }
