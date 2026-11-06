@@ -16,6 +16,24 @@ export const cStreetTour: SitePublication = {
   facades: [],
 };
 
+/**
+ * Replace every photo point (and its uploaded photos, outlines and map pins) with the C-block tour.
+ * Stores, map background, boundary and passages are kept; existing C-block store edits win over defaults.
+ */
+export function replaceWithCStreetTour(existing: SitePublication): SitePublication {
+  const keptIds = new Set(existing.stores.map(store => store.id));
+  const stores = [...existing.stores, ...cStreetTour.stores.filter(store => !keptIds.has(store.id))];
+  const photos = Object.fromEntries(Object.entries(existing.media?.photos || {}).filter(([key]) => cStreetTour.nodes.some(node => key.startsWith(`${node.id}:`))));
+  return {
+    ...existing,
+    stores,
+    nodes: cStreetTour.nodes.map(node => ({...node, stores: [...node.stores], viewStores: Object.fromEntries(Object.entries(node.viewStores || {}).map(([view, ids]) => [view, [...ids]]))})),
+    geometry: {...existing.geometry, nodes: {...cStreetTour.geometry.nodes}, stores: {...cStreetTour.geometry.stores, ...existing.geometry.stores}},
+    facades: [],
+    ...(existing.media ? {media: {...existing.media, photos}} : {}),
+  };
+}
+
 /** Append once; refuse collisions so existing administrator edits are never overwritten. */
 export function appendCStreetTour(existing: SitePublication): SitePublication {
   if (existing.stores.some(store => cStreetTour.stores.some(item => item.id === store.id)) ||
