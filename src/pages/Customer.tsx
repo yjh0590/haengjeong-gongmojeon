@@ -464,7 +464,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                     <strong>{n}층</strong><small>{effectiveStores.filter(store => store.floor === n && (building === "전체" || store.building === building)).length}곳</small>
                   </button>)}
                 </div>
-                <div className={`map-street-view-box ${streetViewMode ? "is-active" : ""}`}><button type="button" aria-pressed={streetViewMode} onClick={()=>setStreetViewMode(value=>!value)}><Footprints size={18}/><strong>{streetViewMode ? "거리뷰 끄기" : "거리뷰 보기"}</strong></button>{streetViewMode && <p role="status">{availablePhotoNodes.length ? `이 층에서 ${availablePhotoNodes.length}곳을 볼 수 있어요.` : "이 층에는 등록된 촬영 지점이 없어요."}</p>}</div>
+                <div className={`map-street-view-box ${streetViewMode ? "is-active" : ""}`}><button type="button" aria-pressed={streetViewMode} onClick={()=>setStreetViewMode(value=>!value)}><Footprints size={26}/><strong>{streetViewMode ? "거리뷰 끄기" : "거리뷰 보기"}</strong></button>{streetViewMode && <p role="status">{availablePhotoNodes.length ? `이 층에서 ${availablePhotoNodes.length}곳을 볼 수 있어요.` : "이 층에는 등록된 촬영 지점이 없어요."}</p>}</div>
                 <div className="map-floor-point-heading"><strong>{floor}층 가게</strong><span>{matchingStores.length}곳</span></div>
                 <div className="map-floor-points">
                   {matchingStores.length ? [...new Set(matchingStores.map(store => store.building))].sort((a, b) => a.localeCompare(b, "ko")).map(block => <div key={block} className="map-floor-group">

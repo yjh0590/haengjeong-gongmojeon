@@ -268,3 +268,9 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .app-shell .panel-header h3{line-height:1.35}
 /* Store cards: description up to three lines. */
 .app-shell .store-card-main span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Street-view toggle: larger than the floor buttons so it stands out. */
+.app-shell .map-street-view-box{margin:14px 0 4px;border-radius:16px}
+.app-shell .map-street-view-box>button{min-height:72px;gap:10px;padding:16px 12px}
+.app-shell .map-street-view-box strong{font-size:19px;font-weight:800;letter-spacing:-.01em}
+@media(max-width:900px){.app-shell .map-street-view-box>button{min-height:64px}.app-shell .map-street-view-box strong{font-size:18px}}
