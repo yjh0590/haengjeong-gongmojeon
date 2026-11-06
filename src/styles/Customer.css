@@ -246,3 +246,25 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .app-shell .map-street-view-box button:focus-visible{outline:3px solid #fff;outline-offset:-5px}
 .map-floor-type,.map-floor-type.style{width:auto;height:auto;background:none;border-radius:0;display:inline-flex;color:#5d7891}
 .map-floor-type.style{color:#9a6a42}
+
+/* Store list: floor tabs and floor headings. */
+.list-floor-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}
+.list-floor-tabs button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:9px 16px;border:1px solid #d1dfed;border-radius:999px;background:#fff;color:#365b77;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.list-floor-tabs button span{font-size:12px;font-weight:600;color:#7a8ea0}
+.list-floor-tabs button[aria-pressed=true]{background:#2c62d0;border-color:#2c62d0;color:#fff}
+.list-floor-tabs button[aria-pressed=true] span{color:#dce8ff}
+.list-floor-tabs button:focus-visible{outline:3px solid #95bdf5;outline-offset:2px}
+.store-floor-section+.store-floor-section{margin-top:28px}
+.store-floor-heading{display:flex;align-items:baseline;gap:8px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #e3ecf5;font-size:18px;color:#173d5b}
+.store-floor-heading span{font-size:13px;font-weight:600;color:#7a8ea0}
+
+/* INTERACTIVE MAP text tidy: wider list column, single-line names, calmer spacing. */
+@media(min-width:901px){.app-shell .map-floor-layout{grid-template-columns:minmax(0,1fr) 270px;gap:20px}}
+.app-shell .map-floor-points .map-floor-store-name{-webkit-line-clamp:1;white-space:nowrap;display:block;text-overflow:ellipsis}
+.app-shell .map-floor-point-heading{display:flex;justify-content:space-between;align-items:baseline;margin:14px 2px 6px}
+.app-shell .map-floor-point-heading strong{font-size:14px;color:#173d5b}
+.app-shell .map-floor-point-heading span{font-size:12px;color:#7a8ea0}
+.app-shell .map-legend{gap:6px 16px;font-size:12px;line-height:1.5}
+.app-shell .panel-header h3{line-height:1.35}
+/* Store cards: description up to three lines. */
+.app-shell .store-card-main span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}

@@ -5,13 +5,13 @@ import type { StoreData } from "../types/street";
 export const timespaceStores: StoreData[] = [
   {
     "id": 9201,
-    "name": "약손명가 에스테틱(송도점)",
+    "name": "약손명가 에스테틱",
     "building": "B동",
     "floor": 3,
     "unit": "307·308호",
     "type": "멋",
     "category": "피부관리",
-    "description": "작은 윤곽·바디관리 체인 에스테틱. 영업시간: 월~금 10:00~22:00 · 토 09:00~17:30 · 일 휴무. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "작은 윤곽·바디관리 체인 에스테틱. 영업 월~금 10:00~22:00 · 토 09:00~17:30 · 일 휴무. 매장 안내 자료 기준",
     "menu": "작은윤곽관리 · 이중턱관리 · 슬림바디",
     "price": "현장 확인",
     "menuItems": [
@@ -48,7 +48,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "212호",
     "type": "멋",
     "category": "미용실",
-    "description": "실장급 디자이너가 연중무휴로 운영하는 미용실. 영업시간: 월~금 10:00~21:00 · 토·일 10:00~20:00 · 정기 휴무 없음. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "실장급 디자이너가 연중무휴로 운영하는 미용실. 영업 월~금 10:00~21:00 · 토·일 10:00~20:00 · 정기 휴무 없음. 매장 안내 자료 기준",
     "menu": "일반펌 · 셋팅펌 · 매직",
     "price": "현장 확인",
     "menuItems": [
@@ -85,7 +85,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "313호",
     "type": "멋",
     "category": "미용실",
-    "description": "예약 플랫폼에 등록된 미용실. 영업시간: 10:30~20:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "예약 플랫폼에 등록된 미용실. 영업 10:30~20:00. 매장 안내 자료 기준",
     "menu": "커트+옆머리다운펌 · 커트+뿌리염색 · 베이직펌",
     "price": "커트+옆머리다운펌 44,000원 (안내 기준)",
     "menuItems": [
@@ -122,7 +122,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "303·304호",
     "type": "멋",
     "category": "미용실",
-    "description": "1:1 담당제 헤어 살롱 본점. 영업시간: 매일 10:00~19:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "1:1 담당제 헤어 살롱 본점. 영업 매일 10:00~19:00. 매장 안내 자료 기준",
     "menu": "커트 · 다운펌 · 뿌리매직",
     "price": "현장 확인",
     "menuItems": [
@@ -153,13 +153,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9205,
-    "name": "마끼에 타임스페이스점",
+    "name": "마끼에",
     "building": "C동",
     "floor": 3,
     "unit": "307·308호",
     "type": "멋",
     "category": "미용실",
-    "description": "이철헤어커커의 프리미엄 브랜드 미용실(1:1 맞춤). 영업시간: 10:00~20:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "이철헤어커커의 프리미엄 브랜드 미용실(1:1 맞춤). 영업 10:00~20:00. 매장 안내 자료 기준",
     "menu": "앞머리 커트",
     "price": "앞머리 커트 5,000원 (안내 기준)",
     "menuItems": [
@@ -184,7 +184,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "131호",
     "type": "맛",
     "category": "베이커리",
-    "description": "천연발효종으로 만든 유럽식 식사빵 베이커리. 영업시간: 매일 11:00~21:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "천연발효종으로 만든 유럽식 식사빵 베이커리. 영업 매일 11:00~21:00. 매장 안내 자료 기준",
     "menu": "사워도우 · 소금빵 · 바게트",
     "price": "현장 확인",
     "menuItems": [
@@ -221,7 +221,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "104·105호",
     "type": "맛",
     "category": "카페",
-    "description": "라떼가 대표인 카페. 영업시간: 매일 10:00~22:00 (라스트오더 21:30). (2023.03.07 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "라떼가 대표인 카페. 영업 매일 10:00~22:00 (라스트오더 21:30). 2023.03 자료 기준",
     "menu": "샬로우 라떼 · 아이스 아메리카노",
     "price": "현장 확인",
     "menuItems": [
@@ -244,13 +244,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9208,
-    "name": "텐퍼센트커피 송도타임스페이스점",
+    "name": "텐퍼센트커피",
     "building": "D동",
     "floor": 1,
     "unit": "132호",
     "type": "맛",
     "category": "카페",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 카페 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "간판 사진과 공개 주소로 확인한 카페 가게예요. 메뉴와 영업시간은 현장 확인이 필요해요.",
     "menu": "카페",
     "price": "현장 확인",
     "storefrontImage": "/street/timespace-signs/tenpercent.jpg",
@@ -269,7 +269,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "102호",
     "type": "맛",
     "category": "베이커리",
-    "description": "매일 아침 매장에서 소금빵을 굽는 베이커리 카페. 영업시간: 영업시간은 안내 페이지 안에서도 표기가 달라 현장 확인 필요. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "매일 아침 매장에서 소금빵을 굽는 베이커리 카페. 영업 현장 확인 필요 (안내 페이지 안에서도 표기가 다름). 매장 안내 자료 기준",
     "menu": "우유생크림 소금빵 · 명란마요 소금빵 · 크림브륄레 소금빵",
     "price": "현장 확인",
     "menuItems": [
@@ -296,13 +296,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9210,
-    "name": "으뜸플러스안경 인천타임스페이스점",
+    "name": "으뜸플러스안경",
     "building": "B동",
     "floor": 2,
     "unit": "204호",
     "type": "멋",
     "category": "안경",
-    "description": "으뜸플러스안경 공식 가맹점. 영업시간: 10:00~21:00. (2024.06.24 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "으뜸플러스안경 공식 가맹점. 영업 10:00~21:00. 2024.06 자료 기준",
     "menu": "안경",
     "price": "현장 확인",
     "storefrontImage": "/street/timespace-signs/topplus.jpg",
@@ -321,7 +321,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "212호",
     "type": "맛",
     "category": "닭발·한식",
-    "description": "불닭발·오돌뼈 전문점. 영업시간: 출처에 영업시간 표기가 서로 달라 현장 확인 필요. (2023.11.22 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "불닭발·오돌뼈 전문점. 영업 현장 확인 필요 (출처마다 표기가 다름). 2023.11 자료 기준",
     "menu": "통닭발/오돌뼈/무뼈닭발 세트 (계란찜+주먹밥) · 치즈불닭",
     "price": "통닭발/오돌뼈/무뼈닭발 세트 (계란찜+주먹밥) 25,000원 (2023.11 기준)",
     "menuItems": [
@@ -350,7 +350,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "314호",
     "type": "멋",
     "category": "네일숍",
-    "description": "네 명까지 동시에 관리받을 수 있는 젤·케어 네일숍. 영업시간: 월~금 11:00~22:00 · 토 11:00~20:00 · 일 휴무. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "description": "네 명까지 동시에 관리받을 수 있는 젤·케어 네일숍. 영업 월~금 11:00~22:00 · 토 11:00~20:00 · 일 휴무. 매장 안내 자료 기준",
     "menu": "젤네일 · 젤패디 · 기본케어",
     "price": "현장 확인",
     "menuItems": [
@@ -387,7 +387,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "103호",
     "type": "맛",
     "category": "일식·오마카세",
-    "description": "1층 오마카세 코스 일식당. (2026.04.09 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "1층 오마카세 코스 일식당. 2026.04 자료 기준",
     "menu": "오마카세 코스",
     "price": "현장 확인",
     "menuItems": [
@@ -406,13 +406,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9214,
-    "name": "양목장1274(타임스페이스점)",
+    "name": "양목장1274",
     "building": "C동",
     "floor": 1,
     "unit": "109·110호",
     "type": "맛",
     "category": "양갈비",
-    "description": "직원이 직접 구워 주는 양갈비 전문점. 영업시간: 매일 16:00~23:00. (2021.08.30 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "직원이 직접 구워 주는 양갈비 전문점. 영업 매일 16:00~23:00. 2021.08 자료 기준",
     "menu": "2인 모듬 (숄더랙·등심·살치) · 양된장 · 비빔면",
     "price": "현장 확인",
     "menuItems": [
@@ -445,7 +445,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "104호",
     "type": "맛",
     "category": "철판요리",
-    "description": "일본 철판요리 전문점. 영업시간: 월요일 정기휴무. (2022.05.08 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "일본 철판요리 전문점. 영업 월요일 정기휴무. 2022.05 자료 기준",
     "menu": "믹스 야끼소바 · 해물 오코노미야끼 · 하이볼",
     "price": "현장 확인",
     "menuItems": [
@@ -478,7 +478,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "129·130호",
     "type": "맛",
     "category": "스테이크",
-    "description": "스테이크·파스타 레스토랑. (2022.09.20 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "스테이크·파스타 레스토랑. 2022.09 자료 기준",
     "menu": "안심 스테이크 · 채끝 스테이크 · 알프레도 크림 파스타",
     "price": "안심 스테이크 44,000원 (2022.09 기준)",
     "menuItems": [
@@ -509,13 +509,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9217,
-    "name": "한마음정육식당 송도타임스페이스점",
+    "name": "한마음정육식당",
     "building": "B동",
     "floor": 2,
     "unit": "205·206·207·208호",
     "type": "맛",
     "category": "고깃집",
-    "description": "숙성 소고기·돼지고기 숯불구이 전문점. 영업시간: 12:00~22:00 (점심 12:00~14:30 · 라스트오더 21:30). (2024.12.02 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "숙성 소고기·돼지고기 숯불구이 전문점. 영업 12:00~22:00 (점심 12:00~14:30 · 라스트오더 21:30). 2024.12 자료 기준",
     "menu": "소 한 마리 (600g)",
     "price": "소 한 마리 (600g) 72,000원 (2024.12 기준)",
     "menuItems": [
@@ -534,13 +534,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9218,
-    "name": "타펠룬데 서울 송도점",
+    "name": "타펠룬데 서울",
     "building": "A동",
     "floor": 2,
     "unit": "213호",
     "type": "맛",
     "category": "와인·다이닝",
-    "description": "한옥풍 와인 다이닝. 영업시간: 매일 17:00~24:00 · 월요일 휴무. (2025.10 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "한옥풍 와인 다이닝. 영업 매일 17:00~24:00 · 월요일 휴무. 2025.10 자료 기준",
     "menu": "이베리코 스테이크 · 트러플 크림 파스타 · 치즈 플래터",
     "price": "현장 확인",
     "menuItems": [
@@ -571,13 +571,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9219,
-    "name": "유미카츠 인천대입구역점",
+    "name": "유미카츠",
     "building": "B동",
     "floor": 1,
     "unit": "114호",
     "type": "맛",
     "category": "돈카츠",
-    "description": "돈카츠 체인점. 영업시간: 매일 11:00~22:00 (브레이크 15:00~17:00 · 라스트오더 21:00). (2023.03.17 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "돈카츠 체인점. 영업 매일 11:00~22:00 (브레이크 15:00~17:00 · 라스트오더 21:00). 2023.03 자료 기준",
     "menu": "치즈카츠 · 떡볶카츠 · 토마호크카츠",
     "price": "치즈카츠 11,900원 (2023.03 기준)",
     "menuItems": [
@@ -610,7 +610,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "220호",
     "type": "맛",
     "category": "와인·다이닝",
-    "description": "D동 2층 와인 바. (2024.05.08 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "D동 2층 와인 바. 2024.05 자료 기준",
     "menu": "한우 로제 리조또 · 연어 스테이크와 토마토 살사 · 수제크림치즈 플레이트",
     "price": "한우 로제 리조또 19,000원 (2024.05 기준)",
     "menuItems": [
@@ -643,7 +643,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "105·106호",
     "type": "맛",
     "category": "고깃집",
-    "description": "삼겹살·돼지갈비 고깃집. 영업시간: 매일 16:00~23:00 (라스트오더 22:20). (2025.03.11 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "삼겹살·돼지갈비 고깃집. 영업 매일 16:00~23:00 (라스트오더 22:20). 2025.03 자료 기준",
     "menu": "삼겹생갈비 · 시그니처 고추장삼겹살 · 시그니처 수제양념 돼지갈비",
     "price": "현장 확인",
     "menuItems": [
@@ -674,13 +674,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9222,
-    "name": "고동경양 인천송도타임스페이스",
+    "name": "고동경양",
     "building": "A동",
     "floor": 1,
     "unit": "124호",
     "type": "맛",
     "category": "경양식",
-    "description": "수제 함박스테이크 전문점 (방문 글 상호: 고동함박). 영업시간: 매일 10:30~21:00 (평일 브레이크 15:00~17:00). (2023.04.05 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "수제 함박스테이크 전문점 (방문 글 상호: 고동함박). 영업 매일 10:30~21:00 (평일 브레이크 15:00~17:00). 2023.04 자료 기준",
     "menu": "월클함박 · 다 먹을래 세트 (함박+미니쫄면+콜라)",
     "price": "월클함박 13,900원 (2023.04 기준)",
     "menuItems": [
@@ -709,7 +709,7 @@ export const timespaceStores: StoreData[] = [
     "unit": "120호",
     "type": "맛",
     "category": "피자",
-    "description": "미국식 수제피자 전문점. 영업시간: 평일 ~22:00 · 금·토 ~24:00. (2024.07.10 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "미국식 수제피자 전문점. 영업 평일 ~22:00 · 금·토 ~24:00. 2024.07 자료 기준",
     "menu": "맥앤치즈베이컨 피자 · 마르게리타 피자 · 포테이토마요 피자",
     "price": "생맥주 500ml 4,000원 (2024.07 기준)",
     "menuItems": [
@@ -740,13 +740,13 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9224,
-    "name": "석암생소금구이 송도타임스페이스점",
+    "name": "석암생소금구이",
     "building": "B동",
     "floor": 1,
     "unit": "107·108·109호",
     "type": "맛",
     "category": "고깃집",
-    "description": "생소금구이 고깃집. 영업시간: 월~금 16:30~23:30 · 토·일 12:00~23:30 (브레이크 15:00~16:30 · 라스트오더 22:30). (2026.07.09 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "생소금구이 고깃집. 영업 월~금 16:30~23:30 · 토·일 12:00~23:30 (브레이크 15:00~16:30 · 라스트오더 22:30). 2026.07 자료 기준",
     "menu": "생소금구이 · 치즈된장술국 · 돌판짜파게티",
     "price": "현장 확인",
     "menuItems": [
@@ -778,7 +778,7 @@ export const timespaceStores: StoreData[] = [
     "floor": 1,
     "type": "맛",
     "category": "카페",
-    "description": "에스프레소 바. 영업시간: 월요일 휴무 · 화~금 09:30~20:00 · 토·일 11:00~20:00. (2021.12.06 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "description": "에스프레소 바. 영업 월요일 휴무 · 화~금 09:30~20:00 · 토·일 11:00~20:00. 2021.12 자료 기준",
     "menu": "에스프레소 · 초코바 에스프레소",
     "price": "현장 확인",
     "menuItems": [

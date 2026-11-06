@@ -37,7 +37,7 @@ const directionName: Record<ViewDirection, string> = { forward: "앞", back: "�
 const FAVORITES_KEY = "matmeot-favorites-v1";
 const APPROVAL_KEY = "matmeot-approved-promotion";
 const StorefrontDirectory = lazy(() => import('../components/StorefrontDirectory'));
-const customerViews = ["map", "street", "list", "signs"] as const;
+const customerViews = ["map", "street", "list"] as const;
 
 function readFavorites(): number[] {
   try {
@@ -104,6 +104,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   };
   const hasPhoto = (nodeId: string, view: ViewDirection) => Boolean(photoFor(nodeId,view) || streetNodes.find(n => n.id===nodeId)?.views[view]);
   const [floor, setFloor] = useState<1 | 2 | 3>(1);
+  const [listFloor, setListFloor] = useState<"전체" | 1 | 2 | 3>("전체");
   const [building, setBuilding] = useState("전체");
   const [routeTargetId, setRouteTargetId] = useState<number | null>(null);
   const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
@@ -187,10 +188,12 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     matchStore(store, filter, query) && store.floor === floor && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
   [effectiveStores, filter, query, onlySaved, favorites, floor, building]);
   // The map follows the selected floor, but the results list covers every floor so nothing looks missing.
-  const resultStores = useMemo(() => effectiveStores
+  const allFloorResults = useMemo(() => effectiveStores
     .filter((store) => matchStore(store, filter, query) && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id)))
-    .sort((a, b) => a.floor - b.floor || a.id - b.id),
+    .sort((a, b) => a.floor - b.floor || a.building.localeCompare(b.building, "ko") || a.id - b.id),
   [effectiveStores, filter, query, onlySaved, favorites, building]);
+  // The list can be narrowed to one floor; "전체" shows every floor under its own heading.
+  const resultStores = useMemo(() => allFloorResults.filter(store => listFloor === "전체" || store.floor === listFloor), [allFloorResults, listFloor]);
   const resultFloors = [...new Set(resultStores.map(store => store.floor))];
   // Stores on the selected floor/block (used to decide which photo points to show).
   const floorStores = useMemo(() => effectiveStores
@@ -378,13 +381,12 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
         <button className={`nav-item ${tab === "map" ? "active" : ""}`} type="button" aria-current={tab === "map" ? "page" : undefined} onClick={() => openTab("map")}>거리 탐색</button>
         <button className={`nav-item ${tab === "street" ? "active" : ""}`} type="button" aria-current={tab === "street" ? "page" : undefined} onClick={() => openTab("street")}>거리 사진</button>
         <button className={`nav-item ${tab === "list" ? "active" : ""}`} type="button" aria-current={tab === "list" ? "page" : undefined} onClick={() => openTab("list")}>가게 목록</button>
-        <button className={`nav-item ${tab === "signs" ? "active" : ""}`} type="button" aria-current={tab === "signs" ? "page" : undefined} onClick={() => openTab("signs")}>간판 찾기</button>
       </nav>
       <span className="location-pill"><MapPin size={15} /> 송도 타임스페이스 <span className="demo-dot">시범 구역</span></span>
     </header>
 
     <main className="page">
-      {demoTour && tab !== "signs" && <div className="street-tour-preview-note"><Camera size={18}/><div><strong>C동 실제 촬영 미리보기</strong><span>거리뷰 보기를 켜고 지도 발자국을 눌러 보세요. 지도 위치는 임시 배치이며 운영 데이터는 변경하지 않습니다.</span></div><button type="button" onClick={()=>{setFloor(1);setBuilding("전체");focusNode("c-entry");}}>입구부터 둘러보기 <ArrowRight size={16}/></button></div>}
+      {demoTour && <div className="street-tour-preview-note"><Camera size={18}/><div><strong>C동 실제 촬영 미리보기</strong><span>거리뷰 보기를 켜고 지도 발자국을 눌러 보세요. 지도 위치는 임시 배치이며 운영 데이터는 변경하지 않습니다.</span></div><button type="button" onClick={()=>{setFloor(1);setBuilding("전체");focusNode("c-entry");}}>입구부터 둘러보기 <ArrowRight size={16}/></button></div>}
       {tab === "map" && !demoTour && <CustomerBanner
         stores={effectiveStores.filter(store => matchStore(store, filter, query))}
         published={publication.status === "published"} filter={filter} query={query}
@@ -395,11 +397,10 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       {tab === "street" && !demoTour && <div className="customer-photo-heading scene-context-banner scene-context-customer"><SceneBanner scene="photo" /><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 걷는 우리 동네</h1><p>방향을 돌려 가게를 찾고, 다음 사진으로 걸어가 보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div></div>}
 
       {tab === "list" && <header className="service-directory-heading"><span className="service-kicker">ONE NEIGHBORHOOD, MANY DISCOVERIES</span><h1>오늘은 어떤 가게를 만나볼까요?</h1><p>층을 넘나들며, 나에게 맞는 맛과 멋을 찾아보세요.</p></header>}
-      {tab === "signs" && <Suspense fallback={<p role="status">간판 사진과 가게 정보를 불러오고 있어요.</p>}><StorefrontDirectory /></Suspense>}
-      {tab !== "signs" && <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
+      <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         {tab !== "map" && <div className="site-data-status" role="status">{siteDataNote}</div>}
         <div className="explore-toolbar">
-          {tab !== "map" && <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>}
+          <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
           <div className="filter-buttons" role="group" aria-label="가게 필터">
             {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item}>
               {item === "맛" ? <Utensils size={15}/> : item === "멋" ? <Camera size={15}/> : item === "이벤트" ? <Zap size={15}/> : <Layers3 size={15}/>} {item}
@@ -464,7 +465,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   </button>)}
                 </div>
                 <div className={`map-street-view-box ${streetViewMode ? "is-active" : ""}`}><button type="button" aria-pressed={streetViewMode} onClick={()=>setStreetViewMode(value=>!value)}><Footprints size={18}/><strong>{streetViewMode ? "거리뷰 끄기" : "거리뷰 보기"}</strong></button>{streetViewMode && <p role="status">{availablePhotoNodes.length ? `이 층에서 ${availablePhotoNodes.length}곳을 볼 수 있어요.` : "이 층에는 등록된 촬영 지점이 없어요."}</p>}</div>
-                <div className="map-floor-point-heading"><strong>{floor}층 지점</strong><span>{matchingStores.length}곳</span></div>
+                <div className="map-floor-point-heading"><strong>{floor}층 가게</strong><span>{matchingStores.length}곳</span></div>
                 <div className="map-floor-points">
                   {matchingStores.length ? [...new Set(matchingStores.map(store => store.building))].sort((a, b) => a.localeCompare(b, "ko")).map(block => <div key={block} className="map-floor-group">
                     <p className="map-floor-group-title"><b><i className="block-dot" style={{background: blockColor(block)}} aria-hidden="true"/>{block}</b><span>{matchingStores.filter(store => store.building === block).length}곳</span></p>
@@ -540,16 +541,20 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
         </div>
 
         {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : tab === "list" ? "동네 가게 전체" : "필터 결과"}</h3><p>{resultStores.length ? `${resultFloors.join("·")}층에서 ${resultStores.length}곳 · 카드를 선택하면 촬영 지점과 연결됩니다.` : "모든 층에서 찾아봤지만 맞는 가게가 없어요."}</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 가게 하나 둘러보기</button></div>
-        {resultStores.length ? <div className="store-grid">{resultStores.map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
+        {allFloorResults.length > 0 && <div className="list-floor-tabs" role="group" aria-label="가게 목록 층 선택">{(["전체", 1, 2, 3] as const).map(item => <button key={item} type="button" aria-pressed={listFloor === item} onClick={() => setListFloor(item)}>{item === "전체" ? "전체 층" : `${item}층`}<span>{item === "전체" ? allFloorResults.length : allFloorResults.filter(store => store.floor === item).length}</span></button>)}</div>}
+        {resultStores.length ? resultFloors.map(storeFloor => <section key={storeFloor} className="store-floor-section" aria-label={`${storeFloor}층 가게`}>
+          <h4 className="store-floor-heading">{storeFloor}층<span>{resultStores.filter(store => store.floor === storeFloor).length}곳</span></h4>
+          <div className="store-grid">{resultStores.filter(store => store.floor === storeFloor).map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
-          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) && <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} ??? ??`} loading="lazy"/>}<strong>{store.name}</strong><span>{store.description}</span></button>
+          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) && <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/>}<strong>{store.name}</strong><span>{store.description}</span></button>
           {store.event && <div className="store-event"><Zap size={14}/><span>{store.event}</span></div>}
           <div className="store-card-bottom"><span><MapPin size={14}/>{store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</span><button type="button" onClick={() => focusStore(store.id, true)}>거리 사진 보기 <ChevronRight size={15}/></button></div>
           <button className="store-card-route" type="button" disabled={!streetNodes.some(node => node.stores.includes(store.id))} onClick={() => guideToStore(store.id)}><Navigation size={14}/> 현재 촬영 지점에서 찾아보기</button>
-        </article>)}</div> : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); setFloor(1); setBuilding("전체"); }}>전체 가게 보기</button></div>}</>}
+        </article>)}</div>
+        </section>) : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); setFloor(1); setBuilding("전체"); setListFloor("전체"); }}>전체 가게 보기</button></div>}</>}
 
         {featuredStores.length > 0 && !showDiscoveries && <div className="subtle-promo"><Zap size={18}/><span>등록된 이벤트 문구가 있는 가게 <strong>{featuredStores.length}곳</strong>을 모아볼 수 있어요.</span><button type="button" onClick={() => { setFilter("이벤트"); setShowDiscoveries(true); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견 보기 <ArrowRight size={15}/></button></div>}
-      </section>}
+      </section>
       <footer className="customer-footer"><span>맛&멋 AI Street · 송도 타임스페이스 시범 프로젝트</span>{currentSurface()==="legacy" && <><a href={appUrl("editor","/map-editor")}>전체 지도 편집 <ArrowRight size={13}/></a><a href={appUrl("editor","/street-editor")}>거리 사진 편집 <ArrowRight size={13}/></a></>}</footer>
     </main>
 

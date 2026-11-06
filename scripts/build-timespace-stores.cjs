@@ -7,17 +7,19 @@ const path = require('node:path');
 const catalog = require('../src/data/storefrontCatalog.json');
 // Facts read from each store's public source page (menus, hours); see the file's note.
 const { details } = require('../src/data/timespaceStoreDetails.json');
-const sourceLabel = d => d.sourceDate ? `${d.sourceDate.replace(/-/g, '.')} 공개 자료 기준` : '공개 매장 안내 기준';
+const sourceLabel = d => d.sourceDate ? `${d.sourceDate.slice(0, 7).replace('-', '.')} 자료 기준` : '매장 안내 자료 기준';
+// Every store here is in Timespace, so drop branch suffixes from the display name (the catalog keeps the full name).
+const displayName = name => name.replace(/\s*(\((?:타임스페이스점|송도점)\)|송도타임스페이스점|인천송도타임스페이스|인천타임스페이스점|인천대입구역점|타임스페이스점|송도점)$/, '').trim() || name;
 function describe(r) {
   const d = details[r.id];
   if (!d) return {
-    description: `간판 사진과 공개 주소 기록(${catalog.collectedOn} 수집)으로 확인한 ${r.category} 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.`,
+    description: `간판 사진과 공개 주소로 확인한 ${r.category} 가게예요. 메뉴와 영업시간은 현장 확인이 필요해요.`,
     menu: r.category, price: '현장 확인',
   };
   const items = d.items.map(item => ({ name: item.name, price: item.price || '현장 확인' }));
   const priced = d.items.find(item => item.price);
   return {
-    description: `${d.summary}.${d.hours ? ` 영업시간: ${d.hours}.` : ''} (${sourceLabel(d)} · 현재와 다를 수 있어요)`,
+    description: `${d.summary}.${d.hours ? ` 영업 ${d.hours}.` : ''} ${sourceLabel(d)}`,
     menu: items.length ? items.map(item => item.name).slice(0, 3).join(' · ') : r.category,
     price: priced ? `${priced.name} ${priced.price} (${d.sourceDate ? d.sourceDate.slice(0, 7).replace('-', '.') + ' 기준' : '안내 기준'})` : '현장 확인',
     ...(items.length ? { menuItems: items } : {}),
@@ -62,7 +64,7 @@ for (const r of rows) {
   const id = nextId++;
   const unit = unitText(r.rooms);
   stores.push({
-    id, name: r.name, building: `${r.building}동`, floor: r.floor, ...(unit ? { unit } : {}),
+    id, name: displayName(r.name), building: `${r.building}동`, floor: r.floor, ...(unit ? { unit } : {}),
     type: foodCategories.includes(r.category) ? '맛' : '멋', category: r.category,
     ...describe(r),
     storefrontImage: r.photo.retouch?.path || r.photo.path,
