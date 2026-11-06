@@ -162,7 +162,7 @@
   .app-shell .map-floor-buttons>button{flex:1;min-width:0;padding:12px 8px}
   .app-shell .map-floor-buttons>button strong{font-size:14px}
   .app-shell .map-floor-points{max-height:260px}
-  .app-shell .map-floor-group{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .app-shell .map-floor-group{grid-template-columns:minmax(0,1fr)}
   .app-shell .map-floor-group-title{grid-column:1/-1}
   .app-shell .direction-controls{align-items:stretch;flex-direction:column;gap:10px}
   .app-shell .direction-controls>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
@@ -205,3 +205,22 @@
 .map-floor-group-title span{font-weight:600;color:#7a8ea0}
 .map-floor-type{flex-shrink:0;width:9px;height:9px;border-radius:50%;background:#276ddb}
 .map-floor-type.style{background:#ac774a}
+
+/* Cleaner map section: one collapsible note, compact list rows and street-view toggle. */
+details.map-disclaimer{display:block;margin:12px 0 4px;font-size:12px;color:#748395}
+details.map-disclaimer summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;list-style:none;font-weight:600}
+details.map-disclaimer summary::-webkit-details-marker{display:none}
+details.map-disclaimer summary::after{content:"자세히";margin-left:4px;color:#236ec5;font-weight:700;text-decoration:underline}
+details.map-disclaimer[open] summary::after{content:"접기"}
+details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
+.app-shell .map-floor-points{gap:2px}
+.app-shell .map-floor-points .map-floor-group{gap:0}
+.app-shell .map-floor-points button{min-height:36px;padding:7px 8px;gap:8px;border:0;border-radius:8px;background:transparent}
+.app-shell .map-floor-points button:hover{background:#f1f6fc}
+.app-shell .map-floor-points button.active{background:#e8f2ff;box-shadow:inset 3px 0 0 #2c62d0}
+.app-shell .map-floor-points .map-floor-store-name{font-size:13px;font-weight:700;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal}
+.map-floor-unit{flex-shrink:0;font-size:11px;color:#7a8ea0}
+.map-floor-group-title{padding:6px 8px 2px;border-top:1px solid #e6edf4}
+.map-floor-group:first-child .map-floor-group-title{border-top:0}
+.app-shell .map-street-view-box>button{flex-direction:row;justify-content:center;gap:8px;padding:11px 8px}
+.app-shell .map-street-view-box strong{font-size:13px}

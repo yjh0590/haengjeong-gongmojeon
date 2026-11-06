@@ -78,5 +78,4 @@
 </g>
 <g font-family="Pretendard, Noto Sans KR, sans-serif" fill="#91a3b4" font-size="8" letter-spacing=".2"><text x="24" y="182" transform="rotate(-46 24 182)">상권 외곽</text><text x="422" y="100" transform="rotate(30 422 100)">주변 도로</text></g>
 <g opacity=".95"><rect x="9" y="8" width="111" height="23" rx="11.5" fill="#ffffff" stroke="#dce7ef"/><circle cx="22" cy="19.5" r="3" fill="#2b78d6"/><text x="31" y="22.5" font-family="Pretendard, Noto Sans KR, sans-serif" font-size="9" font-weight="700" fill="#56738e">송도 타임스페이스</text></g>
-<text x="490" y="362" text-anchor="end" font-family="Pretendard, Noto Sans KR, sans-serif" font-size="7" fill="#6f8498">시범 개념도 · 실제 배치 및 동선 확인 필요</text>
 </svg>
