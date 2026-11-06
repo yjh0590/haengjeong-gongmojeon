@@ -433,23 +433,19 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       {tab === "list" && <header className="service-directory-heading"><span className="service-kicker">ONE NEIGHBORHOOD, MANY DISCOVERIES</span><h1>오늘은 어떤 가게를 만나볼까요?</h1><p>층을 넘나들며, 나에게 맞는 맛과 멋을 찾아보세요.</p></header>}
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         {tab !== "map" && <div className="site-data-status" role="status">{siteDataNote}</div>}
-        <div className="explore-toolbar">
+        <div className={`explore-toolbar ${tab === "map" ? "" : "is-filter-panel"}`}>
           <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
-          <div className="filter-buttons" role="group" aria-label="가게 필터">
+          <div className="filter-row"><span className="filter-row-label">종류</span><div className="filter-buttons" role="group" aria-label="가게 종류 필터">
             {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item}>
               {item === "맛" ? <Utensils size={15}/> : item === "멋" ? <Camera size={15}/> : item === "이벤트" ? <Zap size={15}/> : <Layers3 size={15}/>} {item}
             </button>)}
             <button type="button" className={`filter-chip saved-filter ${onlySaved ? "selected" : ""}`} onClick={() => { setOnlySaved((p) => !p); setShowDiscoveries(false); }} aria-pressed={onlySaved}><Heart size={15} fill={onlySaved ? "currentColor" : "none"}/> 저장한 가게 {favorites.length > 0 && <span className="saved-count">{favorites.length}</span>}</button>
-          </div>
+          </div></div>
+          {tab !== "map" && <div className="filter-row"><span className="filter-row-label">동</span><div className="filter-buttons" role="group" aria-label="동 필터">{["전체", ...buildings].map(item => <button key={item} type="button" className={`filter-chip ${building===item ? "selected" : ""}`} onClick={() => { setBuilding(item); setSelectedStoreId(null); setRouteTargetId(null); }} aria-pressed={building===item} style={item === "전체" ? undefined : {"--block-color": blockColor(item)} as CSSProperties}>{item !== "전체" && <i className="block-dot" aria-hidden="true"/>}{item === "전체" ? "전체" : item}<span className="filter-count">{item === "전체" ? effectiveStores.length : effectiveStores.filter(store => store.building === item).length}</span></button>)}</div></div>}
+          {tab === "list" && <div className="filter-row"><span className="filter-row-label">층</span><div className="filter-buttons" role="group" aria-label="층 필터">{(["전체", 1, 2, 3] as const).map(item => <button key={item} type="button" className={`filter-chip ${listFloor === item ? "selected" : ""}`} aria-pressed={listFloor === item} onClick={() => setListFloor(item)}>{item === "전체" ? "전체" : `${item}층`}<span className="filter-count">{item === "전체" ? allFloorResults.length : allFloorResults.filter(store => store.floor === item).length}</span></button>)}</div></div>}
         </div>
 
 
-        {tab !== "map" && <div className="building-selector" role="group" aria-label="건물별 점포 보기">
-          <div className="building-selector-label"><Store size={16}/><strong>건물별 보기</strong><small>등록된 건물 정보 기준</small></div>
-          <div className="building-selector-options">
-            {["전체", ...buildings].map(item => <button key={item} type="button" className={building===item ? "selected" : ""} onClick={() => { setBuilding(item); setSelectedStoreId(null); setRouteTargetId(null); }} aria-pressed={building===item} style={item === "전체" ? undefined : {"--block-color": blockColor(item)} as CSSProperties}>{item !== "전체" && <i className="block-dot" aria-hidden="true"/>}{item === "전체" ? "전체 건물" : item} <span>{item === "전체" ? effectiveStores.length : effectiveStores.filter(store => store.building === item).length}</span></button>)}
-          </div>
-        </div>}
         {routeTarget && <div className="route-guide" role="status" aria-live="polite">
           <div className="route-guide-top"><div><span className="route-guide-kicker"><Navigation size={15}/> 촬영 지점 연결 안내 · 실측 길찾기 아님</span>
             <strong>{routeTarget.name} <span>· {routeTarget.building} {routeTarget.floor}층 {routeTarget.unit || ""}</span></strong>
@@ -580,8 +576,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           </section>
         </div>
 
-        {hasStoreFilter && <><div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : tab === "list" ? "동네 가게 전체" : "필터 결과"}</h3><p>{resultStores.length ? `${resultFloors.join("·")}층에서 ${resultStores.length}곳 · 카드를 선택하면 촬영 지점과 연결됩니다.` : "모든 층에서 찾아봤지만 맞는 가게가 없어요."}</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 가게 하나 둘러보기</button></div>
-        {allFloorResults.length > 0 && <div className="list-floor-tabs" role="group" aria-label="가게 목록 층 선택">{(["전체", 1, 2, 3] as const).map(item => <button key={item} type="button" aria-pressed={listFloor === item} onClick={() => setListFloor(item)}>{item === "전체" ? "전체 층" : `${item}층`}<span>{item === "전체" ? allFloorResults.length : allFloorResults.filter(store => store.floor === item).length}</span></button>)}</div>}
+        {hasStoreFilter && <>{tab === "list" && !showDiscoveries && !onlySaved && !query ? <div className="list-result-bar" ref={resultsRef}><p role="status"><strong>{resultStores.length}곳</strong>{building !== "전체" || listFloor !== "전체" ? <span>{[building !== "전체" ? building : "", listFloor !== "전체" ? `${listFloor}층` : ""].filter(Boolean).join(" · ")}</span> : <span>A~D동 1~3층</span>}</p><div>{(building !== "전체" || listFloor !== "전체" || filter !== "전체") && <button type="button" className="list-reset" onClick={() => { setBuilding("전체"); setListFloor("전체"); setFilter("전체"); }}>조건 초기화</button>}<button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 가게 하나 둘러보기</button></div></div> : <div className="store-section-heading" ref={resultsRef}><div><span className="eyebrow">SEARCH RESULTS</span><h3>{showDiscoveries ? "이벤트가 등록된 가게" : onlySaved ? "저장한 가게" : query ? "검색 결과" : tab === "list" ? "동네 가게 전체" : "필터 결과"}</h3><p>{resultStores.length ? `${resultFloors.join("·")}층에서 ${resultStores.length}곳 · 카드를 선택하면 촬영 지점과 연결됩니다.` : "모든 층에서 찾아봤지만 맞는 가게가 없어요."}</p></div><button type="button" className="recommended-button" onClick={pickRecommended} disabled={!resultStores.length}><Sparkles size={16}/> 가게 하나 둘러보기</button></div>}
         {resultStores.length ? resultFloors.map(storeFloor => <section key={storeFloor} className="store-floor-section" aria-label={`${storeFloor}층 가게`}>
           <h4 className="store-floor-heading">{storeFloor}층<span>{resultStores.filter(store => store.floor === storeFloor).length}곳</span></h4>
           <div className="store-grid">{resultStores.filter(store => store.floor === storeFloor).map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>

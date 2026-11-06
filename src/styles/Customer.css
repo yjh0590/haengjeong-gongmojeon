@@ -356,3 +356,32 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .app-shell .explore-section,.app-shell .itda-customer-content-v47 .explore-section{margin-top:20px!important}
 .app-shell .explore-section>:first-child{margin-top:0!important}
 @media(max-width:600px){.app-shell .explore-section,.app-shell .itda-customer-content-v47 .explore-section{margin-top:14px!important}}
+
+/* One filter panel: search on top, then labelled rows (종류 / 동 / 층). */
+.app-shell .filter-row{display:flex;align-items:center;gap:12px;min-width:0}
+.app-shell .filter-row-label{display:none}
+.app-shell .explore-toolbar.is-filter-panel{flex-direction:column;align-items:stretch;gap:10px;padding:16px}
+.app-shell .is-filter-panel .search-field{width:100%}
+.app-shell .is-filter-panel .filter-row{padding-top:10px;border-top:1px solid #edf2f7}
+.app-shell .is-filter-panel .filter-row-label{display:block;flex-shrink:0;width:34px;font-size:13px;font-weight:800;color:#365b77}
+.app-shell .is-filter-panel .filter-buttons{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.app-shell .is-filter-panel .filter-chip{border-radius:999px;padding:7px 12px;font-size:13px;gap:6px}
+.app-shell .is-filter-panel .filter-chip.selected{background:#2c62d0;border-color:#2c62d0;color:#fff}
+.app-shell .is-filter-panel .filter-chip.selected .filter-count{color:#dce8ff;background:#ffffff26}
+.app-shell .filter-count{font-size:11px;font-weight:700;color:#7a8ea0;background:#f1f5f9;border-radius:999px;padding:1px 6px}
+.app-shell .is-filter-panel .filter-chip .block-dot{margin-right:0}
+.app-shell .is-filter-panel .filter-chip.selected .block-dot{box-shadow:0 0 0 2px #fff}
+/* List tab result line (replaces the big SEARCH RESULTS heading). */
+.app-shell .list-result-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 2px 14px}
+.app-shell .list-result-bar p{margin:0;display:flex;align-items:baseline;gap:8px;color:#173d5b}
+.app-shell .list-result-bar strong{font-size:20px}
+.app-shell .list-result-bar span{font-size:14px;color:#6b8196}
+.app-shell .list-result-bar>div{display:flex;gap:8px;align-items:center}
+.app-shell .list-reset{border:0;background:none;color:#2266c4;font:inherit;font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer}
+@media(max-width:600px){
+  .app-shell .explore-toolbar.is-filter-panel{padding:12px;gap:8px}
+  .app-shell .is-filter-panel .filter-row{align-items:flex-start;gap:8px;padding-top:8px}
+  .app-shell .is-filter-panel .filter-row-label{width:24px;padding-top:7px;font-size:12px}
+  .app-shell .is-filter-panel .filter-chip{padding:6px 10px;font-size:12px}
+  .app-shell .list-result-bar .recommended-button{padding:8px 12px;font-size:12px}
+}
