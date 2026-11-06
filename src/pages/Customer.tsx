@@ -188,12 +188,10 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     .sort((a, b) => a.floor - b.floor || a.id - b.id),
   [effectiveStores, filter, query, onlySaved, favorites, building]);
   const resultFloors = [...new Set(resultStores.map(store => store.floor))];
-  // The printed point number is a stable 1-based index within the selected floor/building.
-  // Store IDs remain the database identifiers and are never renumbered or rewritten.
+  // Stores on the selected floor/block (used to decide which photo points to show).
   const floorStores = useMemo(() => effectiveStores
     .filter(store => store.floor === floor && (building === "전체" || store.building === building))
     .sort((a,b) => a.id - b.id), [effectiveStores, floor, building]);
-  const floorPointNumber = useMemo(() => new Map(floorStores.map((store,index) => [store.id, index + 1])), [floorStores]);
   const storePoint = (store: StoreData) => geometry.stores[String(store.id)] ||
     (publication.status === "published" ? null : geometry.nodes[locateStoreNode(store.id, streetNodes)]) || null;
   // Map badges: one per block on this floor, at the centre of its stores, ignoring the block filter
@@ -417,8 +415,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           </div><button type="button" className="route-stop" onClick={() => setRouteTargetId(null)} aria-label="촬영 지점 안내 종료"><X size={17}/> 종료</button></div>
           {!routePath ? <p>현재 지점에서 이 가게가 연결된 촬영 지점까지 이어지는 경로가 없어요. 관리자에서 촬영 지점 연결을 확인해야 합니다.</p>
             : routePath.length === 1 ? <p><Check size={15}/> 이 가게와 연결된 촬영 지점에 도착했어요. {routeTarget.floor > 1 ? `${routeTarget.floor}층의 실제 출입구와 이동 동선은 현장 확인이 필요합니다.` : "사진에서 외관과 위치를 확인해 주세요."}</p>
-            : <><p>등록된 촬영 지점 기준 <strong>{routePath.length - 1}번 이동</strong> · {routePath.map(id => streetNodes.find(node=>node.id===id)?.number ?? "?").join(" → ")}번 지점 순서</p>
-              <button type="button" className="route-next" onClick={moveAlongRoute}><Navigation size={16}/> 다음 {streetNodes.find(node=>node.id===routeNextId)?.number}번 촬영 지점 보기 <ArrowRight size={15}/></button></>}
+            : <><p>등록된 촬영 지점 기준 <strong>{routePath.length - 1}번 이동</strong> · {routePath.map(id => streetNodes.find(node=>node.id===id)?.name ?? "?").join(" → ")}</p>
+              <button type="button" className="route-next" onClick={moveAlongRoute}><Navigation size={16}/> 다음 촬영 지점 · {streetNodes.find(node=>node.id===routeNextId)?.name} 보기 <ArrowRight size={15}/></button></>}
           <small>사진 지점 간 연결만 안내합니다. 실제 도보 길이·시간·건물 출입구·계단/엘리베이터 접근성은 확인되지 않았습니다.</small>
         </div>}
         {showDiscoveries && <div className="discovery-banner"><Zap size={17}/><div><strong>오늘의 발견 · 시연용 이벤트</strong><span>등록된 홍보 문구를 지도에서 강조해 보여줘요. 실제 행사 진행 여부는 점포에 확인해야 합니다.</span></div><button type="button" onClick={() => { setShowDiscoveries(false); setFilter("전체"); }} aria-label="오늘의 발견 닫기"><X size={17}/></button></div>}
@@ -463,21 +461,24 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 <div className={`map-street-view-box ${streetViewMode ? "is-active" : ""}`}><button type="button" aria-pressed={streetViewMode} onClick={()=>setStreetViewMode(value=>!value)}><Footprints size={24}/><strong>거리뷰 보기</strong><span>{streetViewMode ? "지도에서 발자국 선택" : "촬영된 거리로 들어가기"}</span></button>{streetViewMode && <p role="status">{availablePhotoNodes.length ? `이 층에서 ${availablePhotoNodes.length}곳을 볼 수 있어요.` : "이 층에는 등록된 촬영 지점이 없어요."}</p>}</div>
                 <div className="map-floor-point-heading"><strong>{floor}층 지점</strong><span>{matchingStores.length}곳</span></div>
                 <div className="map-floor-points">
-                  {matchingStores.length ? matchingStores.map(store => <button key={store.id} type="button" className={selectedStoreId === store.id ? "active" : ""} onClick={() => focusStore(store.id)} aria-label={`${floor}층 ${floorPointNumber.get(store.id)}번 지점 · ${store.name}`}>
-                    <span className="map-floor-number">{floorPointNumber.get(store.id)}</span><span className="map-floor-store-name">{store.name}<small>{store.unit || store.building}</small></span>
-                  </button>) : <p className="map-floor-empty">이 층에 표시할 점포가 없어요.</p>}
+                  {matchingStores.length ? [...new Set(matchingStores.map(store => store.building))].sort((a, b) => a.localeCompare(b, "ko")).map(block => <div key={block} className="map-floor-group">
+                    <p className="map-floor-group-title">{block}<span>{matchingStores.filter(store => store.building === block).length}곳</span></p>
+                    {matchingStores.filter(store => store.building === block).map(store => <button key={store.id} type="button" className={selectedStoreId === store.id ? "active" : ""} onClick={() => focusStore(store.id)} aria-label={`${store.name} · ${store.type} · ${block} ${floor}층 ${store.unit || ""}`}>
+                      <span className={`map-floor-type ${store.type === "맛" ? "food" : "style"}`} aria-hidden="true"/><span className="map-floor-store-name">{store.name}<small>{store.unit || store.building}</small></span>
+                    </button>)}
+                  </div>) : <p className="map-floor-empty">이 층에 표시할 점포가 없어요.</p>}
                 </div>
               </aside>
             </div>
             <p className="map-disclaimer"><Info size={14}/><span>{floor}층 점포만 표시합니다. 촬영 지점은 연결된 건물 외관 사진일 수 있으며 실제 층별 실내 촬영 위치와 다를 수 있습니다. 간편 안내도의 건물 형태·구역명 및 점포·촬영 지점 좌표는 시연용입니다. 관리자 등록 지도와 배치가 다를 수 있으며 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</span></p>
             <div className="node-quicklinks" role="group" aria-label="촬영 지점 선택">
-              {floorPhotoNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>hasPhoto(node.id,d)) && <Camera size={13}/>}</button>)}
+              {floorPhotoNodes.map((node) => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} onClick={() => focusNode(node.id)}><span aria-hidden="true"><Footprints size={13}/></span>{node.name}{routePath?.includes(node.id) && <Navigation size={13}/>}{directions.some(d=>hasPhoto(node.id,d)) && <Camera size={13}/>}</button>)}
             </div>
           </section>
 
           <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
             <div className="panel-header"><div><span className="panel-eyebrow">STREET PHOTO</span><h3><Eye size={19}/> {currentNode.name} · {directionName[currentView]} 방향</h3></div><span className={`photo-badge ${currentImage ? "is-ready" : ""}`}>{currentImage ? "촬영 사진" : "촬영 준비"}</span></div>
-            <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{floorPhotoNodes.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}</button>)}</div>
+            <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{floorPhotoNodes.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span aria-hidden="true"><Footprints size={13}/></span>{node.name}</button>)}</div>
             <div className={`street-view-layout ${lookSide || streetCatalogOpen ? "is-showing-stores" : ""}`}><div className="street-view-photo" hidden={lookSide !== null || streetCatalogOpen}>
             <div className={`street-image ${currentImage ? "has-photo" : "is-placeholder"} ${photoTravel ? "is-travelling" : ""}`} style={{"--street-photo-ratio": photoSize && photoSize.src === currentImage ? photoSize.width / photoSize.height : 3 / 4} as CSSProperties}>
               {currentImage ? <img src={currentImage} alt={`${currentNode.name}에서 바라본 ${directionName[currentView]} 방향 실제 거리 사진`} className="street-photo" onLoad={event=>{const image=event.currentTarget;if(image.naturalWidth&&image.naturalHeight)setPhotoSize({src:currentImage,width:image.naturalWidth,height:image.naturalHeight});}}/> : <div className="street-empty"><Camera size={42}/><strong>이 방향의 사진을 준비 중이에요</strong><span>촬영 후 사진을 등록하면 이곳에 표시됩니다.</span></div>}
@@ -491,7 +492,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             </div>
             <button type="button" className="street-catalog-entry" onClick={openStreetCatalog}><Store size={18}/> A·B·C·D동 가게 둘러보기 <ArrowRight size={17}/></button>
             <div className="direction-controls"><span>보는 방향</span><div>{(["forward", "back"] as const).map(direction => <button key={direction} type="button" className={currentView === direction ? "active" : ""} disabled={!hasPhoto(currentNodeId,direction)} onClick={() => changeView(direction)} aria-label={`${directionName[direction]} 방향 보기`} title={`${directionName[direction]} 방향 보기`} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={22}/> : <ArrowDown size={22}/>}</button>)}</div></div>
-            <div className="street-footer"><div><Camera size={15}/><span>{currentNode.number}번 지점 · 사진 {directions.filter(d=>hasPhoto(currentNodeId,d)).length}개 등록</span></div><div className="street-navigation">{routeNextId && <button className="route-navigation-next" type="button" onClick={moveAlongRoute}><Navigation size={14}/> 안내: 다음 {streetNodes.find(n=>n.id===routeNextId)?.number}번 지점 <ArrowRight size={14}/></button>}{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)} aria-label={`${directionName[connection.direction]}으로 이동 · ${streetNodes.find(n => n.id === connection.to)?.name || connection.to}`}><Navigation size={14}/> {directionName[connection.direction]}으로 이동 · {streetNodes.find((n) => n.id === connection.to)?.number}번 지점 <ArrowRight size={14}/></button>)}</div></div>
+            <div className="street-footer"><div><Camera size={15}/><span>{currentNode.name} · 사진 {directions.filter(d=>hasPhoto(currentNodeId,d)).length}장</span></div><div className="street-navigation">{routeNextId && <button className="route-navigation-next" type="button" onClick={moveAlongRoute}><Navigation size={14}/> 안내: 다음 {streetNodes.find(n=>n.id===routeNextId)?.name} <ArrowRight size={14}/></button>}{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)} aria-label={`${directionName[connection.direction]}으로 이동 · ${streetNodes.find(n => n.id === connection.to)?.name || connection.to}`}><Navigation size={14}/> {directionName[connection.direction]}으로 이동 · {streetNodes.find((n) => n.id === connection.to)?.name} <ArrowRight size={14}/></button>)}</div></div>
             {selectedStore && <div className="selected-store-strip"><span><Store size={15}/><strong>{selectedStore.name}</strong> · {selectedStore.building} {selectedStore.floor}층 {selectedStore.unit || ""} · {selectedStore.floor>1?"1층 외관/출입구 참고":"1층 거리 사진"} · {activeFacades.some((a) => a.storeId === selectedStore.id) ? "영역 표시됨" : "영역 미등록"}</span><button type="button" onClick={() => setDetailsOpen(true)}>가게 상세 보기 <ChevronRight size={15}/></button></div>}
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
 
@@ -518,7 +519,6 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                     <div className="street-store-card-body">
                       <div className="street-store-card-top">
                         <span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type} · {store.category}</span>
-                        <span className="street-store-card-point">{floorPointNumber.get(store.id) || "-"}번</span>
                       </div>
                       <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong>{store.name}</strong><span>{store.description}</span></button>
                       <ul className="street-store-card-meta">
