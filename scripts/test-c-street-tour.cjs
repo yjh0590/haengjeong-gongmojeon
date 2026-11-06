@@ -30,7 +30,7 @@ assert.equal(streetStorePage(expanded, 1).stores[0].id, 9104);
 for (const src of [...tour.stores.map(store => store.storefrontImage), ...tour.nodes.flatMap(node => Object.values(node.views))]) {
   assert(validStorefrontImage(src));
   const bytes = fs.readFileSync(path.join('public', src));
-  assert.equal(bytes.subarray(0, 2).toString('hex'), 'ffd8');
+  assert(src.endsWith('.png') ? bytes.subarray(0, 8).toString('hex') === '89504e470d0a1a0a' : bytes.subarray(0, 2).toString('hex') === 'ffd8');
 }
 for (const invalid of ['javascript:alert(1)', 'data:image/png;base64,test', '//example.com/x.jpg', '/street/../secret.jpg', 'https://user:password@example.com/a.jpg']) {
   assert(!validStorefrontImage(invalid));
