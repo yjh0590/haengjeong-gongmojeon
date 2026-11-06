@@ -25,7 +25,7 @@ import { pageTitle } from "../config/brand";
 import SceneBanner from "../components/SceneBanner";
 import NextStopCards from "../components/NextStopCards";
 import "../styles/ServiceUpgrade.css";
-import { cStreetTour } from "../data/cStreetTour";
+import { cStreetTour, timespaceSite } from "../data/cStreetTour";
 import { validStorefrontImage } from "../data/storefrontImage";
 import "../styles/StreetTour.css";
 import { storeMenuItems } from "../data/storeMenuItems";
@@ -84,8 +84,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   // test photos). Show the photographed C-block stores and street, the same data as /street-demo.
   const usesCStreet = !demoTour && !sourceNodes.some(node => node.id === "c-entry");
   const streetNodes = usesCStreet ? cStreetTour.nodes : sourceNodes;
-  const geometry = usesCStreet ? cStreetTour.geometry : sourceGeometry;
-  const catalog = usesCStreet ? cStreetTour.stores : sourceCatalog;
+  const geometry = usesCStreet ? timespaceSite.geometry : sourceGeometry;
+  const catalog = usesCStreet ? timespaceSite.stores : sourceCatalog;
   const {urls: draftUrls} = useDraftPhotoUrls();
   const mediaDraft = useMediaDraft();
   const media = demoTour ? undefined : publication.status === "published" ? publication.data?.media : mediaDraft;
@@ -378,7 +378,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       {tab === "list" && <header className="service-directory-heading"><span className="service-kicker">ONE NEIGHBORHOOD, MANY DISCOVERIES</span><h1>오늘은 어떤 가게를 만나볼까요?</h1><p>층을 넘나들며, 나에게 맞는 맛과 멋을 찾아보세요.</p></header>}
       {tab === "signs" && <Suspense fallback={<p role="status">간판 사진과 가게 정보를 불러오고 있어요.</p>}><StorefrontDirectory /></Suspense>}
       {tab !== "signs" && <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
-        <div className="site-data-status" role="status">{demoTour || usesCStreet ?"직접 촬영한 C동 거리 · 메뉴·가격·영업 여부는 현장 확인 필요 · 지도 좌표는 임시 배치" : publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
+        <div className="site-data-status" role="status">{demoTour ? "직접 촬영한 C동 거리 · 메뉴·가격·영업 여부는 현장 확인 필요 · 지도 좌표는 임시 배치" : usesCStreet ? "직접 촬영한 C동 거리와 간판 사진·공개 주소로 확인한 A~D동 1~3층 가게 · 메뉴·가격·영업 여부는 현장 확인 필요 · 지도 위치는 개념도 배치" :publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
         <div className="explore-toolbar">
           <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
           <div className="filter-buttons" role="group" aria-label="가게 필터">
