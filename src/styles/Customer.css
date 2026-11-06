@@ -280,3 +280,24 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .app-shell .map-floor-points .map-floor-store-name{display:block;white-space:normal;overflow:visible;text-overflow:clip;-webkit-line-clamp:unset;line-height:1.35;min-width:0}
 .app-shell .map-floor-points button{align-items:center;min-height:40px;height:auto}
 @media(max-width:600px){.app-shell .map-floor-points .map-floor-store-name{font-size:14px}.app-shell .map-floor-points button{padding:9px 8px}.map-floor-unit{font-size:12px}}
+
+/* Photographed street: a green band on the map that opens the street view. */
+.district-map-concept .map-photo-street{cursor:pointer}
+.district-map-concept .map-photo-street-halo{stroke:#17a382;stroke-opacity:.22;stroke-width:30;stroke-linecap:round}
+.district-map-concept .map-photo-street-line{stroke:#17a382;stroke-width:9;stroke-linecap:round}
+.district-map-concept .map-photo-street:hover .map-photo-street-halo{stroke-opacity:.38}
+.district-map-concept .map-photo-street:focus-visible{outline:none}
+.district-map-concept .map-photo-street:focus-visible .map-photo-street-halo{stroke:#0b4a3c;stroke-opacity:.45}
+.district-map-concept .map-node{pointer-events:none}
+.district-map-concept .map-node-circle{fill:#17a382}
+.district-map-concept .map-node.is-active .map-node-circle{fill:#0f766e}
+.district-map-concept .map-node-ring{fill:#d5f3e9}
+.district-map-concept .map-node.is-active .map-node-ring{fill:#bfeadb;stroke:#0f766e}
+.legend-photo-street{background:#17a382!important;border-radius:4px!important;width:18px!important}
+.app-shell .map-street-view-box>button>span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.2}
+.app-shell .map-street-view-box small{font-size:12px;font-weight:600;opacity:.88;margin-top:3px}
+.district-map-concept .map-photo-street-halo{stroke-opacity:.3;stroke-width:32}
+.district-map-concept .map-photo-street-line{stroke-width:10}
+.district-map-concept .map-photo-street-label rect{fill:#0f766e;stroke:#fff;stroke-width:2;filter:drop-shadow(0 2px 4px #0b4a3c55)}
+.district-map-concept .map-photo-street-label text{fill:#fff;font-size:10.5px;font-weight:800;text-anchor:middle}
+.district-map-concept .map-photo-street:hover .map-photo-street-label rect{fill:#0b5e51}
