@@ -16,7 +16,7 @@
 
 .app-shell .street-view-layout{display:block;margin-top:16px}
 .app-shell .street-view-photo .street-image{margin-top:0}
-.app-shell .street-view-layout .street-store-showcase{margin-top:24px;padding-top:24px;scroll-margin-top:90px}
+.app-shell .street-view-layout .street-store-showcase{margin:0;padding:0;border:0;scroll-margin-top:90px}
 .app-shell .street-view-layout .street-store-showcase-head{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
 .app-shell .street-view-layout .street-store-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
 .app-shell .street-view-layout .street-store-card{display:flex;flex-direction:column;min-width:0}
@@ -35,3 +35,7 @@
  .street-side-actions{inset-inline:8px;gap:6px}
  .street-side-actions button{padding:10px;font-size:12px;gap:4px}
 }
+
+.street-view-photo[hidden]{display:none!important}
+.street-return-photo{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 14px;margin-bottom:18px;border:1px solid #cfdeec;border-radius:12px;background:#f2f7fc;color:#245c88;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.street-return-photo:focus-visible{outline:3px solid #55bca5;outline-offset:3px}

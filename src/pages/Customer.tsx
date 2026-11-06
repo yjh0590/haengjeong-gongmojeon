@@ -122,6 +122,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const modalRef = useRef<HTMLElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const streetStoresRef = useRef<HTMLDivElement>(null);
+  const lastSideRef = useRef<"left" | "right">("left");
 
   useEffect(() => { document.title = pageTitle("customer"); }, []);
   useEffect(() => () => { if (travelTimer.current) clearTimeout(travelTimer.current); }, []);
@@ -200,6 +201,16 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   [matchingStores, facades, currentNodeId, storeView, currentNode.viewStores]);
   const pagingContext = `${currentNodeId}:${currentView}:${lookSide || "straight"}:${spotlightStores.map(store => store.id).join(",")}`;
   const storePage = streetStorePage(spotlightStores, storePaging.context === pagingContext ? storePaging.page : 0);
+  const openStreetSide = (side: "left" | "right") => {
+    lastSideRef.current = side;
+    setLookSide(side);
+    setSelectedStoreId(null);
+    window.requestAnimationFrame(() => streetStoresRef.current?.focus({preventScroll:true}));
+  };
+  const returnToStreetPhoto = () => {
+    setLookSide(null);
+    window.requestAnimationFrame(() => document.querySelector<HTMLButtonElement>(`.street-side-actions button[data-side="${lastSideRef.current}"]`)?.focus({preventScroll:true}));
+  };
   const turnStorePage = (page: number) => setStorePaging({ context: pagingContext, page });
   const hasStoreFilter = tab === "list" || Boolean(query.trim() || onlySaved || filter !== "전체" || showDiscoveries);
 
@@ -430,7 +441,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
             <div className="panel-header"><div><span className="panel-eyebrow">STREET PHOTO</span><h3><Eye size={19}/> {currentNode.name} · {directionName[currentView]} 방향</h3></div><span className={`photo-badge ${currentImage ? "is-ready" : ""}`}>{currentImage ? "촬영 사진" : "촬영 준비"}</span></div>
             <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{floorPhotoNodes.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}</button>)}</div>
-            <div className="street-view-layout"><div className="street-view-photo">
+            <div className={`street-view-layout ${lookSide ? "is-showing-stores" : ""}`}><div className="street-view-photo" hidden={lookSide !== null}>
             <div className={`street-image ${currentImage ? "has-photo" : "is-placeholder"} ${photoTravel ? "is-travelling" : ""}`} style={{"--street-photo-ratio": photoSize && photoSize.src === currentImage ? photoSize.width / photoSize.height : 3 / 4} as CSSProperties}>
               {currentImage ? <img src={currentImage} alt={`${currentNode.name}에서 바라본 ${directionName[currentView]} 방향 실제 거리 사진`} className="street-photo" onLoad={event=>{const image=event.currentTarget;if(image.naturalWidth&&image.naturalHeight)setPhotoSize({src:currentImage,width:image.naturalWidth,height:image.naturalHeight});}}/> : <div className="street-empty"><Camera size={42}/><strong>이 방향의 사진을 준비 중이에요</strong><span>촬영 후 사진을 등록하면 이곳에 표시됩니다.</span></div>}
               {currentImage && activeFacades.length > 0 && <svg className="facade-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="사진 속 가게 영역">
@@ -438,7 +449,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
               </svg>}
               {photoTravel && <img key={photoTravel.stamp} src={photoTravel.previous} className={`street-travel-layer travel-${photoTravel.kind}`} alt="" aria-hidden="true"/>}
               {nextPhotoLink && <button className="street-step-next" type="button" onClick={() => focusNode(nextPhotoLink.to, nextPhotoLink.arrivalView || nextPhotoLink.direction)}><ArrowUp size={22}/><span>{nextPhotoLink.label || "다음 사진으로 이동"}</span></button>}
-              {showSideControls && <div className="street-side-actions" role="group" aria-label="거리 양쪽 가게 보기">{(["left", "right"] as const).map(side => <button key={side} type="button" aria-pressed={lookSide === side} aria-controls="street-visible-stores" onClick={() => {setLookSide(side);setSelectedStoreId(null);window.requestAnimationFrame(() => streetStoresRef.current?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",block:"start"}));}}>{side === "left" && <ArrowLeft size={20}/>}<span>{directionName[side]} 가게 보기</span>{side === "right" && <ArrowRight size={20}/>}</button>)}</div>}
+              {showSideControls && <div className="street-side-actions" role="group" aria-label="거리 양쪽 가게 보기">{(["left", "right"] as const).map(side => <button key={side} type="button" data-side={side} aria-pressed={lookSide === side} aria-controls="street-visible-stores" onClick={() => openStreetSide(side)}>{side === "left" && <ArrowLeft size={20}/>}<span>{directionName[side]} 가게 보기</span>{side === "right" && <ArrowRight size={20}/>}</button>)}</div>}
               <span className="street-photo-caption"><MapPin size={13}/> {currentNode.subtitle}</span>
             </div>
             <div className="direction-controls"><span>보는 방향</span><div>{(["forward", "back"] as const).map(direction => <button key={direction} type="button" className={currentView === direction ? "active" : ""} disabled={!hasPhoto(currentNodeId,direction)} onClick={() => changeView(direction)} aria-label={`${directionName[direction]} 방향 보기`} title={`${directionName[direction]} 방향 보기`} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={22}/> : <ArrowDown size={22}/>}</button>)}</div></div>
@@ -447,14 +458,15 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
 
             </div>
-            <div className="street-store-showcase" id="street-visible-stores" ref={streetStoresRef} aria-label="현재 방향에 연결된 가게" aria-live="polite">
+            {lookSide !== null && <div className="street-store-showcase" id="street-visible-stores" ref={streetStoresRef} tabIndex={-1} aria-label="현재 방향에 연결된 가게" aria-live="polite">
+              <button type="button" className="street-return-photo" onClick={returnToStreetPhoto}><ArrowLeft size={18}/> 거리 사진으로 돌아가기</button>
               <div className="street-store-showcase-head">
                 <div>
                   <span className="panel-eyebrow">STORES IN VIEW</span>
-                  <h4>{lookSide ? `${directionName[lookSide]} 면에서 만나는 가게` : showSideControls && !spotlightStores.length ? "어느 쪽 가게를 볼까요?" : `${directionName[currentView]} 방향에서 만나는 가게`}</h4>
-                  <p>{currentNode.name} · {directionName[currentView]}을 보는 중{lookSide ? ` · ${directionName[lookSide]} 면 ${spotlightStores.length}곳` : ""}{spotlightStores.length > 0 ? " · 가게 카드를 3개씩 둘러보세요." : showSideControls ? " · 거리 사진의 왼쪽·오른쪽 버튼을 눌러보세요." : nextPhotoLink ? " · 거리 안으로 들어가 가게를 둘러보세요." : " · 연결된 가게를 준비 중이에요."}</p>
+                  <h4>{directionName[lookSide]} 면에서 만나는 가게</h4>
+                  <p>{currentNode.name} · {directionName[currentView]}을 보는 중 · {directionName[lookSide]} 면 {spotlightStores.length}곳{spotlightStores.length > 0 ? " · 가게 카드를 3개씩 둘러보세요." : " · 다른 면을 선택하거나 거리 사진으로 돌아가 보세요."}</p>
                 </div>
-                {showSideControls && <div className="street-store-side-tabs" role="group" aria-label="가게 면 선택">{(["left", "right"] as const).map(side => <button key={side} type="button" aria-pressed={lookSide === side} onClick={() => {setLookSide(side);setSelectedStoreId(null);}}>{side === "left" ? <ArrowLeft size={17}/> : <ArrowRight size={17}/>} {directionName[side]} 면</button>)}</div>}
+                {showSideControls && <div className="street-store-side-tabs" role="group" aria-label="가게 면 선택">{(["left", "right"] as const).map(side => <button key={side} type="button" aria-pressed={lookSide === side} onClick={() => openStreetSide(side)}>{side === "left" ? <ArrowLeft size={17}/> : <ArrowRight size={17}/>} {directionName[side]} 면</button>)}</div>}
               </div>
               {storePage.pageCount > 0 && <div className="street-store-pagination"><button type="button" disabled={storePage.page === 0} onClick={() => turnStorePage(storePage.page - 1)} aria-label="이전 가게 3곳"><ArrowLeft size={18}/> 이전 가게</button><span role="status">{storePage.page * 3 + 1}–{Math.min(spotlightStores.length, storePage.page * 3 + 3)} / {spotlightStores.length}곳</span><button type="button" disabled={storePage.page + 1 >= storePage.pageCount} onClick={() => turnStorePage(storePage.page + 1)} aria-label="다음 가게 3곳">다음 가게 <ArrowRight size={18}/></button></div>}
               <div className="street-store-grid" key={`${pagingContext}:${storePage.page}`}>
@@ -479,7 +491,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 })}
               </div>
               {!spotlightStores.length && <div className="street-store-empty"><Store size={24} aria-hidden="true" /><strong>{!lookSide && showSideControls ? "보고 싶은 쪽을 골라보세요" : hasStoreFilter ? "조건에 맞는 가게가 이쪽에 없어요" : `${lookSide ? directionName[lookSide] + " 면에" : "이 방향에"} 연결된 가게가 아직 없어요`}</strong><p>{!lookSide && showSideControls ? "왼쪽·오른쪽을 선택하면 해당 면의 가게 카드가 나와요." : "다른 쪽을 선택하거나 검색·필터 조건을 바꿔 보세요."}</p></div>}
-            </div>
+            </div>}
             </div>
           </section>
         </div>
