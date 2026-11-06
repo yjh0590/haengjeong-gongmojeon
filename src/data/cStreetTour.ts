@@ -12,7 +12,8 @@ export const cStreetTour: SitePublication = {
     {id:'c-entry',number:1,name:'C동 거리 입구',subtitle:'오락실 앞 · 거리 진입부',views:{forward:'/street/c-block/entrance.jpg'},stores:[9101,9102,9103],viewStores:{forward:[]},connections:[{direction:'forward',to:'c-street',arrivalView:'forward',label:'거리 안으로 들어가기'}]},
     {id:'c-street',number:2,name:'C동 거리',subtitle:'같은 촬영 지점 · 앞과 뒤 방향',views:{forward:'/street/c-block/street-forward.jpg',back:'/street/c-block/street-back-retouched.png'},stores:[9101,9102,9103],viewStores:{forward:[],back:[],left:[9101,9102,9103],right:[]},connections:[]},
   ],
-  geometry: {boundary:[],passages:[],nodes:{'c-entry':{x:176,y:288},'c-street':{x:225,y:224}},stores:{'9101':{x:158,y:257},'9102':{x:181,y:237},'9103':{x:202,y:215}}},
+  // Schematic positions on the street between the C block and the opposite row (timespace-schematic.svg).
+  geometry: {boundary:[],passages:[],nodes:{'c-entry':{x:258,y:214},'c-street':{x:290,y:178}},stores:{'9101':{x:232,y:195},'9102':{x:250,y:172},'9103':{x:268,y:149}}},
   facades: [],
 };
 

@@ -25,7 +25,7 @@ import { pageTitle } from "../config/brand";
 import SceneBanner from "../components/SceneBanner";
 import NextStopCards from "../components/NextStopCards";
 import "../styles/ServiceUpgrade.css";
-import { cStreetTour } from "../data/cStreetTour";
+import { cStreetTour, replaceWithCStreetTour } from "../data/cStreetTour";
 import { validStorefrontImage } from "../data/storefrontImage";
 import "../styles/StreetTour.css";
 import { storeMenuItems } from "../data/storeMenuItems";
@@ -77,9 +77,16 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const draftStores = useStoreDraft();
   const onlinePublication = usePublicSite(!demoTour);
   const publication = demoTour ? {data:cStreetTour,status:"preview" as const,publishedAt:null} : onlinePublication;
-  const streetNodes = publication.data?.nodes || localNodes;
-  const geometry = publication.data?.geometry || localGeometry;
-  const catalog = publication.data?.stores || (publication.status === "preview" ? draftStores : examples);
+  const sourceNodes = publication.data?.nodes || localNodes;
+  const sourceGeometry = publication.data?.geometry || localGeometry;
+  const sourceCatalog = publication.data?.stores || (publication.status === "preview" ? draftStores : examples);
+  // Until an admin publishes the C-block points, show the photographed C street instead of old test points.
+  const cStreetFallback = useMemo(() => demoTour || sourceNodes.some(node => node.id === "c-entry") ? null
+    : replaceWithCStreetTour({version:1, stores:sourceCatalog, nodes:sourceNodes, geometry:sourceGeometry, facades:[]}),
+  [demoTour, sourceNodes, sourceGeometry, sourceCatalog]);
+  const streetNodes = cStreetFallback?.nodes || sourceNodes;
+  const geometry = cStreetFallback?.geometry || sourceGeometry;
+  const catalog = cStreetFallback?.stores || sourceCatalog;
   const {urls: draftUrls} = useDraftPhotoUrls();
   const mediaDraft = useMediaDraft();
   const media = demoTour ? undefined : publication.status === "published" ? publication.data?.media : mediaDraft;
@@ -98,7 +105,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const [routeTargetId, setRouteTargetId] = useState<number | null>(null);
   const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
   const [favorites, setFavorites] = useState<number[]>(readFavorites);
-  const [currentNodeId, setCurrentNodeId] = useState(demoTour ? "c-entry" : "point1");
+  const [currentNodeId, setCurrentNodeId] = useState("c-entry");
   const [currentView, setCurrentView] = useState<ViewDirection>("forward");
   const [lookSide, setLookSide] = useState<"left" | "right" | null>(null);
   const [streetCatalogOpen, setStreetCatalogOpen] = useState(false);
