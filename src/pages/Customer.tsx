@@ -65,6 +65,10 @@ function matchStore(store: StoreData, filter: FilterType, query: string) {
   return categoryMatches && textMatches;
 }
 
+/** One colour per block, used everywhere a block is shown (map badge, floor list, building buttons). */
+const blockColors: Record<string, string> = { "A동": "#2f6fdb", "B동": "#0e9f6e", "C동": "#e8730c", "D동": "#8b5cf6" };
+const blockColor = (block: string) => blockColors[block] || "#64748b";
+
 /** A search typed on the main page arrives as ?q=. */
 function readArrivalQuery(): string {
   return new URLSearchParams(window.location.search).get("q")?.trim().slice(0, 50) ?? "";
@@ -395,7 +399,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       {tab !== "signs" && <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         {tab !== "map" && <div className="site-data-status" role="status">{siteDataNote}</div>}
         <div className="explore-toolbar">
-          <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
+          {tab !== "map" && <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>}
           <div className="filter-buttons" role="group" aria-label="가게 필터">
             {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item}>
               {item === "맛" ? <Utensils size={15}/> : item === "멋" ? <Camera size={15}/> : item === "이벤트" ? <Zap size={15}/> : <Layers3 size={15}/>} {item}
@@ -408,7 +412,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
         <div className="building-selector" role="group" aria-label="건물별 점포 보기">
           <div className="building-selector-label"><Store size={16}/><strong>건물별 보기</strong><small>등록된 건물 정보 기준</small></div>
           <div className="building-selector-options">
-            {["전체", ...buildings].map(item => <button key={item} type="button" className={building===item ? "selected" : ""} onClick={() => { setBuilding(item); setSelectedStoreId(null); setRouteTargetId(null); }} aria-pressed={building===item}>{item === "전체" ? "전체 건물" : item} <span>{item === "전체" ? effectiveStores.length : effectiveStores.filter(store => store.building === item).length}</span></button>)}
+            {["전체", ...buildings].map(item => <button key={item} type="button" className={building===item ? "selected" : ""} onClick={() => { setBuilding(item); setSelectedStoreId(null); setRouteTargetId(null); }} aria-pressed={building===item} style={item === "전체" ? undefined : {"--block-color": blockColor(item)} as CSSProperties}>{item !== "전체" && <i className="block-dot" aria-hidden="true"/>}{item === "전체" ? "전체 건물" : item} <span>{item === "전체" ? effectiveStores.length : effectiveStores.filter(store => store.building === item).length}</span></button>)}
           </div>
         </div>
         {routeTarget && <div className="route-guide" role="status" aria-live="polite">
@@ -443,7 +447,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 {/* One badge per block instead of a numbered pin per store; the block's stores are listed on the right. */}
                 {!streetViewMode && blockBadges.filter(badge => !(selectedStore && selectedStore.floor === floor && selectedStore.building === badge.building && storePoint(selectedStore))).map(badge => { const active = building === badge.building; const toggle = () => { setBuilding(active ? "전체" : badge.building); setSelectedStoreId(null); setRouteTargetId(null); };
                   return <g key={badge.building} className={`map-block-badge ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-pressed={active} aria-label={`${badge.building} ${floor}층 가게 ${badge.count}곳 ${active ? "전체 보기로 돌아가기" : "만 보기"}`} onClick={toggle} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggle(); } }}>
-                    <rect x={badge.x - 30} y={badge.y - 12} width="60" height="24" rx="12" className="map-block-badge-chip"/><text x={badge.x} y={badge.y + 4} className="map-block-badge-text">{badge.building} {badge.count}곳</text>{badge.event && <circle cx={badge.x + 27} cy={badge.y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
+                    <rect x={badge.x - 30} y={badge.y - 12} width="60" height="24" rx="12" className="map-block-badge-chip" style={{fill: blockColor(badge.building)}}/><text x={badge.x} y={badge.y + 4} className="map-block-badge-text">{badge.building} {badge.count}곳</text>{badge.event && <circle cx={badge.x + 27} cy={badge.y - 10} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
                   </g>; })}
                 {!streetViewMode && selectedStore && selectedStore.floor === floor && (() => { const point = storePoint(selectedStore); if (!point) return null; const label = selectedStore.name.length > 11 ? `${selectedStore.name.slice(0, 10)}…` : selectedStore.name; const width = Math.max(56, label.length * 10 + 22);
                   return <g className="map-store-marker is-active" role="button" tabIndex={0} aria-label={`${selectedStore.name} 상세 보기`} onClick={() => focusStore(selectedStore.id, true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(selectedStore.id, true); } }}>
@@ -463,9 +467,9 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 <div className="map-floor-point-heading"><strong>{floor}층 지점</strong><span>{matchingStores.length}곳</span></div>
                 <div className="map-floor-points">
                   {matchingStores.length ? [...new Set(matchingStores.map(store => store.building))].sort((a, b) => a.localeCompare(b, "ko")).map(block => <div key={block} className="map-floor-group">
-                    <p className="map-floor-group-title">{block}<span>{matchingStores.filter(store => store.building === block).length}곳</span></p>
+                    <p className="map-floor-group-title"><b><i className="block-dot" style={{background: blockColor(block)}} aria-hidden="true"/>{block}</b><span>{matchingStores.filter(store => store.building === block).length}곳</span></p>
                     {matchingStores.filter(store => store.building === block).map(store => <button key={store.id} type="button" className={selectedStoreId === store.id ? "active" : ""} onClick={() => focusStore(store.id)} aria-label={`${store.name} · ${store.type} · ${block} ${floor}층 ${store.unit || ""}`}>
-                      <span className={`map-floor-type ${store.type === "맛" ? "food" : "style"}`} aria-hidden="true"/><span className="map-floor-store-name">{store.name}</span>{store.unit && <small className="map-floor-unit">{store.unit}</small>}
+                      <span className={`map-floor-type ${store.type === "맛" ? "food" : "style"}`} aria-hidden="true">{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>}</span><span className="map-floor-store-name">{store.name}</span>{store.unit && <small className="map-floor-unit">{store.unit}</small>}
                     </button>)}
                   </div>) : <p className="map-floor-empty">이 층에 표시할 점포가 없어요.</p>}
                 </div>
