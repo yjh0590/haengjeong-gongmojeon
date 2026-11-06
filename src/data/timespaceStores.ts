@@ -11,10 +11,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "307·308호",
     "type": "멋",
     "category": "피부관리",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 피부관리 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/yakson.webp",
-    "menu": "피부관리",
+    "description": "작은 윤곽·바디관리 체인 에스테틱. 영업시간: 월~금 10:00~22:00 · 토 09:00~17:30 · 일 휴무. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "작은윤곽관리 · 이중턱관리 · 슬림바디",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "작은윤곽관리",
+        "price": "현장 확인"
+      },
+      {
+        "name": "이중턱관리",
+        "price": "현장 확인"
+      },
+      {
+        "name": "슬림바디",
+        "price": "현장 확인"
+      },
+      {
+        "name": "웨딩관리",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/yakson.webp",
     "tags": [
       "피부관리",
       "B동 3층"
@@ -30,10 +48,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "212호",
     "type": "멋",
     "category": "미용실",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 미용실 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/lavie.webp",
-    "menu": "미용실",
+    "description": "실장급 디자이너가 연중무휴로 운영하는 미용실. 영업시간: 월~금 10:00~21:00 · 토·일 10:00~20:00 · 정기 휴무 없음. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "일반펌 · 셋팅펌 · 매직",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "일반펌",
+        "price": "현장 확인"
+      },
+      {
+        "name": "셋팅펌",
+        "price": "현장 확인"
+      },
+      {
+        "name": "매직",
+        "price": "현장 확인"
+      },
+      {
+        "name": "염색",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/lavie.webp",
     "tags": [
       "미용실",
       "C동 2층"
@@ -49,10 +85,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "313호",
     "type": "멋",
     "category": "미용실",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 미용실 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "예약 플랫폼에 등록된 미용실. 영업시간: 10:30~20:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "커트+옆머리다운펌 · 커트+뿌리염색 · 베이직펌",
+    "price": "커트+옆머리다운펌 44,000원 (안내 기준)",
+    "menuItems": [
+      {
+        "name": "커트+옆머리다운펌",
+        "price": "44,000원"
+      },
+      {
+        "name": "커트+뿌리염색",
+        "price": "72,000원"
+      },
+      {
+        "name": "베이직펌",
+        "price": "80,000원~"
+      },
+      {
+        "name": "클리닉",
+        "price": "70,000원~"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/mame.jpg",
-    "menu": "미용실",
-    "price": "현장 확인",
     "tags": [
       "미용실",
       "D동 3층"
@@ -68,10 +122,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "303·304호",
     "type": "멋",
     "category": "미용실",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 미용실 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/anne.webp",
-    "menu": "미용실",
+    "description": "1:1 담당제 헤어 살롱 본점. 영업시간: 매일 10:00~19:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "커트 · 다운펌 · 뿌리매직",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "커트",
+        "price": "현장 확인"
+      },
+      {
+        "name": "다운펌",
+        "price": "현장 확인"
+      },
+      {
+        "name": "뿌리매직",
+        "price": "현장 확인"
+      },
+      {
+        "name": "셋팅펌",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/anne.webp",
     "tags": [
       "미용실",
       "B동 3층"
@@ -87,10 +159,16 @@ export const timespaceStores: StoreData[] = [
     "unit": "307·308호",
     "type": "멋",
     "category": "미용실",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 미용실 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "이철헤어커커의 프리미엄 브랜드 미용실(1:1 맞춤). 영업시간: 10:00~20:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "앞머리 커트",
+    "price": "앞머리 커트 5,000원 (안내 기준)",
+    "menuItems": [
+      {
+        "name": "앞머리 커트",
+        "price": "5,000원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/makkie.jpg",
-    "menu": "미용실",
-    "price": "현장 확인",
     "tags": [
       "미용실",
       "C동 3층"
@@ -106,10 +184,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "131호",
     "type": "맛",
     "category": "베이커리",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 베이커리 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/roderby.webp",
-    "menu": "베이커리",
+    "description": "천연발효종으로 만든 유럽식 식사빵 베이커리. 영업시간: 매일 11:00~21:00. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "사워도우 · 소금빵 · 바게트",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "사워도우",
+        "price": "현장 확인"
+      },
+      {
+        "name": "소금빵",
+        "price": "현장 확인"
+      },
+      {
+        "name": "바게트",
+        "price": "현장 확인"
+      },
+      {
+        "name": "올리브 치즈 치아바타",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/roderby.webp",
     "tags": [
       "베이커리",
       "D동 1층"
@@ -125,10 +221,20 @@ export const timespaceStores: StoreData[] = [
     "unit": "104·105호",
     "type": "맛",
     "category": "카페",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 카페 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/shallow-clean.png",
-    "menu": "카페",
+    "description": "라떼가 대표인 카페. 영업시간: 매일 10:00~22:00 (라스트오더 21:30). (2023.03.07 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "샬로우 라떼 · 아이스 아메리카노",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "샬로우 라떼",
+        "price": "현장 확인"
+      },
+      {
+        "name": "아이스 아메리카노",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/shallow-clean.png",
     "tags": [
       "카페",
       "D동 1층"
@@ -145,9 +251,9 @@ export const timespaceStores: StoreData[] = [
     "type": "맛",
     "category": "카페",
     "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 카페 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/tenpercent.jpg",
     "menu": "카페",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/tenpercent.jpg",
     "tags": [
       "카페",
       "D동 1층"
@@ -163,10 +269,24 @@ export const timespaceStores: StoreData[] = [
     "unit": "102호",
     "type": "맛",
     "category": "베이커리",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 베이커리 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/songdoc-clean.png",
-    "menu": "베이커리",
+    "description": "매일 아침 매장에서 소금빵을 굽는 베이커리 카페. 영업시간: 영업시간은 안내 페이지 안에서도 표기가 달라 현장 확인 필요. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "우유생크림 소금빵 · 명란마요 소금빵 · 크림브륄레 소금빵",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "우유생크림 소금빵",
+        "price": "현장 확인"
+      },
+      {
+        "name": "명란마요 소금빵",
+        "price": "현장 확인"
+      },
+      {
+        "name": "크림브륄레 소금빵",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/songdoc-clean.png",
     "tags": [
       "베이커리",
       "A동 1층"
@@ -182,10 +302,10 @@ export const timespaceStores: StoreData[] = [
     "unit": "204호",
     "type": "멋",
     "category": "안경",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 안경 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/topplus.jpg",
+    "description": "으뜸플러스안경 공식 가맹점. 영업시간: 10:00~21:00. (2024.06.24 공개 자료 기준 · 현재와 다를 수 있어요)",
     "menu": "안경",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/topplus.jpg",
     "tags": [
       "안경",
       "B동 2층"
@@ -201,10 +321,20 @@ export const timespaceStores: StoreData[] = [
     "unit": "212호",
     "type": "맛",
     "category": "닭발·한식",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 닭발·한식 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "불닭발·오돌뼈 전문점. 영업시간: 출처에 영업시간 표기가 서로 달라 현장 확인 필요. (2023.11.22 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "통닭발/오돌뼈/무뼈닭발 세트 (계란찜+주먹밥) · 치즈불닭",
+    "price": "통닭발/오돌뼈/무뼈닭발 세트 (계란찜+주먹밥) 25,000원 (2023.11 기준)",
+    "menuItems": [
+      {
+        "name": "통닭발/오돌뼈/무뼈닭발 세트 (계란찜+주먹밥)",
+        "price": "25,000원"
+      },
+      {
+        "name": "치즈불닭",
+        "price": "현장 확인"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/hongcho-clean.png",
-    "menu": "닭발·한식",
-    "price": "현장 확인",
     "tags": [
       "닭발·한식",
       "D동 2층"
@@ -220,10 +350,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "314호",
     "type": "멋",
     "category": "네일숍",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 네일숍 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/nailit.webp",
-    "menu": "네일숍",
+    "description": "네 명까지 동시에 관리받을 수 있는 젤·케어 네일숍. 영업시간: 월~금 11:00~22:00 · 토 11:00~20:00 · 일 휴무. (공개 매장 안내 기준 · 현재와 다를 수 있어요)",
+    "menu": "젤네일 · 젤패디 · 기본케어",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "젤네일",
+        "price": "현장 확인"
+      },
+      {
+        "name": "젤패디",
+        "price": "현장 확인"
+      },
+      {
+        "name": "기본케어",
+        "price": "현장 확인"
+      },
+      {
+        "name": "맨즈케어",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/nailit.webp",
     "tags": [
       "네일숍",
       "A동 3층"
@@ -239,10 +387,16 @@ export const timespaceStores: StoreData[] = [
     "unit": "103호",
     "type": "맛",
     "category": "일식·오마카세",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 일식·오마카세 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/kaito.jpg",
-    "menu": "일식·오마카세",
+    "description": "1층 오마카세 코스 일식당. (2026.04.09 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "오마카세 코스",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "오마카세 코스",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/kaito.jpg",
     "tags": [
       "일식·오마카세",
       "A동 1층"
@@ -258,10 +412,24 @@ export const timespaceStores: StoreData[] = [
     "unit": "109·110호",
     "type": "맛",
     "category": "양갈비",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 양갈비 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/sheep-clean.png",
-    "menu": "양갈비",
+    "description": "직원이 직접 구워 주는 양갈비 전문점. 영업시간: 매일 16:00~23:00. (2021.08.30 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "2인 모듬 (숄더랙·등심·살치) · 양된장 · 비빔면",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "2인 모듬 (숄더랙·등심·살치)",
+        "price": "현장 확인"
+      },
+      {
+        "name": "양된장",
+        "price": "현장 확인"
+      },
+      {
+        "name": "비빔면",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/sheep-clean.png",
     "tags": [
       "양갈비",
       "C동 1층"
@@ -277,10 +445,24 @@ export const timespaceStores: StoreData[] = [
     "unit": "104호",
     "type": "맛",
     "category": "철판요리",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 철판요리 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/daepan-clean.png",
-    "menu": "철판요리",
+    "description": "일본 철판요리 전문점. 영업시간: 월요일 정기휴무. (2022.05.08 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "믹스 야끼소바 · 해물 오코노미야끼 · 하이볼",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "믹스 야끼소바",
+        "price": "현장 확인"
+      },
+      {
+        "name": "해물 오코노미야끼",
+        "price": "현장 확인"
+      },
+      {
+        "name": "하이볼",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/daepan-clean.png",
     "tags": [
       "철판요리",
       "C동 1층"
@@ -296,10 +478,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "129·130호",
     "type": "맛",
     "category": "스테이크",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 스테이크 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "스테이크·파스타 레스토랑. (2022.09.20 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "안심 스테이크 · 채끝 스테이크 · 알프레도 크림 파스타",
+    "price": "안심 스테이크 44,000원 (2022.09 기준)",
+    "menuItems": [
+      {
+        "name": "안심 스테이크",
+        "price": "44,000원"
+      },
+      {
+        "name": "채끝 스테이크",
+        "price": "41,000원"
+      },
+      {
+        "name": "알프레도 크림 파스타",
+        "price": "24,000원"
+      },
+      {
+        "name": "알리오 올리오",
+        "price": "16,000원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/dani.jpg",
-    "menu": "스테이크",
-    "price": "현장 확인",
     "tags": [
       "스테이크",
       "D동 1층"
@@ -315,10 +515,16 @@ export const timespaceStores: StoreData[] = [
     "unit": "205·206·207·208호",
     "type": "맛",
     "category": "고깃집",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 고깃집 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "숙성 소고기·돼지고기 숯불구이 전문점. 영업시간: 12:00~22:00 (점심 12:00~14:30 · 라스트오더 21:30). (2024.12.02 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "소 한 마리 (600g)",
+    "price": "소 한 마리 (600g) 72,000원 (2024.12 기준)",
+    "menuItems": [
+      {
+        "name": "소 한 마리 (600g)",
+        "price": "72,000원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/hanmaum-clean.png",
-    "menu": "고깃집",
-    "price": "현장 확인",
     "tags": [
       "고깃집",
       "B동 2층"
@@ -334,10 +540,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "213호",
     "type": "맛",
     "category": "와인·다이닝",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 와인·다이닝 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/tafel.jpg",
-    "menu": "와인·다이닝",
+    "description": "한옥풍 와인 다이닝. 영업시간: 매일 17:00~24:00 · 월요일 휴무. (2025.10 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "이베리코 스테이크 · 트러플 크림 파스타 · 치즈 플래터",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "이베리코 스테이크",
+        "price": "현장 확인"
+      },
+      {
+        "name": "트러플 크림 파스타",
+        "price": "현장 확인"
+      },
+      {
+        "name": "치즈 플래터",
+        "price": "현장 확인"
+      },
+      {
+        "name": "리조또",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/tafel.jpg",
     "tags": [
       "와인·다이닝",
       "A동 2층"
@@ -353,10 +577,24 @@ export const timespaceStores: StoreData[] = [
     "unit": "114호",
     "type": "맛",
     "category": "돈카츠",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 돈카츠 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "돈카츠 체인점. 영업시간: 매일 11:00~22:00 (브레이크 15:00~17:00 · 라스트오더 21:00). (2023.03.17 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "치즈카츠 · 떡볶카츠 · 토마호크카츠",
+    "price": "치즈카츠 11,900원 (2023.03 기준)",
+    "menuItems": [
+      {
+        "name": "치즈카츠",
+        "price": "11,900원"
+      },
+      {
+        "name": "떡볶카츠",
+        "price": "11,500원"
+      },
+      {
+        "name": "토마호크카츠",
+        "price": "14,900원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/yumi-clean.png",
-    "menu": "돈카츠",
-    "price": "현장 확인",
     "tags": [
       "돈카츠",
       "B동 1층"
@@ -372,10 +610,24 @@ export const timespaceStores: StoreData[] = [
     "unit": "220호",
     "type": "맛",
     "category": "와인·다이닝",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 와인·다이닝 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "D동 2층 와인 바. (2024.05.08 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "한우 로제 리조또 · 연어 스테이크와 토마토 살사 · 수제크림치즈 플레이트",
+    "price": "한우 로제 리조또 19,000원 (2024.05 기준)",
+    "menuItems": [
+      {
+        "name": "한우 로제 리조또",
+        "price": "19,000원"
+      },
+      {
+        "name": "연어 스테이크와 토마토 살사",
+        "price": "28,000원"
+      },
+      {
+        "name": "수제크림치즈 플레이트",
+        "price": "18,000원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/uwahan.jpg",
-    "menu": "와인·다이닝",
-    "price": "현장 확인",
     "tags": [
       "와인·다이닝",
       "D동 2층"
@@ -391,10 +643,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "105·106호",
     "type": "맛",
     "category": "고깃집",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 고깃집 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/nok-clean.png",
-    "menu": "고깃집",
+    "description": "삼겹살·돼지갈비 고깃집. 영업시간: 매일 16:00~23:00 (라스트오더 22:20). (2025.03.11 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "삼겹생갈비 · 시그니처 고추장삼겹살 · 시그니처 수제양념 돼지갈비",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "삼겹생갈비",
+        "price": "현장 확인"
+      },
+      {
+        "name": "시그니처 고추장삼겹살",
+        "price": "현장 확인"
+      },
+      {
+        "name": "시그니처 수제양념 돼지갈비",
+        "price": "현장 확인"
+      },
+      {
+        "name": "콩나물표고 솥밥",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/nok-clean.png",
     "tags": [
       "고깃집",
       "A동 1층"
@@ -410,10 +680,20 @@ export const timespaceStores: StoreData[] = [
     "unit": "124호",
     "type": "맛",
     "category": "경양식",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 경양식 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "수제 함박스테이크 전문점 (방문 글 상호: 고동함박). 영업시간: 매일 10:30~21:00 (평일 브레이크 15:00~17:00). (2023.04.05 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "월클함박 · 다 먹을래 세트 (함박+미니쫄면+콜라)",
+    "price": "월클함박 13,900원 (2023.04 기준)",
+    "menuItems": [
+      {
+        "name": "월클함박",
+        "price": "13,900원"
+      },
+      {
+        "name": "다 먹을래 세트 (함박+미니쫄면+콜라)",
+        "price": "17,900원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/godong-clean.png",
-    "menu": "경양식",
-    "price": "현장 확인",
     "tags": [
       "경양식",
       "A동 1층"
@@ -429,10 +709,28 @@ export const timespaceStores: StoreData[] = [
     "unit": "120호",
     "type": "맛",
     "category": "피자",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 피자 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
+    "description": "미국식 수제피자 전문점. 영업시간: 평일 ~22:00 · 금·토 ~24:00. (2024.07.10 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "맥앤치즈베이컨 피자 · 마르게리타 피자 · 포테이토마요 피자",
+    "price": "생맥주 500ml 4,000원 (2024.07 기준)",
+    "menuItems": [
+      {
+        "name": "맥앤치즈베이컨 피자",
+        "price": "현장 확인"
+      },
+      {
+        "name": "마르게리타 피자",
+        "price": "현장 확인"
+      },
+      {
+        "name": "포테이토마요 피자",
+        "price": "현장 확인"
+      },
+      {
+        "name": "생맥주 500ml",
+        "price": "4,000원"
+      }
+    ],
     "storefrontImage": "/street/timespace-signs/lucas.jpg",
-    "menu": "피자",
-    "price": "현장 확인",
     "tags": [
       "피자",
       "B동 1층"
@@ -448,10 +746,24 @@ export const timespaceStores: StoreData[] = [
     "unit": "107·108·109호",
     "type": "맛",
     "category": "고깃집",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 고깃집 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/seokam-clean.png",
-    "menu": "고깃집",
+    "description": "생소금구이 고깃집. 영업시간: 월~금 16:30~23:30 · 토·일 12:00~23:30 (브레이크 15:00~16:30 · 라스트오더 22:30). (2026.07.09 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "생소금구이 · 치즈된장술국 · 돌판짜파게티",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "생소금구이",
+        "price": "현장 확인"
+      },
+      {
+        "name": "치즈된장술국",
+        "price": "현장 확인"
+      },
+      {
+        "name": "돌판짜파게티",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/seokam-clean.png",
     "tags": [
       "고깃집",
       "B동 1층"
@@ -466,10 +778,20 @@ export const timespaceStores: StoreData[] = [
     "floor": 1,
     "type": "맛",
     "category": "카페",
-    "description": "간판 사진과 공개 주소 기록(2026-11-06 수집)으로 확인한 카페 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.",
-    "storefrontImage": "/street/timespace-signs/fika-clean.png",
-    "menu": "카페",
+    "description": "에스프레소 바. 영업시간: 월요일 휴무 · 화~금 09:30~20:00 · 토·일 11:00~20:00. (2021.12.06 공개 자료 기준 · 현재와 다를 수 있어요)",
+    "menu": "에스프레소 · 초코바 에스프레소",
     "price": "현장 확인",
+    "menuItems": [
+      {
+        "name": "에스프레소",
+        "price": "현장 확인"
+      },
+      {
+        "name": "초코바 에스프레소",
+        "price": "현장 확인"
+      }
+    ],
+    "storefrontImage": "/street/timespace-signs/fika-clean.png",
     "tags": [
       "카페",
       "D동 1층"

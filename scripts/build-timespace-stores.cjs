@@ -5,6 +5,24 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const catalog = require('../src/data/storefrontCatalog.json');
+// Facts read from each store's public source page (menus, hours); see the file's note.
+const { details } = require('../src/data/timespaceStoreDetails.json');
+const sourceLabel = d => d.sourceDate ? `${d.sourceDate.replace(/-/g, '.')} 공개 자료 기준` : '공개 매장 안내 기준';
+function describe(r) {
+  const d = details[r.id];
+  if (!d) return {
+    description: `간판 사진과 공개 주소 기록(${catalog.collectedOn} 수집)으로 확인한 ${r.category} 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.`,
+    menu: r.category, price: '현장 확인',
+  };
+  const items = d.items.map(item => ({ name: item.name, price: item.price || '현장 확인' }));
+  const priced = d.items.find(item => item.price);
+  return {
+    description: `${d.summary}.${d.hours ? ` 영업시간: ${d.hours}.` : ''} (${sourceLabel(d)} · 현재와 다를 수 있어요)`,
+    menu: items.length ? items.map(item => item.name).slice(0, 3).join(' · ') : r.category,
+    price: priced ? `${priced.name} ${priced.price} (${d.sourceDate ? d.sourceDate.slice(0, 7).replace('-', '.') + ' 기준' : '안내 기준'})` : '현장 확인',
+    ...(items.length ? { menuItems: items } : {}),
+  };
+}
 
 const tourIds = { 'S06-001': 9101, 'S01-178': 9102, 'S01-059': 9103 };
 const foodCategories = ['베이커리', '카페', '닭발·한식', '일식·오마카세', '양갈비', '철판요리', '스테이크', '고깃집', '와인·다이닝', '돈카츠', '경양식', '피자', '한식', '편의점'];
@@ -46,9 +64,8 @@ for (const r of rows) {
   stores.push({
     id, name: r.name, building: `${r.building}동`, floor: r.floor, ...(unit ? { unit } : {}),
     type: foodCategories.includes(r.category) ? '맛' : '멋', category: r.category,
-    description: `간판 사진과 공개 주소 기록(${catalog.collectedOn} 수집)으로 확인한 ${r.category} 가게입니다. 영업 여부와 메뉴는 현장에서 확인해 주세요.`,
+    ...describe(r),
     storefrontImage: r.photo.retouch?.path || r.photo.path,
-    menu: r.category, price: '현장 확인',
     tags: [r.category, `${r.building}동 ${r.floor}층`],
     walking: '위치는 안내도 참고 · 개념도 배치', aiScore: 0,
   });

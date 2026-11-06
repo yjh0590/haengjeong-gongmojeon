@@ -88,6 +88,15 @@ for (const store of timespaceSite.stores) for (const other of timespaceSite.stor
 }
 assert(pins.every(p => p.x >= 0 && p.x <= 500 && p.y >= 0 && p.y <= 374));
 assert.equal(timespaceStores.filter(s => s.building === 'C동' && s.floor === 1).length, 2);
+// Sourced details: every entry belongs to a listed store, cites an https source, and reaches the store data.
+const {details} = require('../src/data/timespaceStoreDetails.json');
+for (const [recordId, d] of Object.entries(details)) {
+  const store = timespaceSite.stores.find(s => s.id === timespaceStoreLinks[recordId]);
+  assert(store, `detail for unlisted record ${recordId}`);
+  assert(d.source.startsWith('https://') && d.summary, recordId);
+  assert(store.description.startsWith(d.summary), recordId);
+  for (const item of d.items) assert(store.menuItems.some(m => m.name === item.name && m.price === (item.price || '현장 확인')), item.name);
+}
 assert(validStores(replaced.stores) && isValidStreetNodes(replaced.nodes));
 const edited = replaceWithCStreetTour({...published, stores:[...published.stores, {...tour.stores[1], name:'오봉집 수정'}]});
 assert.equal(edited.stores.find(store => store.id === 9102).name, '오봉집 수정');
