@@ -1,0 +1,100 @@
+{
+  "collectedOn": "2026-11-06",
+  "scope": "간판 및 주소를 대조한 9개 매장. 웹 사진 6장, 사용자 사진 3장. 전체 입점 매장의 사진 확보를 의미하지 않습니다.",
+  "rights": "웹 사진의 재사용 허락은 확인되지 않았습니다. 출처와 원본을 보존하며 권리를 양도받았다고 표시하지 않습니다.",
+  "photos": [
+    {
+      "recordId": "S01-086",
+      "path": "/street/timespace-signs/topplus.jpg",
+      "sourceUrl": "https://top-plus.co.kr/location/3221",
+      "imageUrl": "https://top-plus.co.kr/files/attach/images/2024/07/05/a9800afde058b3ebc2200550bf6b5d3b.jpg",
+      "credit": "으뜸플러스안경 공식 매장 안내",
+      "category": "안경",
+      "note": "2층 분홍색 으뜸플러스안경 간판. 1층 하남돼지집도 함께 찍힌 과거 외관 사진입니다.",
+      "width": 1150,
+      "height": 862
+    },
+    {
+      "recordId": "S01-050",
+      "path": "/street/timespace-signs/makkie.jpg",
+      "sourceUrl": "https://mamedene.com/shops/10662",
+      "imageUrl": "https://image.glity.link/RQ7FVsz0EH/beauty-shop/10662_img.jpg?h=720&type=f&w=1080",
+      "credit": "마메드네 · 마끼에 타임스페이스점",
+      "category": "미용실",
+      "note": "마끼에 입구 간판과 매장 주소를 대조했습니다. 예약 페이지는 C동 308호, 등록 자료는 307·308호로 표기됩니다.",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "recordId": "S01-044",
+      "path": "/street/timespace-signs/mame.jpg",
+      "sourceUrl": "https://mamedene.com/shops/10726",
+      "imageUrl": "https://image.glity.link/RQ7FVsz0EH/beauty-shop_photo/795430_img.jpg?h=720&type=f&w=1080",
+      "credit": "마메드네 · 마메 송도타임스페이스점",
+      "category": "미용실",
+      "note": "MAME 입구 간판과 D동 313호 매장 정보를 대조했습니다.",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "recordId": "S01-174",
+      "path": "/street/timespace-signs/seokam.jpg",
+      "sourceUrl": "https://song0583.tistory.com/entry/%EC%86%A1%EB%8F%84-%EC%84%9D%EC%95%94%EC%83%9D%EC%86%8C%EA%B8%88%EA%B5%AC%EC%9D%B4-%EC%86%A1%EB%8F%84%ED%83%80%EC%9E%84%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A7%9B%EC%A7%91-%EB%AA%A8%EB%93%AC%EA%B5%AC%EC%9D%B4-%EB%A7%9B%EB%B4%A4%EC%96%B4%EC%9A%94",
+      "credit": "happy송 · 광장(廣場)",
+      "category": "고깃집",
+      "note": "2026년 7월 게시 사진. 석암생소금구이 간판과 하모니로 158 B동 주소를 대조했습니다.",
+      "width": 1289,
+      "height": 963
+    },
+    {
+      "recordId": "S01-134",
+      "path": "/street/timespace-signs/daepan.jpg",
+      "sourceUrl": "https://eundol-life.tistory.com/entry/%EC%86%A1%EB%8F%84-%ED%83%80%EC%9E%84%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4-%EB%A7%9B%EC%A7%91-%E2%80%9C%EB%8C%80%ED%8C%901985%E2%80%9D",
+      "credit": "eundol-meow · 맛집 리뷰",
+      "category": "철판요리",
+      "note": "2022년 5월 게시 사진. 간판은 大판 SINCE 1985입니다. 글에서는 2호점 입구로 소개하며 정확한 호수와 현재 외관은 현장 확인이 필요합니다.",
+      "width": 900,
+      "height": 900
+    },
+    {
+      "recordId": "S01-162",
+      "path": "/street/timespace-signs/nok.jpg",
+      "sourceUrl": "https://songdofoodmanual.tistory.com/51",
+      "credit": "Songdo Food Manual",
+      "category": "고깃집",
+      "note": "2025년 게시 글의 녹돼야지 간판 사진. 원본 275×275px이므로 확대 시 선명도가 제한됩니다.",
+      "width": 275,
+      "height": 275
+    },
+    {
+      "recordId": "S06-001",
+      "path": "/street/c-block/arcade.jpg",
+      "sourceUrl": "",
+      "credit": "사용자 직접 촬영",
+      "category": "오락실",
+      "note": "사용자가 제공한 C동 오락실 외관 사진입니다.",
+      "width": 1081,
+      "height": 1440
+    },
+    {
+      "recordId": "S01-178",
+      "path": "/street/c-block/obong.jpg",
+      "sourceUrl": "",
+      "credit": "사용자 직접 촬영",
+      "category": "한식",
+      "note": "사용자가 제공한 오락실 오른쪽 오봉집 외관 사진입니다.",
+      "width": 1081,
+      "height": 1440
+    },
+    {
+      "recordId": "S01-059",
+      "path": "/street/c-block/seven-eleven.jpg",
+      "sourceUrl": "",
+      "credit": "사용자 직접 촬영",
+      "category": "편의점",
+      "note": "사용자가 제공한 오봉집 오른쪽 세븐일레븐 외관 사진입니다.",
+      "width": 1081,
+      "height": 1440
+    }
+  ]
+}
