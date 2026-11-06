@@ -1,0 +1,49 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const ts = require('typescript');
+const cache = new Map();
+function load(file) {
+  const full = path.resolve(file);
+  if (cache.has(full)) return cache.get(full);
+  const exports = {};
+  cache.set(full, exports);
+  const js = ts.transpileModule(fs.readFileSync(full, 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022}}).outputText;
+  new Function('exports', 'require', js)(exports, name => name.startsWith('.') ? load(path.resolve(path.dirname(full), name + '.ts')) : require(name));
+  return exports;
+}
+const {cStreetTour: tour, appendCStreetTour} = load('src/data/cStreetTour.ts');
+const {validStores} = load('src/data/storeDraft.ts');
+const {isValidStreetNodes} = load('src/data/streetNetwork.ts');
+const {storesForStreetView, streetStorePage} = load('src/data/streetViewStores.ts');
+const {validStorefrontImage} = load('src/data/storefrontImage.ts');
+assert(validStores(tour.stores));
+assert(isValidStreetNodes(tour.nodes));
+const street = tour.nodes.find(node => node.id === 'c-street');
+assert.deepEqual(Object.keys(street.views).sort(), ['back', 'forward']);
+assert.equal(tour.nodes[0].connections[0].to, street.id);
+assert.equal(tour.nodes[0].connections[0].arrivalView, 'forward');
+assert.deepEqual(storesForStreetView(tour.stores, [], street.id, 'forward', street.viewStores.forward).map(store => store.name), ['대빵 오락실', '오봉집', '세븐일레븐']);
+assert.deepEqual(storesForStreetView(tour.stores, [], street.id, 'back', street.viewStores.back), []);
+const expanded = [...tour.stores, {...tour.stores[0], id: 9104}];
+assert.equal(streetStorePage(expanded, 1).stores[0].id, 9104);
+for (const src of [...tour.stores.map(store => store.storefrontImage), ...tour.nodes.flatMap(node => Object.values(node.views))]) {
+  assert(validStorefrontImage(src));
+  const bytes = fs.readFileSync(path.join('public', src));
+  assert.equal(bytes.subarray(0, 2).toString('hex'), 'ffd8');
+}
+for (const invalid of ['javascript:alert(1)', 'data:image/png;base64,test', '//example.com/x.jpg', '/street/../secret.jpg', 'https://user:password@example.com/a.jpg']) {
+  assert(!validStorefrontImage(invalid));
+  assert(!validStores([{...tour.stores[0], storefrontImage: invalid}]));
+}
+assert(validStorefrontImage('https://example.com/photo.jpg'));
+assert(validStores(tour.stores.map(({storefrontImage: _photo, ...legacy}) => legacy)));
+const original = {version:1,stores:[{...tour.stores[0],id:1,name:'기존 가게'}],nodes:[{...tour.nodes[0],id:'existing',number:8}],geometry:{boundary:[],passages:[],stores:{'1':{x:1,y:2}},nodes:{existing:{x:3,y:4}}},facades:[]};
+const before = JSON.stringify(original), combined = appendCStreetTour(original);
+assert.equal(JSON.stringify(original), before);
+assert.deepEqual(combined.stores[0], original.stores[0]);
+assert.deepEqual(combined.geometry.nodes.existing, {x:3,y:4});
+assert.deepEqual(combined.nodes.slice(1).map(node => node.number), [9,10]);
+assert.throws(() => appendCStreetTour(combined), /이미 초안/);
+assert.throws(() => appendCStreetTour({...original,stores:[tour.stores[0]]}), /이미 초안/);
+console.log('PASS actual photo assets, same-point front/back, entrance link, three-card expansion, safe photo URLs, legacy data and non-destructive admin import');

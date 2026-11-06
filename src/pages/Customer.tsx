@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft, ArrowRight, ArrowUp, Bookmark, Camera, Check, ChevronDown,
   ChevronRight, Eye, Heart, Info, Layers3, LocateFixed, Map as MapIcon,
-  MapPin, Navigation, Search, Sparkles, Store, Utensils, X, Zap,
+  MapPin, Navigation, Search, Sparkles, Store, Utensils, X, Zap, Footprints,
 } from "lucide-react";
 import "../styles/Customer.css";
 import type { ApprovedPromotionData, FilterType, StoreData, ViewDirection } from "../types/street";
@@ -25,6 +25,9 @@ import { pageTitle } from "../config/brand";
 import SceneBanner from "../components/SceneBanner";
 import NextStopCards from "../components/NextStopCards";
 import "../styles/ServiceUpgrade.css";
+import { cStreetTour } from "../data/cStreetTour";
+import { validStorefrontImage } from "../data/storefrontImage";
+import "../styles/StreetTour.css";
 import { storeMenuItems } from "../data/storeMenuItems";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
@@ -66,22 +69,24 @@ function readArrivalQuery(): string {
   return new URLSearchParams(window.location.search).get("q")?.trim().slice(0, 50) ?? "";
 }
 
-export default function Customer() {
+export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const { tab, openTab } = usePageTab(customerViews, "map");
   const localNodes = useStreetNodes();
   const localGeometry = useMapGeometry();
   const draftStores = useStoreDraft();
-  const publication = usePublicSite();
+  const onlinePublication = usePublicSite(!demoTour);
+  const publication = demoTour ? {data:cStreetTour,status:"preview" as const,publishedAt:null} : onlinePublication;
   const streetNodes = publication.data?.nodes || localNodes;
   const geometry = publication.data?.geometry || localGeometry;
   const catalog = publication.data?.stores || (publication.status === "preview" ? draftStores : examples);
   const {urls: draftUrls} = useDraftPhotoUrls();
   const mediaDraft = useMediaDraft();
-  const media = publication.status === "published" ? publication.data?.media : mediaDraft;
-  const mapBackground = publication.status === "published"
+  const media = demoTour ? undefined : publication.status === "published" ? publication.data?.media : mediaDraft;
+  const mapBackground = demoTour ? "" : publication.status === "published"
     ? publicMediaUrl(media?.map)
     : (draftUrls[MAP_BG_KEY] || publicMediaUrl(media?.map));
   const photoFor = (nodeId: string, view: ViewDirection) => {
+    if (demoTour) return "";
     const key = photoKey(nodeId, view);
     const remote = publicMediaUrl(media?.photos[key]);
     return publication.status === "published" ? remote : (draftUrls[key] || remote);
@@ -92,7 +97,7 @@ export default function Customer() {
   const [routeTargetId, setRouteTargetId] = useState<number | null>(null);
   const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
   const [favorites, setFavorites] = useState<number[]>(readFavorites);
-  const [currentNodeId, setCurrentNodeId] = useState("point1");
+  const [currentNodeId, setCurrentNodeId] = useState(demoTour ? "c-entry" : "point1");
   const [currentView, setCurrentView] = useState<ViewDirection>("forward");
   const [storePaging, setStorePaging] = useState({ context: "", page: 0 });
   const [photoTravel, setPhotoTravel] = useState<{ previous: string; kind: "forward" | "left" | "right"; stamp: number } | null>(null);
@@ -105,6 +110,7 @@ export default function Customer() {
   const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [showDiscoveries, setShowDiscoveries] = useState(false);
+  const [streetViewMode, setStreetViewMode] = useState(false);
   const [mapVisualMode, setMapVisualMode] = useState<"schematic" | "uploaded">("schematic");
   const [draftFacades, setDraftFacades] = useState<FacadeAnnotation[]>(getFacadeAnnotations);
   const facades: FacadeAnnotation[] = publication.data?.facades || draftFacades;
@@ -179,6 +185,7 @@ export default function Customer() {
   // only when it is linked to at least one store on the selected floor.
   const floorPhotoNodes = useMemo(() => streetNodes.filter(node =>
     node.stores.some(id => floorStores.some(store => store.id === id))), [streetNodes, floorStores]);
+  const availablePhotoNodes = floorPhotoNodes.filter(node => directions.some(view => hasPhoto(node.id, view)) && Boolean(geometry.nodes[node.id]));
   const featuredStores = useMemo(() => effectiveStores.filter((store) => Boolean(store.event)), [effectiveStores]);
   const activeFacades = facades.filter((a) => a.nodeId === currentNodeId && a.view === currentView &&
     effectiveStores.some((s) => s.id === a.storeId));
@@ -207,6 +214,7 @@ export default function Customer() {
     setCurrentView(next || firstAvailableView(nodeId, streetNodes, preferred));
   };
   const changeView = (direction: ViewDirection) => {
+    if (!hasPhoto(currentNodeId,direction)) return;
     const turn = (directions.indexOf(direction) - directions.indexOf(currentView) + 4) % 4;
     if (turn) animatePhoto(turn === 3 ? "left" : "right");
     setCurrentView(direction); setSelectedStoreId(null);
@@ -214,11 +222,13 @@ export default function Customer() {
   const focusStore = (storeId: number, openDetails = false) => {
     const visibleFacade = facades.find(item => item.storeId === storeId && item.nodeId === currentNodeId && item.view === currentView);
     const linked = (visibleFacade && streetNodes.find(node => node.id === visibleFacade.nodeId)) ||
+      streetNodes.find(node => Object.values(node.viewStores || {}).some(ids => ids.includes(storeId))) ||
       streetNodes.find(node => node.stores.includes(storeId));
     if (linked) openTab("street");
-    if (linked && !visibleFacade) {
+    if (linked && !visibleFacade && !(linked.id === currentNodeId && currentNode.viewStores?.[currentView]?.includes(storeId))) {
       const annotation = facades.find(item => item.storeId === storeId && item.nodeId === linked.id);
-      focusNode(linked.id, annotation?.view || "forward");
+      const cardView = directions.find(view => linked.viewStores?.[view]?.includes(storeId));
+      focusNode(linked.id, annotation?.view || cardView || "forward");
     }
     setSelectedStoreId(storeId);
     const chosen = effectiveStores.find((s) => s.id === storeId);
@@ -316,18 +326,19 @@ export default function Customer() {
     </header>
 
     <main className="page">
-      {tab === "map" && <CustomerBanner
+      {demoTour && <div className="street-tour-preview-note"><Camera size={18}/><div><strong>C동 실제 촬영 미리보기</strong><span>거리뷰 보기를 켜고 지도 발자국을 눌러 보세요. 지도 위치는 임시 배치이며 운영 데이터는 변경하지 않습니다.</span></div><button type="button" onClick={()=>{setFloor(1);setBuilding("전체");focusNode("c-entry");}}>입구부터 둘러보기 <ArrowRight size={16}/></button></div>}
+      {tab === "map" && !demoTour && <CustomerBanner
         stores={effectiveStores.filter(store => matchStore(store, filter, query))}
         published={publication.status === "published"} filter={filter} query={query}
         onQueryChange={value => { setQuery(value); setShowDiscoveries(false); }}
         onSearch={searchFromBanner} onSelectStore={openBannerStore}
       />}
 
-      {tab === "street" && <div className="customer-photo-heading scene-context-banner scene-context-customer"><SceneBanner scene="photo" /><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 걷는 우리 동네</h1><p>방향을 돌려 가게를 찾고, 다음 사진으로 걸어가 보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div></div>}
+      {tab === "street" && !demoTour && <div className="customer-photo-heading scene-context-banner scene-context-customer"><SceneBanner scene="photo" /><div><span className="eyebrow">STREET PHOTO</span><h1>사진으로 걷는 우리 동네</h1><p>방향을 돌려 가게를 찾고, 다음 사진으로 걸어가 보세요.</p><button type="button" className="customer-map-return" onClick={() => openTab("map")}><MapIcon size={16} /> 안내도에서 가게 찾기</button></div></div>}
 
       {tab === "list" && <header className="service-directory-heading"><span className="service-kicker">ONE NEIGHBORHOOD, MANY DISCOVERIES</span><h1>오늘은 어떤 가게를 만나볼까요?</h1><p>층을 넘나들며, 나에게 맞는 맛과 멋을 찾아보세요.</p></header>}
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
-        <div className="site-data-status" role="status">{publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
+        <div className="site-data-status" role="status">{demoTour ? "직접 촬영한 C동 거리 · 메뉴·가격·영업 여부는 현장 확인 필요 · 지도 좌표는 임시 배치" : publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다."}</div>
         <div className="explore-toolbar">
           <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
           <div className="filter-buttons" role="group" aria-label="가게 필터">
@@ -366,16 +377,16 @@ export default function Customer() {
               <button type="button" className={mapVisualMode === "uploaded" ? "selected" : ""} aria-pressed={mapVisualMode === "uploaded"} onClick={() => setMapVisualMode("uploaded")}>관리자 등록 지도</button>
             </div>}
             <div className="map-floor-layout">
-              <div className="district-map district-map-concept">
+              <div className={`district-map district-map-concept ${streetViewMode ? "is-street-view-mode" : ""}`}>
               <svg viewBox="0 0 500 374" className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
                 <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-schematic.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
-                {floorPhotoNodes.map((node) => { const p = geometry.nodes[node.id]; return !p ? null : <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
-                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/><text x={p.x} y={p.y + 5.2} className="map-node-text">{node.number}</text>
+                {(streetViewMode ? availablePhotoNodes : floorPhotoNodes).map((node) => { const p = geometry.nodes[node.id]; return !p ? null : <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} onClick={() => focusNode(node.id)} role="button" tabIndex={0} aria-label={`${node.name} · ${node.number}번 촬영 지점 보기`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusNode(node.id); } }}>
+                    <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "23" : "19"} className="map-node-ring"/><circle cx={p.x} cy={p.y} r="16" className="map-node-circle"/>{streetViewMode ? <Footprints x={p.x-10} y={p.y-10} width={20} height={20} color="white" strokeWidth={2}/> : <text x={p.x} y={p.y + 5.2} className="map-node-text">{node.number}</text>}
                   </g>; })}
-                {matchingStores.map((store) => { const nodeP = geometry.nodes[locateStoreNode(store.id, streetNodes)]; const point = geometry.stores[String(store.id)] || (publication.status === "published" ? null : nodeP); if (!point) return null; const x=point.x; const y=point.y; const active = selectedStoreId === store.id;
+                {!streetViewMode && matchingStores.map((store) => { const nodeP = geometry.nodes[locateStoreNode(store.id, streetNodes)]; const point = geometry.stores[String(store.id)] || (publication.status === "published" ? null : nodeP); if (!point) return null; const x=point.x; const y=point.y; const active = selectedStoreId === store.id;
                   return <g key={store.id} className={`map-store-marker ${active ? "is-active" : ""}`} role="button" tabIndex={0} aria-label={`${store.name} · ${store.floor}층 선택`} onClick={() => focusStore(store.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); focusStore(store.id); } }}>
                     <rect x={x - 14} y={y - 14} width="28" height="28" rx="12" className={`map-store-chip ${store.type === "맛" ? "food" : "style"}`}/><text x={x} y={y + 4.3} className="map-store-text">{floorPointNumber.get(store.id)}</text>{store.event && <circle cx={x + 12} cy={y - 11} r="5" fill="#eab308" stroke="white" strokeWidth="2"/>}
                   </g>; })}
@@ -389,6 +400,7 @@ export default function Customer() {
                     <strong>{n}층</strong><small>{effectiveStores.filter(store => store.floor === n && (building === "전체" || store.building === building)).length}곳</small>
                   </button>)}
                 </div>
+                <div className={`map-street-view-box ${streetViewMode ? "is-active" : ""}`}><button type="button" aria-pressed={streetViewMode} onClick={()=>setStreetViewMode(value=>!value)}><Footprints size={24}/><strong>거리뷰 보기</strong><span>{streetViewMode ? "지도에서 발자국 선택" : "촬영된 거리로 들어가기"}</span></button>{streetViewMode && <p role="status">{availablePhotoNodes.length ? `이 층에서 ${availablePhotoNodes.length}곳을 볼 수 있어요.` : "이 층에는 등록된 촬영 지점이 없어요."}</p>}</div>
                 <div className="map-floor-point-heading"><strong>{floor}층 지점</strong><span>{matchingStores.length}곳</span></div>
                 <div className="map-floor-points">
                   {matchingStores.length ? matchingStores.map(store => <button key={store.id} type="button" className={selectedStoreId === store.id ? "active" : ""} onClick={() => focusStore(store.id)} aria-label={`${floor}층 ${floorPointNumber.get(store.id)}번 지점 · ${store.name}`}>
@@ -412,12 +424,12 @@ export default function Customer() {
                 {activeFacades.map((item) => <polygon key={`${item.nodeId}-${item.view}-${item.storeId}`} points={item.points.map((p) => `${p.x},${p.y}`).join(" ")} className={selectedStoreId === item.storeId ? "facade-polygon active" : "facade-polygon"} onClick={() => focusStore(item.storeId)}><title>{effectiveStores.find((s) => s.id === item.storeId)?.name || "가게"} 영역</title></polygon>)}
               </svg>}
               {photoTravel && <img key={photoTravel.stamp} src={photoTravel.previous} className={`street-travel-layer travel-${photoTravel.kind}`} alt="" aria-hidden="true"/>}
-              <div className="street-look-controls"><button type="button" onClick={() => changeView(directions[(directions.indexOf(currentView) + 3) % 4])} aria-label="왼쪽으로 돌기"><ArrowLeft size={22}/></button><button type="button" onClick={() => changeView(directions[(directions.indexOf(currentView) + 1) % 4])} aria-label="오른쪽으로 돌기"><ArrowRight size={22}/></button></div>
-              {nextPhotoLink && <button className="street-step-next" type="button" onClick={() => focusNode(nextPhotoLink.to, nextPhotoLink.arrivalView || nextPhotoLink.direction)}><ArrowUp size={22}/><span>다음 사진으로 이동</span></button>}
+              <div className="street-look-controls"><button type="button" disabled={directions.filter(d=>hasPhoto(currentNodeId,d)).length<2} onClick={() => {const views=directions.filter(d=>hasPhoto(currentNodeId,d));changeView(views[(views.indexOf(currentView)+views.length-1)%views.length]);}} aria-label="왼쪽으로 돌기"><ArrowLeft size={22}/></button><button type="button" disabled={directions.filter(d=>hasPhoto(currentNodeId,d)).length<2} onClick={() => {const views=directions.filter(d=>hasPhoto(currentNodeId,d));changeView(views[(views.indexOf(currentView)+1)%views.length]);}} aria-label="오른쪽으로 돌기"><ArrowRight size={22}/></button></div>
+              {nextPhotoLink && <button className="street-step-next" type="button" onClick={() => focusNode(nextPhotoLink.to, nextPhotoLink.arrivalView || nextPhotoLink.direction)}><ArrowUp size={22}/><span>{nextPhotoLink.label || "다음 사진으로 이동"}</span></button>}
               <span className="street-photo-caption"><MapPin size={13}/> {currentNode.subtitle}</span>
               {currentImage && <span className="street-photo-notice">일반 촬영 사진 · 360° 파노라마 아님</span>}
             </div>
-            <div className="direction-controls"><span>보는 방향</span><div>{directions.map((direction) => <button key={direction} type="button" className={currentView === direction ? "active" : ""} onClick={() => changeView(direction)} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={14}/> : direction === "back" ? <ChevronDown size={14}/> : direction === "left" ? <ArrowLeft size={14}/> : <ArrowRight size={14}/>} {directionName[direction]} {hasPhoto(currentNodeId,direction) ? <span className="direction-ready"/> : <span className="direction-pending"/>}</button>)}</div></div>
+            <div className="direction-controls"><span>보는 방향</span><div>{directions.map((direction) => <button key={direction} type="button" className={currentView === direction ? "active" : ""} disabled={!hasPhoto(currentNodeId,direction)} onClick={() => changeView(direction)} aria-pressed={currentView === direction}>{direction === "forward" ? <ArrowUp size={14}/> : direction === "back" ? <ChevronDown size={14}/> : direction === "left" ? <ArrowLeft size={14}/> : <ArrowRight size={14}/>} {directionName[direction]} {hasPhoto(currentNodeId,direction) ? <span className="direction-ready"/> : <span className="direction-pending"/>}</button>)}</div></div>
             <div className="street-footer"><div><Camera size={15}/><span>{currentNode.number}번 지점 · 사진 {directions.filter(d=>hasPhoto(currentNodeId,d)).length}개 등록</span></div><div className="street-navigation">{routeNextId && <button className="route-navigation-next" type="button" onClick={moveAlongRoute}><Navigation size={14}/> 안내: 다음 {streetNodes.find(n=>n.id===routeNextId)?.number}번 지점 <ArrowRight size={14}/></button>}{currentNode.connections.map((connection) => <button key={`${connection.to}-${connection.direction}`} type="button" onClick={() => focusNode(connection.to, connection.arrivalView || connection.direction)} aria-label={`${directionName[connection.direction]}으로 이동 · ${streetNodes.find(n => n.id === connection.to)?.name || connection.to}`}><Navigation size={14}/> {directionName[connection.direction]}으로 이동 · {streetNodes.find((n) => n.id === connection.to)?.number}번 지점 <ArrowRight size={14}/></button>)}</div></div>
             {selectedStore && <div className="selected-store-strip"><span><Store size={15}/><strong>{selectedStore.name}</strong> · {selectedStore.building} {selectedStore.floor}층 {selectedStore.unit || ""} · {selectedStore.floor>1?"1층 외관/출입구 참고":"1층 거리 사진"} · {activeFacades.some((a) => a.storeId === selectedStore.id) ? "영역 표시됨" : "영역 미등록"}</span><button type="button" onClick={() => setDetailsOpen(true)}>가게 상세 보기 <ChevronRight size={15}/></button></div>}
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
@@ -433,9 +445,9 @@ export default function Customer() {
               {storePage.pageCount > 0 && <div className="street-store-pagination"><button type="button" disabled={storePage.page === 0} onClick={() => turnStorePage(storePage.page - 1)} aria-label="이전 가게 3곳"><ArrowLeft size={18}/> 이전 가게</button><span role="status">{storePage.page * 3 + 1}–{Math.min(spotlightStores.length, storePage.page * 3 + 3)} / {spotlightStores.length}곳</span><button type="button" disabled={storePage.page + 1 >= storePage.pageCount} onClick={() => turnStorePage(storePage.page + 1)} aria-label="다음 가게 3곳">다음 가게 <ArrowRight size={18}/></button></div>}
               <div className="street-store-grid" key={`${pagingContext}:${storePage.page}`}>
                 {storePage.stores.map((store) => {
-                  return <article key={`spotlight-${store.id}`} className={`street-store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
+                  return <article key={`spotlight-${store.id}`} className={`street-store-card ${store.storefrontImage ? "has-storefront" : ""} ${selectedStoreId === store.id ? "is-selected" : ""}`}>
                     <button type="button" className="street-store-card-visual" onClick={() => focusStore(store.id, true)} aria-label={`${store.name} 가게 정보 열기`}>
-                      <div className={`street-store-card-placeholder ${store.type === "맛" ? "food" : "style"}`}><span>{store.type === "맛" ? "맛집 미리보기" : "멋집 미리보기"}</span><strong>{store.name}</strong></div>
+                      {validStorefrontImage(store.storefrontImage) ? <img src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/> : <div className={`street-store-card-placeholder ${store.type === "맛" ? "food" : "style"}`}><span>{store.type === "맛" ? "맛집 미리보기" : "멋집 미리보기"}</span><strong>{store.name}</strong></div>}
                     </button>
                     <div className="street-store-card-body">
                       <div className="street-store-card-top">

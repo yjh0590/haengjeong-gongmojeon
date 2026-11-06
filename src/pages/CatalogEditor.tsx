@@ -13,6 +13,9 @@ import "../styles/CatalogEditor.css";
 import "../styles/ServiceUpgrade.css";
 import { storeMenuItems } from "../data/storeMenuItems";
 import SiteBrand from "../components/SiteBrand";
+import { appendCStreetTour, cStreetTour } from "../data/cStreetTour";
+import { validStorefrontImage } from "../data/storefrontImage";
+import "../styles/StreetTour.css";
 
 function downloadJson(filename: string, value: unknown) {
   const blob = new Blob([JSON.stringify(value, null, 2)], { type: "application/json" });
@@ -64,6 +67,15 @@ export default function CatalogEditor() {
     catch (e) { setNotice(e instanceof Error ? e.message : "저장 실패"); }
   };
   const patch = (value: Partial<StoreData>) => update(rows.map(s => s.id === selected ? { ...s, ...value } : s));
+  const importCStreet = () => {
+    if (!confirm("C동 실제 촬영 자료(가게 3곳·사진 지점 2곳)를 기존 초안에 추가할까요? 기존 자료는 유지되며 전체 게시 전까지 공개되지 않습니다. 지도 위치는 임시 배치입니다.")) return;
+    try {
+      const next = appendCStreetTour(preparePublication());
+      applyRemote({data:next,publishedAt:""});
+      setRows(next.stores);setSelected(cStreetTour.stores[0].id);
+      setNotice("C동 촬영 자료를 초안에 추가했어요. 거리 사진 편집에서 방향별 카드와 순서를 확인하고, 지도 편집에서 정확한 위치를 지정해 주세요. 아직 공개되지 않았습니다.");
+    } catch(error) {setNotice(error instanceof Error?error.message:"촬영 자료를 불러오지 못했어요.");}
+  };
   const add = () => { const id = Math.max(0, ...rows.map(s => s.id)) + 1; update([...rows, example(id)]); setSelected(id); };
   const remove = () => {
     if (!current || !confirm(`${current.name}을(를) 목록에서 삭제할까요? 실제 공개본은 '전체 게시' 전까지 유지됩니다.`)) return;
@@ -129,6 +141,7 @@ export default function CatalogEditor() {
     <div className="catalog-stats">
       <div><b>{rows.length}</b><small>브라우저 초안 가게</small></div><div><b>{remote ? remote.data.stores.length : "—"}</b><small>온라인 게시 가게</small></div><div><b>{remote ? new Date(remote.publishedAt).toLocaleDateString("ko-KR") : "미게시"}</b><small>마지막 온라인 게시</small></div>
     </div>
+      <section className="catalog-tour-import"><div><strong>C동 실제 촬영 자료</strong><p>오락실·오봉집·세븐일레븐의 사진과 거리 입구·앞·뒤 사진을 초안에 추가합니다. 방향별 카드 추가·삭제·순서는 거리 사진 편집에서 관리해요.</p></div><a href="/street-demo" target="_blank" rel="noopener noreferrer">촬영 미리보기 ↗</a><button type="button" disabled={rows.some(store=>cStreetTour.stores.some(item=>item.id===store.id))} onClick={importCStreet}>{rows.some(store=>cStreetTour.stores.some(item=>item.id===store.id))?"초안에 추가됨":"촬영 자료 불러오기"}</button></section>
     <section className="catalog-management">
       <aside className="catalog-list"><div className="catalog-list-title"><h2>점포 목록</h2><button type="button" onClick={add}><Plus size={16}/> 추가</button></div><input aria-label="점포 찾기" placeholder="점포명·동·업종 검색" value={search} onChange={e=>setSearch(e.target.value)}/><div className="catalog-list-items">
         {filtered.map(s=><button type="button" key={s.id} className={selected===s.id?"active":""} onClick={()=>setSelected(s.id)}><span className={`catalog-indicator ${s.type==="맛"?"taste":"style"}`}>{s.floor}F</span><span><strong>{s.name}</strong><small>{s.building} {s.unit || ""} · {s.category}</small></span></button>)}
@@ -144,6 +157,8 @@ export default function CatalogEditor() {
           <label>호수<input value={current.unit || ""} onChange={e=>patch({unit:e.target.value})} placeholder="예: 201호" maxLength={100}/></label>
           <label>업종<input value={current.category} onChange={e=>patch({category:e.target.value})} placeholder="예: 한식 · 덮밥" maxLength={100}/></label>
           <label className="wide">소개<textarea rows={3} value={current.description} onChange={e=>patch({description:e.target.value})} maxLength={1000}/></label>
+          <label className="wide">가게 카드 사진 주소 (선택)<input key={`photo-${current.id}-${current.storefrontImage||""}`} defaultValue={current.storefrontImage||""} placeholder="https://… 또는 /street/…jpg" maxLength={1000} onBlur={e=>{const value=e.target.value.trim();if(value&&!validStorefrontImage(value)){setNotice("사진은 HTTPS 주소 또는 /street/ 안의 JPG·PNG·WEBP 경로로 입력해 주세요.");e.target.value=current.storefrontImage||"";return;}patch({storefrontImage:value||undefined});}}/></label>
+          {current.storefrontImage&&<div className="catalog-store-photo wide"><img src={current.storefrontImage} alt={`${current.name} 카드 사진`}/><p>손님 거리뷰의 가게 카드에 표시되는 실제 외관 사진입니다. 사진 주소는 입력을 마친 뒤 저장되며, 전체 게시 후 공개됩니다.</p></div>}
           <label>대표 상품·메뉴<input value={current.menu} onChange={e=>patch({menu:e.target.value})} maxLength={100}/></label>
           <label>가격 정보<input value={current.price} onChange={e=>patch({price:e.target.value})} maxLength={100}/></label>
           <fieldset className="catalog-menu-items wide"><legend>메뉴·서비스별 가격</legend><p>점주 매장 정보와 손님 상세 화면에 표시됩니다. 대표 메뉴·가격은 위 입력란에서 관리합니다.</p>

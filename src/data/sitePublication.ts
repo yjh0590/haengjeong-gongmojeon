@@ -155,13 +155,13 @@ export async function publishSite(data: SitePublication, session: AdminSession):
 }
 
 export type SiteStatus = "demo" | "loading" | "published" | "offline" | "preview";
-export function usePublicSite() {
+export function usePublicSite(enabled = true) {
   const preview = typeof window !== "undefined" && window.location.pathname.startsWith("/preview/");
   const [data, setData] = useState<SitePublication | null>(null);
   const [status, setStatus] = useState<SiteStatus>(preview ? "preview" : publicationConfigured ? "loading" : "demo");
   const [publishedAt, setPublishedAt] = useState<string | null>(null);
   useEffect(() => {
-    if (preview || !publicationConfigured) return;
+    if (!enabled || preview || !publicationConfigured) return;
     let mounted = true;
     let loading = false;
     const refresh = () => {
@@ -179,6 +179,6 @@ export function usePublicSite() {
     window.addEventListener("itda-publication-changed", refresh);
     document.addEventListener("visibilitychange", refresh);
     return () => { mounted = false; window.clearInterval(interval); window.removeEventListener("focus", refresh); window.removeEventListener("itda-publication-changed", refresh); document.removeEventListener("visibilitychange", refresh); };
-  }, [preview]);
+  }, [preview, enabled]);
   return { data, status, publishedAt };
 }

@@ -27,6 +27,7 @@ function resolvePage() {
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
   if (path === "/reset-password" || (hash.has("access_token") && ["recovery", "invite"].includes(hash.get("type") || ""))) return <PasswordSetup />;
   const surface = currentSurface();
+  if (path === "/street-demo") return <Customer demoTour />;
   if (path === "/preview/customer" && (surface === "editor" || surface === "legacy")) return protect(<Customer />);
   if (path === "/preview/customer" && surface === "owner") return <Customer />;
   if (surface === "customer") return <Customer />;

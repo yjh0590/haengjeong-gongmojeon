@@ -13,6 +13,8 @@ export type StoreData = {
   type: StoreType;
   category: string;
   description: string;
+  /** Actual storefront photo, optionally assigned by an administrator. */
+  storefrontImage?: string;
   menu: string;
   price: string;
   /** Optional detailed menu; older publications keep the representative menu and price. */
