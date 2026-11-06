@@ -419,6 +419,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
             <div className="panel-header"><div><span className="panel-eyebrow">STREET PHOTO</span><h3><Eye size={19}/> {currentNode.name} · {directionName[currentView]} 방향</h3></div><span className={`photo-badge ${currentImage ? "is-ready" : ""}`}>{currentImage ? "촬영 사진" : "촬영 준비"}</span></div>
             <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{floorPhotoNodes.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span>{node.number}</span>{node.name}</button>)}</div>
+            <div className="street-view-layout"><div className="street-view-photo">
             <div className={`street-image ${currentImage ? "has-photo" : "is-placeholder"} ${photoTravel ? "is-travelling" : ""}`} style={{"--street-photo-ratio": photoSize && photoSize.src === currentImage ? photoSize.width / photoSize.height : 3 / 4} as CSSProperties}>
               {currentImage ? <img src={currentImage} alt={`${currentNode.name}에서 바라본 ${directionName[currentView]} 방향 실제 거리 사진`} className="street-photo" onLoad={event=>{const image=event.currentTarget;if(image.naturalWidth&&image.naturalHeight)setPhotoSize({src:currentImage,width:image.naturalWidth,height:image.naturalHeight});}}/> : <div className="street-empty"><Camera size={42}/><strong>이 방향의 사진을 준비 중이에요</strong><span>촬영 후 사진을 등록하면 이곳에 표시됩니다.</span></div>}
               {currentImage && activeFacades.length > 0 && <svg className="facade-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="사진 속 가게 영역">
@@ -434,6 +435,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             {selectedStore && <div className="selected-store-strip"><span><Store size={15}/><strong>{selectedStore.name}</strong> · {selectedStore.building} {selectedStore.floor}층 {selectedStore.unit || ""} · {selectedStore.floor>1?"1층 외관/출입구 참고":"1층 거리 사진"} · {activeFacades.some((a) => a.storeId === selectedStore.id) ? "영역 표시됨" : "영역 미등록"}</span><button type="button" onClick={() => setDetailsOpen(true)}>가게 상세 보기 <ChevronRight size={15}/></button></div>}
             <p className="street-small-help">지도에서 가게를 선택하면 연결된 촬영 지점이 열립니다. 가게 외곽선 표시는 영역 데이터를 등록한 사진에서만 나타납니다.</p>
 
+            </div>
             <div className="street-store-showcase" aria-label="현재 방향에 연결된 가게" aria-live="polite">
               <div className="street-store-showcase-head">
                 <div>
@@ -465,6 +467,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 })}
               </div>
               {!spotlightStores.length && <div className="street-store-empty"><Store size={24} aria-hidden="true" /><strong>{hasStoreFilter ? "조건에 맞는 가게가 이 방향에 없어요" : "이 방향에 연결된 가게가 아직 없어요"}</strong><p>{hasStoreFilter ? "다른 방향을 선택하거나 검색·필터 조건을 바꿔 보세요." : "다른 방향을 선택해 보세요. 가게 정보가 연결되면 이곳에 표시됩니다."}</p></div>}
+            </div>
             </div>
           </section>
         </div>

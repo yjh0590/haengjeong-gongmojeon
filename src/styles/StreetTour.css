@@ -8,3 +8,27 @@
 .catalog-tour-import{display:flex;align-items:center;gap:18px;border:1px solid #cddfd2;border-radius:15px;padding:18px 22px;margin:18px 0;background:#f3f8f4}.catalog-tour-import>div{flex:1}.catalog-tour-import strong{font-size:15px;color:#37674b}.catalog-tour-import p{font-size:12px;line-height:1.8;margin:6px 0 0;color:#688071}.catalog-tour-import button{border:1px solid #b7d1c0;background:#fff;color:#356c4c;border-radius:10px;padding:11px 14px;white-space:nowrap}.catalog-tour-import a{font-size:12px;color:#356c4c;white-space:nowrap}.catalog-store-photo{display:flex;align-items:center;gap:16px;padding:14px;border-radius:12px;background:#f4f8f5}.catalog-store-photo img{width:108px;height:108px;object-fit:cover;border-radius:10px}.catalog-store-photo p{font-size:12px;line-height:1.8;color:#607d6a}
 @media(max-width:600px){.street-tour-preview-note{padding:15px;align-items:start;flex-wrap:wrap}.street-tour-preview-note>div{flex-basis:75%}.street-tour-preview-note button{width:100%;justify-content:center}.catalog-tour-import{flex-wrap:wrap;padding:16px;gap:12px}.catalog-tour-import>div{flex-basis:100%}.map-street-view-box>button{padding:12px 4px}.map-street-view-box strong{font-size:12px}.map-street-view-box span{font-size:10px}.catalog-store-photo{align-items:start}.catalog-store-photo img{width:80px;height:100px}}
 @media(prefers-reduced-motion:reduce){.app-shell .street-store-card.has-storefront img{transition:none}}
+
+.street-view-photo{min-width:0}
+@media(min-width:1024px){
+  .app-shell .street-view-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(340px,1fr);gap:28px;align-items:start;margin-top:16px}
+  .app-shell .street-view-photo .street-image{margin-top:0}
+  .app-shell .street-view-photo .street-image.has-photo{width:min(100%,calc(86svh * var(--street-photo-ratio,.75)))}
+  .app-shell .street-view-layout .street-store-showcase{margin:0;padding:22px;border:1px solid #dde8f3;border-radius:18px;background:#f5f9fd;min-width:0}
+  .app-shell .street-view-layout .street-store-showcase-head h4{font-size:21px;line-height:1.5}
+  .app-shell .street-view-layout .street-store-showcase-head p{font-size:13px}
+  .app-shell .street-view-layout .street-store-pagination{gap:8px;margin-top:16px}
+  .app-shell .street-view-layout .street-store-pagination button{padding:9px 10px;font-size:12px}
+  .app-shell .street-view-layout .street-store-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:16px}
+  .app-shell .street-view-layout .street-store-card{display:grid;grid-template-columns:clamp(100px,10vw,140px) minmax(0,1fr);align-items:stretch;border-radius:14px;box-shadow:none}
+  .app-shell .street-view-layout .street-store-card-visual{width:100%;height:100%;aspect-ratio:auto;min-height:180px;background:#edf2f6}
+  .app-shell .street-view-layout .street-store-card-visual img{object-fit:contain;object-position:center;transform:none}
+  .app-shell .street-view-layout .street-store-card-body{padding:14px;gap:9px;min-width:0}
+  .app-shell .street-view-layout .street-store-card-title strong{font-size:18px;line-height:1.4}
+  .app-shell .street-view-layout .street-store-card-title span{font-size:12px;line-height:1.7}
+  .app-shell .street-view-layout .street-store-card-meta{gap:6px}
+  .app-shell .street-view-layout .street-store-card-meta li{font-size:12px;line-height:1.65}
+  .app-shell .street-view-layout .street-store-card-placeholder{padding:12px;justify-content:center}
+  .app-shell .street-view-layout .street-store-card-placeholder strong{font-size:16px}
+  .app-shell .street-view-layout .street-store-card-placeholder span{font-size:10px}
+}
