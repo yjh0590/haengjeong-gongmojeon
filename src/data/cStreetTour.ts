@@ -18,20 +18,20 @@ export const cStreetTour: SitePublication = {
 };
 
 /**
- * Replace every photo point (and its uploaded photos, outlines and map pins) with the C-block tour.
- * Stores, map background, boundary and passages are kept; existing C-block store edits win over defaults.
+ * Replace the old test dataset (sample stores, photo points, uploaded test photos, outlines, map pins)
+ * with the C-block tour, matching /street-demo. Only the map background is kept, and earlier edits
+ * to the C-block stores themselves win over the defaults.
  */
 export function replaceWithCStreetTour(existing: SitePublication): SitePublication {
-  const keptIds = new Set(existing.stores.map(store => store.id));
-  const stores = [...existing.stores, ...cStreetTour.stores.filter(store => !keptIds.has(store.id))];
+  const edited = new Map(existing.stores.map(store => [store.id, store]));
   const photos = Object.fromEntries(Object.entries(existing.media?.photos || {}).filter(([key]) => cStreetTour.nodes.some(node => key.startsWith(`${node.id}:`))));
   return {
-    ...existing,
-    stores,
+    version: 1,
+    stores: cStreetTour.stores.map(store => edited.get(store.id) || {...store, tags: [...store.tags]}),
     nodes: cStreetTour.nodes.map(node => ({...node, stores: [...node.stores], viewStores: Object.fromEntries(Object.entries(node.viewStores || {}).map(([view, ids]) => [view, [...ids]]))})),
-    geometry: {...existing.geometry, nodes: {...cStreetTour.geometry.nodes}, stores: {...cStreetTour.geometry.stores, ...existing.geometry.stores}},
+    geometry: {boundary: [], passages: [], nodes: {...cStreetTour.geometry.nodes}, stores: {...cStreetTour.geometry.stores}},
     facades: [],
-    ...(existing.media ? {media: {...existing.media, photos}} : {}),
+    ...(existing.media ? {media: {...(existing.media.map ? {map: existing.media.map} : {}), photos}} : {}),
   };
 }
 

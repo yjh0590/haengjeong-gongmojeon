@@ -80,8 +80,9 @@ export default function CatalogEditor() {
     try {
       const base = remote?.data || preparePublication();
       const oldNodes = base.nodes.map(node => node.name).join(", ") || "없음";
+      const oldStores = base.stores.filter(store => !cStreetTour.stores.some(item => item.id === store.id)).map(store => store.name).join(", ") || "없음";
       const oldPhotos = Object.keys(base.media?.photos || {}).length;
-      if (!confirm(`${remote ? "온라인 게시본" : "현재 초안"}의 촬영 지점(${oldNodes})과 업로드 사진 연결 ${oldPhotos}장, 가게 외곽선을 지우고 C동 거리 입구·거리 사진 지점으로 바꿀까요?\n\n가게 목록과 지도 배경은 유지됩니다. 브라우저 초안만 바뀌며, '전체 게시'를 눌러야 손님 화면에 반영됩니다.`)) return;
+      if (!confirm(`${remote ? "온라인 게시본" : "현재 초안"}의 시험 자료를 C동 실제 촬영 자료(/street-demo와 같은 내용)로 바꿀까요?\n\n지워지는 가게: ${oldStores}\n지워지는 촬영 지점: ${oldNodes}\n연결이 끊기는 업로드 사진: ${oldPhotos}장 · 가게 외곽선과 지도 동선도 지워집니다.\n\n지도 배경은 유지됩니다. 브라우저 초안만 바뀌며, '전체 게시'를 눌러야 손님 화면에 반영됩니다.`)) return;
       const next = replaceWithCStreetTour(base);
       applyRemote({data:next,publishedAt:""});
       setRows(next.stores);setSelected(cStreetTour.stores[0].id);
@@ -153,7 +154,7 @@ export default function CatalogEditor() {
     <div className="catalog-stats">
       <div><b>{rows.length}</b><small>브라우저 초안 가게</small></div><div><b>{remote ? remote.data.stores.length : "—"}</b><small>온라인 게시 가게</small></div><div><b>{remote ? new Date(remote.publishedAt).toLocaleDateString("ko-KR") : "미게시"}</b><small>마지막 온라인 게시</small></div>
     </div>
-      <section className="catalog-tour-import"><div><strong>C동 실제 촬영 자료</strong><p>오락실·오봉집·세븐일레븐의 사진과 거리 입구·앞·뒤 사진을 초안에 추가합니다. 방향별 카드 추가·삭제·순서는 거리 사진 편집에서 관리해요.</p></div><a href="/street-demo" target="_blank" rel="noopener noreferrer">촬영 미리보기 ↗</a><button type="button" disabled={rows.some(store=>cStreetTour.stores.some(item=>item.id===store.id))} onClick={importCStreet}>{rows.some(store=>cStreetTour.stores.some(item=>item.id===store.id))?"초안에 추가됨":"촬영 자료 불러오기"}</button><button type="button" onClick={replaceWithCStreet}>기존 촬영 지점을 C동 거리로 교체</button></section>
+      <section className="catalog-tour-import"><div><strong>C동 실제 촬영 자료</strong><p>오락실·오봉집·세븐일레븐의 사진과 거리 입구·앞·뒤 사진을 초안에 추가합니다. 방향별 카드 추가·삭제·순서는 거리 사진 편집에서 관리해요.</p></div><a href="/street-demo" target="_blank" rel="noopener noreferrer">촬영 미리보기 ↗</a><button type="button" disabled={rows.some(store=>cStreetTour.stores.some(item=>item.id===store.id))} onClick={importCStreet}>{rows.some(store=>cStreetTour.stores.some(item=>item.id===store.id))?"초안에 추가됨":"촬영 자료 불러오기"}</button><button type="button" onClick={replaceWithCStreet}>시험 자료를 C동 실제 자료로 교체</button></section>
     <section className="catalog-management">
       <aside className="catalog-list"><div className="catalog-list-title"><h2>점포 목록</h2><button type="button" onClick={add}><Plus size={16}/> 추가</button></div><input aria-label="점포 찾기" placeholder="점포명·동·업종 검색" value={search} onChange={e=>setSearch(e.target.value)}/><div className="catalog-list-items">
         {filtered.map(s=><button type="button" key={s.id} className={selected===s.id?"active":""} onClick={()=>setSelected(s.id)}><span className={`catalog-indicator ${s.type==="맛"?"taste":"style"}`}>{s.floor}F</span><span><strong>{s.name}</strong><small>{s.building} {s.unit || ""} · {s.category}</small></span></button>)}
