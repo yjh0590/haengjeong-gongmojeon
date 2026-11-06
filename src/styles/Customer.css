@@ -301,3 +301,12 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-photo-street-label rect{fill:#0f766e;stroke:#fff;stroke-width:2;filter:drop-shadow(0 2px 4px #0b4a3c55)}
 .district-map-concept .map-photo-street-label text{fill:#fff;font-size:10.5px;font-weight:800;text-anchor:middle}
 .district-map-concept .map-photo-street:hover .map-photo-street-label rect{fill:#0b5e51}
+
+/* Map clean-up: one label per block, small photo dots on the green street. */
+.district-map-concept .map-node-dot{fill:#fff;stroke:#0f766e;stroke-width:3}
+.district-map-concept .map-block-badge.is-empty{pointer-events:none}
+.district-map-concept .map-block-badge.is-empty .map-block-badge-chip{fill:#ffffffd9;stroke-width:1.5;filter:none}
+.district-map-concept .map-block-badge.is-empty .map-block-badge-text{font-size:10px}
+.district-map-concept .map-photo-street-halo{stroke-opacity:.22;stroke-width:24}
+.district-map-concept .map-photo-street-line{stroke-width:8}
+@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:1/1}}
