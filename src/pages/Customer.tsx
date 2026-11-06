@@ -169,7 +169,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     if (publication.data || approvedPromotion?.storeId !== store.id) return current;
     return { ...current, event: approvedPromotion.promotion.streetCopy };
   }), [catalog, approvedPromotion, publication.data]);
-  const buildings = useMemo(() => [...new Set(effectiveStores.map(store => store.building.trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b, "ko")), [effectiveStores]);
+  // Timespace always has blocks A-D; keep them visible even before stores are registered there.
+  const buildings = useMemo(() => [...new Set(["A동", "B동", "C동", "D동", ...effectiveStores.map(store => store.building.trim()).filter(Boolean)])].sort((a,b) => a.localeCompare(b, "ko")), [effectiveStores]);
   const selectedStore = effectiveStores.find((store) => store.id === selectedStoreId) || null;
   const routeTarget = effectiveStores.find(store => store.id === routeTargetId) || null;
   const routePath = useMemo(() => routeTarget ? findStorePhotoRoute(currentNodeId, routeTarget.id, streetNodes) : null,
