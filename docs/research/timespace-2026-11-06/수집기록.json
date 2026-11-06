@@ -1,0 +1,6122 @@
+{
+  "collectedOn": "2026-11-06",
+  "address": "인천광역시 연수구 하모니로 158",
+  "completeness": "공개자료 수집본, 전체 현행 입점 명부 아님",
+  "recordCount": 387,
+  "duplicatesIncluded": true,
+  "sources": {
+    "S01": {
+      "title": "공개 주소·업소 등록 기록",
+      "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849",
+      "note": "주소 단위 업소 204개 등록행을 수집. 업체명·업종·상세주소·인허가일·자료상 상태만 추출. 실시간 영업 확인 자료가 아님."
+    },
+    "S02": {
+      "title": "동·층별 시설 참고 목록",
+      "url": "https://d.namu.moe/w/%EC%86%A1%EB%8F%84%20%ED%83%80%EC%9E%84%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4",
+      "note": "공동 편집 참고자료. 페이지 수정 표기 2026-08-16. 업체명과 층·동만 추출. 호수·현재 입점 여부는 대부분 미확인. 원문 서술·후기는 복제하지 않음."
+    },
+    "S03": {
+      "title": "으뜸플러스안경 공식 매장 안내",
+      "url": "https://top-plus.co.kr/location/3221",
+      "note": "B동 204호, 공식 연락처·영업시간·공식 사진 및 채널 확인."
+    },
+    "S04": {
+      "title": "연수구청 우수 공중위생업소",
+      "url": "https://www.yeonsu.go.kr/main/part/food/best.asp?gotopage=12&keyfield=&keyword=&sch_kind=",
+      "note": "약손명가·네일잇·디아나테라피의 위치와 업체 연락처 대조. 지정 목록이며 전체 업소 목록은 아님."
+    },
+    "S05": {
+      "title": "CGV 공식 극장 안내",
+      "url": "https://m.cgv.co.kr/WebAPP/TheaterV4/TheaterDetail.aspx?tc=0325",
+      "note": "공식 안내 주소 A동 지하1층. 해당 영화관 이용 조건에 따른 주차 안내이며 상가 전체 무료 주차 조건이 아님."
+    },
+    "S06": {
+      "title": "대빵오락실 공공자료 재게시",
+      "url": "https://ygp.purpleo.co.kr/view/12858",
+      "note": "C동 1층 122호. 자료 기준일 2026-05-07. 현장 사진과 가게명 대조 가능."
+    },
+    "S07": {
+      "title": "오봉집 매장·사진·메뉴 안내",
+      "url": "https://www.diningcode.com/profile.php?rid=mWWaWYQNKD52",
+      "note": "C동 1층 120·121호, 등록 메뉴·전화·실외 사진 분류 확인. 후기 문장은 수집하지 않음."
+    },
+    "S08": {
+      "title": "오봉집 테이블링 안내",
+      "url": "https://www.tabling.co.kr/place/68a3d95b11c8e44915eb1aa8",
+      "note": "오봉집 메뉴 가격과 휴무일이 다른 출처와 다르게 표시됨. 차이를 별도 기록."
+    },
+    "S09": {
+      "title": "한마음정육식당 매장 안내",
+      "url": "https://www.diningcode.com/profile.php?rid=NLx39JtUcVMx",
+      "note": "B동 2층 205~208호와 사진 페이지 확인."
+    },
+    "S10": {
+      "title": "마끼에 공식 매장 목록",
+      "url": "https://leechulhairkerker.co.kr/child/sub/spot/?addinfo3=%EA%B5%AD%EB%82%B4&code=spot&page=4&ptype=",
+      "note": "송도타임스페이스점 C동 307·308호, 전화 032-833-5326 확인."
+    },
+    "S11": {
+      "title": "연수구의회 골목상권 연구 보고서",
+      "url": "https://council.yeonsu.go.kr/kr/bbs/download.do?bbs_id=member_report&uid=907EBFE8303B0DC9E9977EF677D442D5",
+      "note": "골목형상점가 지정일·보고서 당시 점포수·면적 수치. 현재 입점수로 해석하지 않음."
+    },
+    "S12": {
+      "title": "건축물·상가 정보 참고",
+      "url": "https://disco.re/l/1qrtvy",
+      "note": "건축물대장 기반 표시 수치를 참고. 개별 필지 면적과 전체 건물 대지면적을 구분."
+    },
+    "S13": {
+      "title": "디딤 워크라운지 공식 안내",
+      "url": "https://ddmtimespace.com/",
+      "note": "B동 10층 1003호, 공식 이용 안내 확인."
+    },
+    "S14": {
+      "title": "송도미소어린이병원 연수구 보건소 기록",
+      "url": "https://www.yeonsu.go.kr/clinic/participation/news.asp?category=&dept_idx=&e_date=&eminwon=&gotopage=1&head_idx=&head_idx_cateYN=&keyfield=&keyword=&listCnt=&page=v&s_date=&se_dept_idx=&seq=6651",
+      "note": "2022-10-04 게시 자료. A동 7~9층 소재 확인에 사용하며 현재 진료·입원 안내로 사용하지 않음."
+    },
+    "S15": {
+      "title": "석암생소금구이 매장 안내",
+      "url": "https://www.diningcode.com/profile.php?rid=Ikx1tXrm7zeS",
+      "note": "B동 1층 107~109호와 사진 페이지 대조."
+    },
+    "S16": {
+      "title": "보니보니즉석떡볶이 매장 안내",
+      "url": "https://www.diningcode.com/profile.php?rid=mnyptBnjUxKb",
+      "note": "B동 2층 217호와 사진 페이지 확인."
+    },
+    "S17": {
+      "title": "고동경양 매장 안내",
+      "url": "https://www.diningcode.com/profile.php?rid=ORxVDqdTNffw",
+      "note": "A동 124호 관련 자료."
+    },
+    "S18": {
+      "title": "숯멍 매장 안내",
+      "url": "https://www.diningcode.com/profile.php?rid=j2iv1CrX6qxq",
+      "note": "D동 1층 109~111호와 사진 페이지 대조."
+    },
+    "S19": {
+      "title": "세븐일레븐 송도타임점 등록자료",
+      "url": "https://bizsurfing.com/l/68143897/%EC%84%B8%EB%B8%90%EC%9D%BC%EB%A0%88%EB%B8%90-%EC%86%A1%EB%8F%84%ED%83%80%EC%9E%84%EC%A0%90",
+      "note": "C-119 일부호. 다른 업종으로 등록된 코리아세븐 기록과 중복 가능. 검색 결과에서 확인, 직접 페이지 열기는 실패."
+    },
+    "S20": {
+      "title": "송도본정형외과 공식 오시는 길",
+      "url": "https://www.songdobone.co.kr/page/page8",
+      "note": "검색 결과에 A동 2층·202호 표기. 직접 페이지 열기 실패. S01의 전체 호수 범위와 차이가 있으므로 참고용."
+    },
+    "S21": {
+      "title": "송도이턱플란트치과 공식 홈페이지",
+      "url": "https://ejawplant.co.kr/",
+      "note": "검색 결과에 A동 4층 표기. 직접 본문 접근 실패."
+    },
+    "S22": {
+      "title": "사용자 제공 현장 사진",
+      "url": "사용자 제공 사진 / public/street/c-block/",
+      "note": "C동에서 오락실 → 오봉집 → 세븐일레븐의 좌우 인접 관계를 확인한 자료. 같은 촬영 지점의 앞·뒤 사진과 진입부 사진을 포함."
+    },
+    "S23": {
+      "title": "사용자 제공 네이버 공유 링크",
+      "url": "https://naver.me/xbK3e22l",
+      "note": "공개 HTTP 연결을 다시 확인해 네이버 지도 위치 URL로 307 이동하고 최종 200 응답하는 것을 확인. 연결 주소 https://map.naver.com/p/?c=3z3AQF%2C2AEp4z%2C17.14%2C0%2C0%2C0%2Cdh . 특정 점포 상세 페이지가 아닌 지도 위치 공유이며 전체 가게·사진 목록은 추출하지 못함."
+    }
+  },
+  "records": [
+    {
+      "name": "송도한방병원",
+      "category": "한방병원",
+      "location": "송도타임스페이스 A동 6층 송도동",
+      "permitDate": "2021-08-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-001",
+      "building": "A",
+      "floor": 6,
+      "rooms": "미확인",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "(주)코리아세븐 송도타임점",
+      "category": "안전상비의약품 판매업소",
+      "location": "송도타임스페이스 C 119호 송도동",
+      "permitDate": "2020-12-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-002",
+      "building": "C",
+      "floor": 1,
+      "rooms": "119",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "플로라유외과의원",
+      "category": "의원",
+      "location": "송도타임스페이스 B동 5층 504 505호 송도동",
+      "permitDate": "2021-08-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-003",
+      "building": "B",
+      "floor": 5,
+      "rooms": "504, 505",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "잇츠미성형외과의원",
+      "category": "의원",
+      "location": "송도타임스페이스 5층 A 501 502 503 504 505호 송도동",
+      "permitDate": "2021-03-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-004",
+      "building": "A",
+      "floor": 5,
+      "rooms": "501, 502, 503, 504, 505",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "알라딘의원",
+      "category": "의원",
+      "location": "송도타임스페이스 4층 A 412 413호 송도동",
+      "permitDate": "2021-03-08",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-005",
+      "building": "A",
+      "floor": 4,
+      "rooms": "412, 413",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "나다움의원",
+      "category": "의원",
+      "location": "송도타임스페이스 A동 2층 210 211 212호 송도동",
+      "permitDate": "2023-07-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-006",
+      "building": "A",
+      "floor": 2,
+      "rooms": "210, 211, 212",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "송도본정형외과의원",
+      "category": "의원",
+      "location": "송도타임스페이스 A동 2층 202 203 204 205 206 207 209호 송도동",
+      "permitDate": "2021-05-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-007",
+      "building": "A",
+      "floor": 2,
+      "rooms": "202, 203, 204, 205, 206, 207, 209",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "메디컬오한의원",
+      "category": "한의원",
+      "location": "송도타임스페이스 B동 506 509호 송도동",
+      "permitDate": "2021-08-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-008",
+      "building": "B",
+      "floor": 5,
+      "rooms": "506, 509",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "송도퍼스트내과의원",
+      "category": "의원",
+      "location": "송도타임스페이스 B동 4층 401 402 403 404 405호 송도동",
+      "permitDate": "2020-12-31",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-009",
+      "building": "B",
+      "floor": 4,
+      "rooms": "401, 402, 403, 404, 405",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "이턱플란트치과의원",
+      "category": "치과의원",
+      "location": "송도타임스페이스 A동 401 402호 송도동",
+      "permitDate": "2020-11-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-010",
+      "building": "A",
+      "floor": 4,
+      "rooms": "401, 402",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "파크뷰의원",
+      "category": "의원",
+      "location": "송도타임스페이스 B동 6층 603 604호 송도동",
+      "permitDate": "2019-04-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-011",
+      "building": "B",
+      "floor": 6,
+      "rooms": "603, 604",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "힐링타임안마원",
+      "category": "안마원",
+      "location": "송도타임스페이스 D동 413호 송도동",
+      "permitDate": "2023-11-02",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-012",
+      "building": "D",
+      "floor": 4,
+      "rooms": "413",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "별온누리약국",
+      "category": "동물약국",
+      "location": "송도타임스페이스 A동 110 112호 송도동",
+      "permitDate": "2021-03-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-013",
+      "building": "A",
+      "floor": 1,
+      "rooms": "110, 112",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "타임365약국",
+      "category": "동물약국",
+      "location": "송도타임스페이스 A동 116 117 118호 송도동",
+      "permitDate": "2021-08-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-014",
+      "building": "A",
+      "floor": 1,
+      "rooms": "116, 117, 118",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "이리스안경원",
+      "category": "안경업",
+      "location": "송도타임스페이스 A 121 122호 송도동",
+      "permitDate": "2023-07-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-015",
+      "building": "A",
+      "floor": 1,
+      "rooms": "121, 122",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "CGV 송도타임스페이스",
+      "category": "영화상영업",
+      "location": "송도타임스페이스 A동 지하층 송도동",
+      "permitDate": "2020-11-16",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-016",
+      "building": "A",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "지하층이나 층수 불명",
+      "notes": []
+    },
+    {
+      "name": "해피타임 노래연습장",
+      "category": "노래연습장업",
+      "location": "송도타임스페이스 B동 312 313호 송도동",
+      "permitDate": "2022-10-31",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-017",
+      "building": "B",
+      "floor": 3,
+      "rooms": "312, 313",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "CGV송도타임스페이스 4관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-018",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "CGV송도타임스페이스 3관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-019",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "CGV송도타임스페이스 1관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-020",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "CGV송도타임스페이스 5관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-021",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "CGV송도타임스페이스 7관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-022",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "CGV송도타임스페이스 6관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-023",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "CGV송도타임스페이스 2관",
+      "category": "영화상영관",
+      "location": "2층 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-024",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "상영관 허가표기와 실제 안내층 구분 필요",
+      "notes": [
+        "상영관별 행정 기록의 2층 표기. 고객 안내층으로 확정하지 않음. 공식 CGV 주소는 A동 지하1층[S05]"
+      ]
+    },
+    {
+      "name": "MOT(모트)맨즈헤어",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 2층 C 216호 송도동",
+      "permitDate": "2022-07-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-025",
+      "building": "C",
+      "floor": 2,
+      "rooms": "216",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "비주안에스테틱",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 3층 C 306호 송도동",
+      "permitDate": "2022-03-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-026",
+      "building": "C",
+      "floor": 3,
+      "rooms": "306",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "Ur:D(유어디)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 A동 403호 송도동",
+      "permitDate": "2021-07-05",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-027",
+      "building": "A",
+      "floor": 4,
+      "rooms": "403",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "바바헤어",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 B동 203호 송도동",
+      "permitDate": "2021-08-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-028",
+      "building": "B",
+      "floor": 2,
+      "rooms": "203",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "시크온헤어",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 A 201호 송도동",
+      "permitDate": "2022-04-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-029",
+      "building": "A",
+      "floor": 2,
+      "rooms": "201",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "어썸마인(Awesome Mine)",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 A동 301호 송도동",
+      "permitDate": "2021-07-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-030",
+      "building": "A",
+      "floor": 3,
+      "rooms": "301",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "약손명가 에스테틱(송도점)",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 3층 B 307일부 308호 송도동",
+      "permitDate": "2022-05-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-031",
+      "building": "B",
+      "floor": 3,
+      "rooms": "307, 308",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "아름다운퀸즈",
+      "category": "기타",
+      "location": "송도타임스페이스 3층 D 306호 송도동",
+      "permitDate": "2015-07-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-032",
+      "building": "D",
+      "floor": 3,
+      "rooms": "306",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "고선생 뷰티살롱",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 C동 316호 송도동",
+      "permitDate": "2010-10-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-033",
+      "building": "C",
+      "floor": 3,
+      "rooms": "316",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "빛나래에스테틱",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 C동 4층 402호 송도동",
+      "permitDate": "2023-06-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-034",
+      "building": "C",
+      "floor": 4,
+      "rooms": "402",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "아이볼륨",
+      "category": "메이크업업",
+      "location": "송도타임스페이스 C동 301호 일부호 송도동",
+      "permitDate": "2023-03-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-035",
+      "building": "C",
+      "floor": 3,
+      "rooms": "301",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "리리샵",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 3층 A 305호 송도동",
+      "permitDate": "2021-04-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-036",
+      "building": "A",
+      "floor": 3,
+      "rooms": "305",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "라비앙르로즈(LAVIEENRROSE)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 C동 212호 송도동",
+      "permitDate": "2020-10-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-037",
+      "building": "C",
+      "floor": 2,
+      "rooms": "212",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "덕무드헤어",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 3층 B 314호 송도동",
+      "permitDate": "2022-06-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-038",
+      "building": "B",
+      "floor": 3,
+      "rooms": "314",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "문제성 발관리센터 발을",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 A동 208호 송도동",
+      "permitDate": "2016-01-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-039",
+      "building": "A",
+      "floor": 2,
+      "rooms": "208",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "박상미톤테라피",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 C동 401호 송도동",
+      "permitDate": "2018-06-15",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-040",
+      "building": "C",
+      "floor": 4,
+      "rooms": "401",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "미레브헤어",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 D동 204호 송도동",
+      "permitDate": "2022-11-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-041",
+      "building": "D",
+      "floor": 2,
+      "rooms": "204",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "지애뷰티",
+      "category": "메이크업업",
+      "location": "송도타임스페이스 C동 410호 일부호 송도동",
+      "permitDate": "2020-07-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-042",
+      "building": "C",
+      "floor": 4,
+      "rooms": "410",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "모바이오 인천송도점",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 지 1층 B 23호 송도동",
+      "permitDate": "2022-08-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-043",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "지하 축약 표기로 추정",
+      "notes": [
+        "지 1층 등 축약 표기를 지하로 해석했으므로 확인 필요"
+      ]
+    },
+    {
+      "name": "MAME(마메)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 D동 313호 송도동",
+      "permitDate": "2014-10-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-044",
+      "building": "D",
+      "floor": 3,
+      "rooms": "313",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "네일라벨르",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 씨동 314호 송도동",
+      "permitDate": "2020-12-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-045",
+      "building": "C",
+      "floor": 3,
+      "rooms": "314",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "뮤즈살롱",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 D동 408호 송도동",
+      "permitDate": "2020-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-046",
+      "building": "D",
+      "floor": 4,
+      "rooms": "408",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "914 헤어스튜디오",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 D동 2층 209호 송도동",
+      "permitDate": "2021-03-23",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-047",
+      "building": "D",
+      "floor": 2,
+      "rooms": "209",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "에이앤느(A.ANNE)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 B동 303 304호 송도동",
+      "permitDate": "2017-10-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-048",
+      "building": "B",
+      "floor": 3,
+      "rooms": "303, 304",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "소담살롱",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 D동 2층 222호 송도동",
+      "permitDate": "2021-02-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-049",
+      "building": "D",
+      "floor": 2,
+      "rooms": "222",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "마끼에 타임스페이스점",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 C동 307 308호 송도동",
+      "permitDate": "2015-07-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-050",
+      "building": "C",
+      "floor": 3,
+      "rooms": "307, 308",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "포르투나 무인카페",
+      "category": "식품자동판매기영업",
+      "location": "송도타임스페이스 지상 1층 A 122호 일부호 송도동",
+      "permitDate": "2023-06-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-051",
+      "building": "A",
+      "floor": 1,
+      "rooms": "122",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "주식회사 점핑몬스터",
+      "category": "식품자동판매기영업",
+      "location": "송도타임스페이스 A동 지하 1층 B 01 12 일부 호 송도동",
+      "permitDate": "2023-03-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-052",
+      "building": "A",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "주소에 지하층 명시",
+      "notes": []
+    },
+    {
+      "name": "로더비",
+      "category": "제과점영업",
+      "location": "송도타임스페이스 지상 1층 D 131호 송도동",
+      "permitDate": "2022-08-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-053",
+      "building": "D",
+      "floor": 1,
+      "rooms": "131",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "하삼동커피 송도타임스페이스점",
+      "category": "커피숍",
+      "location": "송도타임스페이스 1층 D 126호 송도동",
+      "permitDate": "2021-09-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-054",
+      "building": "D",
+      "floor": 1,
+      "rooms": "126",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "하나스두 케이크 아뜰리에(Hanasdoux cake atelier)",
+      "category": "커피숍",
+      "location": "송도타임스페이스 C 315호 송도동",
+      "permitDate": "2020-10-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-055",
+      "building": "C",
+      "floor": 3,
+      "rooms": "315",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "이디야커피 송도타임스페이스점",
+      "category": "커피숍",
+      "location": "송도타임스페이스 B 09일부호 송도동",
+      "permitDate": "2020-12-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-056",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "미확인",
+      "notes": []
+    },
+    {
+      "name": "라이크노아더",
+      "category": "커피숍",
+      "location": "송도타임스페이스 3층 C 310호 송도동",
+      "permitDate": "2021-12-07",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-057",
+      "building": "C",
+      "floor": 3,
+      "rooms": "310",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "컴포즈커피 송도타임스페이스점",
+      "category": "커피숍",
+      "location": "송도타임스페이스 C 118호 송도동",
+      "permitDate": "2020-11-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-058",
+      "building": "C",
+      "floor": 1,
+      "rooms": "118",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "세븐일레븐 송도타임점",
+      "category": "편의점",
+      "location": "송도타임스페이스 C 119일부호 송도동",
+      "permitDate": "2020-12-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-059",
+      "building": "C",
+      "floor": 1,
+      "rooms": "119",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "카페스마일",
+      "category": "커피숍",
+      "location": "송도타임스페이스 A 705일부호 송도동",
+      "permitDate": "2021-01-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-060",
+      "building": "A",
+      "floor": 7,
+      "rooms": "705",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "배스킨라빈스(Baskin Robbins) 송도타임스페이스점",
+      "category": "아이스크림",
+      "location": "송도타임스페이스 1층 A 119 120호 송도동",
+      "permitDate": "2022-11-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-061",
+      "building": "A",
+      "floor": 1,
+      "rooms": "119, 120",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "샬로우커피",
+      "category": "커피숍",
+      "location": "송도타임스페이스 지상 1층 D 104 D 105호 송도동",
+      "permitDate": "2022-10-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-062",
+      "building": "D",
+      "floor": 1,
+      "rooms": "104, 105",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "커스텀커피(송도타임스페이스점)",
+      "category": "커피숍",
+      "location": "송도타임스페이스 D 108호 송도동",
+      "permitDate": "2021-10-14",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-063",
+      "building": "D",
+      "floor": 1,
+      "rooms": "108",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "버거킹 송도타임스페이스점",
+      "category": "패스트푸드",
+      "location": "송도타임스페이스 지상 1층 A 107호 A 108호 A 109호 송도동",
+      "permitDate": "2022-05-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-064",
+      "building": "A",
+      "floor": 1,
+      "rooms": "107, 108, 109",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "텐퍼센트커피 송도타임스페이스점",
+      "category": "커피숍",
+      "location": "송도타임스페이스 D 132호 송도동",
+      "permitDate": "2020-11-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-065",
+      "building": "D",
+      "floor": 1,
+      "rooms": "132",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "송도씨",
+      "category": "커피숍",
+      "location": "송도타임스페이스 지상 1층 A 102호 송도동",
+      "permitDate": "2022-05-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-066",
+      "building": "A",
+      "floor": 1,
+      "rooms": "102",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "벌툰 송도타임스페이스점",
+      "category": "기타 휴게음식점",
+      "location": "송도타임스페이스 D동 2층 224 225호 송도동",
+      "permitDate": "2022-11-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-067",
+      "building": "D",
+      "floor": 2,
+      "rooms": "224, 225",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "주식회사 온센",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 비동 1002호 송도동",
+      "permitDate": "2022-04-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-068",
+      "building": "B",
+      "floor": 10,
+      "rooms": "1002",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "원알엠짐",
+      "category": "체력단련장업",
+      "location": "송도타임스페이스 B동 607 609호 송도동",
+      "permitDate": "2021-01-05",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-069",
+      "building": "B",
+      "floor": 6,
+      "rooms": "607, 609",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "최박사 헬스케어",
+      "category": "체력단련장업",
+      "location": "송도타임스페이스 A동 4층 407호 송도동",
+      "permitDate": "2021-09-07",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-070",
+      "building": "A",
+      "floor": 4,
+      "rooms": "407",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "크로스핏 더 리얼",
+      "category": "체력단련장업",
+      "location": "송도타임스페이스 B동 B 12호 송도동",
+      "permitDate": "2022-08-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-071",
+      "building": "B",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "미확인",
+      "notes": []
+    },
+    {
+      "name": "으뜸50안경 인천송도점",
+      "category": "수질오염원설치시설(기타)",
+      "location": "송도타임스페이스 211호 송도동",
+      "permitDate": "2021-07-06",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-072",
+      "building": "미확인",
+      "floor": 2,
+      "rooms": "211",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "코리아세븐 송도타임점",
+      "category": "담배소매업",
+      "location": "송도타임스페이스 C동 119호 송도동",
+      "permitDate": "2023-01-26",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-073",
+      "building": "C",
+      "floor": 1,
+      "rooms": "119",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "세신샵 노블",
+      "category": "목욕장업 기타",
+      "location": "송도타임스페이스 B동 302호 송도동",
+      "permitDate": "2022-10-31",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-074",
+      "building": "B",
+      "floor": 3,
+      "rooms": "302",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "로운간병사협회",
+      "category": "유료직업소개소",
+      "location": "송도타임스페이스 D동 317호 송도동",
+      "permitDate": "2023-01-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-075",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "위.(WE.)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 C동 409호 송도동",
+      "permitDate": "2021-10-05",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-076",
+      "building": "C",
+      "floor": 4,
+      "rooms": "409",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "그린닷네일&뷰티",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 C동 302호 일부 송도동",
+      "permitDate": "2024-03-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-077",
+      "building": "C",
+      "floor": 3,
+      "rooms": "302",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "아슈드 헤어살롱 송도타임스페이스점",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 C동 3층 304호 송도동",
+      "permitDate": "2024-03-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-078",
+      "building": "C",
+      "floor": 3,
+      "rooms": "304",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "아이나래정신건강의학과의원",
+      "category": "의원",
+      "location": "송도타임스페이스 A동 5층 511 512 513호 송도동",
+      "permitDate": "2024-04-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-079",
+      "building": "A",
+      "floor": 5,
+      "rooms": "511, 512, 513",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "앙보티",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 B동 3층 310호 송도동",
+      "permitDate": "2024-04-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-080",
+      "building": "B",
+      "floor": 3,
+      "rooms": "310",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "오뉴월 뷰티",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 c동 2층 210 일부호 송도동",
+      "permitDate": "2021-01-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-081",
+      "building": "C",
+      "floor": 2,
+      "rooms": "210",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "옵트헤어",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 c동 303호 송도동",
+      "permitDate": "2024-05-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-082",
+      "building": "C",
+      "floor": 3,
+      "rooms": "303",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "피플운동센터 재활&PT 송도타임스페이스점",
+      "category": "체력단련장업",
+      "location": "송도타임스페이스 B동 904호 905호 송도동",
+      "permitDate": "2024-05-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-083",
+      "building": "B",
+      "floor": 9,
+      "rooms": "904, 905",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "컬러by 빽스뷰티",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 c동 311호 송도동",
+      "permitDate": "2024-06-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-084",
+      "building": "C",
+      "floor": 3,
+      "rooms": "311",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "A:DIFF(에이디프)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 D동 311호 송도동",
+      "permitDate": "2024-06-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-085",
+      "building": "D",
+      "floor": 3,
+      "rooms": "311",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "으뜸플러스안경 인천타임스페이스점",
+      "category": "수질오염원설치시설(기타)",
+      "location": "송도타임스페이스 B동 204호 송도동",
+      "permitDate": "2024-07-08",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-086",
+      "building": "B",
+      "floor": 2,
+      "rooms": "204",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "디아나 테라피",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 B동 602호 송도동",
+      "permitDate": "2024-07-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-087",
+      "building": "B",
+      "floor": 6,
+      "rooms": "602",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "키아라 인천 송도",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 C동 217호 송도동",
+      "permitDate": "2023-03-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-088",
+      "building": "C",
+      "floor": 2,
+      "rooms": "217",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "로앤로우(Lo&Raw)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 D동 307일부호 송도동",
+      "permitDate": "2015-04-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-089",
+      "building": "D",
+      "floor": 3,
+      "rooms": "307",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "홍초야",
+      "category": "축산물유통전문판매업",
+      "location": "송도타임스페이스 D동 212호 송도동",
+      "permitDate": "2024-11-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-090",
+      "building": "D",
+      "floor": 2,
+      "rooms": "212",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "스파 더 오솔(SPA the osol)",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 C동 214호 송도동",
+      "permitDate": "2024-11-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-091",
+      "building": "C",
+      "floor": 2,
+      "rooms": "214",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "네일잇",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 3층 A 314호 송도동",
+      "permitDate": "2019-10-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-092",
+      "building": "A",
+      "floor": 3,
+      "rooms": "314",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "싸비 복싱 주짓수 MMA",
+      "category": "권투",
+      "location": "송도타임스페이스 B동 501 502호 송도동",
+      "permitDate": "2024-12-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-093",
+      "building": "B",
+      "floor": 5,
+      "rooms": "501, 502",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "설빙 송도타임스페이스점",
+      "category": "기타 휴게음식점",
+      "location": "송도타임스페이스 2층 B 214호 B 215호 B 216호 송도동",
+      "permitDate": "2025-01-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-094",
+      "building": "B",
+      "floor": 2,
+      "rooms": "214, 215, 216",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "코코노래연습장",
+      "category": "노래연습장업",
+      "location": "송도타임스페이스 C동 404호 송도동",
+      "permitDate": "2025-02-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-095",
+      "building": "C",
+      "floor": 4,
+      "rooms": "404",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "착한 정육점",
+      "category": "식육판매업",
+      "location": "송도타임스페이스 B 01층 19호 송도동",
+      "permitDate": "2025-02-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-096",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "B층 표기로 추정",
+      "notes": [
+        "주소의 B 01층 표기 확인 필요"
+      ]
+    },
+    {
+      "name": "Pluck(플럭) 타임스페이스점",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 2층 C 202호 송도동",
+      "permitDate": "2025-02-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-097",
+      "building": "C",
+      "floor": 2,
+      "rooms": "202",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "메이뷰티",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 지상 3층 A 307호 송도동",
+      "permitDate": "2025-02-06",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-098",
+      "building": "A",
+      "floor": 3,
+      "rooms": "307",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "오프블랙 바버샵(OFFBLACK BARBERSHOP)",
+      "category": "일반이용업",
+      "location": "송도타임스페이스 지하 1층 B 20호 송도동",
+      "permitDate": "2021-04-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-099",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "주소에 지하층 명시",
+      "notes": []
+    },
+    {
+      "name": "주식회사 채심당",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 디동 3층 317일부 에이 234 호 송도동",
+      "permitDate": "2025-04-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-100",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317, 234",
+      "basis": "주소에 층수 명시",
+      "notes": [
+        "공유·세부호실 주소일 수 있어 뒤쪽 숫자/문자를 별도 동·층으로 해석하지 않음"
+      ]
+    },
+    {
+      "name": "밴스의원",
+      "category": "의원",
+      "location": "송도타임스페이스 B동 11층 1101 1105호 송도동",
+      "permitDate": "2025-05-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-101",
+      "building": "B",
+      "floor": 11,
+      "rooms": "1101, 1105",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "루틴치과의원",
+      "category": "치과의원",
+      "location": "송도타임스페이스 506 507 508 509호 송도동",
+      "permitDate": "2025-07-07",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-102",
+      "building": "미확인",
+      "floor": 5,
+      "rooms": "506, 507, 508, 509",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "(주)여행수토리",
+      "category": "여행업",
+      "location": "에이동 308호 송도동 송도타임스페이스",
+      "permitDate": "2016-06-08",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-103",
+      "building": "A",
+      "floor": 3,
+      "rooms": "308",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "베어글스 송도 타임스페이스점",
+      "category": "제과점영업",
+      "location": "송도타임스페이스 지상 1층 C 108호 송도동",
+      "permitDate": "2025-08-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-104",
+      "building": "C",
+      "floor": 1,
+      "rooms": "108",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "트래이드씨스템",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 D동 지상 3층 317의 일부 C 15 호 송도동",
+      "permitDate": "2020-09-23",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-105",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317",
+      "basis": "주소에 층수 명시",
+      "notes": [
+        "공유·세부호실 주소일 수 있어 뒤쪽 숫자/문자를 별도 동·층으로 해석하지 않음"
+      ]
+    },
+    {
+      "name": "연세꿈꾸는치과교정과의원",
+      "category": "치과의원",
+      "location": "송도타임스페이스 B동 703 704 705호 송도동",
+      "permitDate": "2025-10-02",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-106",
+      "building": "B",
+      "floor": 7,
+      "rooms": "703, 704, 705",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "베르데헤어 송도타임스페이스 본점",
+      "category": "기타",
+      "location": "송도타임스페이스 2층 D 221호 송도동",
+      "permitDate": "2021-10-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-107",
+      "building": "D",
+      "floor": 2,
+      "rooms": "221",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "하비티",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 지상 3층 D 317의 일부 C 26 호 송도동",
+      "permitDate": "2025-10-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-108",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317",
+      "basis": "주소에 층수 명시",
+      "notes": [
+        "공유·세부호실 주소일 수 있어 뒤쪽 숫자/문자를 별도 동·층으로 해석하지 않음"
+      ]
+    },
+    {
+      "name": "지베이프전자담배 송도타임스페이스점",
+      "category": "담배소매업",
+      "location": "송도타임스페이스 B 118호 송도동",
+      "permitDate": "2025-09-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-109",
+      "building": "B",
+      "floor": 1,
+      "rooms": "118",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "모찌네일",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 C동 410호 일부호 송도동",
+      "permitDate": "2023-05-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-110",
+      "building": "C",
+      "floor": 4,
+      "rooms": "410",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "네일이루나",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 C 307일부호 송도동",
+      "permitDate": "2023-11-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-111",
+      "building": "C",
+      "floor": 3,
+      "rooms": "307",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "네일에르",
+      "category": "네일아트업",
+      "location": "송도타임스페이스 지상 2층 B 211호 송도동",
+      "permitDate": "2026-01-15",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-112",
+      "building": "B",
+      "floor": 2,
+      "rooms": "211",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "세빛상점",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 D동 지상 3층 317 C 116호 송도동",
+      "permitDate": "2025-09-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-113",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317, 116",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "피지오스튜디오 필라테스 & PT",
+      "category": "체력단련장업",
+      "location": "송도타임스페이스 B동 7층 702호 송도동",
+      "permitDate": "2025-12-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-114",
+      "building": "B",
+      "floor": 7,
+      "rooms": "702",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "무닛(munit)",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 2층 A 217호 송도동",
+      "permitDate": "2026-02-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-115",
+      "building": "A",
+      "floor": 2,
+      "rooms": "217",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "아이블랙",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 C동 305호 송도동",
+      "permitDate": "2023-09-22",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-116",
+      "building": "C",
+      "floor": 3,
+      "rooms": "305",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "라퓨어리",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 지상 3층 D 315호 송도동",
+      "permitDate": "2026-03-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-117",
+      "building": "D",
+      "floor": 3,
+      "rooms": "315",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "아망뜨 슈가링왁싱 송도본점",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 지상 3층 C 301의 일부호 송도동",
+      "permitDate": "2021-07-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-118",
+      "building": "C",
+      "floor": 3,
+      "rooms": "301",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "늘보듬 헬스케어",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 지상 3층 D 317의 일부 A 200 호 송도동",
+      "permitDate": "2026-04-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-119",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317, 200",
+      "basis": "주소에 층수 명시",
+      "notes": [
+        "공유·세부호실 주소일 수 있어 뒤쪽 숫자/문자를 별도 동·층으로 해석하지 않음"
+      ]
+    },
+    {
+      "name": "순참치",
+      "category": "일식",
+      "location": "송도타임스페이스 D 116호 송도동",
+      "permitDate": "2024-12-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-120",
+      "building": "D",
+      "floor": 1,
+      "rooms": "116",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "OILY(오일리)",
+      "category": "경양식",
+      "location": "송도타임스페이스 A 127호 송도동",
+      "permitDate": "2021-03-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-121",
+      "building": "A",
+      "floor": 1,
+      "rooms": "127",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "록갈비 송도점",
+      "category": "정종/대포집/소주방",
+      "location": "송도타임스페이스 D 123 124 125호 송도동",
+      "permitDate": "2023-09-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-122",
+      "building": "D",
+      "floor": 1,
+      "rooms": "123, 124, 125",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "주식회사 화룽 송도지점",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 B 17호 송도동",
+      "permitDate": "2021-05-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-123",
+      "building": "미확인",
+      "floor": null,
+      "rooms": "미확인",
+      "basis": "미확인",
+      "notes": []
+    },
+    {
+      "name": "송도 모밀",
+      "category": "한식",
+      "location": "송도타임스페이스 1층 C 105호 송도동",
+      "permitDate": "2024-07-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-124",
+      "building": "C",
+      "floor": 1,
+      "rooms": "105",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "카이토(KAITO)",
+      "category": "일식",
+      "location": "송도타임스페이스 A 103호 송도동",
+      "permitDate": "2025-10-23",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-125",
+      "building": "A",
+      "floor": 1,
+      "rooms": "103",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "양목장1274(타임스페이스점)",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 1층 C 109 110호 송도동",
+      "permitDate": "2021-07-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-126",
+      "building": "C",
+      "floor": 1,
+      "rooms": "109, 110",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "들밥차반 송도점",
+      "category": "한식",
+      "location": "송도타임스페이스 지 1층 B 06 B 07호 송도동",
+      "permitDate": "2024-12-16",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-127",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "지하 축약 표기로 추정",
+      "notes": [
+        "지 1층 등 축약 표기를 지하로 해석했으므로 확인 필요"
+      ]
+    },
+    {
+      "name": "아웃닭 송도점",
+      "category": "호프/통닭",
+      "location": "송도타임스페이스 2층 C 206호 송도동",
+      "permitDate": "2023-04-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-128",
+      "building": "C",
+      "floor": 2,
+      "rooms": "206",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "지티에스 버거(GTS Burger)",
+      "category": "기타",
+      "location": "송도타임스페이스 C 106호 송도동",
+      "permitDate": "2022-06-08",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-129",
+      "building": "C",
+      "floor": 1,
+      "rooms": "106",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "사토리",
+      "category": "일식",
+      "location": "송도타임스페이스 지상 3층 D 319 320호 송도동",
+      "permitDate": "2022-01-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-130",
+      "building": "D",
+      "floor": 3,
+      "rooms": "319, 320",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "토지소곱창 송도타임스페이스점",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 D동 101호 송도동",
+      "permitDate": "2022-05-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-131",
+      "building": "D",
+      "floor": 1,
+      "rooms": "101",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "숯멍",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 1층 D 109 110 111호 송도동",
+      "permitDate": "2024-02-16",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-132",
+      "building": "D",
+      "floor": 1,
+      "rooms": "109, 110, 111",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "보니보니 즉석떡볶이(송도점)",
+      "category": "분식",
+      "location": "송도타임스페이스 지상 2층 B 217호 송도동",
+      "permitDate": "2025-06-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-133",
+      "building": "B",
+      "floor": 2,
+      "rooms": "217",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "대판1985",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 C 104호 송도동",
+      "permitDate": "2021-01-22",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-134",
+      "building": "C",
+      "floor": 1,
+      "rooms": "104",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "자늑(zaneuk)",
+      "category": "경양식",
+      "location": "송도타임스페이스 D동 지상 2층 215호 송도동",
+      "permitDate": "2022-03-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-135",
+      "building": "D",
+      "floor": 2,
+      "rooms": "215",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "착한정육식당(F)",
+      "category": "기타",
+      "location": "송도타임스페이스 지 1층 B 01 1일부호 송도동",
+      "permitDate": "2024-12-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-136",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "지하 축약 표기로 추정",
+      "notes": [
+        "지 1층 등 축약 표기를 지하로 해석했으므로 확인 필요"
+      ]
+    },
+    {
+      "name": "슬로우캘리 송도점",
+      "category": "기타",
+      "location": "송도타임스페이스 1층 D 112호 송도동",
+      "permitDate": "2021-10-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-137",
+      "building": "D",
+      "floor": 1,
+      "rooms": "112",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "아구아구찜",
+      "category": "한식",
+      "location": "송도타임스페이스 지상 2층 D 213호 송도동",
+      "permitDate": "2025-04-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-138",
+      "building": "D",
+      "floor": 2,
+      "rooms": "213",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "귀한족발 송도타임스페이스점",
+      "category": "한식",
+      "location": "송도타임스페이스 B동 지상 2층 209호 송도동",
+      "permitDate": "2025-09-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-139",
+      "building": "B",
+      "floor": 2,
+      "rooms": "209",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "다니 스테이크 하우스",
+      "category": "기타",
+      "location": "송도타임스페이스 D 129 130호 송도동",
+      "permitDate": "2021-01-06",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-140",
+      "building": "D",
+      "floor": 1,
+      "rooms": "129, 130",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "조우 곱도리탕",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 1층 C 116 C 117일부호 송도동",
+      "permitDate": "2015-11-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-141",
+      "building": "C",
+      "floor": 1,
+      "rooms": "116, 117",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "한마음정육식당 송도타임스페이스점",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 B 205 B 206 B 207 B 208호 송도동",
+      "permitDate": "2023-02-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-142",
+      "building": "B",
+      "floor": 2,
+      "rooms": "205, 206, 207, 208",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "타펠룬데 서울 송도점",
+      "category": "경양식",
+      "location": "송도타임스페이스 A 213호 송도동",
+      "permitDate": "2024-10-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-143",
+      "building": "A",
+      "floor": 2,
+      "rooms": "213",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "돈포레스트",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 D 405 406 407호 송도동",
+      "permitDate": "2020-12-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-144",
+      "building": "D",
+      "floor": 4,
+      "rooms": "405, 406, 407",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "미인계옛날통닭(송도타임스페이스점)",
+      "category": "호프/통닭",
+      "location": "송도타임스페이스 지상 1층 B 104호 송도동",
+      "permitDate": "2025-10-31",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-145",
+      "building": "B",
+      "floor": 1,
+      "rooms": "104",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "유미카츠 인천대입구역점",
+      "category": "한식",
+      "location": "송도타임스페이스 B동 1층 B 114호 송도동",
+      "permitDate": "2022-12-20",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-146",
+      "building": "B",
+      "floor": 1,
+      "rooms": "114",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "한우 니쿠",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 2층 C 215호 송도동",
+      "permitDate": "2024-07-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-147",
+      "building": "C",
+      "floor": 2,
+      "rooms": "215",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "히테(Hytte) 샐러드카페",
+      "category": "기타",
+      "location": "송도타임스페이스 지상 2층 C 203호 송도동",
+      "permitDate": "2022-01-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-148",
+      "building": "C",
+      "floor": 2,
+      "rooms": "203",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "마포소금구이 송도점",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 C 113 114호 송도동",
+      "permitDate": "2021-11-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-149",
+      "building": "C",
+      "floor": 1,
+      "rooms": "113, 114",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "갈매기 막회집",
+      "category": "횟집",
+      "location": "송도타임스페이스 D 121 D 122호 송도동",
+      "permitDate": "2022-09-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-150",
+      "building": "D",
+      "floor": 1,
+      "rooms": "121, 122",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "경양카츠 송도점",
+      "category": "경양식",
+      "location": "송도타임스페이스 1층 C 107호 송도동",
+      "permitDate": "2021-09-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-151",
+      "building": "C",
+      "floor": 1,
+      "rooms": "107",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "선비",
+      "category": "정종/대포집/소주방",
+      "location": "송도타임스페이스 지상 1층 B 102호 송도동",
+      "permitDate": "2022-05-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-152",
+      "building": "B",
+      "floor": 1,
+      "rooms": "102",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "코지티브",
+      "category": "기타",
+      "location": "송도타임스페이스 4층 C 411호 송도동",
+      "permitDate": "2023-05-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-153",
+      "building": "C",
+      "floor": 4,
+      "rooms": "411",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "본대가 본점",
+      "category": "한식",
+      "location": "송도타임스페이스 1층 D 113 114호 송도동",
+      "permitDate": "2011-11-15",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-154",
+      "building": "D",
+      "floor": 1,
+      "rooms": "113, 114",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "도라보울 송도점",
+      "category": "한식",
+      "location": "송도타임스페이스 A 115호 A 116호 송도동",
+      "permitDate": "2023-04-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-155",
+      "building": "A",
+      "floor": 1,
+      "rooms": "115, 116",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "화평식당",
+      "category": "한식",
+      "location": "송도타임스페이스 제 1층 제B 115호 송도동",
+      "permitDate": "2019-08-05",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-156",
+      "building": "미확인",
+      "floor": 1,
+      "rooms": "115",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "실크로드",
+      "category": "중국식",
+      "location": "송도타임스페이스 지상 3층 C 309호 송도동",
+      "permitDate": "2025-10-23",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-157",
+      "building": "C",
+      "floor": 3,
+      "rooms": "309",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "모토이시 송도점",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 D 133 D 134호 송도동",
+      "permitDate": "2023-10-16",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-158",
+      "building": "D",
+      "floor": 1,
+      "rooms": "133, 134",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "Hi bar(하이바)",
+      "category": "감성주점",
+      "location": "송도타임스페이스 B동 2층 202호 송도동",
+      "permitDate": "2023-08-09",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-159",
+      "building": "B",
+      "floor": 2,
+      "rooms": "202",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "우아한밤",
+      "category": "경양식",
+      "location": "송도타임스페이스 D 220호 송도동",
+      "permitDate": "2020-12-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-160",
+      "building": "D",
+      "floor": 2,
+      "rooms": "220",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "카페 누볼라",
+      "category": "경양식",
+      "location": "송도타임스페이스 2층 C 201호 송도동",
+      "permitDate": "2021-10-25",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-161",
+      "building": "C",
+      "floor": 2,
+      "rooms": "201",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "녹돼야지 본점",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 A 105 A 106호 송도동",
+      "permitDate": "2021-10-28",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-162",
+      "building": "A",
+      "floor": 1,
+      "rooms": "105, 106",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "착한정육식당",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 지하 1층 B 01 19일부호 송도동",
+      "permitDate": "2024-12-11",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-163",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "주소에 지하층 명시",
+      "notes": []
+    },
+    {
+      "name": "강원 진 곱창",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 1층 B 127호 송도동",
+      "permitDate": "2021-09-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-164",
+      "building": "B",
+      "floor": 1,
+      "rooms": "127",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "스뎅식당",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 C 115호 송도동",
+      "permitDate": "2022-08-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-165",
+      "building": "C",
+      "floor": 1,
+      "rooms": "115",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "고동경양 인천송도타임스페이스",
+      "category": "한식",
+      "location": "송도타임스페이스 지상 1층 A 124호 송도동",
+      "permitDate": "2022-09-19",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-166",
+      "building": "A",
+      "floor": 1,
+      "rooms": "124",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "Lucass Pizza(루카스피자)",
+      "category": "경양식",
+      "location": "송도타임스페이스 1층 B 120호 송도동",
+      "permitDate": "2023-03-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-167",
+      "building": "B",
+      "floor": 1,
+      "rooms": "120",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "대대곱창(본점)",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 지상 1층 B 128호 송도동",
+      "permitDate": "2024-10-02",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-168",
+      "building": "B",
+      "floor": 1,
+      "rooms": "128",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "해녀장",
+      "category": "일식",
+      "location": "송도타임스페이스 C 111호 C 112호 송도동",
+      "permitDate": "2025-05-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-169",
+      "building": "C",
+      "floor": 1,
+      "rooms": "111, 112",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "카페 라리사",
+      "category": "경양식",
+      "location": "송도타임스페이스 지상 2층 A 216호 송도동",
+      "permitDate": "2025-07-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-170",
+      "building": "A",
+      "floor": 2,
+      "rooms": "216",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "한솥도시락 송도타임스페이스점",
+      "category": "한식",
+      "location": "송도타임스페이스 1층 B 111호 송도동",
+      "permitDate": "2021-04-22",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-171",
+      "building": "B",
+      "floor": 1,
+      "rooms": "111",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "부엉이산장 송도점",
+      "category": "한식",
+      "location": "송도타임스페이스 1층 C 101 102호 송도동",
+      "permitDate": "2021-09-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-172",
+      "building": "C",
+      "floor": 1,
+      "rooms": "101, 102",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "블랙쉽",
+      "category": "기타",
+      "location": "송도타임스페이스 2층 A 214호 송도동",
+      "permitDate": "2023-02-02",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-173",
+      "building": "A",
+      "floor": 2,
+      "rooms": "214",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "석암생소금구이 송도타임스페이스점",
+      "category": "기타",
+      "location": "송도타임스페이스 B동 107 108 109호 송도동",
+      "permitDate": "2022-11-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-174",
+      "building": "B",
+      "floor": 1,
+      "rooms": "107, 108, 109",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "돗가비누각",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 2층 D 226호 송도동",
+      "permitDate": "2023-01-26",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-175",
+      "building": "D",
+      "floor": 2,
+      "rooms": "226",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "팔공구집",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 지상 1층 B 125호 송도동",
+      "permitDate": "2021-07-21",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-176",
+      "building": "B",
+      "floor": 1,
+      "rooms": "125",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "특우",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 B 105호 송도동",
+      "permitDate": "2022-11-23",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-177",
+      "building": "B",
+      "floor": 1,
+      "rooms": "105",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "오봉집 송도인천대입구역점",
+      "category": "한식",
+      "location": "송도타임스페이스 지상 1층 C 120 C 121호 송도동",
+      "permitDate": "2022-09-22",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-178",
+      "building": "C",
+      "floor": 1,
+      "rooms": "120, 121",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "루브(LUV)",
+      "category": "감성주점",
+      "location": "송도타임스페이스 A 215호 송도동",
+      "permitDate": "2024-08-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-179",
+      "building": "A",
+      "floor": 2,
+      "rooms": "215",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "낭만安(안)",
+      "category": "한식",
+      "location": "송도타임스페이스 B 103호 송도동",
+      "permitDate": "2023-04-12",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-180",
+      "building": "B",
+      "floor": 1,
+      "rooms": "103",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "육수당 인천송도점",
+      "category": "한식",
+      "location": "송도타임스페이스 1층 B 110호 송도동",
+      "permitDate": "2021-11-05",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-181",
+      "building": "B",
+      "floor": 1,
+      "rooms": "110",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "투파인드피터",
+      "category": "경양식",
+      "location": "송도타임스페이스 지상 2층 C 204 C 205호 송도동",
+      "permitDate": "2022-06-22",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-182",
+      "building": "C",
+      "floor": 2,
+      "rooms": "204, 205",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "이자카야 이현",
+      "category": "기타",
+      "location": "송도타임스페이스 지상 1층 A 126호 송도동",
+      "permitDate": "2025-12-17",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-183",
+      "building": "A",
+      "floor": 1,
+      "rooms": "126",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "김밥천국 인천대입구역점",
+      "category": "한식",
+      "location": "송도타임스페이스 지상 1층 B 116 B 117호 송도동",
+      "permitDate": "2026-03-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-184",
+      "building": "B",
+      "floor": 1,
+      "rooms": "116, 117",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "제주혼술바고도(인천송도점)",
+      "category": "호프/통닭",
+      "location": "송도타임스페이스 지상 2층 C 218호 송도동",
+      "permitDate": "2026-05-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-185",
+      "building": "C",
+      "floor": 2,
+      "rooms": "218",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "어다리횟집 송도점",
+      "category": "횟집",
+      "location": "송도타임스페이스 지상 2층 C 207 C 208호 송도동",
+      "permitDate": "2026-05-04",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-186",
+      "building": "C",
+      "floor": 2,
+      "rooms": "207, 208",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "애플꼬마김밥 송도타임스페이스점",
+      "category": "일반조리판매",
+      "location": "송도타임스페이스 지상 1층 B 113호 송도동",
+      "permitDate": "2022-06-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-187",
+      "building": "B",
+      "floor": 1,
+      "rooms": "113",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "스킨라이스",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 지상 2층 D 223호 송도동",
+      "permitDate": "2026-07-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-188",
+      "building": "D",
+      "floor": 2,
+      "rooms": "223",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "Fleur(플뢰르)",
+      "category": "유통전문판매업",
+      "location": "송도타임스페이스 지상 3층 D 317의 일부 케이 14 호 송도동",
+      "permitDate": "2026-06-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-189",
+      "building": "D",
+      "floor": 3,
+      "rooms": "317",
+      "basis": "주소에 층수 명시",
+      "notes": [
+        "공유·세부호실 주소일 수 있어 뒤쪽 숫자/문자를 별도 동·층으로 해석하지 않음"
+      ]
+    },
+    {
+      "name": "신바시 스탠드",
+      "category": "경양식",
+      "location": "송도타임스페이스 지상 1층 A 123호 송도동",
+      "permitDate": "2026-07-02",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-190",
+      "building": "A",
+      "floor": 1,
+      "rooms": "123",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "글램볼타 송도타임스페이스점",
+      "category": "기타",
+      "location": "송도타임스페이스 지하 1층 B 02호 송도동",
+      "permitDate": "2026-03-18",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-191",
+      "building": "미확인",
+      "floor": -1,
+      "rooms": "미확인",
+      "basis": "주소에 지하층 명시",
+      "notes": []
+    },
+    {
+      "name": "비어탭하우스",
+      "category": "호프/통닭",
+      "location": "송도타임스페이스 지상 2층 D 216호 송도동",
+      "permitDate": "2026-06-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-192",
+      "building": "D",
+      "floor": 2,
+      "rooms": "216",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "또이",
+      "category": "외국음식전문점(인도,태국등)",
+      "location": "송도타임스페이스 지상 1층 D 102호 송도동",
+      "permitDate": "2026-06-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-193",
+      "building": "D",
+      "floor": 1,
+      "rooms": "102",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "두피원 인천송도본점",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 지상 3층 C 301의 일부호 송도동",
+      "permitDate": "2026-02-24",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-194",
+      "building": "C",
+      "floor": 3,
+      "rooms": "301",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "퍼스널 뷰티룸",
+      "category": "일반미용업",
+      "location": "송도타임스페이스 지상 3층 D 323호 송도동",
+      "permitDate": "2026-07-07",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-195",
+      "building": "D",
+      "floor": 3,
+      "rooms": "323",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "순미",
+      "category": "일식",
+      "location": "송도타임스페이스 지상 4층 C 403호 송도동",
+      "permitDate": "2026-07-30",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-196",
+      "building": "C",
+      "floor": 4,
+      "rooms": "403",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "하루반상&도시락 송도타임스페이스점",
+      "category": "한식",
+      "location": "송도타임스페이스 지상 1층 B 101호 송도동",
+      "permitDate": "2026-07-29",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-197",
+      "building": "B",
+      "floor": 1,
+      "rooms": "101",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "BBQ 송도타임스페이스점",
+      "category": "호프/통닭",
+      "location": "송도타임스페이스 지상 1층 C 125 C 126호 송도동",
+      "permitDate": "2026-08-05",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-198",
+      "building": "C",
+      "floor": 1,
+      "rooms": "125, 126",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "크루즈 디스커버리",
+      "category": "여행업",
+      "location": "에이동 3층 308 1호 송도동 송도타임스페이스",
+      "permitDate": "2026-09-03",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-199",
+      "building": "A",
+      "floor": 3,
+      "rooms": "308",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "듀스칼프화이트라운지",
+      "category": "피부미용업",
+      "location": "송도타임스페이스 지상 7층 B 707 B 708 B 709호 송도동",
+      "permitDate": "2026-08-27",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-200",
+      "building": "B",
+      "floor": 7,
+      "rooms": "707, 708, 709",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "풀바디짐 헬스&PT 송도점",
+      "category": "체력단련장업",
+      "location": "송도타임스페이스 B동 607 608 609호 송도동",
+      "permitDate": "2020-11-13",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-201",
+      "building": "B",
+      "floor": 6,
+      "rooms": "607, 608, 609",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "신호등 매운갈비찜 타임스페이스 송도본점",
+      "category": "한식",
+      "location": "송도타임스페이스 C 103호 송도동",
+      "permitDate": "2026-08-31",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-202",
+      "building": "C",
+      "floor": 1,
+      "rooms": "103",
+      "basis": "호수 앞자리로 추정",
+      "notes": []
+    },
+    {
+      "name": "오내 혼술집 인천송도점",
+      "category": "감성주점",
+      "location": "송도타임스페이스 지상 2층 D 219호 송도동",
+      "permitDate": "2026-09-01",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-203",
+      "building": "D",
+      "floor": 2,
+      "rooms": "219",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "마포굴다리·계고기·갈매기",
+      "category": "식육(숯불구이)",
+      "location": "송도타임스페이스 지상 1층 B 121호 송도동",
+      "permitDate": "2022-12-07",
+      "status": "계속사업자",
+      "source": "S01",
+      "id": "S01-204",
+      "building": "B",
+      "floor": 1,
+      "rooms": "121",
+      "basis": "주소에 층수 명시",
+      "notes": []
+    },
+    {
+      "name": "에그드랍 송도타임스페이스점",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-001",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "견양다경 베이커리",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-002",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "별온누리 약국",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-003",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "세광 양대창",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-004",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "오일리",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-005",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "타임365약국",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-006",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "카페 나드엔윙크",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-007",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "카페 나우",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-008",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "이리스안경",
+      "category": "미확인",
+      "location": "A동 1층 (호수 미기재)",
+      "building": "A",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-009",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도 본 정형외과",
+      "category": "미확인",
+      "location": "A동 2층 (호수 미기재)",
+      "building": "A",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-010",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "네일잇 왁싱B",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-011",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "도도 델리지오조",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-012",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "어썸마인",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-013",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "지니스 치킨",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-014",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "타임 세무회계",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-015",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "테누토 뮤직 클래스(재즈피아노,작곡 전문/음악교습소)",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-016",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "J&O번지피지오&필라테스",
+      "category": "미확인",
+      "location": "A동 3층 (호수 미기재)",
+      "building": "A",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-017",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "이턱플란트 치과",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-018",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "가랑비 교육연구소",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-019",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도 맨하탄 어학원",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-020",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "알라딘 피부과",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-021",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "엄마표영어 아이보람",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-022",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "유어디 헤어",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-023",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "최박사 헬스케어",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-024",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "CL스피치 아카데미",
+      "category": "미확인",
+      "location": "A동 4층 (호수 미기재)",
+      "building": "A",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-025",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "잇츠미 피부과",
+      "category": "미확인",
+      "location": "A동 5층 (호수 미기재)",
+      "building": "A",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-026",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "주식회사 퓨어플러스",
+      "category": "미확인",
+      "location": "A동 5층 (호수 미기재)",
+      "building": "A",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-027",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "포유종합건설",
+      "category": "미확인",
+      "location": "A동 5층 (호수 미기재)",
+      "building": "A",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-028",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도한방병원",
+      "category": "미확인",
+      "location": "A동 6층 (호수 미기재)",
+      "building": "A",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-029",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도미소어린이병원",
+      "category": "미확인",
+      "location": "A동 7층 (호수 미기재)",
+      "building": "A",
+      "floor": 7,
+      "floorLabel": "7층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-030",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "카페 스마일",
+      "category": "미확인",
+      "location": "A동 7층 (호수 미기재)",
+      "building": "A",
+      "floor": 7,
+      "floorLabel": "7층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-031",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도미소어린이병원",
+      "category": "미확인",
+      "location": "A동 8~9층 (호수 미기재)",
+      "building": "A",
+      "floor": 8,
+      "floorLabel": "8~9층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-032",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "투에이치카페",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-033",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "한솥도시락송도타임스페이스점",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-034",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "가우디움 카페",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-035",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "냉상 씨어터",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-036",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아침따옴 과일편의점",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-037",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "일품 마라탕",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-038",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "윈디 씨티 펍",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-039",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "애플꼬마김밥",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-040",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "KR모바일",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-041",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "하남돼지집",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-042",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "유미카츠",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-043",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "오오오오오",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-044",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "귀한족발(예정)",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-045",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "꼬치의품격",
+      "category": "미확인",
+      "location": "B동 1층 (호수 미기재)",
+      "building": "B",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-046",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "바바 헤어",
+      "category": "미확인",
+      "location": "B동 2층 (호수 미기재)",
+      "building": "B",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-047",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "초이스 초이스",
+      "category": "미확인",
+      "location": "B동 2층 (호수 미기재)",
+      "building": "B",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-048",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "카레클린트",
+      "category": "미확인",
+      "location": "B동 2층 (호수 미기재)",
+      "building": "B",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-049",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "포크 스튜디오",
+      "category": "미확인",
+      "location": "B동 2층 (호수 미기재)",
+      "building": "B",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-050",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "범아놀자",
+      "category": "미확인",
+      "location": "B동 2층 (호수 미기재)",
+      "building": "B",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-051",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도국제도시부동산거래소",
+      "category": "미확인",
+      "location": "B동 3층 (호수 미기재)",
+      "building": "B",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-052",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "더 하노이 풋엔바디",
+      "category": "미확인",
+      "location": "B동 3층 (호수 미기재)",
+      "building": "B",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-053",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "레이첼의 영어연구실",
+      "category": "미확인",
+      "location": "B동 3층 (호수 미기재)",
+      "building": "B",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-054",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "약손명가",
+      "category": "미확인",
+      "location": "B동 3층 (호수 미기재)",
+      "building": "B",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-055",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "오프블랙 바버샵",
+      "category": "미확인",
+      "location": "B동 3층 (호수 미기재)",
+      "building": "B",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-056",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "에이엔느 헤어",
+      "category": "미확인",
+      "location": "B동 3층 (호수 미기재)",
+      "building": "B",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-057",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "루틴 주식회사",
+      "category": "미확인",
+      "location": "B동 4층 (호수 미기재)",
+      "building": "B",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-058",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "렌탈스튜디오 유어데이",
+      "category": "미확인",
+      "location": "B동 4층 (호수 미기재)",
+      "building": "B",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-059",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "마벨 드 파티",
+      "category": "미확인",
+      "location": "B동 4층 (호수 미기재)",
+      "building": "B",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-060",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "윈도우드레스",
+      "category": "미확인",
+      "location": "B동 4층 (호수 미기재)",
+      "building": "B",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-061",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "작심 스터디카페",
+      "category": "미확인",
+      "location": "B동 4층 (호수 미기재)",
+      "building": "B",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-062",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "퍼스트내과",
+      "category": "미확인",
+      "location": "B동 4층 (호수 미기재)",
+      "building": "B",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-063",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "레드클로버 포커클럽",
+      "category": "미확인",
+      "location": "B동 5층 (호수 미기재)",
+      "building": "B",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-064",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "메디컬오 한의원",
+      "category": "미확인",
+      "location": "B동 5층 (호수 미기재)",
+      "building": "B",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-065",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "플로라유외과",
+      "category": "미확인",
+      "location": "B동 5층 (호수 미기재)",
+      "building": "B",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-066",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "현대세무법인 월드지사",
+      "category": "미확인",
+      "location": "B동 5층 (호수 미기재)",
+      "building": "B",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-067",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "SK쉴더스주식회사",
+      "category": "미확인",
+      "location": "B동 5층 (호수 미기재)",
+      "building": "B",
+      "floor": 5,
+      "floorLabel": "5층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-068",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "디아나 테라피",
+      "category": "미확인",
+      "location": "B동 6층 (호수 미기재)",
+      "building": "B",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-069",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "유성산업개발",
+      "category": "미확인",
+      "location": "B동 6층 (호수 미기재)",
+      "building": "B",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-070",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "원알엠짐",
+      "category": "미확인",
+      "location": "B동 6층 (호수 미기재)",
+      "building": "B",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-071",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "켑스텍",
+      "category": "미확인",
+      "location": "B동 6층 (호수 미기재)",
+      "building": "B",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-072",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "파크뷰 피부과",
+      "category": "미확인",
+      "location": "B동 6층 (호수 미기재)",
+      "building": "B",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-073",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "필라테스 스페이스. SK쉴더스주식회사",
+      "category": "미확인",
+      "location": "B동 6층 (호수 미기재)",
+      "building": "B",
+      "floor": 6,
+      "floorLabel": "6층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-074",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "라이트인유 심리상담센터",
+      "category": "미확인",
+      "location": "B동 7층 (호수 미기재)",
+      "building": "B",
+      "floor": 7,
+      "floorLabel": "7층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-075",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "JICS 국제학교",
+      "category": "미확인",
+      "location": "B동 7층 (호수 미기재)",
+      "building": "B",
+      "floor": 7,
+      "floorLabel": "7층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-076",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "JICS 국제학교",
+      "category": "미확인",
+      "location": "B동 8층 (호수 미기재)",
+      "building": "B",
+      "floor": 8,
+      "floorLabel": "8층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-077",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "심포니 뮤직스튜디오",
+      "category": "미확인",
+      "location": "B동 9층 (호수 미기재)",
+      "building": "B",
+      "floor": 9,
+      "floorLabel": "9층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-078",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "해동검도전수관",
+      "category": "미확인",
+      "location": "B동 9층 (호수 미기재)",
+      "building": "B",
+      "floor": 9,
+      "floorLabel": "9층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-079",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "변현선의 풀바디짐",
+      "category": "미확인",
+      "location": "B동 10층 (호수 미기재)",
+      "building": "B",
+      "floor": 10,
+      "floorLabel": "10층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-080",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "주식회사 온센",
+      "category": "미확인",
+      "location": "B동 10층 (호수 미기재)",
+      "building": "B",
+      "floor": 10,
+      "floorLabel": "10층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-081",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "VSE골프아카데미 송도점",
+      "category": "미확인",
+      "location": "B동 11층 (호수 미기재)",
+      "building": "B",
+      "floor": 11,
+      "floorLabel": "11층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-082",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "세븐일레븐 송도타임점",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-083",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "경양 카츠",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-084",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "곱분이 곱창",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-085",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "대판1995",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-086",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "마포소금구이",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-087",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "인쌩맥주",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-088",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "컴포즈 커피",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-089",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "회전고깃집 미육",
+      "category": "미확인",
+      "location": "C동 1층 (호수 미기재)",
+      "building": "C",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-090",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "라비앙르로즈 헤어",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-091",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "바닐라 뷰티크",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-092",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "본가(수제돈까스, 한식)",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-093",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "샤이닝 스킨",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-094",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "올어바웃캐릭터(소품샵)",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-095",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "윤영식당 더블랙",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-096",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "으뜸50안경",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-097",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "주식회사 제이메디",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-098",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "심야회담(실내포차)",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-099",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "히테 샐러드카페",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-100",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "플럭 헤어",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-101",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "투파인드피터",
+      "category": "미확인",
+      "location": "C동 2층 (호수 미기재)",
+      "building": "C",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-102",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "네일 라벨르",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-103",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "더비욘드 코퍼레이션",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-104",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "라이크노아더 퍼퓸카페",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-105",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "마까에 by 이철 헤어",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-106",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "바디클리닉 필라테스",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-107",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아나덴 슈가링왁싱",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-108",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아이벨르팜므 송도점",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-109",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아인크 헤어",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-110",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아키노주방",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-111",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "페어보릿 네일",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-112",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "하나스두 케이크 아뜰리에",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-113",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "고선생 뷰티살롱",
+      "category": "미확인",
+      "location": "C동 3층 (호수 미기재)",
+      "building": "C",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-114",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "(주)나임커뮤니케이션즈",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-115",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "더 리움 수입가구",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-116",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "더필라랩/더랩플러스",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-117",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "문가든 와인바",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-118",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "박상미 톤테라피",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-119",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아이소리 송도본원",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-120",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아트스콜레 UBP",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-121",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "이해콜렉티브(디자인스튜디오)",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-122",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "윈도우드레스",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-123",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "파일맨 엔지니어링",
+      "category": "미확인",
+      "location": "C동 4층 (호수 미기재)",
+      "building": "C",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-124",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "투썸플레이스송도타임스페이스점",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-125",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "다니 스테이크하우스",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-126",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "하삼동커피",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-127",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "송도아이폰수리24시",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-128",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "슬로우 켈리",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-129",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "우마카(징기스탄 화로구이)",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-130",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "텐퍼센트 커피",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-131",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "플라워란",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-132",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "피카 에스프레소 바",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-133",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "삼산회관 송도타임스페이스점",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-134",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "마케집",
+      "category": "미확인",
+      "location": "D동 1층 (호수 미기재)",
+      "building": "D",
+      "floor": 1,
+      "floorLabel": "1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-135",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "다콩 필라테스",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-136",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "러빗 필라테스",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-137",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "베르데 헤어",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-138",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "서양술집 우아한 밤",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-139",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "소담살롱",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-140",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "세도믹 오브제(도자기공방)",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-141",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "영어그림책도서관",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-142",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "오아오 헤어",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-143",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "자유명차",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-144",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "914 헤어",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-145",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "shisha_Homez[시샤홈즈]",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-146",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "이자카야 만만",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-147",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "미레브헤어",
+      "category": "미확인",
+      "location": "D동 2층 (호수 미기재)",
+      "building": "D",
+      "floor": 2,
+      "floorLabel": "2층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-148",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "기본 스터디카페",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-149",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "공방 산티아고",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-150",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "꼬꼬니 리본 공방",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-151",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "닥터 백(명품가방염색)",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-152",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "델 왁싱",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-153",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "마메 헤어",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-154",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "멘티아뜰리에(자수공방)",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-155",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "본소잉 스튜디오",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-156",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "본보나 헤어",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-157",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "블루버튼 스튜디오",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-158",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "사토이(이자카야)",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-159",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "크리스탈 마법상점",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-160",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "111스위트랩(키즈쿠킹클래스)",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-161",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "헤이제이필라테스",
+      "category": "미확인",
+      "location": "D동 3층 (호수 미기재)",
+      "building": "D",
+      "floor": 3,
+      "floorLabel": "3층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-162",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "돈포레스트",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-163",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "디자인 모로",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-164",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "만지작 예술 클래스",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-165",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "뮤즈 살롱(붙임머리)",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-166",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "바름 필라테스&재활센터",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-167",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "아템포 댄스",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-168",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "하이포우 반려견유치원",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-169",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "행복골프훈련소",
+      "category": "미확인",
+      "location": "D동 4층 (호수 미기재)",
+      "building": "D",
+      "floor": 4,
+      "floorLabel": "4층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-170",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "CGV 송도타임스페이스점",
+      "category": "미확인",
+      "location": "A/B 구역 지하1층 (동·호수 미기재)",
+      "building": "A/B 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-171",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "쉬작 엔 씨엘 미용실",
+      "category": "미확인",
+      "location": "A/B 구역 지하1층 (동·호수 미기재)",
+      "building": "A/B 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-172",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "연세 아이웰치과",
+      "category": "미확인",
+      "location": "A/B 구역 지하1층 (동·호수 미기재)",
+      "building": "A/B 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-173",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "청화룽",
+      "category": "미확인",
+      "location": "A/B 구역 지하1층 (동·호수 미기재)",
+      "building": "A/B 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-174",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "골프존 더타임",
+      "category": "미확인",
+      "location": "A/B 구역 지하1층 (동·호수 미기재)",
+      "building": "A/B 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-175",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "더 피자 엔 버거",
+      "category": "미확인",
+      "location": "A/B 구역 지하1층 (동·호수 미기재)",
+      "building": "A/B 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-176",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "이디야커피 송도타임스페이스점",
+      "category": "미확인",
+      "location": "C/D 구역 지하1층 (동·호수 미기재)",
+      "building": "C/D 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-177",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "이레 네일",
+      "category": "미확인",
+      "location": "C/D 구역 지하1층 (동·호수 미기재)",
+      "building": "C/D 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-178",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "뷰티파크",
+      "category": "미확인",
+      "location": "C/D 구역 지하1층 (동·호수 미기재)",
+      "building": "C/D 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-179",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "name": "화룽",
+      "category": "미확인",
+      "location": "C/D 구역 지하1층 (동·호수 미기재)",
+      "building": "C/D 구역",
+      "floor": -1,
+      "floorLabel": "지하1층",
+      "permitDate": "",
+      "status": "운영 여부 미확인",
+      "source": "S02",
+      "id": "S02-180",
+      "rooms": "미기재",
+      "basis": "공동편집 층별 목록 표기",
+      "notes": [
+        "공식 배치도와 현재 입점 여부 확인 전의 참고 후보"
+      ]
+    },
+    {
+      "id": "S06-001",
+      "name": "대빵오락실 송도1",
+      "category": "게임·오락",
+      "building": "C",
+      "floor": 1,
+      "rooms": "122",
+      "source": "S06",
+      "location": "C동 1층 122호",
+      "basis": "추가 출처의 위치 표기",
+      "status": "현장 영업 여부 미확인",
+      "permitDate": "",
+      "notes": [
+        "자료 기준일 2026-05-07. 현장 사진의 오락실과 대조."
+      ]
+    },
+    {
+      "id": "S13-001",
+      "name": "디딤 워크라운지 송도타임스페이스점",
+      "category": "스터디·워크라운지",
+      "building": "B",
+      "floor": 10,
+      "rooms": "1003",
+      "source": "S13",
+      "location": "B동 10층 1003호",
+      "basis": "추가 출처의 위치 표기",
+      "status": "현장 영업 여부 미확인",
+      "permitDate": "",
+      "notes": [
+        "공식 홈페이지에 24시간 운영 표기."
+      ]
+    },
+    {
+      "id": "S14-001",
+      "name": "송도미소어린이병원",
+      "category": "병원",
+      "building": "A",
+      "floor": 7,
+      "rooms": "7~9층",
+      "source": "S14",
+      "location": "A동 7~9층",
+      "basis": "추가 출처의 위치 표기",
+      "status": "현장 영업 여부 미확인",
+      "permitDate": "",
+      "notes": [
+        "7~9층을 함께 사용하는 시설. 층별로 세 개의 매장으로 세지 않음."
+      ]
+    }
+  ]
+}
