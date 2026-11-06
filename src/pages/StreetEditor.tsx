@@ -5,7 +5,7 @@ import { saveStreetNodes, useStreetNodes } from "../data/streetNetwork";
 import { storesForStreetView } from "../data/streetViewStores";
 import { photoKey, useDraftPhotoUrls, listDraftPhotos, saveDraftPhoto, deleteDraftPhoto } from "../data/localStreetPhotos";
 import { publicMediaUrl, setPhotoMediaPath, uploadStreetPhoto, useMediaDraft } from "../data/mediaStorage";
-import { useAdminAuth } from "../auth/AdminGate";
+import { useAdminAuth } from "../auth/adminAuth";
 import { useStoreDraft } from "../data/storeDraft";
 import { FACADE_KEY, getFacadeAnnotations, type FacadeAnnotation, type Point } from "../data/facadeAnnotations";
 import type { ViewDirection } from "../types/street";
@@ -76,10 +76,13 @@ export default function StreetEditor() {
   };
 
   useEffect(() => { document.title = "맛&멋 AI Street | 관리자"; }, []);
-  useEffect(() => {
+  // Reload the saved outline when the point, direction, store or saved outlines change.
+  const [pointsFor, setPointsFor] = useState<{nodeId: string; view: ViewDirection; storeId: number; annotations: FacadeAnnotation[]} | null>(null);
+  if (!pointsFor || pointsFor.nodeId !== nodeId || pointsFor.view !== view || pointsFor.storeId !== storeId || pointsFor.annotations !== annotations) {
     const found = annotations.find((a) => a.nodeId === nodeId && a.view === view && a.storeId === storeId);
+    setPointsFor({nodeId, view, storeId, annotations});
     setPoints(found ? found.points : []);
-  }, [nodeId, view, storeId, annotations]);
+  }
 
   const setNode = (id: string) => {
     const next = streetNodes.find((n) => n.id === id) || streetNodes[0];

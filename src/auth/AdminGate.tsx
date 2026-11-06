@@ -1,18 +1,13 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import { ArrowRight, KeyRound, LockKeyhole, LogOut, ShieldCheck, ShieldAlert } from "lucide-react";
 import { appUrl } from "../config/site";
 import SiteBrand from "../components/SiteBrand";
 import { publicationConfigured, refreshAdminSession, signInAdmin, signOutAdmin, verifyAdminSession, type AdminSession } from "../data/sitePublication";
 import "../styles/AdminGate.css";
+import { AdminContext } from "./adminAuth";
 
 const STORAGE_KEY = "itda-v44-admin-session";
-type AdminAuthContext = {
-  session: AdminSession;
-  getSession: () => Promise<AdminSession>;
-  logout: () => void;
-};
-const AdminContext = createContext<AdminAuthContext | null>(null);
 
 function readSavedSession(): AdminSession | null {
   try {
@@ -33,16 +28,14 @@ function saveSession(session: AdminSession | null) {
   } catch { /* private browsing may disable storage */ }
 }
 
-export function useAdminAuth(): AdminAuthContext {
-  const context = useContext(AdminContext);
-  if (!context) throw new Error("관리자 로그인 상태가 없습니다.");
-  return context;
-}
-
 /** Mounts NO editor content until Supabase verifies an admin identity. */
 export default function AdminGate({children}: {children: ReactNode}) {
   const [session, setSession] = useState<AdminSession | null>(null);
-  const [checking, setChecking] = useState(publicationConfigured);
+  // Read the saved login once; with nothing saved there is nothing to verify.
+  const [savedAtStart] = useState(() => publicationConfigured ? readSavedSession() : null);
+  const [checking, setChecking] = useState(Boolean(savedAtStart));
+  // getSession reads the latest session through a ref so its identity stays stable for effects.
+  const sessionRef = useRef<AdminSession | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -51,18 +44,17 @@ export default function AdminGate({children}: {children: ReactNode}) {
 
   useEffect(() => {
     document.title = "맛&멋 AI Street | 관리자용";
-    if (!publicationConfigured) return;
+    const saved = savedAtStart;
+    if (!saved) return;
     let active = true;
-    const saved = readSavedSession();
-    if (!saved) { setChecking(false); return; }
     verifyAdminSession(saved).then(next => {
       if (!active) return;
       saveSession(next);
-      setSession(next);
+      sessionRef.current = next; setSession(next);
     }).catch(() => { if (active) { saveSession(null); setMessage("로그인이 만료되었거나 관리 권한을 확인하지 못했습니다. 다시 로그인해 주세요."); } })
       .finally(() => { if (active) setChecking(false); });
     return () => { active = false; };
-  }, []);
+  }, [savedAtStart]);
 
   const login = async (event: FormEvent) => {
     event.preventDefault();
@@ -70,28 +62,28 @@ export default function AdminGate({children}: {children: ReactNode}) {
     setBusy(true); setMessage("");
     try {
       const next = await signInAdmin(email.trim(), password);
-      saveSession(next); setSession(next); setPassword("");
+      saveSession(next); sessionRef.current = next; setSession(next); setPassword("");
     } catch (error) { setMessage(error instanceof Error ? error.message : "로그인에 실패했습니다."); }
     finally { setBusy(false); }
   };
   const logout = useCallback(() => {
     const current = session;
-    saveSession(null); setSession(null); setPassword("");
+    saveSession(null); sessionRef.current = null; setSession(null); setPassword("");
     if (current) void signOutAdmin(current);
   }, [session]);
   const getSession = useCallback(async () => {
-    const current = readSavedSession() || session;
+    const current = readSavedSession() || sessionRef.current;
     if (!current) throw new Error("로그인 정보가 없습니다. 다시 로그인해 주세요.");
     try {
       const next = Date.now() > current.expiresAt - 60_000
         ? await refreshAdminSession(current) : await verifyAdminSession(current);
-      saveSession(next); setSession(next);
+      saveSession(next); sessionRef.current = next; setSession(next);
       return next;
     } catch (error) {
-      saveSession(null); setSession(null);
+      saveSession(null); sessionRef.current = null; setSession(null);
       throw error;
     }
-  }, [session]);
+  }, []);
 
   if (session) return <AdminContext.Provider value={{session, getSession, logout}}>
     <div className="itda-admin-session-bar"><span><ShieldCheck size={15}/> 관리자 로그인 · <strong>{session.email}</strong></span><button type="button" onClick={logout}><LogOut size={15}/> 로그아웃</button></div>

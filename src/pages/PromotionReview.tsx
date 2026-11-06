@@ -1,8 +1,8 @@
 import "../styles/ServiceUpgrade.css";
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { ClipboardList, PauseCircle, RefreshCw, Save, ShieldCheck } from "lucide-react";
 import EditorShell from "../components/EditorShell";
-import { useAdminAuth } from "../auth/AdminGate";
+import { useAdminAuth } from "../auth/adminAuth";
 import { fetchPublication } from "../data/sitePublication";
 import { fetchPromotionRequests, fetchActivePromotions, fetchPromotionPolicy, updatePromotionPolicy, withdrawPromotion, promotionStatusLabel, type PromotionPolicy, type PromotionRequest } from "../data/promotionWorkflow";
 import { koreanDate } from "../data/publicPromotions";
@@ -16,25 +16,31 @@ export default function PromotionReview() {
   const [policy,setPolicy] = useState<PromotionPolicy | null>(null);
   const [dailyLimit,setDailyLimit] = useState(3);
   const [enabled,setEnabled] = useState(true);
-  const [busy,setBusy] = useState(false);
+  const [busy,setBusy] = useState(true);
   const [notice,setNotice] = useState("점주는 일일 한도 안에서 직접 게시합니다. 관리자는 필요할 때 게시를 중단하거나 한도를 조정할 수 있습니다.");
   const active = useMemo(()=>activeRequests.filter(item=>item.status==="published" && item.ends_on>=koreanDate()),[activeRequests]);
   const history = useMemo(()=>requests.filter(item=>item.status!=="published" || item.ends_on<koreanDate()),[requests]);
-  const refresh = async () => {
-    setBusy(true);
-    try {
-      const current=await getSession();
-      const [items,published,settings,live] = await Promise.allSettled([fetchPromotionRequests(current.token),fetchPublication(),fetchPromotionPolicy(current.token),fetchActivePromotions(current.token)]);
+  // Fetching and applying are split so the mount effect only sets state from promise callbacks.
+  const fetchAll = useCallback(async () => {
+    const current=await getSession();
+    return Promise.allSettled([fetchPromotionRequests(current.token),fetchPublication(),fetchPromotionPolicy(current.token),fetchActivePromotions(current.token)] as const);
+  }, [getSession]);
+  const apply = useCallback(([items,published,settings,live]: Awaited<ReturnType<typeof fetchAll>>) => {
       const errors:string[]=[];
       if(items.status==="fulfilled")setRequests(items.value);else errors.push(items.reason instanceof Error?items.reason.message:"게시 내역을 불러오지 못했습니다.");
       if(live.status==="fulfilled")setActiveRequests(live.value);else errors.push("현재 게시 목록을 불러오지 못했습니다.");
       if(published.status==="fulfilled")setStores(published.value?.data.stores||[]);else errors.push("점포 정보를 불러오지 못했습니다.");
       if(settings.status==="fulfilled"){setPolicy(settings.value);setDailyLimit(settings.value.daily_limit);setEnabled(settings.value.enabled);}else{setPolicy(null);errors.push(settings.reason instanceof Error?settings.reason.message:"게시 정책을 불러오지 못했습니다.");}
       setNotice(errors.length?errors.join(" "):"게시 내역과 일일 한도를 확인했습니다. 반복적인 승인 작업은 필요하지 않습니다.");
-    } catch(error){setNotice(error instanceof Error?error.message:"정보를 불러오지 못했습니다.");}
-    finally{setBusy(false);}
-  };
-  useEffect(()=>{document.title = "맛&멋 AI Street | 관리자";void refresh();},[]);
+  }, []);
+  const fail = useCallback((error: unknown) => setNotice(error instanceof Error?error.message:"정보를 불러오지 못했습니다."), []);
+  const refresh = () => { setBusy(true); fetchAll().then(apply).catch(fail).finally(()=>setBusy(false)); };
+  useEffect(()=>{
+    document.title = "맛&멋 AI Street | 관리자";
+    let active = true;
+    fetchAll().then(results => { if (active) apply(results); }).catch(error => { if (active) fail(error); }).finally(() => { if (active) setBusy(false); });
+    return () => { active = false; };
+  },[fetchAll,apply,fail]);
   const savePolicy = async(event:FormEvent) => {
     event.preventDefault();
     if(!policy || busy || !Number.isInteger(dailyLimit) || dailyLimit<1 || dailyLimit>30)return;

@@ -2,7 +2,7 @@ import "../styles/ServiceUpgrade.css";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Camera, CheckCircle2, ClipboardList, Clock3, Download, FileUp, MapPinned, Settings, Store } from "lucide-react";
 import { appUrl } from "../config/site";
-import { useAdminAuth } from "../auth/AdminGate";
+import { useAdminAuth } from "../auth/adminAuth";
 import EditorShell from "../components/EditorShell";
 import { readMapGeometry } from "../data/mapGeometry";
 import { getFacadeAnnotations } from "../data/facadeAnnotations";
@@ -34,11 +34,12 @@ export default function EditorDashboard() {
   };
   useEffect(() => {
     document.title = "맛&멋 AI Street | 관리자";
-    refresh();
     let active = true;
+    // Metrics are read when state is created; only the photo count needs loading here.
+    void listDraftPhotos().then(photos => { if(active) setPhotoCount(photos.length); }).catch(() => { if(active) setPhotoCount(0); });
     void getSession().then(current => fetchPromotionPolicy(current.token)).then(next => { if(active) setPolicy(next); }).catch(error => { if(active) setPolicyNotice(error instanceof Error ? error.message : "게시 정책을 불러오지 못했습니다."); });
     return () => {active=false;};
-  },[]);
+  },[getSession]);
   const backup = async () => {
     setBusy(true);
     try { const count=await downloadEditorBackup();setNotice(`점포·지도·외곽선·촬영 지점과 이미지 ${count}개를 포함한 백업을 다운로드했습니다.`); }

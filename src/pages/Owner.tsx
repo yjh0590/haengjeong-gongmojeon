@@ -9,7 +9,8 @@ import { fetchOwnerStoreIds, fetchPromotionRequests, getSavedOwnerSession, refre
 import { koreanDate } from '../data/publicPromotions';
 import { promotionDraftError, type PromotionDraft } from '../data/promotionDraft';
 import { usePageTab } from '../hooks/usePageTab';
-import { ownerViews, OwnerPortalHeader, OwnerPortalHome, OwnerPortalStores, OwnerPortalGuide, OwnerPortalFooter, type OwnerView } from '../components/OwnerPortal';
+import { OwnerPortalHeader, OwnerPortalHome, OwnerPortalStores, OwnerPortalGuide, OwnerPortalFooter } from '../components/OwnerPortal';
+import { ownerViews, type OwnerView } from '../data/ownerViews';
 import { pageTitle } from '../config/brand';
 import SceneBanner from '../components/SceneBanner';
 import PromotionStudio from '../components/PromotionStudio';
@@ -47,12 +48,14 @@ function Owner() {
     }).catch(()=>{if(active){saveOwnerSession(null);setOwnerMessage("점주 로그인이 만료됐습니다. 다시 로그인해 주세요.");}});
     return ()=>{active=false};
   },[]);
-  useEffect(()=>{
-    if (!visibleStores.some(s=>s.id===selectedStoreId) && visibleStores[0]) setSelectedStoreId(visibleStores[0].id);
-  },[visibleStores,selectedStoreId]);
+  // Keep the selection on a visible store; adjusting during render avoids an extra effect pass.
+  if (!visibleStores.some(s=>s.id===selectedStoreId) && visibleStores[0]) setSelectedStoreId(visibleStores[0].id);
+  // Clear the previous store's quota as soon as the session, assignments or selection change.
+  const quotaKey = `${ownerSession?.token ?? ""}|${ownerStoreIds.join(",")}|${selectedStoreId}`;
+  const [quotaFor, setQuotaFor] = useState(quotaKey);
+  if (quotaFor !== quotaKey) { setQuotaFor(quotaKey); setQuota(null); setQuotaError(""); setQuotaLoading(false); }
   useEffect(() => {
-    setQuota(null);setQuotaError("");
-    if (!ownerSession || !ownerStoreIds.includes(selectedStoreId)) { setQuotaLoading(false); return; }
+    if (!ownerSession || !ownerStoreIds.includes(selectedStoreId)) return;
     const saved = ownerSession;
     let active = true;
     let loading = false;
@@ -74,7 +77,7 @@ function Owner() {
     window.addEventListener("focus",refresh);
     document.addEventListener("visibilitychange",refresh);
     return () => {active=false;window.clearInterval(timer);window.removeEventListener("focus",refresh);document.removeEventListener("visibilitychange",refresh);};
-  },[ownerSession?.token,ownerStoreIds,selectedStoreId]);
+  },[ownerSession,ownerStoreIds,selectedStoreId]);
 
   const ownerLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();setOwnerBusy(true);setOwnerMessage("");

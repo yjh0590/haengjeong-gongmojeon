@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, CheckCircle2, CloudUpload, Download, FileUp, Layers, MapPinned, Plus, RefreshCcw, Save, ShieldCheck, Store, Trash2, UploadCloud, X, FileCheck2 } from "lucide-react";
 import { appUrl } from "../config/site";
 import { publicationConfigured, fetchPublication, preparePublication, publishSite, type PublishedResponse, type SitePublication } from "../data/sitePublication";
-import { useAdminAuth } from "../auth/AdminGate";
+import { useAdminAuth } from "../auth/adminAuth";
 import { readStoreDraft, saveStoreDraft, validStores } from "../data/storeDraft";
 import { saveMapGeometry } from "../data/mapGeometry";
 import { saveStreetNodes } from "../data/streetNetwork";
@@ -60,7 +60,9 @@ export default function CatalogEditor() {
     return () => {active = false;};
   }, []);
   const current = rows.find(s => s.id === selected) || null;
-  useEffect(() => { setTagsText(rows.find(s=>s.id===selected)?.tags.join(", ") || ""); }, [selected]);
+  // Load the tag text when the selected store changes (not on every edit to that store).
+  const [tagsFor, setTagsFor] = useState(selected);
+  if (tagsFor !== selected) { setTagsFor(selected); setTagsText(current?.tags.join(", ") || ""); }
   const filtered = useMemo(() => rows.filter(s => `${s.name} ${s.category} ${s.building} ${s.unit || ""}`.toLowerCase().includes(search.toLowerCase())), [rows,search]);
   const update = (newRows: StoreData[]) => {
     try { saveStoreDraft(newRows); setRows(newRows); setNotice("변경사항을 브라우저 임시 초안에 저장했어요. 아직 공개되지 않았습니다."); }

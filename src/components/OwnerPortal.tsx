@@ -6,9 +6,8 @@ import "../styles/OwnerPortal.css";
 import SiteBrand from "./SiteBrand";
 import { storeMenuItems } from "../data/storeMenuItems";
 import SceneBanner from "./SceneBanner";
+import type { OwnerView } from "../data/ownerViews";
 
-export const ownerViews = ["home", "stores", "marketing", "account", "guide"] as const;
-export type OwnerView = typeof ownerViews[number];
 type NavigationProps = { view: OwnerView; onNavigate: (view: OwnerView) => void };
 const navigation: { view: OwnerView; label: string }[] = [
   { view: "home", label: "대시보드" }, { view: "stores", label: "매장 정보" },

@@ -5,7 +5,7 @@ import { streetNodes as defaultNodes } from "../data/streetNodes";
 import { useStoreDraft } from "../data/storeDraft";
 import { deleteDraftMap, listDraftPhotos, saveDraftMap, useDraftPhotoUrls } from "../data/localStreetPhotos";
 import { publicMediaUrl, setMapMediaPath, uploadMapImage, useMediaDraft } from "../data/mediaStorage";
-import { useAdminAuth } from "../auth/AdminGate";
+import { useAdminAuth } from "../auth/adminAuth";
 import { MAP_BG_KEY, readMapGeometry, saveMapGeometry, type MapGeometry, type XY } from "../data/mapGeometry";
 import { moveStoreToPhotoPoint, readStreetNodes, saveStreetNodes } from "../data/streetNetwork";
 import { inspectStreetNetwork } from "../data/routeGuide";
@@ -120,7 +120,7 @@ export default function MapEditor() {
     }
     // UTF-8 BOM helps spreadsheet apps recognize Korean. Escape formula-like input.
     const safe = (v: string) => {
-      const text = /^[=+@\-]/.test(v) ? `'${v}` : v;
+      const text = /^[=+@-]/.test(v) ? `'${v}` : v;
       return `"${text.replace(/"/g, '""')}"`;
     };
     const csv = "\ufeff" + cells.map(row => row.map(safe).join(",")).join("\r\n");
