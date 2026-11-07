@@ -83,13 +83,13 @@ function offsetLine(points: MapPoint[], d: number): MapPoint[] {
 }
 /** Radius kept open around the central plaza so the four streets stop short of each other. */
 const PLAZA_GAP = 24;
-/** Cut a street back from whichever end touches the central plaza, leaving PLAZA_GAP of open space. */
-function clearPlaza(points: MapPoint[]): MapPoint[] {
+/** Cut a street back from whichever end touches the central plaza, leaving `gap` of open space. */
+function clearPlaza(points: MapPoint[], gap = PLAZA_GAP): MapPoint[] {
   const near = (p: MapPoint) => Math.hypot(p.x - centralPlaza.x, p.y - centralPlaza.y);
   const trimStart = (list: MapPoint[]) => {
     const rest = [...list];
-    while (rest.length > 2 && near(rest[1]) <= PLAZA_GAP) rest.shift();
-    const [a, b] = rest, length = Math.hypot(b.x - a.x, b.y - a.y) || 1, t = Math.min(1, Math.max(0, (PLAZA_GAP - near(a)) / length));
+    while (rest.length > 2 && near(rest[1]) <= gap) rest.shift();
+    const [a, b] = rest, length = Math.hypot(b.x - a.x, b.y - a.y) || 1, t = Math.min(1, Math.max(0, (gap - near(a)) / length));
     return [{x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t}, ...rest.slice(1)];
   };
   if (near(points[0]) < 3) return trimStart(points);
@@ -148,6 +148,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const labelScale = narrowMap ? 1.4 : 1;
   /** Place a label at (x, y), enlarged on phones around that point. */
   const labelAt = (x: number, y: number) => `translate(${x} ${y}) scale(${labelScale})`;
+  // The 중앙 광장 circle grows with the labels on phones, so the streets stop further from it there.
+  const plazaGap = narrowMap ? 38 : PLAZA_GAP;
   useEffect(() => {
     const query = window.matchMedia("(max-width: 600px)");
     const update = () => setNarrowMap(query.matches);
@@ -521,8 +523,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
                 {/* Streets from the central plaza without photos yet (slate, 거리뷰 준비 중), under the photographed street. */}
                 {photoStreetPaths[0] === cStreetPhotoPath && <g className="map-planned-street" aria-hidden="true">
-                  {plannedStreetPaths.map(street => streetBand(clearPlaza(street.points), street.sides, `h${street.name}`))}
-                  {plannedStreetPaths.map(street => <polyline key={street.name} points={pointList(clearPlaza(street.points))} fill="none" className="map-planned-street-line"/>)}
+                  {plannedStreetPaths.map(street => streetBand(clearPlaza(street.points, plazaGap), street.sides, `h${street.name}`))}
+                  {plannedStreetPaths.map(street => <polyline key={street.name} points={pointList(clearPlaza(street.points, plazaGap))} fill="none" className="map-planned-street-line"/>)}
                   {/* Like the photographed entrance, each street's far end has an arrow pointing in toward the central plaza. */}
                   {plannedStreetPaths.map(street => { const end = street.points[street.points.length - 1], before = street.points[street.points.length - 2]; const angle = Math.atan2(end.y - before.y, end.x - before.x);
                     return <path key={`a${street.name}`} d="M9 0L-6 -8L-2.5 0L-6 8Z" transform={`translate(${end.x - Math.cos(angle) * 8} ${end.y - Math.sin(angle) * 8}) rotate(${angle * 180 / Math.PI + 180})`} className="map-planned-street-arrow"/>; })}
@@ -533,8 +535,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   <g transform={labelAt(centralPlaza.x, centralPlaza.y)} className="map-central-plaza"><circle r="19"/><text y="3">중앙 광장</text></g>
                 </g>}
                 {photoStreetPaths.length > 0 && <g className="map-photo-street" role="button" tabIndex={0} aria-label={`거리 사진이 있는 길 · ${streetStartNode?.name || ""}부터 거리뷰 보기`} onClick={openStreetView} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openStreetView(); } }}>
-                  {photoStreetPaths.map((path, i) => path === cStreetPhotoPath ? streetBand(clearPlaza(path), cStreetPhotoSides, `h${i}`) : <polyline key={i} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-halo"/>)}
-                  {photoStreetPaths.map((path, i) => <polyline key={`s${i}`} points={path === cStreetPhotoPath ? pointList(clearPlaza(path)) : path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-line"/>)}
+                  {photoStreetPaths.map((path, i) => path === cStreetPhotoPath ? streetBand(clearPlaza(path, plazaGap), cStreetPhotoSides, `h${i}`) : <polyline key={i} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-halo"/>)}
+                  {photoStreetPaths.map((path, i) => <polyline key={`s${i}`} points={path === cStreetPhotoPath ? pointList(clearPlaza(path, plazaGap)) : path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-line"/>)}
                   {/* The street view starts at the entrance, so that end of the street is an arrow pointing in. */}
                   {photoStreetPaths.map((path, i) => { const [a, b] = path; if (!a || !b) return null; const angle = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
                     return <g key={`e${i}`} className="map-photo-street-entry" aria-hidden="true">
