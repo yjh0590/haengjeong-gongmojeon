@@ -23,6 +23,9 @@ export const cStreetTour: SitePublication = {
 /** Centre line of the photographed B/C street, from the southern entrance to the central plaza (timespace-map.svg). */
 export const cStreetPhotoPath = [{x: 253, y: 349}, {x: 253, y: 181}];
 
+/** Where the four streets meet (timespace-map.svg). The map leaves it open and labels it 중앙 광장. */
+export const centralPlaza = {x: 254, y: 181};
+
 /**
  * The two blocks along a street, as [right side, left side] when walking along its points
  * (screen coordinates). The map tints each half of the street's highlighter band in that block's colour.

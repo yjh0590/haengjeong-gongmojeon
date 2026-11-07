@@ -336,6 +336,9 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-planned-street-tag text{fill:#5c6f86;font-size:8.5px;font-weight:600;text-anchor:middle}
 .district-map-concept .map-planned-street-entry rect{fill:#fff;stroke:#7d90a8;stroke-width:1.4}
 .district-map-concept .map-planned-street-entry text{fill:#4a5d75;font-size:9px;font-weight:800;text-anchor:middle}
+/* The open centre where the four streets meet. */
+.district-map-concept .map-central-plaza circle{fill:#fffdf8;stroke:#a9b8ca;stroke-width:1.4}
+.district-map-concept .map-central-plaza text{fill:#3f526a;font-size:8px;font-weight:800;text-anchor:middle;letter-spacing:-.02em}
 .legend-planned-street{background:#8ea2bb!important;box-shadow:0 0 0 3px #7d93ae33;border-radius:4px!important;width:18px!important}
 
 /* Phones: compact 3-per-row store tiles (photo, name, location). Tap opens the full details. */
