@@ -50,7 +50,6 @@
 .customer-banner-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .customer-banner-tags > span { font-size: 11px; background: #edf2fb; color: #64779f; border-radius: 16px; padding: 5px 10px; }
 .customer-banner-featured-arrow { margin-left: auto; color: #3a4b7e; flex-shrink: 0; }
-.customer-banner-caption { position: absolute; right: 27px; bottom: 17px; left: 27px; margin: 0; text-align: right; font-size: 10px; line-height: 1.7; color: #526480; background: #ffffffad; padding: 5px 8px; border-radius: 5px; z-index: 2; width: fit-content; max-width: calc(100% - 54px); margin-left: auto; }
 @media (max-width: 1050px) {
   .customer-banner { height: 570px; }
   .customer-banner-copy { padding-top: 55px; width: 57%; padding-left: 5%; }
@@ -102,7 +101,6 @@
   .customer-banner .customer-banner-featured { top: 326px; bottom: auto; right: 6%; width: min(290px, 88%); padding: 10px; gap: 12px; border-radius: 17px; }
   .customer-banner-featured > img { width: 80px; height: 100px; }
   .customer-banner-featured-info { gap: 5px; }
-  .customer-banner-caption { font-size: 9px; left: 6%; right: 6%; bottom: 12px; max-width: 88%; text-align: left; margin-left: 0; }
   .customer-banner-pins { display: none; }
 }
 @media (max-width: 360px) {

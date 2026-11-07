@@ -801,7 +801,7 @@ export const timespaceStores: StoreData[] = [
   }
 ];
 
-/** Map positions (timespace-map.png in a 500x374 box), not surveyed. */
+/** Map positions (timespace-map.svg in a 500x374 box), not surveyed. */
 export const timespaceStorePositions: Record<string, {x: number; y: number}> = {
   "9201": {
     "x": 293,

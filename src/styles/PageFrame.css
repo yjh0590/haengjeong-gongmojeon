@@ -55,7 +55,6 @@ html:has(.owner-redesign),body:has(.owner-redesign) { background:#fff; }
   .app-shell .customer-banner-featured strong { font-size:15px; }
   .app-shell .customer-banner-chip { display:none; }
   .app-shell .customer-banner-tags > span { font-size:10px; }
-  .app-shell .customer-banner-caption { bottom:8px; right:3cqw; font-size:10px; }
 }
 @media (max-width:800px) {
   .app-shell .customer-banner h1 { font-size:clamp(26px,7.4vw,34px); }

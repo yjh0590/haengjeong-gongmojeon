@@ -231,7 +231,6 @@
 .app-shell .customer-banner-wash{background:none}
 .app-shell .customer-banner h1{color:#132b61;text-shadow:0 1px 8px #dce8ff66}
 .app-shell .customer-banner-eyebrow{color:#19366f}
-.app-shell .customer-banner-caption{background:#ffffffdb;color:#365277;border-radius:8px;padding:5px 9px;bottom:10px;right:3%;font-size:10px}
 .app-shell .customer-banner .customer-banner-featured{top:auto;bottom:46px;right:4%;width:290px;padding:10px;gap:12px;border-radius:16px}
 .app-shell .customer-banner-featured>img{width:66px;height:84px;border-radius:10px}
 .app-shell .customer-banner-featured strong{font-size:17px}
@@ -268,7 +267,6 @@
   .app-shell .customer-banner-categories svg{width:22px;height:22px}
   .app-shell .customer-banner-categories span{font-size:11px}
   .app-shell .customer-banner .customer-banner-featured{top:auto;bottom:45px;right:6%;width:min(260px,88%)}
-  .app-shell .customer-banner-caption{left:6%;right:6%;font-size:9px;bottom:9px;padding:4px 7px;max-width:none}
   .owner-redesign .owner-portal-hero{height:680px}
   .owner-redesign .owner-portal-hero-copy{padding-top:32px}
   .owner-redesign .owner-portal-hero h1{font-size:36px;margin:20px 0 14px}

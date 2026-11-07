@@ -6,11 +6,11 @@ import { validStorefrontImage } from "../data/storefrontImage";
 import StoreName from "./StoreName";
 
 const categories = [
+  { label: "전체", filter: "전체", query: "", icon: LayoutGrid },
   { label: "맛집", filter: "맛", query: "", icon: Utensils },
   { label: "카페", filter: "맛", query: "카페", icon: Coffee },
   { label: "쇼핑", filter: "멋", query: "쇼핑", icon: ShoppingBag },
   { label: "문화", filter: "멋", query: "문화", icon: Award },
-  { label: "전체", filter: "전체", query: "", icon: LayoutGrid },
 ] satisfies { label: string; filter: FilterType; query: string; icon: typeof Search }[];
 
 type Props = {
@@ -57,7 +57,5 @@ export default function CustomerBanner({ stores, published, filter, query, onQue
         <span className="customer-banner-tags"><span>{featured.building} {featured.floor}층</span><span>{featured.type}</span></span>
       </span>
       <ChevronRight className="customer-banner-featured-arrow" size={28} aria-hidden="true" />
-    </button>}
-    <p className="customer-banner-caption">배너는 연출된 일러스트입니다. 실제 점포 위치는 아래 안내도에서 확인하세요.</p>
-  </section>;
+    </button>}  </section>;
 }

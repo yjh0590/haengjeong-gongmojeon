@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 374" role="img" aria-label="송도 타임스페이스 A~D동 배치 안내도">
+<!-- Traced from the supplied block map (826x662 px, padded 59px on the left), redrawn in a light palette. -->
+<rect width="500" height="374" fill="#e6ecf3"/>
+<g transform="matrix(.564972 0 0 .564955 33.333 0)" stroke-linejoin="round" stroke-linecap="round">
+ <path d="M782 -2L828 -2L828 46L806 28Z" fill="#d3e8cc"/>
+ <path d="M708 664L828 340L828 546L783 664Z" fill="#f3f5f2" stroke="#d3dce5" stroke-width="2"/>
+ <path d="M826 449L751 662" stroke="#8db6ea" stroke-width="3" fill="none"/>
+ <path d="M433 28L556 28L610 34.3L735 34.4L761 34.4L780 46L805 76L820 107L820 132L716 430L647 607L636 625L622 633L617 639L300 631.5L41 631.5L31 625L26 617L15 52L20 43L30 38L154 34L204 40.5L371 40.5Z" fill="#fcfbf7" stroke="#b7c9bc" stroke-width="3"/>
+ <g fill="#cfe1d4" stroke="#9fb9a7" stroke-width="2.4">
+  <path d="M723 58L773 75L770 88L795 99L796 104L716 326L709 326L631 295L629 290L712 63Z"/>
+  <path d="M586 62.7L634 62.6L634 159.5L573 159.5L569 151L491.5 151L491.3 171L491.3 288.4L471 288.3L418 288.3L418 62.7Z"/>
+  <path d="M254 86.5L366 86.5L366 179L355 179L352 186L323 186L320.5 180L270.8 180L270.6 217L270.6 295L227 295L227 102L248 92Z"/>
+  <path d="M47 89L168 89L173 93L183 94L183 288L172 289L118 289L115 276L85 276L82 284.5L46 284.5L43 281L38 97L40 93Z"/>
+  <path d="M322 201.5L363 201.5L363 295.5L322 295.5Z"/>
+  <path d="M416 337.5L562 337.5L498 546L486 581.5L412 581.5Z"/>
+  <path d="M616 338L703 373L614.5 612.5L600 608L530 577Z"/>
+  <path d="M60.8 358.5L185 358.5L185 600.8L60.5 600.8L60.8 390Z"/>
+  <path d="M245.5 360L360.5 360L360.5 599.3L245.5 599.3Z"/>
+ </g>
+</g>
+</svg>

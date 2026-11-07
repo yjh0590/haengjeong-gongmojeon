@@ -176,7 +176,7 @@ export default function MapEditor() {
           <button className={mode==="store"?"selected":""} onClick={()=>setMode("store")}>④ 점포 위치</button>
         </div>
         <svg className="map-editor-svg" viewBox="0 0 500 374" role="img" aria-label="상권 지도 이미지에 경계와 촬영 지점, 가게 좌표를 배치하는 작업 화면" onClick={mapClick}>
-          <image href={mapUrl || "/brand/timespace-map.png"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
+          <image href={mapUrl || "/brand/timespace-map.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
           {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`path${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#17a398" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="8 5" pointerEvents="none"/>:null)}
           {geometry.passages.map((path,i)=>path.map((p,j)=><circle key={`path${i}-${j}`} cx={p.x} cy={p.y} r="3.5" fill="#0d9488" stroke="white" strokeWidth="1.5"/>))}
           {geometry.boundary.length>1&&<polyline points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#fb923c" strokeWidth="3" strokeDasharray="8 5"/>}

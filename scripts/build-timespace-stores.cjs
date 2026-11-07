@@ -1,7 +1,7 @@
 // Generates src/data/timespaceStores.ts from the researched storefront catalog.
 // Only photo-verified stores on floors 1-3 of blocks A-D are included (the app's store model
 // supports floors 1-3). Stores already in the C-block photo tour are linked, not duplicated.
-// Map positions are slots inside each block's buildings on timespace-map.png, not surveyed locations.
+// Map positions are slots inside each block's buildings on timespace-map.svg, not surveyed locations.
 const fs = require('node:fs');
 const path = require('node:path');
 const catalog = require('../src/data/storefrontCatalog.json');
@@ -29,7 +29,7 @@ function describe(r) {
 const tourIds = { 'S06-001': 9101, 'S01-178': 9102, 'S01-059': 9103 };
 const foodCategories = ['베이커리', '카페', '닭발·한식', '일식·오마카세', '양갈비', '철판요리', '스테이크', '고깃집', '와인·다이닝', '돈카츠', '경양식', '피자', '한식', '편의점'];
 
-// Slots inside each block's two buildings, in pixels of the 826x662 source map that timespace-map.png
+// Slots inside each block's two buildings, in pixels of the 826x662 source map that timespace-map.svg traces and
 // pads 59px on the left. D = top-left pair, A = top-right, C = bottom-left, B = bottom-right.
 // Street-facing spots come first; C's first two sit beside the photographed B/C street (tour stores).
 const blockSlots = {
@@ -83,7 +83,7 @@ const body = `${banner}import type { StoreData } from "../types/street";
 /** Photo-verified Timespace stores (blocks A-D, floors 1-3) beyond the C-block photo tour. */
 export const timespaceStores: StoreData[] = ${JSON.stringify(stores, null, 2)};
 
-/** Map positions (timespace-map.png in a 500x374 box), not surveyed. */
+/** Map positions (timespace-map.svg in a 500x374 box), not surveyed. */
 export const timespaceStorePositions: Record<string, {x: number; y: number}> = ${JSON.stringify(positions, null, 2)};
 
 /** Catalog record id -> app store id, including the three C-block tour stores. */

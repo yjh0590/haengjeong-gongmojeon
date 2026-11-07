@@ -70,7 +70,7 @@ function matchStore(store: StoreData, filter: FilterType, query: string) {
 /** One colour per block, used everywhere a block is shown (map badge, floor list, building buttons). */
 const blockColors: Record<string, string> = { "A동": "#2f6fdb", "B동": "#0e9f6e", "C동": "#e8730c", "D동": "#8b5cf6" };
 const blockColor = (block: string) => blockColors[block] || "#64748b";
-/** Centre of each block's pair of buildings on timespace-map.png (D top-left, A top-right, C bottom-left, B bottom-right). */
+/** Centre of each block's pair of buildings on timespace-map.svg (D top-left, A top-right, C bottom-left, B bottom-right). */
 const blockAnchors: Record<string, {x: number; y: number}> = { "A동": {x: 353, y: 121}, "B동": {x: 342, y: 266}, "C동": {x: 155, y: 271}, "D동": {x: 149, y: 107} };
 
 /** A search typed on the main page arrives as ?q=. */
@@ -434,7 +434,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
         {tab !== "map" && <div className="site-data-status" role="status">{siteDataNote}</div>}
         <div className={`explore-toolbar ${tab === "map" ? "" : "is-filter-panel"}`}>
-          <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>
+          {/* On the map tab the banner directly above already has the same search box (same query). */}
+          {(tab !== "map" || demoTour) && <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>}
           <div className="filter-row"><span className="filter-row-label">종류</span><div className="filter-buttons" role="group" aria-label="가게 종류 필터">
             {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item}>
               {item === "맛" ? <Utensils size={15}/> : item === "멋" ? <Camera size={15}/> : item === "이벤트" ? <Zap size={15}/> : <Layers3 size={15}/>} {item}
@@ -468,16 +469,23 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             <div className="map-floor-layout">
               <div className="district-map district-map-concept">
               <svg viewBox={narrowMap ? "38 8 462 360" : "0 0 500 374"} className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
-                <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-map.png"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
+                <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-map.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
                 {photoStreetPaths.length > 0 && <g className="map-photo-street" role="button" tabIndex={0} aria-label={`거리 사진이 있는 길 · ${streetStartNode?.name || ""}부터 거리뷰 보기`} onClick={openStreetView} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openStreetView(); } }}>
                   {photoStreetPaths.map((path, i) => <polyline key={i} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-halo"/>)}
                   {photoStreetPaths.map((path, i) => <polyline key={`s${i}`} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-line"/>)}
+                  {/* The street view starts at the entrance, so that end of the street is an arrow pointing in. */}
+                  {photoStreetPaths.map((path, i) => { const [a, b] = path; if (!a || !b) return null; const angle = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+                    return <g key={`e${i}`} className="map-photo-street-entry" aria-hidden="true">
+                      <path d="M11 0L-7 -10L-3 0L-7 10Z" transform={`translate(${a.x} ${a.y}) rotate(${angle})`} className="map-photo-street-arrow"/>
+                      {i === 0 && <g transform={`translate(${a.x} ${a.y + 13})`}><rect x="-14" y="-7" width="28" height="14" rx="7"/><text y="3.6">입구</text></g>}
+                    </g>; })}
                 </g>}
-                {/* Footprints only mark where street photos were taken; the 거리뷰 보기 button and the green street open them. */}
-                {mappedPhotoNodes.map((node) => { const p = geometry.nodes[node.id]; return <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} aria-hidden="true">
+                {/* Footprints only mark where street photos were taken; the 거리뷰 보기 button and the green street open them.
+                    The street's first point is drawn as the entrance arrow instead of a dot. */}
+                {mappedPhotoNodes.filter(node => !(photoStreetPaths.length && node.id === streetStartNode?.id)).map((node) => { const p = geometry.nodes[node.id]; return <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} aria-hidden="true">
                     <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "5.5" : "4.5"} className="map-node-dot"/>
                   </g>; })}
                 {/* One badge per block instead of a numbered pin per store; the block's stores are listed on the right. */}
@@ -491,7 +499,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                     <path d={`M${point.x} ${point.y} l-6 -9 h12 z`} className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><rect x={point.x - width / 2} y={point.y - 33} width={width} height="24" rx="12" className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><text x={point.x} y={point.y - 17} className="map-store-text map-store-name">{label}</text>
                   </g>; })()}
               </svg>
-              <div className="map-legend"><span><i className="legend-photo-street"/>초록 길 · 거리 사진 (누르면 보기)</span><span><i className="legend-block"/>동별 가게 · 누르면 그 동만</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
+              <div className="map-legend"><span><i className="legend-photo-street"/>초록 길 · 거리 사진 (누르면 보기, 화살표가 입구)</span><span><i className="legend-block"/>동별 가게 · 누르면 그 동만</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
               </div>
               <aside className="map-floor-sidebar" aria-label="층 및 점포 지점 선택">
                 <div className="map-floor-heading"><Layers3 size={16}/><strong>층 선택</strong></div>
@@ -512,7 +520,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 </div>
               </aside>
             </div>
-            <details className="map-disclaimer"><summary><Info size={14}/> 지도는 개념도예요 · 메뉴·가격·영업은 현장에서 확인해 주세요</summary><p>{siteDataNote} {floor}층 점포만 표시합니다. 촬영 지점은 연결된 건물 외관 사진일 수 있으며 실제 층별 실내 촬영 위치와 다를 수 있습니다. 간편 안내도의 건물 형태·구역명 및 점포·촬영 지점 좌표는 시연용입니다. 관리자 등록 지도와 배치가 다를 수 있으며 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p></details>
+            <details className="map-disclaimer"><summary><Info size={14}/> 지도는 개념도예요 · 메뉴·가격·영업은 현장에서 확인해 주세요</summary><p>{siteDataNote} {floor}층 점포만 표시합니다. 촬영 지점은 연결된 건물 외관 사진일 수 있으며 실제 층별 실내 촬영 위치와 다를 수 있습니다. 간편 안내도의 건물 배치는 실제 지도를 따라 그렸지만, 점포·촬영 지점 좌표는 동 안의 대략적인 위치입니다. 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p></details>
           </section>
 
           <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
