@@ -142,4 +142,14 @@
   .editor-dashboard-tools label { flex-wrap: wrap; }
   .editor-dashboard-tools label input { max-width: 100%; }
 }
-
+/* Dashboard: where the customer site's information comes from. */
+.editor-shell .editor-source-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.editor-shell .editor-source-list li { border-top: 1px solid #e3ece5; padding-top: 14px; }
+.editor-shell .editor-source-list li:first-child { border-top: 0; padding-top: 0; }
+.editor-shell .editor-source-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.editor-shell .editor-source-head strong { font-size: 14px; color: #224234; }
+.editor-shell .editor-source-head small { font-size: 12px; color: #7a8f80; }
+.editor-shell .editor-source-list p { margin: 4px 0 0; }
+.editor-shell .editor-source-links { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.editor-shell .editor-source-links a { color: #23864f; font-weight: 700; text-decoration: underline; }
+.editor-shell .editor-panel .editor-source-folders { margin-top: 16px; font-size: 12px; color: #7a8f80; }

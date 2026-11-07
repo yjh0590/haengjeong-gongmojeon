@@ -13,6 +13,7 @@ import { useStoreDraft } from "../data/storeDraft";
 import { usePublicSite } from "../data/sitePublication";
 import { fetchPromotionPolicy, type PromotionPolicy } from "../data/promotionWorkflow";
 import { useMediaDraft } from "../data/mediaStorage";
+import { dataSources, researchFolders } from "../data/dataSources";
 
 export default function EditorDashboard() {
   const { getSession } = useAdminAuth();
@@ -68,9 +69,16 @@ export default function EditorDashboard() {
         {floors.map(item => <div className="editor-dashboard-chart-row" key={item.floor}><span>{item.floor}층</span><div className="editor-dashboard-chart-track"><div className="editor-dashboard-chart-fill" style={{width:`${item.count/maximum*100}%`}} /></div><strong>{item.count}곳</strong></div>)}
       </div>
     </section>
-    {/* Where the customer site's data comes from. Kept here instead of on the customer screens. */}
-    <section className="editor-panel"><div className="editor-panel-heading"><h2>고객 화면 데이터 출처</h2><span>{publication.data && publication.publishedAt ? `${new Date(publication.publishedAt).toLocaleDateString("ko-KR")} 게시본` : "기본 자료"}</span></div>
-      <p>직접 촬영한 C동 거리 사진과, 간판 사진·공개 주소로 확인한 A~D동 1~3층 가게입니다. 메뉴·가격·영업 여부는 현장 확인이 필요하고, 지도 위 점포 위치는 동 안의 대략적인 배치입니다. 원자료는 저장소의 docs/research 폴더에 있습니다.</p>
+    {/* Where the customer site's information comes from (src/data/dataSources.ts). Kept here, not on the customer screens. */}
+    <section className="editor-panel editor-sources"><div className="editor-panel-heading"><h2>정보 출처</h2><span>{publication.data && publication.publishedAt ? `${new Date(publication.publishedAt).toLocaleDateString("ko-KR")} 게시본` : "기본 자료"} · 손님 화면에는 표시하지 않아요</span></div>
+      <ul className="editor-source-list">
+        {dataSources.map(item => <li key={item.topic}>
+          <div className="editor-source-head"><strong>{item.topic}</strong><small>{item.asOf}</small></div>
+          <p>{item.detail}</p>
+          {item.links && <p className="editor-source-links">{item.links.map(link => <a key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label}</a>)}</p>}
+        </li>)}
+      </ul>
+      <p className="editor-source-folders">원자료: {researchFolders.join(" · ")}</p>
     </section>
     <div className="editor-dashboard-bottom">
       <section className="editor-panel"><div className="editor-panel-heading"><h2>점포 목록</h2><a className="editor-more" href={appUrl("editor","/catalog")}>전체 관리 <ArrowRight size={15}/></a></div>
