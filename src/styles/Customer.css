@@ -269,6 +269,11 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 /* Store cards: description up to three lines. */
 .app-shell .store-card-main span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .app-shell .store-card-main>span.catalog-storefront-pending{display:flex;-webkit-line-clamp:unset;font-size:13px;line-height:1.4}
+/* Store description on cards: one line per sentence, broken between words (StoreDescription in Customer.tsx). */
+.app-shell .store-card-main .store-card-desc,.app-shell .street-store-card-title .store-card-desc{display:flex;flex-direction:column;gap:2px;-webkit-line-clamp:unset;overflow:visible}
+.app-shell .store-card-main .store-card-desc>span,.app-shell .street-store-card-title .store-card-desc>span{display:block;word-break:keep-all;overflow-wrap:break-word}
+.app-shell .store-card-main .store-card-desc-lead,.app-shell .street-store-card-title .store-card-desc-lead{color:#4f5d70}
+.app-shell .store-card-main .store-card-desc-note,.app-shell .street-store-card-title .store-card-desc-note{font-size:13px;line-height:1.6;color:#8391a3}
 
 /* Street-view toggle: larger than the floor buttons so it stands out. */
 .app-shell .map-street-view-box{margin:14px 0 4px;border-radius:16px}
@@ -354,6 +359,7 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
   .app-shell .store-card-main{gap:4px;padding:0}
   .app-shell .store-card-main .catalog-storefront-image{height:auto;aspect-ratio:1/1;object-fit:cover;margin:0 0 4px;border-radius:9px}
   .app-shell .store-card-main>span.catalog-storefront-pending{display:flex;font-size:9.5px;gap:4px;padding:0 4px}
+  .app-shell .store-card-main>span.store-card-desc{display:none}
   .app-shell .store-card-main .catalog-storefront-pending svg{width:16px;height:16px}
   .app-shell .store-card-main strong{font-size:13px;line-height:1.3;letter-spacing:-.2px}
   .app-shell .store-card-main strong .store-name-sub{font-size:10px}

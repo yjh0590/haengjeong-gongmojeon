@@ -61,6 +61,14 @@ function firstAvailableView(nodeId: string, nodes: ReturnType<typeof useStreetNo
 function locateStoreNode(storeId: number, nodes: ReturnType<typeof useStreetNodes>): string {
   return nodes.find((node) => node.stores.includes(storeId))?.id || nodes[0]?.id || "point1";
 }
+/**
+ * A store description as one line per sentence ("소개. 영업 …. 2025.03 자료 기준"), so cards break between
+ * sentences instead of mid-phrase. The first line says what the store is; the rest (hours, source) are muted.
+ */
+function StoreDescription({text}: {text: string}) {
+  const lines = text.split(/(?<=\.)\s+/).map(line => line.trim()).filter(Boolean);
+  return <span className="store-card-desc">{lines.map((line, i) => <span key={i} className={i === 0 ? "store-card-desc-lead" : "store-card-desc-note"}>{line}</span>)}</span>;
+}
 function matchStore(store: StoreData, filter: FilterType, query: string, group: StoreGroupId | null = null) {
   const categoryMatches = filter === "전체" || (filter === "이벤트" ? Boolean(store.event) : store.type === filter);
   const textMatches = !query.trim() || [store.name, store.category, store.description, store.menu, ...store.tags]
@@ -540,7 +548,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   {/* The street view starts at the entrance, so that end of the street is an arrow pointing in. */}
                   {photoStreetPaths.map((path, i) => { const [a, b] = path; if (!a || !b) return null; const angle = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
                     return <g key={`e${i}`} className="map-photo-street-entry" aria-hidden="true">
-                      <path d="M11 0L-7 -10L-3 0L-7 10Z" transform={`translate(${a.x} ${a.y}) rotate(${angle})`} className="map-photo-street-arrow"/>
+                      <path d="M11 0L-7 -10L-3 0L-7 10Z" transform={`translate(${a.x} ${a.y - (narrowMap ? 9 : 0)}) rotate(${angle})`} className="map-photo-street-arrow"/>
                       {i === 0 && streetStartNode && <g transform={labelAt(a.x, a.y + 13)}><rect x={-(streetStartNode.name.length * 4.3 + 7)} y="-7" width={streetStartNode.name.length * 8.6 + 14} height="14" rx="7"/><text y="3.6">{streetStartNode.name}</text></g>}
                     </g>; })}
                 </g>}
@@ -629,7 +637,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                       <div className="street-store-card-top">
                         <span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type} · {store.category}</span>
                       </div>
-                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong><StoreName name={store.name}/></strong><span>{store.description}</span></button>
+                      <button type="button" className="street-store-card-title" onClick={() => focusStore(store.id, true)}><strong><StoreName name={store.name}/></strong><StoreDescription text={store.description}/></button>
                       <ul className="street-store-card-meta">
                         <li><MapPin size={14}/> {store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</li>
                         <li><Utensils size={14}/> 대표 정보 · {store.menu}</li>
@@ -651,7 +659,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           <h4 className="store-floor-heading">{storeFloor}층<span>{resultStores.filter(store => store.floor === storeFloor).length}곳</span></h4>
           <div className="store-grid">{resultStores.filter(store => store.floor === storeFloor).map((store) => <article key={store.id} className={`store-card ${selectedStoreId === store.id ? "is-selected" : ""}`}>
           <div className="store-card-top"><span className={`category-pill ${store.type === "맛" ? "food" : "style"}`}>{store.type === "맛" ? <Utensils size={13}/> : <Camera size={13}/>} {store.type} · {store.category}</span><button type="button" className={`favorite-button ${favorites.includes(store.id) ? "is-saved" : ""}`} onClick={() => toggleFavorite(store.id)} aria-label={`${store.name} ${favorites.includes(store.id) ? "저장 해제" : "저장"}`} aria-pressed={favorites.includes(store.id)}><Heart size={19} fill={favorites.includes(store.id) ? "currentColor" : "none"}/></button></div>
-          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) ? <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/> : <span className="catalog-storefront-image catalog-storefront-pending"><Camera size={22} aria-hidden="true"/>사진 추후 업데이트 예정</span>}<strong><StoreName name={store.name}/></strong><span>{store.description}</span></button>
+          <button type="button" className="store-card-main" onClick={() => focusStore(store.id, true)}>{validStorefrontImage(store.storefrontImage) ? <img className="catalog-storefront-image" src={store.storefrontImage} alt={`${store.name} 실제 외관`} loading="lazy"/> : <span className="catalog-storefront-image catalog-storefront-pending"><Camera size={22} aria-hidden="true"/>사진 추후<br/>업데이트 예정</span>}<strong><StoreName name={store.name}/></strong><StoreDescription text={store.description}/></button>
           {store.event && <div className="store-event"><Zap size={14}/><span>{store.event}</span></div>}
           <div className="store-card-bottom"><span><MapPin size={14}/>{store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</span></div>
           <button className="store-card-route" type="button" disabled={!streetNodes.some(node => node.stores.includes(store.id))} onClick={() => guideToStore(store.id)}><Navigation size={14}/> 현재 촬영 지점에서 찾아보기</button>

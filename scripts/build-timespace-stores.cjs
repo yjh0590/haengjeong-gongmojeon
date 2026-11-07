@@ -95,7 +95,8 @@ for (const b of board.stores) {
   stores.push({
     id, name: b.name, building: `${b.building}동`, floor: b.floor, ...(unit ? { unit } : {}),
     type: b.type, category: b.category,
-    description: `${b.summary}. 2026년 4월 현장 안내판과 공개 업소 등록 자료로 위치를 확인했어요. 메뉴·가격·영업시간은 현장 확인이 필요하고, 가게 사진은 추후 업데이트 예정이에요.`,
+    // Short like the other cards; where the location was confirmed is listed on the admin dashboard.
+    description: `${b.summary}. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준`,
     menu: b.category, price: '현장 확인',
     tags: [b.category, `${b.building}동 ${b.floor}층`, '사진 추후 업데이트'],
     walking: '위치는 안내 지도 참고 · 동 안 대략 위치', aiScore: 0,
