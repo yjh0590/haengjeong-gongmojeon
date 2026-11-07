@@ -309,7 +309,7 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-block-badge.is-empty .map-block-badge-text{font-size:10px}
 .district-map-concept .map-photo-street-halo{stroke-opacity:.22;stroke-width:24}
 .district-map-concept .map-photo-street-line{stroke-width:8}
-@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:1/1}}
+@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:462/360}}
 
 /* INTERACTIVE MAP title: more air between the eyebrow, title and map. */
 .app-shell .map-panel .panel-header{margin-bottom:16px;align-items:flex-start}
@@ -317,9 +317,9 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .app-shell .map-panel .panel-header h3{display:flex;align-items:center;gap:8px;margin:0;font-size:22px;line-height:1.45;letter-spacing:-.01em}
 .app-shell .map-panel .panel-header h3 svg{flex-shrink:0}
 @media(max-width:600px){.app-shell .map-panel .panel-header{margin-bottom:12px}.app-shell .map-panel .panel-header h3{font-size:19px;line-height:1.5}}
-/* Keep the band inside the white street (about 12 units wide on the schematic). */
-.district-map-concept .map-photo-street-halo{stroke-width:13;stroke-opacity:.28;stroke-linejoin:round}
-.district-map-concept .map-photo-street-line{stroke-width:5;stroke-linejoin:round}
+/* Keep the band inside the B/C street (about 28 units wide on timespace-map.png). */
+.district-map-concept .map-photo-street-halo{stroke-width:24;stroke-opacity:.28;stroke-linejoin:round}
+.district-map-concept .map-photo-street-line{stroke-width:7;stroke-linejoin:round}
 .district-map-concept .map-node-dot{stroke-width:2.5}
 
 /* Phones: compact 3-per-row store tiles (photo, name, location). Tap opens the full details. */

@@ -70,8 +70,8 @@ function matchStore(store: StoreData, filter: FilterType, query: string) {
 /** One colour per block, used everywhere a block is shown (map badge, floor list, building buttons). */
 const blockColors: Record<string, string> = { "A동": "#2f6fdb", "B동": "#0e9f6e", "C동": "#e8730c", "D동": "#8b5cf6" };
 const blockColor = (block: string) => blockColors[block] || "#64748b";
-/** Centre of each block's building on timespace-schematic.svg, used when a block has no stores on a floor. */
-const blockAnchors: Record<string, {x: number; y: number}> = { "A동": {x: 145, y: 264}, "B동": {x: 185, y: 209}, "C동": {x: 226, y: 155}, "D동": {x: 270, y: 100} };
+/** Centre of each block's pair of buildings on timespace-map.png (D top-left, A top-right, C bottom-left, B bottom-right). */
+const blockAnchors: Record<string, {x: number; y: number}> = { "A동": {x: 353, y: 121}, "B동": {x: 342, y: 266}, "C동": {x: 155, y: 271}, "D동": {x: 149, y: 107} };
 
 /** A search typed on the main page arrives as ?q=. */
 function readArrivalQuery(): string {
@@ -240,7 +240,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   // The street view always starts at the first photographed point (today: C동 거리 입구).
   const streetStartNode = mappedPhotoNodes[0] || streetNodes.find(node => directions.some(view => hasPhoto(node.id, view)));
   // Map band along each photographed connection, e.g. C동 거리 입구 -> C동 거리.
-  // The C-block street follows the white street drawn on the schematic; other photographed links fall back
+  // The C-block street follows the B/C street drawn on the map; other photographed links fall back
   // to a straight band that continues past the last point (its front photo looks further down the street).
   const photoStreetPaths = mappedPhotoNodes.some(node => node.id === "c-entry") ? [cStreetPhotoPath] : mappedPhotoNodes.flatMap(node => node.connections
     .filter(connection => mappedPhotoNodes.some(other => other.id === connection.to))
@@ -467,8 +467,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             </div>}
             <div className="map-floor-layout">
               <div className="district-map district-map-concept">
-              <svg viewBox={narrowMap ? "78 30 344 344" : "0 0 500 374"} className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
-                <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-schematic.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
+              <svg viewBox={narrowMap ? "38 8 462 360" : "0 0 500 374"} className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
+                <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-map.png"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}

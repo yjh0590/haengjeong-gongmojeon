@@ -1,7 +1,7 @@
 // Generates src/data/timespaceStores.ts from the researched storefront catalog.
 // Only photo-verified stores on floors 1-3 of blocks A-D are included (the app's store model
 // supports floors 1-3). Stores already in the C-block photo tour are linked, not duplicated.
-// Map positions are schematic slots on timespace-schematic.svg, not surveyed locations.
+// Map positions are slots inside each block's buildings on timespace-map.png, not surveyed locations.
 const fs = require('node:fs');
 const path = require('node:path');
 const catalog = require('../src/data/storefrontCatalog.json');
@@ -29,23 +29,18 @@ function describe(r) {
 const tourIds = { 'S06-001': 9101, 'S01-178': 9102, 'S01-059': 9103 };
 const foodCategories = ['베이커리', '카페', '닭발·한식', '일식·오마카세', '양갈비', '철판요리', '스테이크', '고깃집', '와인·다이닝', '돈카츠', '경양식', '피자', '한식', '편의점'];
 
-// Row-1 building polygons in the schematic: [left, top, right, bottom].
-const blocks = {
-  A: [[109, 272], [141, 229], [181, 255], [149, 301]],
-  B: [[148, 218], [180, 175], [221, 201], [189, 243]],
-  C: [[189, 162], [223, 120], [264, 147], [230, 190]],
-  D: [[233, 108], [266, 66], [308, 93], [275, 135]],
+// Slots inside each block's two buildings, in pixels of the 826x662 source map that timespace-map.png
+// pads 59px on the left. D = top-left pair, A = top-right, C = bottom-left, B = bottom-right.
+// Street-facing spots come first; C's first two sit beside the photographed B/C street (tour stores).
+const blockSlots = {
+  A: [[455, 250], [690, 240], [520, 110], [730, 150], [600, 110]],
+  B: [[460, 380], [640, 400], [455, 500], [600, 500], [520, 380]],
+  C: [[340, 560], [340, 470], [300, 400], [124, 400], [124, 520], [300, 520]],
+  D: [[110, 250], [250, 250], [110, 160], [300, 140], [343, 250]],
 };
-const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
-function slots(block) {
-  const [l, t, r, b] = blocks[block];
-  const inward = [(l[0] + t[0]) / 2 - (r[0] + b[0]) / 2, (l[1] + t[1]) / 2 - (r[1] + b[1]) / 2];
-  const len = Math.hypot(...inward);
-  const n = inward.map(v => v / len);
-  const at = (s, d) => { const p = lerp(b, r, s); return { x: Math.round(p[0] + n[0] * d), y: Math.round(p[1] + n[1] * d) }; };
-  // Street-facing edge first, then a second row inside the building.
-  return [at(0.12, -9), at(0.62, -9), at(0.37, 19), at(0.87, 19), at(1.12, -9)];
-}
+const toMap = ([x, y]) => ({ x: Math.round((x + 59) * 500 / 885), y: Math.round(y * 374 / 662) });
+const blocks = Object.fromEntries(Object.entries(blockSlots).map(([block, list]) => [block, list.map(toMap)]));
+const slots = block => blocks[block];
 // "205, 206, 207, 208" -> "205~208호"; shorter lists keep "307·308호".
 function unitText(rooms) {
   if (!rooms || /미확인|미기재/.test(rooms)) return undefined;
@@ -88,7 +83,7 @@ const body = `${banner}import type { StoreData } from "../types/street";
 /** Photo-verified Timespace stores (blocks A-D, floors 1-3) beyond the C-block photo tour. */
 export const timespaceStores: StoreData[] = ${JSON.stringify(stores, null, 2)};
 
-/** Schematic map positions (timespace-schematic.svg coordinates), not surveyed. */
+/** Map positions (timespace-map.png in a 500x374 box), not surveyed. */
 export const timespaceStorePositions: Record<string, {x: number; y: number}> = ${JSON.stringify(positions, null, 2)};
 
 /** Catalog record id -> app store id, including the three C-block tour stores. */
