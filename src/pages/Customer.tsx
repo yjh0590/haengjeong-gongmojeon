@@ -31,6 +31,7 @@ import { splitStoreName } from "../data/storeName";
 import { validStorefrontImage } from "../data/storefrontImage";
 import "../styles/StreetTour.css";
 import { storeMenuItems } from "../data/storeMenuItems";
+import { matchesGroup, type StoreGroupId } from "../data/storeGroups";
 
 const filters: FilterType[] = ["전체", "맛", "멋", "이벤트"];
 const mapFloors = [1, 2, 3] as const;
@@ -60,11 +61,11 @@ function firstAvailableView(nodeId: string, nodes: ReturnType<typeof useStreetNo
 function locateStoreNode(storeId: number, nodes: ReturnType<typeof useStreetNodes>): string {
   return nodes.find((node) => node.stores.includes(storeId))?.id || nodes[0]?.id || "point1";
 }
-function matchStore(store: StoreData, filter: FilterType, query: string) {
+function matchStore(store: StoreData, filter: FilterType, query: string, group: StoreGroupId | null = null) {
   const categoryMatches = filter === "전체" || (filter === "이벤트" ? Boolean(store.event) : store.type === filter);
   const textMatches = !query.trim() || [store.name, store.category, store.description, store.menu, ...store.tags]
     .join(" ").toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
-  return categoryMatches && textMatches;
+  return categoryMatches && textMatches && matchesGroup(store, group);
 }
 
 /** One colour per block, used everywhere a block is shown (map badge, floor list, building buttons). */
@@ -133,6 +134,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const arrivalSearch = useRef(readArrivalQuery());
   const [filter, setFilter] = useState<FilterType>("전체");
   const [query, setQuery] = useState(readArrivalQuery);
+  // Kind of store picked from the banner shortcuts (식당, 카페·빵, ...); cleared by the type chips.
+  const [storeGroup, setStoreGroup] = useState<StoreGroupId | null>(null);
   const [onlySaved, setOnlySaved] = useState(false);
   const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -196,13 +199,13 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const currentImage = photoFor(currentNodeId, currentView) || currentNode.views[currentView];
   const nextPhotoLink = currentNode.connections.find(link => link.direction === currentView);
   const matchingStores = useMemo(() => effectiveStores.filter((store) =>
-    matchStore(store, filter, query) && store.floor === floor && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
-  [effectiveStores, filter, query, onlySaved, favorites, floor, building]);
+    matchStore(store, filter, query, storeGroup) && store.floor === floor && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id))),
+  [effectiveStores, filter, query, storeGroup, onlySaved, favorites, floor, building]);
   // The map follows the selected floor, but the results list covers every floor so nothing looks missing.
   const allFloorResults = useMemo(() => effectiveStores
-    .filter((store) => matchStore(store, filter, query) && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id)))
+    .filter((store) => matchStore(store, filter, query, storeGroup) && (building === "전체" || store.building === building) && (!onlySaved || favorites.includes(store.id)))
     .sort((a, b) => a.floor - b.floor || a.building.localeCompare(b.building, "ko") || a.id - b.id),
-  [effectiveStores, filter, query, onlySaved, favorites, building]);
+  [effectiveStores, filter, query, storeGroup, onlySaved, favorites, building]);
   // The list can be narrowed to one floor; "전체" shows every floor under its own heading.
   const resultStores = useMemo(() => allFloorResults.filter(store => listFloor === "전체" || store.floor === listFloor), [allFloorResults, listFloor]);
   const resultFloors = [...new Set(resultStores.map(store => store.floor))];
@@ -210,8 +213,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const floorStores = useMemo(() => effectiveStores
     .filter(store => store.floor === floor && (building === "전체" || store.building === building))
     .sort((a,b) => a.id - b.id), [effectiveStores, floor, building]);
-  // Data source note: shown at the top of the list/street tabs and inside the map's single note.
-  const siteDataNote = demoTour ? "직접 촬영한 C동 거리 · 메뉴·가격·영업 여부는 현장 확인 필요 · 지도 좌표는 임시 배치" : usesCStreet ? "직접 촬영한 C동 거리와 간판 사진·공개 주소로 확인한 A~D동 1~3층 가게 · 메뉴·가격·영업 여부는 현장 확인 필요 · 지도 위치는 개념도 배치" :publication.status === "published" ? `게시된 점포 데이터 · ${publication.publishedAt ? new Date(publication.publishedAt).toLocaleDateString("ko-KR") : ""} 갱신 · 영업 현황은 점포 확인 필요` : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다.";
+  // Customer screens only warn when the data shown is not the real store set; where the data comes from is on the admin dashboard.
+  const dataWarning = demoTour || usesCStreet || publication.status === "published" ? "" : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다.";
   const storePoint = (store: StoreData) => geometry.stores[String(store.id)] ||
     (publication.status === "published" ? null : geometry.nodes[locateStoreNode(store.id, streetNodes)]) || null;
   // Map badges: one per block on this floor, at the centre of its stores, ignoring the block filter
@@ -219,7 +222,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const blockBadges = (() => {
     const groups = new Map<string, {count: number; x: number; y: number; event: boolean}>();
     for (const store of effectiveStores) {
-      if (store.floor !== floor || !matchStore(store, filter, query) || (onlySaved && !favorites.includes(store.id))) continue;
+      if (store.floor !== floor || !matchStore(store, filter, query, storeGroup) || (onlySaved && !favorites.includes(store.id))) continue;
       const point = storePoint(store);
       if (!point) continue;
       const group = groups.get(store.building) || {count: 0, x: 0, y: 0, event: false};
@@ -279,7 +282,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     window.requestAnimationFrame(() => (document.querySelector<HTMLButtonElement>(`.street-side-actions button[data-side="${lastSideRef.current}"]`) || document.querySelector<HTMLButtonElement>(".street-catalog-entry"))?.focus({preventScroll:true}));
   };
   const turnStorePage = (page: number) => setStorePaging({ context: pagingContext, page });
-  const hasStoreFilter = tab === "list" || Boolean(query.trim() || onlySaved || filter !== "전체" || showDiscoveries);
+  const hasStoreFilter = tab === "list" || Boolean(query.trim() || storeGroup || onlySaved || filter !== "전체" || showDiscoveries);
 
   const jumpToExplorer = () => explorerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const animatePhoto = (kind: "forward" | "left" | "right") => {
@@ -369,14 +372,15 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     const candidate = resultStores.find(store => store.event) || resultStores[0];
     if (candidate) focusStore(candidate.id, true);
   };
-  const searchFromBanner = (nextFilter: FilterType, nextQuery: string) => {
+  const searchFromBanner = (nextFilter: FilterType, nextQuery: string, nextGroup: StoreGroupId | null = null) => {
     openTab("list");
     const searchUrl = new URL(window.location.href);
     if (nextQuery.trim()) searchUrl.searchParams.set("q", nextQuery.trim()); else searchUrl.searchParams.delete("q");
     window.history.replaceState({}, "", searchUrl);
-    const results = effectiveStores.filter(store => matchStore(store, nextFilter, nextQuery));
+    const results = effectiveStores.filter(store => matchStore(store, nextFilter, nextQuery, nextGroup));
     setFilter(nextFilter);
     setQuery(nextQuery);
+    setStoreGroup(nextGroup);
     setOnlySaved(false);
     setShowDiscoveries(false);
     setBuilding("전체");
@@ -399,6 +403,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const openBannerStore = (storeId: number) => {
     setFilter("전체");
     setQuery("");
+    setStoreGroup(null);
     setOnlySaved(false);
     setShowDiscoveries(false);
     setBuilding("전체");
@@ -422,8 +427,8 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     <main className="page">
       {demoTour && <div className="street-tour-preview-note"><Camera size={18}/><div><strong>C동 실제 촬영 미리보기</strong><span>거리뷰 보기를 켜고 지도 발자국을 눌러 보세요. 지도 위치는 임시 배치이며 운영 데이터는 변경하지 않습니다.</span></div><button type="button" onClick={()=>{setFloor(1);setBuilding("전체");focusNode("c-entry");}}>입구부터 둘러보기 <ArrowRight size={16}/></button></div>}
       {tab === "map" && !demoTour && <CustomerBanner
-        stores={effectiveStores.filter(store => matchStore(store, filter, query))}
-        published={publication.status === "published"} filter={filter} query={query}
+        stores={effectiveStores.filter(store => matchStore(store, filter, query, storeGroup))}
+        published={publication.status === "published"} filter={filter} group={storeGroup} query={query}
         onQueryChange={value => { setQuery(value); setShowDiscoveries(false); }}
         onSearch={searchFromBanner} onSelectStore={openBannerStore}
       />}
@@ -432,14 +437,16 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
 
       {tab === "list" && <header className="service-directory-heading"><span className="service-kicker">ONE NEIGHBORHOOD, MANY DISCOVERIES</span><h1>오늘은 어떤 가게를 만나볼까요?</h1><p>층을 넘나들며, 나에게 맞는 맛과 멋을 찾아보세요.</p></header>}
       <section className="explore-section" ref={explorerRef} id="explore" aria-label="가게 및 거리 탐색">
-        {tab !== "map" && <div className="site-data-status" role="status">{siteDataNote}</div>}
+        {tab !== "map" && dataWarning && <div className="site-data-status" role="status">{dataWarning}</div>}
         <div className={`explore-toolbar ${tab === "map" ? "" : "is-filter-panel"}`}>
           {/* On the map tab the banner directly above already has the same search box (same query). */}
           {(tab !== "map" || demoTour) && <label className="search-field"><Search size={19}/><input value={query} onChange={(event) => { setQuery(event.target.value); setShowDiscoveries(false); }} placeholder="가게 이름·업종·키워드 검색" aria-label="전체 가게 검색"/>{query && <button type="button" className="clear-search" onClick={() => setQuery("")} aria-label="검색어 지우기"><X size={15}/></button>}</label>}
           <div className="filter-row"><span className="filter-row-label">종류</span><div className="filter-buttons" role="group" aria-label="가게 종류 필터">
-            {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item}>
+            {filters.map((item) => <button key={item} type="button" className={`filter-chip ${filter === item && !(item === "전체" && storeGroup) ? "selected" : ""} type-${item === "전체" ? "all" : item === "맛" ? "food" : item === "멋" ? "style" : "event"}`} onClick={() => { setFilter(item); setStoreGroup(null); setShowDiscoveries(item === "이벤트"); }} aria-pressed={filter === item && !(item === "전체" && storeGroup)}>
               {item === "맛" ? <Utensils size={15}/> : item === "멋" ? <Camera size={15}/> : item === "이벤트" ? <Zap size={15}/> : <Layers3 size={15}/>} {item}
             </button>)}
+            {/* A kind picked from the banner (식당, 카페·빵, ...) stays visible here and can be cleared. */}
+            {storeGroup && <button type="button" className="filter-chip selected store-group-chip" aria-pressed="true" aria-label={`${storeGroup} 조건 해제`} onClick={() => setStoreGroup(null)}>{storeGroup} <X size={14}/></button>}
             <button type="button" className={`filter-chip saved-filter ${onlySaved ? "selected" : ""}`} onClick={() => { setOnlySaved((p) => !p); setShowDiscoveries(false); }} aria-pressed={onlySaved}><Heart size={15} fill={onlySaved ? "currentColor" : "none"}/> 저장한 가게 {favorites.length > 0 && <span className="saved-count">{favorites.length}</span>}</button>
           </div></div>
           {tab !== "map" && <div className="filter-row"><span className="filter-row-label">동</span><div className="filter-buttons" role="group" aria-label="동 필터">{["전체", ...buildings].map(item => <button key={item} type="button" className={`filter-chip ${building===item ? "selected" : ""}`} onClick={() => { setBuilding(item); setSelectedStoreId(null); setRouteTargetId(null); }} aria-pressed={building===item} style={item === "전체" ? undefined : {"--block-color": blockColor(item)} as CSSProperties}>{item !== "전체" && <i className="block-dot" aria-hidden="true"/>}{item === "전체" ? "전체" : item}<span className="filter-count">{item === "전체" ? effectiveStores.length : effectiveStores.filter(store => store.building === item).length}</span></button>)}</div></div>}
@@ -520,7 +527,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 </div>
               </aside>
             </div>
-            <details className="map-disclaimer"><summary><Info size={14}/> 지도는 개념도예요 · 메뉴·가격·영업은 현장에서 확인해 주세요</summary><p>{siteDataNote} {floor}층 점포만 표시합니다. 촬영 지점은 연결된 건물 외관 사진일 수 있으며 실제 층별 실내 촬영 위치와 다를 수 있습니다. 간편 안내도의 건물 배치는 실제 지도를 따라 그렸지만, 점포·촬영 지점 좌표는 동 안의 대략적인 위치입니다. 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p></details>
+            <details className="map-disclaimer"><summary><Info size={14}/> 지도는 개념도예요 · 메뉴·가격·영업은 현장에서 확인해 주세요</summary><p>{dataWarning && `${dataWarning} `}{floor}층 점포만 표시합니다. 촬영 지점은 연결된 건물 외관 사진일 수 있으며 실제 층별 실내 촬영 위치와 다를 수 있습니다. 간편 안내도의 건물 배치는 실제 지도를 따라 그렸지만, 점포·촬영 지점 좌표는 동 안의 대략적인 위치입니다. 실측 길찾기 용도가 아닙니다. {currentSurface()==="legacy" && <a href={appUrl("editor","/map-editor")}> 전체 지도 편집 도구</a>}</p></details>
           </section>
 
           <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
@@ -594,7 +601,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
           <div className="store-card-bottom"><span><MapPin size={14}/>{store.building} {store.floor}층 · {store.unit || "호수 확인 전"}</span></div>
           <button className="store-card-route" type="button" disabled={!streetNodes.some(node => node.stores.includes(store.id))} onClick={() => guideToStore(store.id)}><Navigation size={14}/> 현재 촬영 지점에서 찾아보기</button>
         </article>)}</div>
-        </section>) : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); setFloor(1); setBuilding("전체"); setListFloor("전체"); }}>전체 가게 보기</button></div>}</>}
+        </section>) : <div className="no-stores"><Search size={26}/><strong>조건에 맞는 가게가 없어요</strong><p>검색어 또는 필터를 변경해 보세요.</p><button type="button" onClick={() => { setQuery(""); setStoreGroup(null); setFilter("전체"); setOnlySaved(false); setShowDiscoveries(false); setFloor(1); setBuilding("전체"); setListFloor("전체"); }}>전체 가게 보기</button></div>}</>}
 
         {featuredStores.length > 0 && !showDiscoveries && <div className="subtle-promo"><Zap size={18}/><span>등록된 이벤트 문구가 있는 가게 <strong>{featuredStores.length}곳</strong>을 모아볼 수 있어요.</span><button type="button" onClick={() => { setFilter("이벤트"); setShowDiscoveries(true); setOnlySaved(false); setQuery(""); jumpToExplorer(); }}>오늘의 발견 보기 <ArrowRight size={15}/></button></div>}
       </section>
