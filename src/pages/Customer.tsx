@@ -244,7 +244,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
       const group = groups.get(store.building) || {count: 0, x: 0, y: 0, event: false};
       groups.set(store.building, {count: group.count + 1, x: group.x + point.x, y: group.y + point.y, event: group.event || Boolean(store.event)});
     }
-    // A~D badges sit at their building's centre so they never cover the green street; other blocks use their stores' centre.
+    // A~D badges sit at their building's centre so they never cover the photographed street; other blocks use their stores' centre.
     const badges = [...groups].map(([name, group]) => ({building: name, count: group.count, ...(blockAnchors[name] || {x: Math.round(group.x / group.count), y: Math.round(group.y / group.count)}), event: group.event}));
     // Every block keeps a (muted) badge so the map always names A~D, even on floors without its stores.
     for (const [name, anchor] of Object.entries(blockAnchors)) if (!groups.has(name)) badges.push({building: name, count: 0, ...anchor, event: false});
@@ -491,19 +491,20 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
             </div>}
             <div className="map-floor-layout">
               <div className="district-map district-map-concept">
-              <svg viewBox={narrowMap ? "38 8 462 360" : "0 0 500 374"} className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
+              <svg viewBox={narrowMap ? "38 4 462 366" : "0 0 500 374"} className="map-svg" role="group" aria-label={`송도 타임스페이스 ${floor}층 상권 개념도, 클릭 가능한 촬영 지점과 ${floor}층 점포 표시`}>
                 <image href={mapVisualMode === "uploaded" && mapBackground ? mapBackground : "/brand/timespace-map.svg"} x="0" y="0" width="500" height="374" preserveAspectRatio="none"/>
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
-                {/* Streets from the central plaza without photos yet (slate, 거리뷰 준비 중), under the green street. */}
+                {/* Streets from the central plaza without photos yet (slate, 거리뷰 준비 중), under the photographed street. */}
                 {photoStreetPaths[0] === cStreetPhotoPath && <g className="map-planned-street" aria-hidden="true">
                   {plannedStreetPaths.map(street => streetBand(street.points, street.sides, `h${street.name}`))}
                   {plannedStreetPaths.map(street => <polyline key={street.name} points={street.points.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-planned-street-line"/>)}
-                  {/* Like the 남쪽 입구 arrow, each street's far end has an arrow pointing in toward the central plaza, plus a 방향 · 거리뷰 준비 중 tag. */}
+                  {/* Like the 남쪽 입구 arrow, each street's far end has an arrow pointing in toward the central plaza and a <방향> 입구 tag; the line itself is tagged 거리뷰 준비 중. */}
                   {plannedStreetPaths.map(street => { const end = street.points[street.points.length - 1], before = street.points[street.points.length - 2]; const angle = Math.atan2(end.y - before.y, end.x - before.x);
                     return <path key={`a${street.name}`} d="M9 0L-6 -8L-2.5 0L-6 8Z" transform={`translate(${end.x - Math.cos(angle) * 8} ${end.y - Math.sin(angle) * 8}) rotate(${angle * 180 / Math.PI + 180})`} className="map-planned-street-arrow"/>; })}
-                  {plannedStreetPaths.map(street => <g key={`l${street.name}`} transform={`translate(${street.label.x} ${street.label.y})`} className="map-planned-street-tag"><rect x="-47" y="-7.5" width="94" height="15" rx="7.5"/><text y="3.2"><tspan className="map-planned-street-direction">{street.name}</tspan> · 거리뷰 준비 중</text></g>)}
+                  {plannedStreetPaths.map(street => <g key={`l${street.name}`} transform={`translate(${street.label.x} ${street.label.y})`} className="map-planned-street-tag"><rect x="-31" y="-7.5" width="62" height="15" rx="7.5"/><text y="3.2">거리뷰 준비 중</text></g>)}
+                  {plannedStreetPaths.map(street => <g key={`e${street.name}`} transform={`translate(${street.entry.x} ${street.entry.y})`} className="map-planned-street-entry"><rect x="-24" y="-7" width="48" height="14" rx="7"/><text y="3.6">{street.name} 입구</text></g>)}
                 </g>}
                 {photoStreetPaths.length > 0 && <g className="map-photo-street" role="button" tabIndex={0} aria-label={`거리 사진이 있는 길 · ${streetStartNode?.name || ""}부터 거리뷰 보기`} onClick={openStreetView} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openStreetView(); } }}>
                   {photoStreetPaths.map((path, i) => path === cStreetPhotoPath ? streetBand(path, cStreetPhotoSides, `h${i}`) : <polyline key={i} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-halo"/>)}
@@ -515,7 +516,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                       {i === 0 && <g transform={`translate(${a.x} ${a.y + 13})`}><rect x="-24" y="-7" width="48" height="14" rx="7"/><text y="3.6">남쪽 입구</text></g>}
                     </g>; })}
                 </g>}
-                {/* Footprints only mark where street photos were taken; the 거리뷰 보기 button and the green street open them.
+                {/* Footprints only mark where street photos were taken; the 거리뷰 보기 button and the navy street open them.
                     The street's first point is drawn as the entrance arrow instead of a dot. */}
                 {mappedPhotoNodes.filter(node => !(photoStreetPaths.length && node.id === streetStartNode?.id)).map((node) => { const p = geometry.nodes[node.id]; return <g key={node.id} className={`map-node ${currentNodeId === node.id ? "is-active" : ""}`} aria-hidden="true">
                     <circle cx={p.x} cy={p.y} r={currentNodeId === node.id ? "5.5" : "4.5"} className="map-node-dot"/>
@@ -531,7 +532,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                     <path d={`M${point.x} ${point.y} l-6 -9 h12 z`} className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><rect x={point.x - width / 2} y={point.y - 33} width={width} height="24" rx="12" className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><text x={point.x} y={point.y - 17} className="map-store-text map-store-name">{label}</text>
                   </g>; })()}
               </svg>
-              <div className="map-legend"><span><i className="legend-photo-street"/>초록 길 · 거리 사진 (누르면 보기, 남쪽 입구부터)</span>{photoStreetPaths[0] === cStreetPhotoPath && <span><i className="legend-planned-street"/>회색 길 · 거리뷰 준비 중 (화살표는 중앙 방향)</span>}<span><i className="legend-block"/>동별 가게 · 누르면 그 동만 · 길 양옆 색은 맞닿은 동</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
+              <div className="map-legend"><span><i className="legend-photo-street"/>남색 길 · 거리 사진 (누르면 보기)</span>{photoStreetPaths[0] === cStreetPhotoPath && <span><i className="legend-planned-street"/>회색 길 · 거리뷰 준비 중</span>}<span><i className="legend-block"/>동별 가게 · 누르면 그 동만 · 길 양옆 색은 맞닿은 동</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
               </div>
               <aside className="map-floor-sidebar" aria-label="층 및 점포 지점 선택">
                 <div className="map-floor-heading"><Layers3 size={16}/><strong>층 선택</strong></div>
@@ -540,7 +541,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                     <strong>{n}층</strong><small>{effectiveStores.filter(store => store.floor === n && (building === "전체" || store.building === building)).length}곳</small>
                   </button>)}
                 </div>
-                <div className="map-street-view-box"><button type="button" onClick={openStreetView} disabled={!streetStartNode}><Footprints size={26}/><span><strong>거리뷰 보기</strong>{streetStartNode && <small>{streetStartNode.name}부터 시작</small>}</span></button></div>
+                <div className="map-street-view-box"><button type="button" onClick={openStreetView} disabled={!streetStartNode}><Footprints size={26}/><span><strong>거리뷰 보기</strong>{streetStartNode && <small>{streetStartNode.id === "c-entry" ? "남쪽 입구에서 걸어 들어가요" : `${streetStartNode.name}에서 출발해요`}</small>}</span></button></div>
                 <div className="map-floor-point-heading"><strong>{floor}층 가게</strong><span>{matchingStores.length}곳</span></div>
                 <div className="map-floor-points">
                   {matchingStores.length ? [...new Set(matchingStores.map(store => store.building))].sort((a, b) => a.localeCompare(b, "ko")).map(block => <div key={block} className="map-floor-group">

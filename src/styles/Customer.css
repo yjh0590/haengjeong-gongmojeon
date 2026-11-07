@@ -237,12 +237,12 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .block-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--block-color,#64748b);margin-right:6px;vertical-align:middle;flex-shrink:0}
 .map-floor-group-title b{display:inline-flex;align-items:center;font-weight:800;color:#1f3b57}
 .legend-block{background:linear-gradient(90deg,#2f6fdb 0 25%,#0e9f6e 25% 50%,#e8730c 50% 75%,#8b5cf6 75%)!important;border:0!important}
-.app-shell .map-street-view-box{border:0;background:linear-gradient(135deg,#17a382,#0f766e);box-shadow:0 6px 16px #0f766e40}
+.app-shell .map-street-view-box{border:0;background:linear-gradient(135deg,#2f5a8f,#22406b);box-shadow:0 6px 16px #22406b40}
 .app-shell .map-street-view-box>button{color:#fff}
 .app-shell .map-street-view-box>button:hover{background:#ffffff14}
-.app-shell .map-street-view-box.is-active{background:linear-gradient(135deg,#0f5e4c,#0b4a3c)}
+.app-shell .map-street-view-box.is-active{background:linear-gradient(135deg,#1a3254,#132743)}
 .app-shell .map-street-view-box.is-active>button{color:#fff}
-.app-shell .map-street-view-box p{color:#e6fff6;margin:0 10px 10px}
+.app-shell .map-street-view-box p{color:#e7efff;margin:0 10px 10px}
 .app-shell .map-street-view-box button:focus-visible{outline:3px solid #fff;outline-offset:-5px}
 .map-floor-type,.map-floor-type.style{width:auto;height:auto;background:none;border-radius:0;display:inline-flex;color:#5d7891}
 .map-floor-type.style{color:#9a6a42}
@@ -283,33 +283,33 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 
 /* Photographed street: a green band on the map that opens the street view. */
 .district-map-concept .map-photo-street{cursor:pointer}
-.district-map-concept .map-photo-street-halo{stroke:#17a382;stroke-opacity:.22;stroke-width:30;stroke-linecap:round}
-.district-map-concept .map-photo-street-line{stroke:#17a382;stroke-width:9;stroke-linecap:round}
+.district-map-concept .map-photo-street-halo{stroke:#2f5a8f;stroke-opacity:.22;stroke-width:30;stroke-linecap:round}
+.district-map-concept .map-photo-street-line{stroke:#2f5a8f;stroke-width:9;stroke-linecap:round}
 .district-map-concept .map-photo-street:hover .map-photo-street-halo{stroke-opacity:.38}
 .district-map-concept .map-photo-street:focus-visible{outline:none}
-.district-map-concept .map-photo-street:focus-visible .map-photo-street-halo{stroke:#0b4a3c;stroke-opacity:.45}
+.district-map-concept .map-photo-street:focus-visible .map-photo-street-halo{stroke:#132743;stroke-opacity:.45}
 .district-map-concept .map-node{pointer-events:none}
-.district-map-concept .map-node-circle{fill:#17a382}
-.district-map-concept .map-node.is-active .map-node-circle{fill:#0f766e}
+.district-map-concept .map-node-circle{fill:#2f5a8f}
+.district-map-concept .map-node.is-active .map-node-circle{fill:#22406b}
 .district-map-concept .map-node-ring{fill:#d5f3e9}
-.district-map-concept .map-node.is-active .map-node-ring{fill:#bfeadb;stroke:#0f766e}
-.legend-photo-street{background:#17a382!important;border-radius:4px!important;width:18px!important}
+.district-map-concept .map-node.is-active .map-node-ring{fill:#d3e0f2;stroke:#22406b}
+.legend-photo-street{background:#2f5a8f!important;border-radius:4px!important;width:18px!important}
 .app-shell .map-street-view-box>button>span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.2}
 .app-shell .map-street-view-box small{font-size:12px;font-weight:600;opacity:.88;margin-top:3px}
 .district-map-concept .map-photo-street-halo{stroke-opacity:.3;stroke-width:32}
 .district-map-concept .map-photo-street-line{stroke-width:10}
-.district-map-concept .map-photo-street-label rect{fill:#0f766e;stroke:#fff;stroke-width:2;filter:drop-shadow(0 2px 4px #0b4a3c55)}
+.district-map-concept .map-photo-street-label rect{fill:#22406b;stroke:#fff;stroke-width:2;filter:drop-shadow(0 2px 4px #13274355)}
 .district-map-concept .map-photo-street-label text{fill:#fff;font-size:10.5px;font-weight:800;text-anchor:middle}
 .district-map-concept .map-photo-street:hover .map-photo-street-label rect{fill:#0b5e51}
 
-/* Map clean-up: one label per block, small photo dots on the green street. */
-.district-map-concept .map-node-dot{fill:#fff;stroke:#0f766e;stroke-width:3}
+/* Map clean-up: one label per block, small photo dots on the photographed street. */
+.district-map-concept .map-node-dot{fill:#fff;stroke:#22406b;stroke-width:3}
 .district-map-concept .map-block-badge.is-empty{pointer-events:none}
 .district-map-concept .map-block-badge.is-empty .map-block-badge-chip{fill:#ffffffd9;stroke-width:1.5;filter:none}
 .district-map-concept .map-block-badge.is-empty .map-block-badge-text{font-size:10px}
 .district-map-concept .map-photo-street-halo{stroke-opacity:.22;stroke-width:24}
 .district-map-concept .map-photo-street-line{stroke-width:8}
-@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:462/360}}
+@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:462/366}}
 
 /* INTERACTIVE MAP title: more air between the eyebrow, title and map. */
 .app-shell .map-panel .panel-header{margin-bottom:16px;align-items:flex-start}
@@ -321,11 +321,11 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-photo-street-halo{stroke-width:24;stroke-opacity:.28;stroke-linejoin:round}
 .district-map-concept .map-photo-street-line{stroke-width:7;stroke-linejoin:round}
 .district-map-concept .map-node-dot{stroke-width:2.5}
-/* Entrance of the photographed street: an arrow pointing in, with a small 입구 tag on the road. */
-.district-map-concept .map-photo-street-arrow{fill:#0f766e;stroke:#fff;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #0b4a3c55)}
-.district-map-concept .map-photo-street-entry rect{fill:#fff;stroke:#0f766e;stroke-width:1.4}
-.district-map-concept .map-photo-street-entry text{fill:#0f766e;font-size:9px;font-weight:800;text-anchor:middle}
-/* Streets without photos yet: a slate centre line over the block-coloured band, an arrow at the far end pointing to the plaza, and a 방향 · 거리뷰 준비 중 tag. */
+/* Entrance of the photographed street (navy, like the 거리뷰 보기 button): an arrow pointing in, with a 남쪽 입구 tag on the road. */
+.district-map-concept .map-photo-street-arrow{fill:#22406b;stroke:#fff;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #13274355)}
+.district-map-concept .map-photo-street-entry rect{fill:#fff;stroke:#22406b;stroke-width:1.4}
+.district-map-concept .map-photo-street-entry text{fill:#22406b;font-size:9px;font-weight:800;text-anchor:middle}
+/* Streets without photos yet: a slate centre line over the block-coloured band, an arrow at the far end pointing to the plaza, a <방향> 입구 tag at the far end and a 거리뷰 준비 중 tag on the line. */
 .district-map-concept .map-planned-street{pointer-events:none}
 /* Street highlighter band: each half in the colour of the block on that side (map-street-band, Customer.tsx). */
 .district-map-concept .map-street-band polyline{stroke-opacity:.24;stroke-width:12;stroke-linejoin:round}
@@ -334,7 +334,8 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-planned-street-arrow{fill:#7d90a8;stroke:#fff;stroke-width:1.6;stroke-linejoin:round}
 .district-map-concept .map-planned-street-tag rect{fill:#fffffff0;stroke:#94a6bd;stroke-width:1}
 .district-map-concept .map-planned-street-tag text{fill:#5c6f86;font-size:8.5px;font-weight:600;text-anchor:middle}
-.district-map-concept .map-planned-street-direction{font-weight:800;fill:#3f526a}
+.district-map-concept .map-planned-street-entry rect{fill:#fff;stroke:#7d90a8;stroke-width:1.4}
+.district-map-concept .map-planned-street-entry text{fill:#4a5d75;font-size:9px;font-weight:800;text-anchor:middle}
 .legend-planned-street{background:#8ea2bb!important;box-shadow:0 0 0 3px #7d93ae33;border-radius:4px!important;width:18px!important}
 
 /* Phones: compact 3-per-row store tiles (photo, name, location). Tap opens the full details. */

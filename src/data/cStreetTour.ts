@@ -34,12 +34,13 @@ export const cStreetPhotoSides: StreetSides = ['B동', 'C동'];
 /**
  * Streets from the central plaza that have no street photos yet, drawn with a slate centre line, an arrow
  * pointing back to the plaza and a "방향 · 거리뷰 준비 중" tag, so the map shows where the street view will
- * lead. Centre lines measured on timespace-map.svg; `label` is where the tag sits on each line.
+ * lead. Centre lines measured on timespace-map.svg; `label` is where the 거리뷰 준비 중 tag sits on the line and
+ * `entry` where the "<방향> 입구" tag sits at its outer end.
  */
-export const plannedStreetPaths: {name: string; points: {x: number; y: number}[]; label: {x: number; y: number}; sides: StreetSides}[] = [
-  {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}, sides: ['A동', 'D동']},
-  {name: '서쪽', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 108, y: 182}, sides: ['D동', 'C동']},
-  {name: '동쪽', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 316, y: 180}, sides: ['B동', 'A동']},
+export const plannedStreetPaths: {name: string; points: {x: number; y: number}[]; label: {x: number; y: number}; entry: {x: number; y: number}; sides: StreetSides}[] = [
+  {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}, entry: {x: 255, y: 13}, sides: ['A동', 'D동']},
+  {name: '서쪽', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 180, y: 183}, entry: {x: 89, y: 183}, sides: ['D동', 'C동']},
+  {name: '동쪽', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 316, y: 180}, entry: {x: 470, y: 214}, sides: ['B동', 'A동']},
 ];
 
 /** Customer site dataset: the C-block photo tour plus the photo-verified A-D block stores on floors 1-3. */
