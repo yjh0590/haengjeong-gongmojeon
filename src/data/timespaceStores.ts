@@ -703,7 +703,7 @@ export const timespaceStores: StoreData[] = [
   },
   {
     "id": 9223,
-    "name": "Lucass Pizza(루카스피자)",
+    "name": "Lucas Pizza(루카스피자)",
     "building": "B동",
     "floor": 1,
     "unit": "120호",

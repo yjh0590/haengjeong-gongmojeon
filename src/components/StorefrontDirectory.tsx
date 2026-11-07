@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, Camera, ChevronLeft, ChevronRight, MapPin, Search, Store, X, ZoomIn } from 'lucide-react';
 import catalog from '../data/storefrontCatalog.json';
+import signNames from '../data/storeSignNames.json';
 import '../styles/StorefrontDirectory.css';
 
 type Entry = typeof catalog.records[number];
+// Show the name on the storefront sign where the registry spelling differs (e.g. Lucas Pizza).
+const names: Record<string, string> = signNames.names;
+const records: Entry[] = catalog.records.map(entry => names[entry.id] ? {...entry, name: names[entry.id]} : entry);
 const PAGE_SIZE = 18;
-const photoRecords = catalog.records.filter(entry => entry.photo);
+const photoRecords = records.filter(entry => entry.photo);
 const areas = ['A','B','C','D'].flatMap(building => [1,2,3].map(floor => ({building, floor, count:photoRecords.filter(entry => entry.building===building && entry.floor===floor).length})));
 function floorLabel(floor: number | null) {
   return floor === null ? '층 미확인' : floor < 0 ? `지하 ${Math.abs(floor)}층` : `${floor}층`;
@@ -29,7 +33,7 @@ export default function StorefrontDirectory({embedded = false}: {embedded?: bool
   const [showOriginal, setShowOriginal] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const rows = useMemo(() => catalog.records.filter(entry => {
+  const rows = useMemo(() => records.filter(entry => {
     if (!allRecords && !entry.photo) return false;
     if (building !== '전체' && entry.building !== building) return false;
     if (floor === '그 외' ? [1, 2, 3].includes(entry.floor ?? 0) : floor !== '전체' && entry.floor !== Number(floor)) return false;

@@ -9,6 +9,8 @@ const catalog = require('../src/data/storefrontCatalog.json');
 const { details } = require('../src/data/timespaceStoreDetails.json');
 const sourceLabel = d => d.sourceDate ? `${d.sourceDate.slice(0, 7).replace('-', '.')} 자료 기준` : '매장 안내 자료 기준';
 // Every store here is in Timespace, so drop branch suffixes from the display name (the catalog keeps the full name).
+// Names as written on the storefront sign where the registry spelling differs (registry record stays as collected).
+const signNames = require('../src/data/storeSignNames.json').names;
 const displayName = name => name.replace(/\s*(\((?:타임스페이스점|송도점)\)|송도타임스페이스점|인천송도타임스페이스|인천타임스페이스점|인천대입구역점|타임스페이스점|송도점)$/, '').trim() || name;
 function describe(r) {
   const d = details[r.id];
@@ -75,7 +77,7 @@ for (const r of rows) {
   const id = nextId++;
   const unit = unitText(r.rooms);
   stores.push({
-    id, name: displayName(r.name), building: `${r.building}동`, floor: r.floor, ...(unit ? { unit } : {}),
+    id, name: signNames[r.id] || displayName(r.name), building: `${r.building}동`, floor: r.floor, ...(unit ? { unit } : {}),
     type: foodCategories.includes(r.category) ? '맛' : '멋', category: r.category,
     ...describe(r),
     storefrontImage: r.photo.retouch?.path || r.photo.path,
