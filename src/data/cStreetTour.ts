@@ -24,14 +24,22 @@ export const cStreetTour: SitePublication = {
 export const cStreetPhotoPath = [{x: 253, y: 349}, {x: 253, y: 181}];
 
 /**
- * Streets from the central plaza that have no street photos yet, drawn in slate with an arrow and a
- * "방향 · 거리뷰 준비 중" tag so the map shows where the street view will lead. Centre lines measured on
- * timespace-map.svg; `label` is where the tag sits on each line.
+ * The two blocks along a street, as [right side, left side] when walking along its points
+ * (screen coordinates). The map tints each half of the street's highlighter band in that block's colour.
  */
-export const plannedStreetPaths = [
-  {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}},
-  {name: '서쪽', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 108, y: 182}},
-  {name: '동쪽', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 316, y: 180}},
+export type StreetSides = [string, string];
+/** Walking north from the southern entrance: B on the right, C on the left. */
+export const cStreetPhotoSides: StreetSides = ['B동', 'C동'];
+
+/**
+ * Streets from the central plaza that have no street photos yet, drawn with a slate centre line, an arrow
+ * pointing back to the plaza and a "방향 · 거리뷰 준비 중" tag, so the map shows where the street view will
+ * lead. Centre lines measured on timespace-map.svg; `label` is where the tag sits on each line.
+ */
+export const plannedStreetPaths: {name: string; points: {x: number; y: number}[]; label: {x: number; y: number}; sides: StreetSides}[] = [
+  {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}, sides: ['A동', 'D동']},
+  {name: '서쪽', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 108, y: 182}, sides: ['D동', 'C동']},
+  {name: '동쪽', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 316, y: 180}, sides: ['B동', 'A동']},
 ];
 
 /** Customer site dataset: the C-block photo tour plus the photo-verified A-D block stores on floors 1-3. */
