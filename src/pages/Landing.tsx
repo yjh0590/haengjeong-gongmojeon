@@ -13,16 +13,30 @@ export default function Landing() {
     document.title = "맛&멋 AI Street | 메인";
   }, []);
 
-  /** The cards are already on screen, so "find a service" points at them instead of scrolling. */
+  /**
+   * The cards are already on screen, so "find a service" points at them instead of opening anything.
+   * Each card grows and settles back one after another, so the eye lands on the three choices.
+   */
   function showServices(event: MouseEvent<HTMLAnchorElement>) {
     event.preventDefault();
     const cards = Array.from(services.current?.querySelectorAll("a") ?? []);
-    cards[0]?.focus();
+    cards[0]?.focus({ preventScroll: true });
+    services.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    cards.forEach((card, index) => card.animate(
-      [{ transform: "none" }, { transform: "translateY(-6px)" }, { transform: "none" }],
-      { duration: 420, delay: index * 70, easing: "ease-out" },
-    ));
+    const ring = "0 0 0 3px rgba(68,108,194,.55), 0 16px 34px rgba(42,82,170,.26)";
+    cards.forEach((card, index) => {
+      card.style.zIndex = "2";
+      card.animate(
+        [
+          { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(68,108,194,0)" },
+          { transform: "scale(1.1)", boxShadow: ring, offset: 0.35 },
+          { transform: "scale(0.97)", boxShadow: ring, offset: 0.6 },
+          { transform: "scale(1.02)", offset: 0.8 },
+          { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(68,108,194,0)" },
+        ],
+        { duration: 900, delay: index * 140, easing: "ease-in-out" },
+      ).finished.then(() => { card.style.zIndex = ""; }, () => { card.style.zIndex = ""; });
+    });
   }
 
   return <div className="itda-landing">

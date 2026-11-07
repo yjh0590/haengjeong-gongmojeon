@@ -135,6 +135,7 @@
   border:1px solid #e8edf6;
   border-radius:14px;
   background:#f3f6fc;
+  position:relative;
   text-align:left;
   transition:background .2s,transform .2s;
 }
