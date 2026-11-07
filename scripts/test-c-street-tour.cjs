@@ -78,8 +78,8 @@ const boardIds = new Set(boardJson.stores.map(b => timespaceStoreLinks[b.catalog
 assert.equal(boardIds.size, 9);
 for (const store of timespaceSite.stores) {
   assert(timespaceSite.geometry.stores[String(store.id)], `map slot for ${store.name}`);
-  if (boardIds.has(store.id)) {
-    assert(store.id >= 9301 && !store.storefrontImage && store.description.includes('현장 안내판 기준'), `board store ${store.name}`);
+  if (boardIds.has(store.id) && !store.storefrontImage) {
+    assert(store.id >= 9301 && store.tags.includes('사진 추후 업데이트'), `board store ${store.name}`);
   } else {
     assert(fs.existsSync(path.join('public', store.storefrontImage)), `photo for ${store.name}`);
   }

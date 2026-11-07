@@ -893,13 +893,13 @@ export const timespaceStores: StoreData[] = [
     "unit": "107호",
     "type": "맛",
     "category": "돈카츠",
-    "description": "돈카츠 가게. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
+    "description": "돈카츠 가게. 영업 매일 10:15~21:00 (브레이크타임 없음). 2025.02 방문 글 기준",
     "menu": "돈카츠",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/gyeongyang.jpg",
     "tags": [
       "돈카츠",
-      "C동 1층",
-      "사진 추후 업데이트"
+      "C동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0

@@ -1,5 +1,5 @@
 {
-  "note": "Stores added without storefront photos (photos to come). Each one is on the April 2026 on-site directory board (block and floor) and in the public address registry S01 (unit numbers) of the research catalog. Menus, prices and hours are not confirmed and stay '현장 확인'.",
+  "note": "Stores added from the directory board; most have no storefront photo yet (photos to come). Each one is on the April 2026 on-site directory board (block and floor) and in the public address registry S01 (unit numbers) of the research catalog. Menus and prices stay '현장 확인'; hours appear only where a store lists them with their source date (hoursAsOf).",
   "checkedOn": "2026-11-08",
   "sources": {
     "board-2026-04": {
@@ -18,6 +18,11 @@
       "title": "배스킨라빈스 송도타임스페이스점 안내 (mom-mom)",
       "url": "https://mom-mom.net/travel/spots/69eb08a718a0364535a3f90e"
     },
+    "blog-gyeongyang-2025-02": {
+      "title": "송도 경양카츠 방문 글 (Tistory '일상을 날다', 2025-02-06)",
+      "url": "https://ssamdwii.semobenefit.com/entry/%EC%9C%A1%EC%A6%99-%ED%8C%A1%ED%8C%A1-%EC%86%A1%EB%8F%84-%EA%B2%BD%EC%96%91%EC%B9%B4%EC%B8%A0-%EC%97%90%EC%84%9C-%EB%A7%9B%EB%B3%B4%EB%8A%94-%EB%B0%94%EC%82%AD%ED%95%9C-%EB%8F%88%EC%B9%B4%EC%B8%A0",
+      "note": "글에 '타임스페이스 C동 107호' 주소와 외관 사진이 있음. 외관 사진 1장을 사용. 재사용 허락은 받지 않음."
+    },
     "autoreserve-hasamdong": {
       "title": "하삼동커피 송도타임스페이스점 안내 (autoreserve)",
       "url": "https://autoreserve.com/en/restaurants/kU5F7rhJ5PvNsbbNLc9w"
@@ -30,7 +35,7 @@
     {"catalogId": "S01-171", "name": "한솥도시락", "building": "B", "floor": 1, "rooms": "111", "type": "맛", "category": "도시락", "summary": "도시락 프랜차이즈 매장", "sources": ["board-2026-04", "S01"]},
     {"catalogId": "S01-094", "name": "설빙", "building": "B", "floor": 2, "rooms": "214, 215, 216", "type": "맛", "category": "빙수·디저트", "summary": "빙수·디저트 카페", "sources": ["board-2026-04", "S01"]},
     {"catalogId": "S01-058", "name": "컴포즈커피", "building": "C", "floor": 1, "rooms": "118", "type": "맛", "category": "카페", "summary": "커피 프랜차이즈 매장", "sources": ["board-2026-04", "S01"]},
-    {"catalogId": "S01-151", "name": "경양카츠", "building": "C", "floor": 1, "rooms": "107", "type": "맛", "category": "돈카츠", "summary": "돈카츠 가게", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-151", "name": "경양카츠", "building": "C", "floor": 1, "rooms": "107", "type": "맛", "category": "돈카츠", "summary": "돈카츠 가게", "hours": "매일 10:15~21:00 (브레이크타임 없음)", "hoursAsOf": "2025.02 방문 글 기준", "photo": "/street/timespace-signs/gyeongyang.jpg", "sources": ["board-2026-04", "S01", "blog-gyeongyang-2025-02"]},
     {"catalogId": "S01-054", "name": "하삼동커피", "building": "D", "floor": 1, "rooms": "126", "type": "맛", "category": "카페", "summary": "커피 프랜차이즈 매장", "sources": ["board-2026-04", "S01", "autoreserve-hasamdong"]},
     {"catalogId": "S01-131", "name": "토지소곱창", "building": "D", "floor": 1, "rooms": "101", "type": "맛", "category": "곱창", "summary": "곱창 가게", "sources": ["board-2026-04", "S01"]}
   ]

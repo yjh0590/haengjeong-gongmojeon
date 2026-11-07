@@ -98,9 +98,12 @@ for (const b of board.stores) {
     id, name: b.name, building: `${b.building}동`, floor: b.floor, ...(unit ? { unit } : {}),
     type: b.type, category: b.category,
     // Short like the other cards; where the location was confirmed is listed on the admin dashboard.
-    description: `${b.summary}. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준`,
+    description: b.hours
+      ? `${b.summary}. 영업 ${b.hours}. ${b.hoursAsOf}`
+      : `${b.summary}. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준`,
     menu: b.category, price: '현장 확인',
-    tags: [b.category, `${b.building}동 ${b.floor}층`, '사진 추후 업데이트'],
+    ...(b.photo ? { storefrontImage: b.photo } : {}),
+    tags: [b.category, `${b.building}동 ${b.floor}층`, ...(b.photo ? [] : ['사진 추후 업데이트'])],
     walking: '위치는 안내 지도 참고 · 동 안 대략 위치', aiScore: 0,
   });
   links[b.catalogId] = id;
