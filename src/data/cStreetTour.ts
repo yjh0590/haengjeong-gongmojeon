@@ -24,9 +24,9 @@ export const cStreetTour: SitePublication = {
 export const cStreetPhotoPath = [{x: 253, y: 349}, {x: 253, y: 181}];
 
 /**
- * Streets from the central plaza that have no street photos yet, drawn faintly as "거리뷰 준비 중"
- * so the map shows where the street view will lead. Centre lines measured on timespace-map.svg;
- * `label` is where the tag sits on each line.
+ * Streets from the central plaza that have no street photos yet, drawn in slate with an arrow and a
+ * "방향 · 거리뷰 준비 중" tag so the map shows where the street view will lead. Centre lines measured on
+ * timespace-map.svg; `label` is where the tag sits on each line.
  */
 export const plannedStreetPaths = [
   {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}},
