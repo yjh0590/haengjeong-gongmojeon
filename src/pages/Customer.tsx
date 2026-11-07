@@ -25,7 +25,7 @@ import { pageTitle } from "../config/brand";
 import SceneBanner from "../components/SceneBanner";
 import NextStopCards from "../components/NextStopCards";
 import "../styles/ServiceUpgrade.css";
-import { cStreetPhotoPath, cStreetTour, timespaceSite } from "../data/cStreetTour";
+import { cStreetPhotoPath, cStreetTour, plannedStreetPaths, timespaceSite } from "../data/cStreetTour";
 import StoreName from "../components/StoreName";
 import { splitStoreName } from "../data/storeName";
 import { validStorefrontImage } from "../data/storefrontImage";
@@ -480,6 +480,11 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                 {geometry.passages.map((path,i)=>path.length>=2?<polyline key={`passage${i}`} points={path.map(p=>`${p.x},${p.y}`).join(" ")} fill="none" stroke="#13a99e" strokeWidth="4" strokeDasharray="9 6" strokeLinecap="round" pointerEvents="none"/>:null)}
                 {geometry.boundary.length >= 3 && <polygon points={geometry.boundary.map(p=>`${p.x},${p.y}`).join(" ")} fill="#f59e0b14" stroke="#ea580c" strokeWidth="3" strokeDasharray="9 6" pointerEvents="none"/>}
                 {routePath && routePath.length > 1 && routePath.every(id => Boolean(geometry.nodes[id])) && <polyline className="photo-route-line" points={routePath.map(id => { const p=geometry.nodes[id]; return `${p.x},${p.y}`; }).join(" ")} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" strokeDasharray="7 5" pointerEvents="none"/>}
+                {/* Streets from the central plaza without photos yet: faint lines tagged 거리뷰 준비 중, under the green street. */}
+                {photoStreetPaths[0] === cStreetPhotoPath && <g className="map-planned-street" aria-hidden="true">
+                  {plannedStreetPaths.map(street => <polyline key={street.name} points={street.points.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-planned-street-line"/>)}
+                  {plannedStreetPaths.map(street => <g key={`l${street.name}`} transform={`translate(${street.label.x} ${street.label.y})`} className="map-planned-street-tag"><rect x="-31" y="-7.5" width="62" height="15" rx="7.5"/><text y="3.2">거리뷰 준비 중</text></g>)}
+                </g>}
                 {photoStreetPaths.length > 0 && <g className="map-photo-street" role="button" tabIndex={0} aria-label={`거리 사진이 있는 길 · ${streetStartNode?.name || ""}부터 거리뷰 보기`} onClick={openStreetView} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openStreetView(); } }}>
                   {photoStreetPaths.map((path, i) => <polyline key={i} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-halo"/>)}
                   {photoStreetPaths.map((path, i) => <polyline key={`s${i}`} points={path.map(p => `${p.x},${p.y}`).join(" ")} fill="none" className="map-photo-street-line"/>)}
@@ -506,7 +511,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                     <path d={`M${point.x} ${point.y} l-6 -9 h12 z`} className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><rect x={point.x - width / 2} y={point.y - 33} width={width} height="24" rx="12" className={`map-store-chip ${selectedStore.type === "맛" ? "food" : "style"}`}/><text x={point.x} y={point.y - 17} className="map-store-text map-store-name">{label}</text>
                   </g>; })()}
               </svg>
-              <div className="map-legend"><span><i className="legend-photo-street"/>초록 길 · 거리 사진 (누르면 보기, 화살표가 입구)</span><span><i className="legend-block"/>동별 가게 · 누르면 그 동만</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
+              <div className="map-legend"><span><i className="legend-photo-street"/>초록 길 · 거리 사진 (누르면 보기, 화살표가 입구)</span>{photoStreetPaths[0] === cStreetPhotoPath && <span><i className="legend-planned-street"/>옅은 길 · 거리뷰 준비 중</span>}<span><i className="legend-block"/>동별 가게 · 누르면 그 동만</span>{routePath && routePath.length > 1 && <span><i className="legend-photo-route"/>사진 지점 안내</span>}</div>
               </div>
               <aside className="map-floor-sidebar" aria-label="층 및 점포 지점 선택">
                 <div className="map-floor-heading"><Layers3 size={16}/><strong>층 선택</strong></div>

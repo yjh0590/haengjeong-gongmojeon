@@ -325,6 +325,12 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-photo-street-arrow{fill:#0f766e;stroke:#fff;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #0b4a3c55)}
 .district-map-concept .map-photo-street-entry rect{fill:#fff;stroke:#0f766e;stroke-width:1.4}
 .district-map-concept .map-photo-street-entry text{fill:#0f766e;font-size:9px;font-weight:800;text-anchor:middle}
+/* Streets without photos yet: faint dashed green with a 거리뷰 준비 중 tag. */
+.district-map-concept .map-planned-street{pointer-events:none}
+.district-map-concept .map-planned-street-line{stroke:#17a382;stroke-opacity:.3;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 7}
+.district-map-concept .map-planned-street-tag rect{fill:#ffffffeb;stroke:#17a38266;stroke-width:1}
+.district-map-concept .map-planned-street-tag text{fill:#3b8f7a;font-size:8.5px;font-weight:700;text-anchor:middle}
+.legend-planned-street{background:repeating-linear-gradient(90deg,#17a3824d 0 5px,transparent 5px 8px)!important;border-radius:4px!important;width:18px!important}
 
 /* Phones: compact 3-per-row store tiles (photo, name, location). Tap opens the full details. */
 @media(max-width:600px){

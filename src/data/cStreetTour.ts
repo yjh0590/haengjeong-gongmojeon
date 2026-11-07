@@ -20,8 +20,19 @@ export const cStreetTour: SitePublication = {
   facades: [],
 };
 
-/** Centre line of the photographed B/C street, measured from the street pixels of timespace-map.svg. */
-export const cStreetPhotoPath = [{x: 253, y: 349}, {x: 253, y: 195}];
+/** Centre line of the photographed B/C street, from the southern entrance to the central plaza (timespace-map.svg). */
+export const cStreetPhotoPath = [{x: 253, y: 349}, {x: 253, y: 181}];
+
+/**
+ * Streets from the central plaza that have no street photos yet, drawn faintly as "거리뷰 준비 중"
+ * so the map shows where the street view will lead. Centre lines measured on timespace-map.svg;
+ * `label` is where the tag sits on each line.
+ */
+export const plannedStreetPaths = [
+  {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}},
+  {name: '서쪽', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 108, y: 182}},
+  {name: '동쪽', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 316, y: 180}},
+];
 
 /** Customer site dataset: the C-block photo tour plus the photo-verified A-D block stores on floors 1-3. */
 export const timespaceSite: SitePublication = {
