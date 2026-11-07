@@ -1,5 +1,5 @@
 {
-  "note": "Stores added from the directory board. Storefront photos: seven provided by the operator, one from a blog post; 설빙 has none yet (photo to come). Each one is on the April 2026 on-site directory board (block and floor) and in the public address registry S01 (unit numbers) of the research catalog. Menus and prices stay '현장 확인'; hours appear only where a store lists them with their source date (hoursAsOf).",
+  "note": "Stores added from the directory board. Storefront photos: eight provided by the operator, one from a blog post. Each one is on the April 2026 on-site directory board (block and floor) and in the public address registry S01 (unit numbers) of the research catalog. Menus and prices stay '현장 확인'; hours appear only where a store lists them with their source date (hoursAsOf).",
   "checkedOn": "2026-11-08",
   "sources": {
     "board-2026-04": {
@@ -37,7 +37,7 @@
     {"catalogId": "S01-061", "name": "배스킨라빈스", "building": "A", "floor": 1, "rooms": "119, 120", "type": "맛", "category": "아이스크림·디저트", "summary": "아이스크림 프랜차이즈 매장", "photo": "/street/timespace-signs/baskin.jpg", "sources": ["board-2026-04", "S01", "mom-mom-baskin", "operator-2026-11-08"]},
     {"catalogId": "S01-015", "name": "이리스안경원", "building": "A", "floor": 1, "rooms": "121, 122", "type": "멋", "category": "안경", "summary": "안경원", "photo": "/street/timespace-signs/iris.jpg", "sources": ["board-2026-04", "S01", "yeonsu-glasses", "operator-2026-11-08"]},
     {"catalogId": "S01-171", "name": "한솥도시락", "building": "B", "floor": 1, "rooms": "111", "type": "맛", "category": "도시락", "summary": "도시락 프랜차이즈 매장", "photo": "/street/timespace-signs/hansot.jpg", "sources": ["board-2026-04", "S01", "operator-2026-11-08"]},
-    {"catalogId": "S01-094", "name": "설빙", "building": "B", "floor": 2, "rooms": "214, 215, 216", "type": "맛", "category": "빙수·디저트", "summary": "빙수·디저트 카페", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-094", "name": "설빙", "building": "B", "floor": 2, "rooms": "214, 215, 216", "type": "맛", "category": "빙수·디저트", "summary": "빙수·디저트 카페", "photo": "/street/timespace-signs/sulbing.jpg", "sources": ["board-2026-04", "S01", "operator-2026-11-08"]},
     {"catalogId": "S01-058", "name": "컴포즈커피", "building": "C", "floor": 1, "rooms": "118", "type": "맛", "category": "카페", "summary": "커피 프랜차이즈 매장", "photo": "/street/timespace-signs/compose.jpg", "sources": ["board-2026-04", "S01", "operator-2026-11-08"]},
     {"catalogId": "S01-151", "name": "경양카츠", "building": "C", "floor": 1, "rooms": "107", "type": "맛", "category": "돈카츠", "summary": "돈카츠 가게", "hours": "매일 10:15~21:00 (브레이크타임 없음)", "hoursAsOf": "2025.02 방문 글 기준", "photo": "/street/timespace-signs/gyeongyang.jpg", "sources": ["board-2026-04", "S01", "blog-gyeongyang-2025-02"]},
     {"catalogId": "S01-054", "name": "하삼동커피", "building": "D", "floor": 1, "rooms": "126", "type": "맛", "category": "카페", "summary": "커피 프랜차이즈 매장", "photo": "/street/timespace-signs/hasamdong.jpg", "sources": ["board-2026-04", "S01", "autoreserve-hasamdong", "operator-2026-11-08"]},

@@ -858,10 +858,10 @@ export const timespaceStores: StoreData[] = [
     "description": "빙수·디저트 카페. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "빙수·디저트",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/sulbing.jpg",
     "tags": [
       "빙수·디저트",
-      "B동 2층",
-      "사진 추후 업데이트"
+      "B동 2층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
