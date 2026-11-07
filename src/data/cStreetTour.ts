@@ -10,8 +10,8 @@ export const cStreetTour: SitePublication = {
     {id:9103,name:'세븐일레븐',building:'C동',floor:1,unit:'119호',type:'맛',category:'편의점',description:'오봉집 오른쪽에 있는 편의점입니다.',menu:'편의점 상품',price:'상품별 상이',tags:['편의점','간식'],walking:'위치는 안내도 참고',aiScore:0,storefrontImage:'/street/c-block/seven-eleven.jpg'},
   ],
   nodes: [
-    {id:'c-entry',number:1,name:'C동 거리 입구',subtitle:'오락실 앞 · 거리 진입부',views:{forward:'/street/c-block/entrance.jpg'},stores:[9101,9102,9103],viewStores:{forward:[]},connections:[{direction:'forward',to:'c-street',arrivalView:'forward',label:'거리 안으로 들어가기'}]},
-    {id:'c-street',number:2,name:'C동 거리',subtitle:'같은 촬영 지점 · 앞과 뒤 방향',views:{forward:'/street/c-block/street-forward.jpg',back:'/street/c-block/street-back-retouched.png'},stores:[9101,9102,9103],viewStores:{forward:[],back:[],left:[9101,9102,9103],right:[]},connections:[]},
+    {id:'c-entry',number:1,name:'인천대입구역 쪽 입구',subtitle:'오락실 앞 · 거리 진입부',views:{forward:'/street/c-block/entrance.jpg'},stores:[9101,9102,9103],viewStores:{forward:[]},connections:[{direction:'forward',to:'c-street',arrivalView:'forward',label:'거리 안으로 들어가기'}]},
+    {id:'c-street',number:2,name:'B·C동 사이 길',subtitle:'같은 촬영 지점 · 앞과 뒤 방향',views:{forward:'/street/c-block/street-forward.jpg',back:'/street/c-block/street-back-retouched.png'},stores:[9101,9102,9103],viewStores:{forward:[],back:[],left:[9101,9102,9103],right:[]},connections:[]},
   ],
   // Positions on the street between the C block (bottom-left) and B block (bottom-right) of timespace-map.svg:
   // the back photo shows the B and C bridge markers on either side, and C is on the left when walking in from
@@ -20,7 +20,7 @@ export const cStreetTour: SitePublication = {
   facades: [],
 };
 
-/** Centre line of the photographed B/C street, from the southern entrance to the central plaza (timespace-map.svg). */
+/** Centre line of the photographed B/C street, from the 인천대입구역-side entrance to the central plaza (timespace-map.svg). */
 export const cStreetPhotoPath = [{x: 253, y: 349}, {x: 253, y: 181}];
 
 /** Where the four streets meet (timespace-map.svg). The map leaves it open and labels it 중앙 광장. */
@@ -31,19 +31,20 @@ export const centralPlaza = {x: 254, y: 181};
  * (screen coordinates). The map tints each half of the street's highlighter band in that block's colour.
  */
 export type StreetSides = [string, string];
-/** Walking north from the southern entrance: B on the right, C on the left. */
+/** Walking in from the 인천대입구역 side: B on the right, C on the left. */
 export const cStreetPhotoSides: StreetSides = ['B동', 'C동'];
 
 /**
- * Streets from the central plaza that have no street photos yet, drawn with a slate centre line, an arrow
- * pointing back to the plaza and a "방향 · 거리뷰 준비 중" tag, so the map shows where the street view will
- * lead. Centre lines measured on timespace-map.svg; `label` is where the 거리뷰 준비 중 tag sits on the line and
- * `entry` where the "<방향> 입구" tag sits at its outer end.
+ * Streets from the central plaza that have no street photos yet, drawn with a slate centre line, an arrow at
+ * the outer end pointing back to the plaza and a "<name> 입구 / 거리뷰 준비 중" tag, so the map shows where the
+ * street view will lead. Entrances are named by the blocks they pass between rather than compass points (the
+ * map's north is not verified); the photographed one is named after 인천대입구역, where most visitors come from.
+ * Centre lines measured on timespace-map.svg; `label` is where the tag sits on the line.
  */
-export const plannedStreetPaths: {name: string; points: {x: number; y: number}[]; label: {x: number; y: number}; entry: {x: number; y: number}; sides: StreetSides}[] = [
-  {name: '북쪽', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 92}, entry: {x: 255, y: 13}, sides: ['A동', 'D동']},
-  {name: '서쪽', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 180, y: 183}, entry: {x: 89, y: 183}, sides: ['D동', 'C동']},
-  {name: '동쪽', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 316, y: 180}, entry: {x: 470, y: 214}, sides: ['B동', 'A동']},
+export const plannedStreetPaths: {name: string; points: {x: number; y: number}[]; label: {x: number; y: number}; sides: StreetSides}[] = [
+  {name: 'A·D동 사이', points: [{x: 254, y: 181}, {x: 255, y: 24}], label: {x: 255, y: 75}, sides: ['A동', 'D동']},
+  {name: 'C·D동 사이', points: [{x: 254, y: 181}, {x: 46, y: 183}], label: {x: 135, y: 183}, sides: ['D동', 'C동']},
+  {name: 'A·B동 사이', points: [{x: 254, y: 181}, {x: 364, y: 179}, {x: 429, y: 195}, {x: 450, y: 203}], label: {x: 355, y: 181}, sides: ['B동', 'A동']},
 ];
 
 /** Customer site dataset: the C-block photo tour plus the photo-verified A-D block stores on floors 1-3. */

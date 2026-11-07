@@ -37,7 +37,7 @@ export const timespaceStores: StoreData[] = [
       "피부관리",
       "B동 3층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -74,7 +74,7 @@ export const timespaceStores: StoreData[] = [
       "미용실",
       "C동 2층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -111,7 +111,7 @@ export const timespaceStores: StoreData[] = [
       "미용실",
       "D동 3층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -148,7 +148,7 @@ export const timespaceStores: StoreData[] = [
       "미용실",
       "B동 3층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -173,7 +173,7 @@ export const timespaceStores: StoreData[] = [
       "미용실",
       "C동 3층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -210,7 +210,7 @@ export const timespaceStores: StoreData[] = [
       "베이커리",
       "D동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -239,7 +239,7 @@ export const timespaceStores: StoreData[] = [
       "카페",
       "D동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -258,7 +258,7 @@ export const timespaceStores: StoreData[] = [
       "카페",
       "D동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -291,7 +291,7 @@ export const timespaceStores: StoreData[] = [
       "베이커리",
       "A동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -310,7 +310,7 @@ export const timespaceStores: StoreData[] = [
       "안경",
       "B동 2층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -339,7 +339,7 @@ export const timespaceStores: StoreData[] = [
       "닭발·한식",
       "D동 2층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -376,7 +376,7 @@ export const timespaceStores: StoreData[] = [
       "네일숍",
       "A동 3층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -401,7 +401,7 @@ export const timespaceStores: StoreData[] = [
       "일식·오마카세",
       "A동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -434,7 +434,7 @@ export const timespaceStores: StoreData[] = [
       "양갈비",
       "C동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -467,7 +467,7 @@ export const timespaceStores: StoreData[] = [
       "철판요리",
       "C동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -504,7 +504,7 @@ export const timespaceStores: StoreData[] = [
       "스테이크",
       "D동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -529,7 +529,7 @@ export const timespaceStores: StoreData[] = [
       "고깃집",
       "B동 2층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -566,7 +566,7 @@ export const timespaceStores: StoreData[] = [
       "와인·다이닝",
       "A동 2층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -599,7 +599,7 @@ export const timespaceStores: StoreData[] = [
       "돈카츠",
       "B동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -632,7 +632,7 @@ export const timespaceStores: StoreData[] = [
       "와인·다이닝",
       "D동 2층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -669,7 +669,7 @@ export const timespaceStores: StoreData[] = [
       "고깃집",
       "A동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -698,7 +698,7 @@ export const timespaceStores: StoreData[] = [
       "경양식",
       "A동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -735,7 +735,7 @@ export const timespaceStores: StoreData[] = [
       "피자",
       "B동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -768,7 +768,7 @@ export const timespaceStores: StoreData[] = [
       "고깃집",
       "B동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   },
   {
@@ -796,7 +796,7 @@ export const timespaceStores: StoreData[] = [
       "카페",
       "D동 1층"
     ],
-    "walking": "위치는 안내도 참고 · 개념도 배치",
+    "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
   }
 ];

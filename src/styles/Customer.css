@@ -309,7 +309,7 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-block-badge.is-empty .map-block-badge-text{font-size:10px}
 .district-map-concept .map-photo-street-halo{stroke-opacity:.22;stroke-width:24}
 .district-map-concept .map-photo-street-line{stroke-width:8}
-@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:462/366}}
+@media(max-width:600px){.district-map-concept .map-svg{aspect-ratio:462/370}}
 
 /* INTERACTIVE MAP title: more air between the eyebrow, title and map. */
 .app-shell .map-panel .panel-header{margin-bottom:16px;align-items:flex-start}
@@ -321,21 +321,21 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
 .district-map-concept .map-photo-street-halo{stroke-width:24;stroke-opacity:.28;stroke-linejoin:round}
 .district-map-concept .map-photo-street-line{stroke-width:7;stroke-linejoin:round}
 .district-map-concept .map-node-dot{stroke-width:2.5}
-/* Entrance of the photographed street (navy, like the 거리뷰 보기 button): an arrow pointing in, with a 남쪽 입구 tag on the road. */
+/* Entrance of the photographed street (navy, like the 거리뷰 보기 button): an arrow pointing in, with the entrance name on the road. */
 .district-map-concept .map-photo-street-arrow{fill:#22406b;stroke:#fff;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #13274355)}
 .district-map-concept .map-photo-street-entry rect{fill:#fff;stroke:#22406b;stroke-width:1.4}
 .district-map-concept .map-photo-street-entry text{fill:#22406b;font-size:9px;font-weight:800;text-anchor:middle}
-/* Streets without photos yet: a slate centre line over the block-coloured band, an arrow at the far end pointing to the plaza, a <방향> 입구 tag at the far end and a 거리뷰 준비 중 tag on the line. */
+/* Streets without photos yet: a slate centre line over the block-coloured band, an arrow at the far end pointing to the plaza, and one "<blocks> 입구 / 거리뷰 준비 중" tag on the line. */
 .district-map-concept .map-planned-street{pointer-events:none}
 /* Street highlighter band: each half in the colour of the block on that side (map-street-band, Customer.tsx). */
 .district-map-concept .map-street-band polyline{stroke-opacity:.24;stroke-width:12;stroke-linejoin:round}
 .district-map-concept .map-photo-street:hover .map-street-band polyline{stroke-opacity:.4}
 .district-map-concept .map-planned-street-line{stroke:#8ea2bb;stroke-opacity:.85;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
 .district-map-concept .map-planned-street-arrow{fill:#7d90a8;stroke:#fff;stroke-width:1.6;stroke-linejoin:round}
-.district-map-concept .map-planned-street-tag rect{fill:#fffffff0;stroke:#94a6bd;stroke-width:1}
-.district-map-concept .map-planned-street-tag text{fill:#5c6f86;font-size:8.5px;font-weight:600;text-anchor:middle}
-.district-map-concept .map-planned-street-entry rect{fill:#fff;stroke:#7d90a8;stroke-width:1.4}
-.district-map-concept .map-planned-street-entry text{fill:#4a5d75;font-size:9px;font-weight:800;text-anchor:middle}
+.district-map-concept .map-planned-street-tag rect{fill:#fffffff2;stroke:#94a6bd;stroke-width:1}
+.district-map-concept .map-planned-street-tag text{text-anchor:middle}
+.district-map-concept .map-planned-street-name{fill:#3f526a;font-size:9px;font-weight:800}
+.district-map-concept .map-planned-street-status{fill:#6b7d93;font-size:8px;font-weight:600}
 /* The open centre where the four streets meet. */
 .district-map-concept .map-central-plaza circle{fill:#fffdf8;stroke:#a9b8ca;stroke-width:1.4}
 .district-map-concept .map-central-plaza text{fill:#3f526a;font-size:8px;font-weight:800;text-anchor:middle;letter-spacing:-.02em}

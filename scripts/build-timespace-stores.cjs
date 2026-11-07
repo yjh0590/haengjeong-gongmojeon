@@ -71,7 +71,7 @@ for (const r of rows) {
     ...describe(r),
     storefrontImage: r.photo.retouch?.path || r.photo.path,
     tags: [r.category, `${r.building}동 ${r.floor}층`],
-    walking: '위치는 안내도 참고 · 개념도 배치', aiScore: 0,
+    walking: '위치는 안내 지도 참고 · 동 안 대략 위치', aiScore: 0,
   });
   links[r.id] = id;
   positions[id] = slot;

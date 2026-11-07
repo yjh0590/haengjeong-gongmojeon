@@ -191,7 +191,7 @@ export default function MapEditor() {
         </div>
         <div className="map-editor-legend"><span>🟠 상권 경계</span><span>🟢 보행 통로</span><span>🔵 촬영 지점</span><span>▣ 예시 점포</span></div>
         <div className="map-editor-map-actions"><label className="map-editor-file"><Upload size={15}/> 지도 이미지 등록<input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>{void uploadMap(e.target.files?.[0]);e.target.value="";}}/></label><button onClick={()=>{void deleteDraftMap();setMessage("브라우저에서 지도 이미지를 해제했어요.");}} disabled={!mapUrl}>지도 이미지 해제</button></div>
-        <p className="map-editor-warning"><Info size={14}/> 배경이 없는 경우 타임스페이스 시범 개념도를 보여줍니다. 건물·출입구·통로의 실측 배치가 아닙니다. 사진이나 외부 지도 이미지를 등록했다면 해당 이미지 좌표 기준으로 정확히 다시 배치하세요. 제3자 지도 캡처의 공개 재배포는 사용 권한 확인이 필요합니다.</p>
+        <p className="map-editor-warning"><Info size={14}/> 배경이 없는 경우 타임스페이스 안내 지도를 보여줍니다. 건물 배치는 실제 지도를 따라 그렸지만 실측 도면은 아닙니다. 사진이나 외부 지도 이미지를 등록했다면 해당 이미지 좌표 기준으로 정확히 다시 배치하세요. 제3자 지도 캡처의 공개 재배포는 사용 권한 확인이 필요합니다.</p>
         <div className="map-editor-media-publish">
           <strong>지도 배경 서버 등록</strong>
           <p>현재 상태: {mediaDraft.map?"서버 등록 완료 · 게시 대기":"서버 미등록"}. 사진 파일은 업로드 직후 공개 URL로 접근 가능하지만 손님용 화면에는 전체 게시 이후 반영돼요.</p>
