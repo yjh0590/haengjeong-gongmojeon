@@ -782,10 +782,10 @@ export const timespaceStores: StoreData[] = [
     "description": "버거 프랜차이즈 매장. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "버거",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/burgerking.jpg",
     "tags": [
       "버거",
-      "A동 1층",
-      "사진 추후 업데이트"
+      "A동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
@@ -801,10 +801,10 @@ export const timespaceStores: StoreData[] = [
     "description": "아이스크림 프랜차이즈 매장. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "아이스크림·디저트",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/baskin.jpg",
     "tags": [
       "아이스크림·디저트",
-      "A동 1층",
-      "사진 추후 업데이트"
+      "A동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
@@ -820,10 +820,10 @@ export const timespaceStores: StoreData[] = [
     "description": "안경원. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "안경",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/iris.jpg",
     "tags": [
       "안경",
-      "A동 1층",
-      "사진 추후 업데이트"
+      "A동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
@@ -839,10 +839,10 @@ export const timespaceStores: StoreData[] = [
     "description": "도시락 프랜차이즈 매장. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "도시락",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/hansot.jpg",
     "tags": [
       "도시락",
-      "B동 1층",
-      "사진 추후 업데이트"
+      "B동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
@@ -877,10 +877,10 @@ export const timespaceStores: StoreData[] = [
     "description": "커피 프랜차이즈 매장. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "카페",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/compose.jpg",
     "tags": [
       "카페",
-      "C동 1층",
-      "사진 추후 업데이트"
+      "C동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
@@ -915,10 +915,10 @@ export const timespaceStores: StoreData[] = [
     "description": "커피 프랜차이즈 매장. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "카페",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/hasamdong.jpg",
     "tags": [
       "카페",
-      "D동 1층",
-      "사진 추후 업데이트"
+      "D동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
@@ -934,10 +934,10 @@ export const timespaceStores: StoreData[] = [
     "description": "곱창 가게. 메뉴·가격·영업시간은 현장 확인이 필요해요. 2026.04 현장 안내판 기준",
     "menu": "곱창",
     "price": "현장 확인",
+    "storefrontImage": "/street/timespace-signs/tojiso.jpg",
     "tags": [
       "곱창",
-      "D동 1층",
-      "사진 추후 업데이트"
+      "D동 1층"
     ],
     "walking": "위치는 안내 지도 참고 · 동 안 대략 위치",
     "aiScore": 0
