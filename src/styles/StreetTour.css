@@ -12,6 +12,8 @@
 .street-view-photo{min-width:0}
 
 .catalog-storefront-image{display:block;width:100%;height:220px;object-fit:contain;background:#edf1f5;border-radius:12px;margin-bottom:14px}
+/* Store without a storefront photo yet. */
+.catalog-storefront-pending{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#6b7d93;font-size:12px;font-weight:700;text-align:center;line-height:1.35;padding:0 10px;word-break:keep-all}
 .catalog-storefront-detail{background:#edf1f5;display:flex;justify-content:center;padding:18px}.catalog-storefront-detail img{display:block;max-width:100%;max-height:50svh;width:auto;height:auto;object-fit:contain}
 
 .app-shell .street-view-layout{display:block;margin-top:16px}

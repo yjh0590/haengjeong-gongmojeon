@@ -1,0 +1,37 @@
+{
+  "note": "Stores added without storefront photos (photos to come). Each one is on the April 2026 on-site directory board (block and floor) and in the public address registry S01 (unit numbers) of the research catalog. Menus, prices and hours are not confirmed and stay '현장 확인'.",
+  "checkedOn": "2026-11-08",
+  "sources": {
+    "board-2026-04": {
+      "title": "현장 안내판 (TIMES SPACE INFORMATION, 2026년 4월)",
+      "note": "사용자 현장 촬영. 판독 내용은 docs/research/timespace-board-2026-04/안내판_대조.md"
+    },
+    "S01": {
+      "title": "공개 주소·업소 등록 기록",
+      "url": "https://findby.co.kr/details/21998-281853152032-st-652b67c48c641f9e38a57849"
+    },
+    "yeonsu-glasses": {
+      "title": "연수구청 안경원 목록",
+      "url": "https://www.yeonsu.go.kr/clinic/institution/glasses.asp"
+    },
+    "mom-mom-baskin": {
+      "title": "배스킨라빈스 송도타임스페이스점 안내 (mom-mom)",
+      "url": "https://mom-mom.net/travel/spots/69eb08a718a0364535a3f90e"
+    },
+    "autoreserve-hasamdong": {
+      "title": "하삼동커피 송도타임스페이스점 안내 (autoreserve)",
+      "url": "https://autoreserve.com/en/restaurants/kU5F7rhJ5PvNsbbNLc9w"
+    }
+  },
+  "stores": [
+    {"catalogId": "S01-064", "name": "버거킹", "building": "A", "floor": 1, "rooms": "107, 108, 109", "type": "맛", "category": "버거", "summary": "버거 프랜차이즈 매장", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-061", "name": "배스킨라빈스", "building": "A", "floor": 1, "rooms": "119, 120", "type": "맛", "category": "아이스크림·디저트", "summary": "아이스크림 프랜차이즈 매장", "sources": ["board-2026-04", "S01", "mom-mom-baskin"]},
+    {"catalogId": "S01-015", "name": "이리스안경원", "building": "A", "floor": 1, "rooms": "121, 122", "type": "멋", "category": "안경", "summary": "안경원", "sources": ["board-2026-04", "S01", "yeonsu-glasses"]},
+    {"catalogId": "S01-171", "name": "한솥도시락", "building": "B", "floor": 1, "rooms": "111", "type": "맛", "category": "도시락", "summary": "도시락 프랜차이즈 매장", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-094", "name": "설빙", "building": "B", "floor": 2, "rooms": "214, 215, 216", "type": "맛", "category": "빙수·디저트", "summary": "빙수·디저트 카페", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-058", "name": "컴포즈커피", "building": "C", "floor": 1, "rooms": "118", "type": "맛", "category": "카페", "summary": "커피 프랜차이즈 매장", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-151", "name": "경양카츠", "building": "C", "floor": 1, "rooms": "107", "type": "맛", "category": "돈카츠", "summary": "돈카츠 가게", "sources": ["board-2026-04", "S01"]},
+    {"catalogId": "S01-054", "name": "하삼동커피", "building": "D", "floor": 1, "rooms": "126", "type": "맛", "category": "카페", "summary": "커피 프랜차이즈 매장", "sources": ["board-2026-04", "S01", "autoreserve-hasamdong"]},
+    {"catalogId": "S01-131", "name": "토지소곱창", "building": "D", "floor": 1, "rooms": "101", "type": "맛", "category": "곱창", "summary": "곱창 가게", "sources": ["board-2026-04", "S01"]}
+  ]
+}

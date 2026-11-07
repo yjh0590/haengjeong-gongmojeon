@@ -65,16 +65,27 @@ assert.deepEqual(Object.keys(replaced.geometry.nodes).sort(), ['c-entry', 'c-str
 assert.deepEqual(replaced.stores.slice(0, 3).map(store => store.id), [9101, 9102, 9103]);
 assert.deepEqual(replaced.stores, timespaceSite.stores);
 assert.deepEqual(replaced.geometry, timespaceSite.geometry);
-// Site dataset: 3 tour stores + 25 photo-verified A-D stores, each with a real photo and a map slot.
+// Site dataset: 3 tour stores + 24 photo-verified A-D stores (피카 에스프레소 바 left out: not on the April 2026
+// board) + 9 board stores whose photos come later. Every store has a map slot; photographed ones a real photo.
 const catalogJson = require('../src/data/storefrontCatalog.json');
+const boardJson = require('../src/data/timespaceBoardStores.json');
 const {timespaceStores, timespaceStoreLinks} = load('src/data/timespaceStores.ts');
-assert.equal(timespaceSite.stores.length, 28);
+assert.equal(timespaceSite.stores.length, 36);
 assert(validStores(timespaceSite.stores));
-assert.deepEqual(Object.keys(timespaceStoreLinks).length, 28);
+assert.deepEqual(Object.keys(timespaceStoreLinks).length, 36);
+assert(!('S02-133' in timespaceStoreLinks), 'excluded store must not be linked');
+const boardIds = new Set(boardJson.stores.map(b => timespaceStoreLinks[b.catalogId]));
+assert.equal(boardIds.size, 9);
 for (const store of timespaceSite.stores) {
   assert(timespaceSite.geometry.stores[String(store.id)], `map slot for ${store.name}`);
-  assert(fs.existsSync(path.join('public', store.storefrontImage)), `photo for ${store.name}`);
+  if (boardIds.has(store.id)) {
+    assert(store.id >= 9301 && !store.storefrontImage && store.description.includes('사진은 추후 업데이트'), `board store ${store.name}`);
+  } else {
+    assert(fs.existsSync(path.join('public', store.storefrontImage)), `photo for ${store.name}`);
+  }
 }
+// Board stores cite only listed sources.
+for (const b of boardJson.stores) for (const source of b.sources) assert(boardJson.sources[source], `${b.name}: ${source}`);
 for (const [recordId, storeId] of Object.entries(timespaceStoreLinks)) {
   const record = catalogJson.records.find(r => r.id === recordId), store = timespaceSite.stores.find(s => s.id === storeId);
   assert(record && store && store.building === record.building + '동' && store.floor === record.floor, recordId);
@@ -88,10 +99,11 @@ for (const store of timespaceSite.stores) for (const other of timespaceSite.stor
   }
 }
 assert(pins.every(p => p.x >= 0 && p.x <= 500 && p.y >= 0 && p.y <= 374));
-assert.equal(timespaceStores.filter(s => s.building === 'C동' && s.floor === 1).length, 2);
+assert.equal(timespaceStores.filter(s => s.building === 'C동' && s.floor === 1).length, 4);
 // Sourced details: every entry belongs to a listed store, cites an https source, and reaches the store data.
 const {details} = require('../src/data/timespaceStoreDetails.json');
 for (const [recordId, d] of Object.entries(details)) {
+  if (recordId === 'S02-133') continue; // 피카 에스프레소 바: research kept, store left out of the app
   const store = timespaceSite.stores.find(s => s.id === timespaceStoreLinks[recordId]);
   assert(store, `detail for unlisted record ${recordId}`);
   assert(d.source.startsWith('https://') && d.summary, recordId);
