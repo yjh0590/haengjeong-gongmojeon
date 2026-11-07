@@ -258,10 +258,6 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const blockCountStores = useMemo(() => effectiveStores.filter(store => matchStore(store, filter, query, storeGroup) && (!onlySaved || favorites.includes(store.id)) && (tab !== "list" || listFloor === "전체" || store.floor === listFloor)),
     [effectiveStores, filter, query, storeGroup, onlySaved, favorites, tab, listFloor]);
   const resultFloors = [...new Set(resultStores.map(store => store.floor))];
-  // Stores on the selected floor/block (used to decide which photo points to show).
-  const floorStores = useMemo(() => effectiveStores
-    .filter(store => store.floor === floor && (building === "전체" || store.building === building))
-    .sort((a,b) => a.id - b.id), [effectiveStores, floor, building]);
   // Customer screens only warn when the data shown is not the real store set; where the data comes from is on the admin dashboard.
   const dataWarning = demoTour || usesCStreet || publication.status === "published" ? "" : publication.status === "loading" ? "게시된 점포 정보를 불러오는 중입니다. 현재 시연 데이터가 표시될 수 있어요." : publication.status === "offline" ? "서버 연결에 실패해 시연용 점포 정보를 표시하고 있습니다. 실제 영업 정보로 사용하지 마세요." : publication.status === "preview" ? "관리자 초안 미리보기 · 이 브라우저에서 수정한 가게·위치 정보" : "시연용 점포·이벤트 데이터 · 실제 영업 정보가 아닙니다.";
   const storePoint = (store: StoreData) => geometry.stores[String(store.id)] ||
@@ -283,10 +279,9 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     for (const [name, anchor] of Object.entries(blockAnchors)) if (!groups.has(name)) badges.push({building: name, count: 0, ...anchor, event: false});
     return badges;
   })();
-  // Photo nodes have no floor field in the current data model. Show a shared photo node
-  // only when it is linked to at least one store on the selected floor.
-  const floorPhotoNodes = useMemo(() => streetNodes.filter(node =>
-    node.stores.some(id => floorStores.some(store => store.id === id))), [streetNodes, floorStores]);
+  // Street photos are taken at ground level, so every photographed point stays selectable whatever floor
+  // the map shows (choosing 2층 used to hide all the street photo points).
+  const photoPoints = streetNodes.filter(node => directions.some(view => hasPhoto(node.id, view)));
   // Photographed street points on the map (street photos are taken at ground level, so they show on every floor).
   const mappedPhotoNodes = streetNodes.filter(node => directions.some(view => hasPhoto(node.id, view)) && Boolean(geometry.nodes[node.id]));
   // The street view always starts at the first photographed point (today: 인천대입구역 쪽 입구).
@@ -307,9 +302,11 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     effectiveStores.some((s) => s.id === a.storeId));
   const storeView = lookSide ? streetSideView(currentView, lookSide) : currentView;
   const showSideControls = currentImage && (hasPhoto(currentNodeId, "back") || ["left", "right"].some(side => currentNode.viewStores?.[side as ViewDirection] !== undefined));
+  // The cards beside a street photo are the stores in that photo, so they ignore the map's floor, block and
+  // kind filters (opening a 2층 store used to switch the floor and hide the 1층 stores in the photo).
   const spotlightStores = useMemo(() =>
-    storesForStreetView(matchingStores, facades, currentNodeId, storeView, currentNode.viewStores?.[storeView]),
-  [matchingStores, facades, currentNodeId, storeView, currentNode.viewStores]);
+    storesForStreetView(effectiveStores, facades, currentNodeId, storeView, currentNode.viewStores?.[storeView]),
+  [effectiveStores, facades, currentNodeId, storeView, currentNode.viewStores]);
   const pagingContext = `${currentNodeId}:${currentView}:${lookSide || "straight"}:${spotlightStores.map(store => store.id).join(",")}`;
   const storePage = streetStorePage(spotlightStores, storePaging.context === pagingContext ? storePaging.page : 0);
   const openStreetSide = (side: "left" | "right") => {
@@ -595,7 +592,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
 
           <section className="street-panel" aria-label="실제 거리 사진" hidden={tab !== "street"}>
             <div className="panel-header"><div><h3><Eye size={19}/> {currentNode.name} · {directionName[currentView]} 방향</h3></div><span className={`photo-badge ${currentImage ? "is-ready" : ""}`}>{currentImage ? "촬영 사진" : "촬영 준비"}</span></div>
-            <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{floorPhotoNodes.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span aria-hidden="true"><Footprints size={13}/></span>{node.name}</button>)}</div>
+            <div className="node-quicklinks street-photo-points" role="group" aria-label="거리 사진 촬영 지점 선택">{photoPoints.map(node => <button key={node.id} type="button" className={currentNodeId === node.id ? "active" : ""} aria-pressed={currentNodeId === node.id} onClick={() => focusNode(node.id)}><span aria-hidden="true"><Footprints size={13}/></span>{node.name}</button>)}</div>
             <div className={`street-view-layout ${lookSide || streetCatalogOpen ? "is-showing-stores" : ""}`}><div className="street-view-photo" hidden={lookSide !== null || streetCatalogOpen}>
             <div className={`street-image ${currentImage ? "has-photo" : "is-placeholder"} ${photoTravel ? "is-travelling" : ""}`} style={{"--street-photo-ratio": photoSize && photoSize.src === currentImage ? photoSize.width / photoSize.height : 3 / 4} as CSSProperties}>
               {currentImage ? <img src={currentImage} alt={`${currentNode.name}에서 바라본 ${directionName[currentView]} 방향 실제 거리 사진`} className="street-photo" onLoad={event=>{const image=event.currentTarget;if(image.naturalWidth&&image.naturalHeight)setPhotoSize({src:currentImage,width:image.naturalWidth,height:image.naturalHeight});}}/> : <div className="street-empty"><Camera size={42}/><strong>이 방향의 사진을 준비 중이에요</strong><span>촬영 후 사진을 등록하면 이곳에 표시됩니다.</span></div>}
@@ -647,7 +644,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
                   </article>;
                 })}
               </div>
-              {!spotlightStores.length && <div className="street-store-empty"><Store size={24} aria-hidden="true" /><strong>{!lookSide && showSideControls ? "보고 싶은 쪽을 골라보세요" : hasStoreFilter ? "조건에 맞는 가게가 이쪽에 없어요" : `${lookSide ? directionName[lookSide] + " 면에" : "이 방향에"} 연결된 가게가 아직 없어요`}</strong><p>{!lookSide && showSideControls ? "왼쪽·오른쪽을 선택하면 해당 면의 가게 카드가 나와요." : "다른 쪽을 선택하거나 검색·필터 조건을 바꿔 보세요."}</p></div>}
+              {!spotlightStores.length && <div className="street-store-empty"><Store size={24} aria-hidden="true" /><strong>{!lookSide && showSideControls ? "보고 싶은 쪽을 골라보세요" : `${lookSide ? directionName[lookSide] + " 면에" : "이 방향에"} 연결된 가게가 아직 없어요`}</strong><p>{!lookSide && showSideControls ? "왼쪽·오른쪽을 선택하면 해당 면의 가게 카드가 나와요." : "다른 쪽을 선택해 보세요."}</p></div>}
               </>}
             </div>}
             </div>
