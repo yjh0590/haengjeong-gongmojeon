@@ -14,7 +14,7 @@ import CatalogEditor from "./pages/CatalogEditor.tsx";
 import PasswordSetup from "./pages/PasswordSetup.tsx";
 import AdminGate from "./auth/AdminGate.tsx";
 import PromotionReview from "./pages/PromotionReview.tsx";
-import { LazyDevLog as DevLog, LazyMapEditor as MapEditor } from "./pages/LazyAdminPages.tsx";
+import { LazyBackupRestore as BackupRestore, LazyDataSources as DataSources, LazyDevLog as DevLog, LazyMapEditor as MapEditor } from "./pages/LazyAdminPages.tsx";
 import "./styles/IncheonBrand.css";
 import "./styles/ServicePolish.css";
 import "./styles/PageFrame.css";
@@ -40,6 +40,8 @@ function resolvePage() {
     if (path === "/catalog") return protect(<CatalogEditor />);
     if (path === "/promotions") return protect(<PromotionReview />);
     if (path === "/devlog") return protect(<DevLog />);
+    if (path === "/sources") return protect(<DataSources />);
+    if (path === "/backup") return protect(<BackupRestore />);
     return protect(<EditorDashboard />);
   }
   if (surface === "landing") {
@@ -53,6 +55,8 @@ function resolvePage() {
   if (path === "/catalog") return protect(<CatalogEditor />);
   if (path === "/promotions") return protect(<PromotionReview />);
   if (path === "/devlog") return protect(<DevLog />);
+  if (path === "/sources") return protect(<DataSources />);
+  if (path === "/backup") return protect(<BackupRestore />);
   if (path === "/welcome") return <Landing />;
   return <Customer />;
 }
