@@ -13,6 +13,7 @@ import CatalogEditor from "./pages/CatalogEditor.tsx";
 import PasswordSetup from "./pages/PasswordSetup.tsx";
 import AdminGate from "./auth/AdminGate.tsx";
 import PromotionReview from "./pages/PromotionReview.tsx";
+import DevLog from "./pages/LazyDevLog.tsx";
 import "./styles/IncheonBrand.css";
 import "./styles/ServicePolish.css";
 import "./styles/PageFrame.css";
@@ -37,6 +38,7 @@ function resolvePage() {
     if (path === "/street-editor") return protect(<StreetEditor />);
     if (path === "/catalog") return protect(<CatalogEditor />);
     if (path === "/promotions") return protect(<PromotionReview />);
+    if (path === "/devlog") return protect(<DevLog />);
     return protect(<EditorDashboard />);
   }
   if (surface === "landing") {
@@ -49,6 +51,7 @@ function resolvePage() {
   if (path === "/editor") return protect(<EditorDashboard />);
   if (path === "/catalog") return protect(<CatalogEditor />);
   if (path === "/promotions") return protect(<PromotionReview />);
+  if (path === "/devlog") return protect(<DevLog />);
   if (path === "/welcome") return <Landing />;
   return <Customer />;
 }

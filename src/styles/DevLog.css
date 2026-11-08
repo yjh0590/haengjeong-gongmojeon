@@ -1,0 +1,96 @@
+/* Admin development log: hero over the desk illustration, then a dated timeline. */
+.devlog-hero { position: relative; overflow: hidden; border-radius: 19px; margin-bottom: 21px; min-height: 300px; display: flex; align-items: center; background: #4a2318; color: #fff7ec; }
+.devlog-hero-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; }
+.devlog-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #3d1c12f2 0%, #3d1c12c4 42%, #3d1c1200 68%); }
+.devlog-hero-copy { position: relative; z-index: 1; width: min(560px, 60%); padding: 32px 36px; }
+.devlog-hero-copy > p { margin: 0 0 10px; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: #f3c99b; }
+.devlog-hero-copy h2 { margin: 0 0 10px; font-size: 30px; line-height: 1.3; letter-spacing: -1px; word-break: keep-all; }
+.devlog-hero-copy > span { display: block; font-size: 14px; line-height: 1.75; color: #f4e2cf; word-break: keep-all; }
+.devlog-hero dl { display: grid; grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr)); gap: 10px; margin: 22px 0 0; }
+.devlog-hero dl div { padding: 10px 12px; border: 1px solid #ffffff2e; border-radius: 12px; background: #ffffff14; }
+.devlog-hero dt { font-size: 11px; color: #f0d4b6; }
+.devlog-hero dd { margin: 4px 0 0; font-size: 17px; font-weight: 800; white-space: nowrap; }
+
+.devlog-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.devlog-chips button { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border: 1px solid #d7e3d3; border-radius: 999px; background: #fbfdf9; color: #4c6446; font-size: 13px; font-weight: 700; }
+.devlog-chips button b { font-size: 11px; color: #7b8f74; }
+.devlog-chips button[aria-pressed=true] { background: #496d45; border-color: #496d45; color: #fff; }
+.devlog-chips button[aria-pressed=true] b { color: #d9ead2; }
+
+.devlog-timeline { display: grid; gap: 21px; margin-bottom: 21px; }
+.devlog-phase { background: #fff; border: 1px solid #e9efea; border-radius: 19px; box-shadow: 0 2px 3px #2b503305; padding: 23px 25px 8px; min-width: 0; }
+.devlog-phase-head { display: flex; gap: 16px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #e9efe6; }
+.devlog-phase-index { flex-shrink: 0; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: #eef5e9; color: #496d45; font-size: 15px; font-weight: 900; }
+.devlog-phase-head h2 { margin: 0 0 6px; font-size: 20px; letter-spacing: -.6px; word-break: keep-all; }
+.devlog-phase-head p { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: 13px; line-height: 1.7; color: #657562; word-break: keep-all; }
+.devlog-phase-head p svg { flex-shrink: 0; margin-top: 4px; }
+
+.devlog-day { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 18px; padding: 20px 0; border-bottom: 1px solid #f0f3ee; }
+.devlog-day:last-child { border-bottom: 0; }
+.devlog-day-date time { display: inline-block; padding: 6px 10px; border-radius: 9px; background: #f3f7f0; color: #4c6446; font-size: 13px; font-weight: 800; white-space: nowrap; }
+.devlog-day-body h3 { margin: 2px 0 6px; font-size: 17px; letter-spacing: -.4px; color: #253b2c; word-break: keep-all; }
+.devlog-day-summary { margin: 0 0 12px; font-size: 13.5px; line-height: 1.75; color: #5e6f5a; word-break: keep-all; }
+.devlog-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.devlog-items li { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 13.5px; line-height: 1.7; color: #33443a; word-break: keep-all; overflow-wrap: anywhere; }
+.devlog-tag { justify-self: start; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; white-space: nowrap; background: #eef3ec; color: #4c6446; }
+.devlog-tag[data-area="손님용"] { background: #e8f0fb; color: #2f5d94; }
+.devlog-tag[data-area="점주용"] { background: #fdf0e3; color: #a35a22; }
+.devlog-tag[data-area="관리자"] { background: #e8f3ea; color: #2f6b45; }
+.devlog-tag[data-area="지도"] { background: #eef0fb; color: #4b55a0; }
+.devlog-tag[data-area="거리 사진"] { background: #e6f4f4; color: #2a6b6b; }
+.devlog-tag[data-area="상권 자료"] { background: #f6efe2; color: #7b5a20; }
+.devlog-tag[data-area="디자인"] { background: #f7eaf3; color: #924a7c; }
+.devlog-tag[data-area="안내서"] { background: #f1ecfb; color: #6952a4; }
+.devlog-tag[data-area="서버"] { background: #ebeef1; color: #4a5866; }
+.devlog-tag[data-area="품질"] { background: #f9eeee; color: #9a4545; }
+.devlog-notes { margin-top: 14px; padding: 12px 15px; border-radius: 12px; background: #fff8ea; border: 1px solid #f2e3c2; }
+.devlog-notes strong { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #8a6420; }
+.devlog-notes ul { margin: 6px 0 0; padding-left: 20px; }
+.devlog-notes li { font-size: 13px; line-height: 1.75; color: #6c5a33; word-break: keep-all; }
+.devlog-commits { margin-top: 12px; }
+.devlog-commits summary { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #63835c; cursor: pointer; }
+.editor-shell .devlog-commits p { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+.devlog-commits a code { display: inline-block; padding: 3px 7px; border-radius: 6px; background: #f1f5ef; color: #3f5f3a; font-size: 11.5px; }
+.devlog-commits a:hover code { background: #e1ecdc; }
+
+.devlog-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.devlog-bottom h2 { display: flex; align-items: center; gap: 8px; }
+.devlog-versions { list-style: none; margin: 0; padding: 0; display: grid; }
+.devlog-versions li { display: grid; grid-template-columns: 92px 58px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid #f0f3ee; font-size: 13px; color: #3e5040; }
+.devlog-versions li:last-child { border-bottom: 0; }
+.devlog-versions b { color: #2f4f34; }
+.devlog-versions small { color: #7c8c78; font-size: 12px; }
+.devlog-versions li span { word-break: keep-all; }
+.devlog-versions li.is-skipped { color: #9aa597; }
+.devlog-versions li.is-skipped b { color: #9aa597; text-decoration: line-through; }
+.devlog-next { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.devlog-next li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.7; color: #5e6f5a; word-break: keep-all; }
+.devlog-next li svg { flex-shrink: 0; margin-top: 3px; color: #9db592; }
+.devlog-next strong { display: block; color: #2f4637; font-size: 14px; }
+
+@media (max-width: 1100px) {
+  .devlog-hero-copy { width: min(560px, 68%); }
+  .devlog-hero dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .devlog-bottom { grid-template-columns: 1fr; gap: 0; }
+}
+@media (max-width: 850px) {
+  .devlog-day { grid-template-columns: 1fr; gap: 8px; }
+}
+/* Phones: the illustration becomes a strip above the copy instead of sitting behind it. */
+@media (max-width: 600px) {
+  .devlog-hero { display: block; min-height: 0; border-radius: 16px; }
+  .devlog-hero-art { position: static; display: block; height: 170px; object-position: 88% center; }
+  .devlog-hero::after { display: none; }
+  .devlog-hero-copy { width: 100%; padding: 18px 18px 20px; }
+  .devlog-hero-copy h2 { font-size: 23px; }
+  .devlog-hero-copy > span { font-size: 13px; }
+  .devlog-hero dl { gap: 8px; margin-top: 16px; }
+  .devlog-hero dd { font-size: 16px; }
+  .devlog-phase { padding: 18px 16px 4px; border-radius: 16px; }
+  .devlog-phase-head { gap: 12px; }
+  .devlog-phase-index { width: 38px; height: 38px; font-size: 13px; }
+  .devlog-phase-head h2 { font-size: 17px; }
+  .devlog-items li { grid-template-columns: 1fr; gap: 3px; }
+  .devlog-versions li { grid-template-columns: 82px minmax(0, 1fr); }
+  .devlog-versions li small { display: none; }
+}

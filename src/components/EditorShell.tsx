@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Camera, ClipboardList, DatabaseBackup, LayoutDashboard, MapPinned, Settings, Store } from "lucide-react";
+import { Camera, ClipboardList, DatabaseBackup, LayoutDashboard, MapPinned, NotebookPen, Settings, Store } from "lucide-react";
 import { appUrl, sameOriginPreview } from "../config/site";
 import "../styles/EditorShell.css";
 import SiteBrand from "./SiteBrand";
 
-export default function EditorShell({ children, title, active = "dashboard" }: { children: ReactNode; title: string; active?: "dashboard" | "promotions" }) {
+export default function EditorShell({ children, title, active = "dashboard" }: { children: ReactNode; title: string; active?: "dashboard" | "promotions" | "devlog" }) {
   const [mobile, setMobile] = useState(() => window.matchMedia("(max-width: 600px)").matches);
   const [expanded, setExpanded] = useState(() => !window.matchMedia("(max-width: 600px)").matches);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -28,6 +28,7 @@ export default function EditorShell({ children, title, active = "dashboard" }: {
     { label: "홍보 게시 관리", href: appUrl("editor","/promotions"), icon: ClipboardList, selected: active === "promotions" },
     { label: "백업·복원", href: `${appUrl("editor")}#editor-backup`, icon: DatabaseBackup },
     { label: "게시 정책 설정", href: `${appUrl("editor","/promotions")}#promotion-policy`, icon: Settings },
+    { label: "개발일지", href: appUrl("editor","/devlog"), icon: NotebookPen, selected: active === "devlog" },
   ];
   return <div className={`editor-shell ${expanded ? "is-expanded" : "is-collapsed"}`}>
     <header className="editor-shell-header">
