@@ -8,12 +8,13 @@ import EditorDashboard from "./pages/EditorDashboard.tsx";
 import Customer from "./pages/Customer.tsx";
 import Owner from "./pages/Owner.tsx";
 import StreetEditor from "./pages/StreetEditor.tsx";
-import MapEditor from "./pages/MapEditor.tsx";
+// The map editor's code loads lazily, but its stylesheet keeps this spot so the shared styles below still override it.
+import "./styles/MapEditor.css";
 import CatalogEditor from "./pages/CatalogEditor.tsx";
 import PasswordSetup from "./pages/PasswordSetup.tsx";
 import AdminGate from "./auth/AdminGate.tsx";
 import PromotionReview from "./pages/PromotionReview.tsx";
-import DevLog from "./pages/LazyDevLog.tsx";
+import { LazyDevLog as DevLog, LazyMapEditor as MapEditor } from "./pages/LazyAdminPages.tsx";
 import "./styles/IncheonBrand.css";
 import "./styles/ServicePolish.css";
 import "./styles/PageFrame.css";
