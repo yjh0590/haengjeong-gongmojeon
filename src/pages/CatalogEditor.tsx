@@ -3,14 +3,12 @@ import { CheckCircle2, CloudUpload, Layers, Plus, RefreshCcw, Save, ShieldCheck,
 import { publicationConfigured, fetchPublication, preparePublication, publishSite, type PublishedResponse, type SitePublication } from "../data/sitePublication";
 import { useAdminAuth } from "../auth/adminAuth";
 import { readStoreDraft, saveStoreDraft } from "../data/storeDraft";
-import { saveMapGeometry } from "../data/mapGeometry";
-import { saveStreetNodes } from "../data/streetNetwork";
-import { FACADE_KEY } from "../data/facadeAnnotations";
-import { saveMediaDraft, useMediaDraft } from "../data/mediaStorage";
+import { useMediaDraft } from "../data/mediaStorage";
 import type { StoreData, StoreType } from "../types/street";
 import "../styles/CatalogEditor.css";
 import "../styles/ServiceUpgrade.css";
 import { storeMenuItems } from "../data/storeMenuItems";
+import { applyPublicationToDrafts } from "../data/editorDrafts";
 import EditorShell from "../components/EditorShell";
 import { validStorefrontImage } from "../data/storefrontImage";
 import "../styles/StreetTour.css";
@@ -20,14 +18,6 @@ const example = (id: number): StoreData => ({
   description: "현장 확인 후 소개를 등록하세요.", menu: "확인 필요", price: "가격 확인 필요",
   tags: [], walking: "위치 확인 필요", aiScore: 0,
 });
-function applyRemote(remote: PublishedResponse) {
-  saveStoreDraft(remote.data.stores);
-  saveMapGeometry(remote.data.geometry);
-  saveStreetNodes(remote.data.nodes);
-  localStorage.setItem(FACADE_KEY, JSON.stringify(remote.data.facades));
-  saveMediaDraft(remote.data.media || {photos:{}});
-  window.dispatchEvent(new Event("matmeot-facades-changed"));
-}
 export default function CatalogEditor() {
   const [rows, setRows] = useState<StoreData[]>(readStoreDraft);
   const [selected, setSelected] = useState(rows[0]?.id ?? 0);
@@ -68,7 +58,7 @@ export default function CatalogEditor() {
   const loadPublished = () => {
     if (!remote) return;
     if (!confirm("현재 브라우저의 가게·지도·촬영 지점·외곽선·서버 사진 연결 초안을 온라인 게시본으로 덮어쓸까요? 브라우저에 저장한 원본 파일은 변경되지 않습니다.")) return;
-    try {applyRemote(remote);setRows(readStoreDraft());setSelected(remote.data.stores[0]?.id ?? 0);setTagsText(remote.data.stores[0]?.tags.join(", ") || "");setNotice("온라인 게시본을 브라우저 초안으로 불러왔어요.");}
+    try {applyPublicationToDrafts(remote.data);setRows(readStoreDraft());setSelected(remote.data.stores[0]?.id ?? 0);setTagsText(remote.data.stores[0]?.tags.join(", ") || "");setNotice("온라인 게시본을 브라우저 초안으로 불러왔어요.");}
     catch(e){setNotice(e instanceof Error ? e.message : "복원 실패");}
   };
   const openReview = () => {
@@ -142,8 +132,6 @@ export default function CatalogEditor() {
           <label className="wide">관리자 공지 (선택) · 점주 소식이 없을 때만 손님에게 보여요<textarea rows={2} value={current.event || ""} placeholder="확인된 행사·안내만 입력. 점주가 직접 게시한 소식이 있으면 그 소식이 대신 보여요" onChange={e=>patch({event:e.target.value || undefined})} maxLength={1000}/></label>
           <label>공지 종료일 (선택)<input type="date" value={current.eventUntil || ""} onChange={e=>patch({eventUntil:e.target.value || undefined})}/></label>
           <label className="wide">검색 태그 (쉼표로 구분)<input value={tagsText} onChange={e=>{setTagsText(e.target.value);patch({tags:e.target.value.split(",").map(t=>t.trim()).filter(Boolean).slice(0,30)});}} placeholder="데이트, 조용한, 학생추천"/></label>
-          <label>이동 안내 (실측 전 확인 필요)<input value={current.walking} onChange={e=>patch({walking:e.target.value})} maxLength={100}/></label>
-          <label>추천 점수 (0~100, 시연용)<input type="number" min={0} max={100} value={current.aiScore} onChange={e=>patch({aiScore:Math.min(100,Math.max(0,Number(e.target.value)||0))})}/></label>
         </div>
         <p className="catalog-auto"><Save size={15}/> 입력 내용은 즉시 브라우저 초안에 저장돼요. <b>온라인 게시와는 별개</b>입니다.</p>
       </>}</section>

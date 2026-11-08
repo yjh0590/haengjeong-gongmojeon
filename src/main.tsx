@@ -13,6 +13,7 @@ import "./styles/MapEditor.css";
 import CatalogEditor from "./pages/CatalogEditor.tsx";
 import PasswordSetup from "./pages/PasswordSetup.tsx";
 import AdminGate from "./auth/AdminGate.tsx";
+import EditorDraftSeed from "./components/EditorDraftSeed.tsx";
 import PromotionReview from "./pages/PromotionReview.tsx";
 import { LazyBackupRestore as BackupRestore, LazyDataSources as DataSources, LazyDevLog as DevLog, LazyMapEditor as MapEditor } from "./pages/LazyAdminPages.tsx";
 import "./styles/IncheonBrand.css";
@@ -20,7 +21,7 @@ import "./styles/ServicePolish.css";
 import "./styles/PageFrame.css";
 
 /** Each subdomain uses the same build but opens its own role. Legacy Vercel paths still work. */
-function protect(page: ReactNode) { return <AdminGate>{page}</AdminGate>; }
+function protect(page: ReactNode) { return <AdminGate><EditorDraftSeed>{page}</EditorDraftSeed></AdminGate>; }
 
 function resolvePage() {
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
