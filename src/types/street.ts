@@ -27,25 +27,6 @@ export type StoreData = {
   aiScore: number;
 };
 
-export type ApprovedPromotionData = {
-  storeId: number;
-  storeName: string;
-  category: string;
-  goal: string;
-  constraint: string;
-
-  promotion: {
-    id: number;
-    title: string;
-    summary: string;
-    badge: string;
-    streetCopy: string;
-    snsCopy: string;
-    shortScript: string;
-  };
-
-  approvedAt: string;
-};
 
 export type StreetConnection = {
   direction: ViewDirection;

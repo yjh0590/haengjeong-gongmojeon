@@ -1,6 +1,8 @@
 /** Domain-aware navigation without splitting the React app into separate deployments. */
 export type Surface = "landing" | "customer" | "owner" | "editor";
 export const BASE_DOMAIN = "itda.ink";
+/** Where owners send store-info change requests. Empty hides the mail button; owners can still copy the request. */
+export const ADMIN_CONTACT_EMAIL = "";
 const DOMAINS: Record<Surface, string> = {
   landing: BASE_DOMAIN,
   customer: `customer.${BASE_DOMAIN}`,

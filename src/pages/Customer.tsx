@@ -5,7 +5,7 @@ import {
   MapPin, Navigation, Search, Sparkles, Store, Utensils, X, Zap, Footprints,
 } from "lucide-react";
 import "../styles/Customer.css";
-import type { ApprovedPromotionData, FilterType, StoreData, ViewDirection } from "../types/street";
+import type { FilterType, StoreData, ViewDirection } from "../types/street";
 import { stores as examples } from "../data/stores";
 import { useStoreDraft } from "../data/storeDraft";
 import { usePublicSite } from "../data/sitePublication";
@@ -38,7 +38,6 @@ const mapFloors = [1, 2, 3] as const;
 const directions: ViewDirection[] = ["forward", "right", "back", "left"];
 const directionName: Record<ViewDirection, string> = { forward: "앞", back: "뒤", left: "왼쪽", right: "오른쪽" };
 const FAVORITES_KEY = "matmeot-favorites-v1";
-const APPROVAL_KEY = "matmeot-approved-promotion";
 const StorefrontDirectory = lazy(() => import('../components/StorefrontDirectory'));
 const customerViews = ["map", "street", "list"] as const;
 
@@ -47,10 +46,6 @@ function readFavorites(): number[] {
     const raw = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
     return Array.isArray(raw) ? raw.filter((id): id is number => typeof id === "number") : [];
   } catch { return []; }
-}
-function readApproved(): ApprovedPromotionData | null {
-  try { return JSON.parse(localStorage.getItem(APPROVAL_KEY) || "null"); }
-  catch { return null; }
 }
 function firstAvailableView(nodeId: string, nodes: ReturnType<typeof useStreetNodes>, preferred: ViewDirection = "forward"): ViewDirection {
   const node = nodes.find((item) => item.id === nodeId);
@@ -113,6 +108,11 @@ const streetBand = (points: MapPoint[], [right, left]: StreetSides, key: string)
 /** Centre of each block's pair of buildings on timespace-map.svg (D top-left, A top-right, C bottom-left, B bottom-right). */
 const blockAnchors: Record<string, {x: number; y: number}> = { "A동": {x: 353, y: 121}, "B동": {x: 342, y: 266}, "C동": {x: 155, y: 271}, "D동": {x: 149, y: 107} };
 
+/** A store link from the owner page arrives as ?store=<id>. */
+function readArrivalStore(): number | null {
+  const id = Number(new URLSearchParams(window.location.search).get("store"));
+  return Number.isSafeInteger(id) && id > 0 ? id : null;
+}
 /** A search typed on the main page arrives as ?q=. */
 function readArrivalQuery(): string {
   return new URLSearchParams(window.location.search).get("q")?.trim().slice(0, 50) ?? "";
@@ -166,7 +166,6 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   }, []);
   const [building, setBuilding] = useState("전체");
   const [routeTargetId, setRouteTargetId] = useState<number | null>(null);
-  const [approvedPromotion, setApprovedPromotion] = useState<ApprovedPromotionData | null>(readApproved);
   const [favorites, setFavorites] = useState<number[]>(readFavorites);
   const [currentNodeId, setCurrentNodeId] = useState("c-entry");
   const [currentView, setCurrentView] = useState<ViewDirection>("forward");
@@ -178,6 +177,7 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   const travelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const travelSerial = useRef(0);
   const arrivalSearch = useRef(readArrivalQuery());
+  const arrivalStore = useRef(readArrivalStore());
   const [filter, setFilter] = useState<FilterType>("전체");
   const [query, setQuery] = useState(readArrivalQuery);
   // Kind of store picked from the banner shortcuts (식당, 카페·빵, ...); cleared by the type chips.
@@ -216,9 +216,9 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     return()=>{document.body.style.overflow=oldOverflow;document.removeEventListener('keydown',onKey);if(previous?.isConnected)previous.focus();else document.querySelector<HTMLButtonElement>('.desktop-nav button[aria-current="page"]')?.focus();};
   }, [detailsOpen]);
   useEffect(() => {
-    const syncData = () => { setApprovedPromotion(readApproved()); setDraftFacades(getFacadeAnnotations()); };
+    const syncData = () => setDraftFacades(getFacadeAnnotations());
     const onStorage = (event: StorageEvent) => {
-      if (event.key === APPROVAL_KEY || event.key === "matmeot-facades-v1") syncData();
+      if (event.key === "matmeot-facades-v1") syncData();
       if (event.key === FAVORITES_KEY) setFavorites(readFavorites());
     };
     window.addEventListener("focus", syncData);
@@ -227,12 +227,10 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
   }, []);
 
   const effectiveStores = useMemo(() => catalog.map((store) => {
-    // Approved campaigns expire automatically on the date set by the owner.
+    // Owner news expires automatically on the end date the owner set.
     const localDate = koreanDate();
-    const current = store.eventUntil && store.eventUntil < localDate ? {...store,event:undefined} : store;
-    if (publication.data || approvedPromotion?.storeId !== store.id) return current;
-    return { ...current, event: approvedPromotion.promotion.streetCopy };
-  }), [catalog, approvedPromotion, publication.data]);
+    return store.eventUntil && store.eventUntil < localDate ? {...store,event:undefined} : store;
+  }), [catalog]);
   // Timespace always has blocks A-D; keep them visible even before stores are registered there.
   const buildings = useMemo(() => [...new Set(["A동", "B동", "C동", "D동", ...effectiveStores.map(store => store.building.trim()).filter(Boolean)])].sort((a,b) => a.localeCompare(b, "ko")), [effectiveStores]);
   const selectedStore = effectiveStores.find((store) => store.id === selectedStoreId) || null;
@@ -445,6 +443,13 @@ export default function Customer({demoTour = false}: {demoTour?: boolean}) {
     arrivalSearch.current = "";
     searchFromBanner("전체", arrivalQuery);
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  // Runs once stores load: the owner page links here to open one store's details.
+  useEffect(() => {
+    if (!arrivalStore.current || publication.status === "loading") return;
+    const storeId = arrivalStore.current;
+    arrivalStore.current = null;
+    if (effectiveStores.some(store => store.id === storeId)) focusStore(storeId, true);
   });
   const openBannerStore = (storeId: number) => {
     setFilter("전체");
