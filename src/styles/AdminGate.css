@@ -23,3 +23,12 @@
 .itda-admin-session-bar button{padding:7px 11px;color:white;background:#ffffff1e;border:1px solid #ffffff45;border-radius:8px;font:inherit;cursor:pointer}
 .itda-admin-session-bar button:hover{background:#ffffff36}
 @media(max-width:480px){.itda-auth-card{padding:24px}.itda-admin-session-bar{font-size:11px}.itda-admin-session-bar strong{max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+/* Presentation browsing: a different colour so it never reads as a verified admin login. */
+.itda-admin-session-bar.is-demo{background:#5b4a1c;color:#fff6dc}
+.itda-admin-session-bar.is-demo span{flex-wrap:wrap;line-height:1.6}
+.itda-admin-session-bar.is-demo button{flex-shrink:0}
+.itda-auth-card .itda-auth-demo{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:45px;margin-top:14px;padding:11px;background:#fff8e6;color:#6b5113;border:1px solid #ecd9a6;border-radius:10px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.itda-auth-card .itda-auth-demo:hover{background:#fdf0cc}
+.itda-admin-session-bar.is-demo small{font-size:inherit;color:#f3e3b8}
+.itda-admin-session-bar.is-demo small:before{content:"·";margin-right:6px}
+@media(max-width:600px){.itda-admin-session-bar.is-demo small{flex-basis:100%;font-size:11px}.itda-admin-session-bar.is-demo small:before{content:none}}

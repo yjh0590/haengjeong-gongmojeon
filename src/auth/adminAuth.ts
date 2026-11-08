@@ -5,6 +5,8 @@ export type AdminAuthContext = {
   session: AdminSession;
   getSession: () => Promise<AdminSession>;
   logout: () => void;
+  /** 발표용 둘러보기: 로그인 없이 화면만 연 상태. 서버 작업은 getSession에서 막힌다. */
+  demo: boolean;
 };
 export const AdminContext = createContext<AdminAuthContext | null>(null);
 

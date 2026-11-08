@@ -1,13 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
-import { ArrowRight, KeyRound, LockKeyhole, LogOut, ShieldCheck, ShieldAlert } from "lucide-react";
+import { ArrowRight, Eye, KeyRound, LockKeyhole, LogIn, LogOut, ShieldCheck, ShieldAlert } from "lucide-react";
 import { appUrl } from "../config/site";
+import { ADMIN_PRESENTATION_MODE } from "../config/presentation";
 import SiteBrand from "../components/SiteBrand";
 import { publicationConfigured, refreshAdminSession, signInAdmin, signOutAdmin, verifyAdminSession, type AdminSession } from "../data/sitePublication";
 import "../styles/AdminGate.css";
 import { AdminContext } from "./adminAuth";
 
 const STORAGE_KEY = "itda-v44-admin-session";
+// Presentation browsing has no token: every server action asks getSession first and stops here.
+const DEMO_SESSION: AdminSession = { token: "", refreshToken: "", email: "발표용 둘러보기", expiresAt: 0 };
+const demoGetSession = () => Promise.reject(new Error("발표용 둘러보기에서는 서버 저장·게시·업로드를 할 수 없어요. 관리자 로그인 후 이용해 주세요."));
 
 function readSavedSession(): AdminSession | null {
   try {
@@ -34,6 +38,8 @@ export default function AdminGate({children}: {children: ReactNode}) {
   // Read the saved login once; with nothing saved there is nothing to verify.
   const [savedAtStart] = useState(() => publicationConfigured ? readSavedSession() : null);
   const [checking, setChecking] = useState(Boolean(savedAtStart));
+  // With presentation mode on, open the screens straight away unless a real login is being restored.
+  const [demo, setDemo] = useState(ADMIN_PRESENTATION_MODE && !savedAtStart);
   // getSession reads the latest session through a ref so its identity stays stable for effects.
   const sessionRef = useRef<AdminSession | null>(null);
   const [email, setEmail] = useState("");
@@ -85,8 +91,15 @@ export default function AdminGate({children}: {children: ReactNode}) {
     }
   }, []);
 
-  if (session) return <AdminContext.Provider value={{session, getSession, logout}}>
+  const demoContext = useMemo(() => ({ session: DEMO_SESSION, getSession: demoGetSession, logout: () => setDemo(false), demo: true }), []);
+
+  if (session) return <AdminContext.Provider value={{session, getSession, logout, demo: false}}>
     <div className="itda-admin-session-bar"><span><ShieldCheck size={15}/> 관리자 로그인 · <strong>{session.email}</strong></span><button type="button" onClick={logout}><LogOut size={15}/> 로그아웃</button></div>
+    {children}
+  </AdminContext.Provider>;
+
+  if (demo) return <AdminContext.Provider value={demoContext}>
+    <div className="itda-admin-session-bar is-demo"><span><Eye size={15}/> <strong>발표용 둘러보기</strong><small>로그인 없이 화면만 열람 중이에요. 서버 저장·게시는 관리자 로그인 후 가능해요.</small></span><button type="button" onClick={() => setDemo(false)}><LogIn size={15}/> 관리자 로그인</button></div>
     {children}
   </AdminContext.Provider>;
 
@@ -108,6 +121,7 @@ export default function AdminGate({children}: {children: ReactNode}) {
         <a className="itda-auth-recover" href="/reset-password"><KeyRound size={15}/> 비밀번호 만들기·재설정</a>
       </form>}
     {message && <div className="itda-auth-warning" role="alert">{message}</div>}
+    {ADMIN_PRESENTATION_MODE && <button type="button" className="itda-auth-demo" onClick={() => { setMessage(""); setDemo(true); }}><Eye size={16}/> 로그인 없이 둘러보기 (발표용)</button>}
     <a className="itda-auth-home" href={appUrl("landing")}>ITDA 메인으로 돌아가기</a>
     <small>관리자 계정은 Supabase Authentication에 등록되고 itda_admins 권한을 부여받아야 합니다.</small>
   </section></main>;

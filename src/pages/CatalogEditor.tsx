@@ -44,7 +44,7 @@ export default function CatalogEditor() {
   const [notice, setNotice] = useState("가게 수정 내용은 현재 브라우저의 임시 초안으로 저장됩니다. '전체 게시' 전까지 방문자에게 반영되지 않습니다.");
   const [remote, setRemote] = useState<PublishedResponse | null>(null);
   const [loading, setLoading] = useState(false);
-  const { session, getSession } = useAdminAuth();
+  const { session, getSession, demo } = useAdminAuth();
   const mediaDraft = useMediaDraft();
   const upload = useRef<HTMLInputElement>(null);
   const review = useRef<HTMLDialogElement>(null);
@@ -196,7 +196,7 @@ export default function CatalogEditor() {
     <section className="catalog-publish"><div className="catalog-publish-head"><div><span>PUBLICATION CONTROL</span><h2><CloudUpload size={20}/> 전체 데이터 게시</h2></div><span className={publicationConfigured?"catalog-cloud-ready":"catalog-cloud-off"}>{publicationConfigured?"Supabase 설정 감지됨":"서버 연결 전 · 시연 모드"}</span></div>
       <p>게시 범위: <b>점포·층수·지도 좌표·촬영 지점·외곽선 + Supabase Storage에 업로드한 사진·지도 연결 정보</b>. 사진 원본은 Storage에 저장되고 이 게시본에는 해당 파일의 경로만 포함돼요.</p>
       <p>현재 게시 대기: <strong>서버 사진 {Object.keys(mediaDraft.photos).length}장 · 서버 지도 {mediaDraft.map?"1장":"없음"}</strong>. 브라우저 임시 이미지는 포함되지 않습니다. <a href="/street-editor">거리 사진 업로드</a> · <a href="/map-editor">지도 이미지 업로드</a></p>
-      <div className="catalog-signed"><ShieldCheck size={19}/><span>관리자: <strong>{session.email}</strong> · 서버 게시 권한 확인됨</span></div>
+      <div className="catalog-signed"><ShieldCheck size={19}/><span>{demo ? <><strong>발표용 둘러보기</strong> · 서버 게시는 관리자 로그인 후 가능</> : <>관리자: <strong>{session.email}</strong> · 서버 게시 권한 확인됨</>}</span></div>
       <div className="catalog-actions"><button className="catalog-primary" type="button" disabled={!publicationConfigured || !session || loading} onClick={openReview}><FileCheck2 size={17}/> {loading?"처리 중…":"검토하고 전체 게시"}</button><button type="button" disabled={!publicationConfigured || loading} onClick={()=>void refresh()}><RefreshCcw size={16}/> 게시본 확인</button><button type="button" disabled={!remote || loading} onClick={loadPublished}><Layers size={16}/> 공개본을 초안으로 가져오기</button></div>
       <p className="catalog-notice" role="status"><CheckCircle2 size={16}/>{notice}</p>
       <p className="catalog-caution">관리자 편집 화면은 로그인 후에 열립니다. 온라인 게시 권한은 Supabase Auth와 데이터베이스 RLS가 검증합니다. 다른 관리자 작업이 공개됐다면 최신 공개본을 먼저 확인하세요.</p>
