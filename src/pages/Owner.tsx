@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { ArrowRight, ClipboardCheck, LogIn, LogOut, Radio, Send, ShieldCheck, Store } from 'lucide-react';
+import { ArrowRight, ClipboardCheck, Eye, LogIn, LogOut, Radio, Send, ShieldCheck, Store } from 'lucide-react';
+import { OWNER_PRESENTATION_MODE, OWNER_PRESENTATION_STORE_ID } from '../config/presentation';
 import '../styles/Owner.css';
 import '../styles/ServiceUpgrade.css';
 import { stores as exampleStores } from '../data/stores';
@@ -32,11 +33,15 @@ function Owner() {
   const [quotaError,setQuotaError] = useState("");
   const publicationRequest = useRef<{fingerprint:string;key:string} | null>(null);
   const publicationInFlight = useRef(false);
-  const assignedStores = useMemo(() => publication.status === "published" && ownerSession
+  // Presentation browsing shows one store's owner screens from public data only; it never holds a token.
+  const [demo,setDemo] = useState(false);
+  const demoStore = OWNER_PRESENTATION_MODE && demo && !ownerSession
+    ? sharedStores.find(store => store.id === OWNER_PRESENTATION_STORE_ID) || sharedStores[0] : undefined;
+  const assignedStores = useMemo(() => demoStore ? [demoStore] : publication.status === "published" && ownerSession
     ? sharedStores.filter(store => ownerStoreIds.includes(store.id)) : [],
-  [publication.status, ownerSession, sharedStores, ownerStoreIds]);
-  const visibleStores = useMemo(() => ownerSession ? assignedStores : sharedStores,
-    [ownerSession, assignedStores, sharedStores]);
+  [demoStore, publication.status, ownerSession, sharedStores, ownerStoreIds]);
+  const visibleStores = useMemo(() => ownerSession || demoStore ? assignedStores : sharedStores,
+    [ownerSession, demoStore, assignedStores, sharedStores]);
   const liveByStore = useMemo(() => livePromotionsByStore(ownerHistory), [ownerHistory]);
 
   useEffect(()=>{
@@ -86,7 +91,7 @@ function Owner() {
     try {
       const logged = await signInOwner(loginEmail.trim(),loginPassword);
       const [ids,history] = await Promise.all([fetchOwnerStoreIds(logged.token),fetchPromotionRequests(logged.token)]);
-      saveOwnerSession(logged);setOwnerSession(logged);setOwnerStoreIds(ids);setOwnerHistory(history);
+      saveOwnerSession(logged);setOwnerSession(logged);setOwnerStoreIds(ids);setOwnerHistory(history);setDemo(false);
       setLoginPassword("");setOwnerMessage("로그인됐어요. 담당 점포의 게시 한도를 확인해 주세요.");
     } catch(e){setOwnerMessage(e instanceof Error?e.message:"로그인 실패");}
     finally{setOwnerBusy(false);}
@@ -145,9 +150,13 @@ function Owner() {
   const quotaStatus=!ownerSession?'점주 로그인 후 게시 횟수를 확인할 수 있어요.':quotaError||(quotaLoading?'오늘 게시 가능 횟수를 확인하고 있어요.':!quota?'담당 매장의 게시 권한을 확인해 주세요.':!quota.enabled?'점주 직접 게시가 일시 중지됐어요.':quota.quota_date!==koreanDate()?'새 날짜의 게시 횟수를 확인해 주세요.':`오늘 ${quota.used}/${quota.daily_limit}회 사용 · 한국시간 자정 초기화`);
   const canPublish=Boolean(ownerSession&&selectedStore&&selectedStore.id===selectedStoreId&&ownerStoreIds.includes(selectedStoreId)&&publication.status==='published'&&quota?.store_id===selectedStoreId&&!quotaLoading&&quota.enabled&&quota.remaining>0&&quota.quota_date===koreanDate());
   const navigate=(next:OwnerView)=>{openTab(next);window.requestAnimationFrame(()=>document.getElementById('owner-page-main')?.focus({preventScroll:true}));};
-  return <div className="owner-page owner-redesign service-owner"><OwnerPortalHeader view={tab} onNavigate={navigate} signedIn={Boolean(ownerSession)}/><main className="owner-container" id="owner-page-main" tabIndex={-1}>
+  const startDemo=()=>{setDemo(true);setOwnerMessage('발표용 둘러보기를 시작했어요. 화면은 모두 볼 수 있고, 소식 게시와 내리기는 점주 로그인 후 가능해요.');navigate('stores');};
+  const endDemo=(next:OwnerView='account')=>{setDemo(false);navigate(next);};
+  return <div className="owner-page owner-redesign service-owner">
+    {demoStore&&<div className="owner-demo-bar" role="status"><span><Eye size={15} aria-hidden="true"/><strong>발표용 둘러보기</strong><small>{demoStore.name} 점주 화면을 로그인 없이 보는 중이에요. 소식 게시는 점주 로그인 후 가능해요.</small></span><button type="button" onClick={()=>endDemo()}><LogIn size={15} aria-hidden="true"/>점주 로그인</button></div>}
+    <OwnerPortalHeader view={tab} onNavigate={navigate} signedIn={Boolean(ownerSession)}/><main className="owner-container" id="owner-page-main" tabIndex={-1}>
     {tab==='home'&&<><OwnerPortalHome onNavigate={navigate} signedIn={Boolean(ownerSession)}/>{ownerSession&&<section className="service-owner-summary"><div><Store size={22}/><span>담당 매장<strong>{assignedStores.length}곳</strong></span></div><div><Send size={22}/><span>오늘 게시 가능<strong>{quota?.remaining??'—'} / {quota?.daily_limit??'—'}회</strong></span></div><div><Radio size={22}/><span>지금 공개 중<strong>{liveByStore.size}건</strong></span></div></section>}</>}
-    {tab==='stores'&&<div className="owner-portal-workspace"><OwnerPortalStores stores={assignedStores} selectedId={selectedStoreId} published={publication.status==='published'} signedIn={Boolean(ownerSession)} ownerEmail={ownerSession?.email} live={liveByStore.get(selectedStoreId)} onSelect={setSelectedStoreId} onNavigate={navigate} onPromote={id=>{setSelectedStoreId(id);navigate('marketing');}}/></div>}
+    {tab==='stores'&&<div className="owner-portal-workspace"><OwnerPortalStores stores={assignedStores} selectedId={selectedStoreId} published={publication.status==='published'||Boolean(demoStore)} signedIn={Boolean(ownerSession||demoStore)} ownerEmail={ownerSession?.email} live={liveByStore.get(selectedStoreId)} onSelect={setSelectedStoreId} onNavigate={navigate} onPromote={id=>{setSelectedStoreId(id);navigate('marketing');}}/></div>}
     {tab==='guide'&&<div className="owner-portal-workspace"><OwnerPortalGuide onNavigate={navigate}/></div>}
         <div className="owner-portal-workspace" hidden={tab !== "account"}>
         <div className="owner-account-heading scene-context-banner scene-context-merchant"><SceneBanner scene="history" /><div><p className="owner-portal-eyebrow">MY ACCOUNT</p><h1>내 계정 · 게시 내역</h1><p className="owner-portal-description">점주 계정으로 로그인하고, 우리 가게가 전한 소식을 확인하세요.</p></div></div>
@@ -163,7 +172,10 @@ function Owner() {
             <label>비밀번호<input type="password" autoComplete="current-password" value={loginPassword} onChange={event=>setLoginPassword(event.target.value)} placeholder="점주 계정 비밀번호" required/></label>
             <button type="submit" disabled={ownerBusy || publication.status!=="published"}><LogIn size={16}/>{ownerBusy?"확인 중…":"점주 로그인"}</button>
             <p className="itda-owner-login-note">점주 계정은 관리자가 Supabase에 초대하고 담당 점포를 지정해야 합니다. 계정이 없어도 예시 홍보안은 만들어 볼 수 있어요.</p>
-          </form> : <p className="itda-owner-identity"><ShieldCheck size={17}/> {ownerSession.email} · 담당 점포 {visibleStores.length}곳 · 한도 내 직접 게시</p>}
+            {OWNER_PRESENTATION_MODE && (demoStore
+              ? <p className="owner-demo-note"><Eye size={16} aria-hidden="true"/>지금 {demoStore.name} 점주 화면을 둘러보는 중이에요. <button type="button" onClick={()=>endDemo('home')}>둘러보기 끝내기</button></p>
+              : <button type="button" className="owner-demo-start" onClick={startDemo}><Eye size={16} aria-hidden="true"/>로그인 없이 둘러보기 (발표용)</button>)}
+          </form> :<p className="itda-owner-identity"><ShieldCheck size={17}/> {ownerSession.email} · 담당 점포 {visibleStores.length}곳 · 한도 내 직접 게시</p>}
           <p className="itda-owner-message" role="status">{ownerMessage}</p>
           {ownerSession && liveByStore.size > 0 && <div className="owner-live-list">{[...liveByStore.values()].map(item => <LivePromotionCard key={item.id} item={item} storeName={assignedStores.find(s=>s.id===item.store_id)?.name}/>)}</div>}
           {ownerSession && <div className="itda-owner-history"><strong>내 소식 게시 내역</strong>

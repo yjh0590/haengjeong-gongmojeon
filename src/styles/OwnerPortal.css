@@ -188,3 +188,19 @@
   .owner-redesign .owner-portal-header-inner { gap: 8px; padding: 0 4%; }
   .owner-redesign .owner-portal-account-button { padding: 0 10px; gap: 5px; }
 }
+
+/* Presentation browsing: its own colour so it never reads as a real owner login. */
+.owner-demo-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 45px; padding: 8px max(18px, calc((100vw - 1180px) / 2)); background: #5b4a1c; color: #fff6dc; font-size: 12.5px; }
+.owner-demo-bar > span { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; line-height: 1.6; }
+.owner-demo-bar small { font-size: inherit; color: #f3e3b8; }
+.owner-demo-bar small::before { content: "·"; margin-right: 6px; }
+.owner-demo-bar button { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; min-height: 36px; padding: 0 12px; border: 1px solid #ffffff55; border-radius: 8px; background: #ffffff1e; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.owner-redesign .itda-owner-login .owner-demo-start { grid-column: 1 / -1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 16px; border: 1px solid #ecd9a6; border-radius: 11px; background: #fff8e6; color: #6b5113; font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+.owner-redesign .itda-owner-login .owner-demo-start:hover { background: #fdf0cc; }
+.owner-demo-note { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; padding: 12px 14px; border-radius: 11px; background: #fff8e6; color: #6b5113; font-size: 13.5px; }
+.owner-redesign .itda-owner-login .owner-demo-note button { min-height: 40px; padding: 0 12px; border: 1px solid #e3c98a; border-radius: 9px; background: #fff; color: #6b5113; font: inherit; font-weight: 800; cursor: pointer; }
+@media (max-width: 600px) {
+  .owner-demo-bar { padding: 8px 14px; font-size: 12px; }
+  .owner-demo-bar small { flex-basis: 100%; font-size: 11.5px; }
+  .owner-demo-bar small::before { content: none; }
+}
