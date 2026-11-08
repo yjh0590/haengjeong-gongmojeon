@@ -57,13 +57,20 @@ export default function GuideLibrary() {
         <nav className="guide-reader-nav" aria-label="가이드북 선택"><button type="button" onClick={() => select(null)}><LayoutGrid size={16} aria-hidden="true"/>전체 목차</button>{guidebooks.map(item => <button key={item.id} type="button" aria-current={selected === item.id ? "page" : undefined} onClick={() => select(item.id)}>{(() => { const Icon = coverIcons[item.id]; return <Icon size={22} aria-hidden="true"/>; })()}{item.label}</button>)}</nav>
         <div className="guide-reader-main">
           <div className="guide-reader-content" ref={reader} key={book.id} tabIndex={-1} aria-label={`${book.label} 안내서 본문`}>
-            <article className={`guide-reader-page guide-page-${book.id}`}>
-              {page.image && <div className={`guide-page-art${page.art ? ` guide-art-${page.art}` : ""}`}><img src={page.image} alt={page.imageAlt || ""} width="1200" height="800"/></div>}
+            {page.layout === "profile" ? <article className={`guide-reader-page guide-page-profile${page.imageSize && page.imageSize[0] / page.imageSize[1] >= 2 ? " guide-profile-wide" : ""}`}>
+              {page.image && <figure className="guide-profile-art"><img src={page.image} alt={page.imageAlt || ""} width={page.imageSize?.[0]} height={page.imageSize?.[1]}/>
+                {page.poses && <figcaption><ol className="guide-profile-poses" aria-label="포즈 이름">{page.poses.map(pose => <li key={pose}>{pose}</li>)}</ol></figcaption>}</figure>}
               <div className="guide-page-copy"><p className="guide-page-number" aria-live="polite">{book.label} · {pageIndex + 1} / {book.pages.length}</p><h3>{page.title}</h3><p className="guide-page-lead">{page.lead}</p>
-                <ol className="guide-picture-steps">{page.steps.map((step, index) => <li key={step.title}><GuidePicture picture={step.picture}/><span className="guide-picture-number">{index + 1}</span><strong>{step.title}</strong><p>{step.caption}</p></li>)}</ol>
+                {page.profile && <dl className="guide-profile-list">{page.profile.map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>}
                 {page.note && <p className="guide-page-note"><Check size={17} aria-hidden="true"/>{page.note}</p>}
               </div>
-            </article>
+            </article> : <article className={`guide-reader-page guide-page-${book.id}`}>
+              {page.image && <div className={`guide-page-art${page.art ? ` guide-art-${page.art}` : ""}`}><img src={page.image} alt={page.imageAlt || ""} width="1200" height="800"/></div>}
+              <div className="guide-page-copy"><p className="guide-page-number" aria-live="polite">{book.label} · {pageIndex + 1} / {book.pages.length}</p><h3>{page.title}</h3><p className="guide-page-lead">{page.lead}</p>
+                {page.steps && <ol className="guide-picture-steps">{page.steps.map((step, index) => <li key={step.title}><GuidePicture picture={step.picture}/><span className="guide-picture-number">{index + 1}</span><strong>{step.title}</strong><p>{step.caption}</p></li>)}</ol>}
+                {page.note && <p className="guide-page-note"><Check size={17} aria-hidden="true"/>{page.note}</p>}
+              </div>
+            </article>}
           </div>
           <footer className="guide-page-controls"><button type="button" disabled={pageIndex === 0} onClick={() => setPageIndex(index => index - 1)}><ArrowLeft size={17} aria-hidden="true"/>이전</button><span>{pageIndex + 1} / {book.pages.length}</span>{pageIndex < book.pages.length - 1 ? <button type="button" onClick={() => setPageIndex(index => index + 1)}>다음<ArrowRight size={17} aria-hidden="true"/></button> : book.action ? <a href={appUrl(book.action.surface)}>{book.action.label}<ArrowRight size={17} aria-hidden="true"/></a> : <button type="button" onClick={() => select(null)}>목차로<LayoutGrid size={16} aria-hidden="true"/></button>}</footer>
         </div>

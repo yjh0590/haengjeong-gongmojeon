@@ -108,3 +108,35 @@
 @media(min-width:601px){.guide-art-brothers+.guide-page-copy{align-self:flex-end}}
 /* Very short windows: show the faces and only the headline facts. */
 @media(max-height:480px){.guide-art-pomuli>img{object-position:left 28%}.guide-art-dosongi>img{object-position:left 42%}.guide-art-brothers>img{object-position:center 25%;transform:scale(1.1);transform-origin:100% 20%}.guide-page-characters .guide-page-lead,.guide-page-characters .guide-page-note,.guide-page-characters .guide-page-copy .guide-picture-steps p{display:none}.guide-page-characters .guide-page-copy{padding:8px 12px}.guide-reader-page.guide-page-characters{padding:8px}.guide-reader-page.guide-page-characters .guide-picture-steps{gap:4px;margin-top:5px}.guide-page-characters .guide-page-copy h3{font-size:16px}}
+/* Character profile pages: the character drawing beside (or above, for a wide pose sheet) a short profile list. */
+.guide-reader-page.guide-page-profile{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);align-items:center;gap:6px;padding:16px 18px;min-height:100%}
+.guide-profile-art{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin:0;height:100%;max-height:440px;min-height:0;padding:14px;border-radius:20px;background:radial-gradient(ellipse at 50% 85%,#e4dbf7,transparent 70%),#f5f1fc}
+.guide-profile-art>img{display:block;width:100%;height:100%;min-height:0;object-fit:contain}
+.guide-page-profile .guide-page-copy{padding:8px 10px 8px 16px}
+.guide-profile-list{display:grid;gap:0;margin:12px 0 0;border-top:1px solid #e6dfd2}
+.guide-profile-list>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid #e6dfd2}
+.guide-profile-list dt{font-size:12.5px;font-weight:700;color:#6952a4;word-break:keep-all}
+.guide-profile-list dd{margin:0;font-size:14px;line-height:1.55;color:#3a4a5f;word-break:keep-all}
+.guide-profile-poses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;width:100%;margin:0;padding:0;list-style:none;counter-reset:pose}
+.guide-profile-poses li{counter-increment:pose;text-align:center;font-size:12px;line-height:1.35;color:#5a4a8c;word-break:keep-all}
+.guide-profile-poses li:before{content:counter(pose);display:block;width:18px;height:18px;margin:0 auto 3px;border-radius:50%;background:#fff;color:#6952a4;font-size:10.5px;line-height:18px}
+/* A wide pose sheet goes on top with its pose names; the profile list then uses two columns. */
+.guide-reader-page.guide-page-profile.guide-profile-wide{grid-template-columns:minmax(0,1fr);align-content:start;gap:10px}
+.guide-profile-wide .guide-profile-art{height:auto;padding:12px 16px 10px}
+/* Image and pose names share one width (140px tall x 636:258) so each name sits under its pose. */
+.guide-profile-wide .guide-profile-art>img,.guide-profile-wide .guide-profile-poses{width:min(100%,345px)}
+.guide-profile-wide .guide-profile-art>img{height:auto}
+.guide-profile-wide .guide-page-copy{margin-block:0;padding:0 6px}
+.guide-profile-wide .guide-profile-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}
+.guide-profile-wide .guide-profile-list>div{grid-template-columns:86px minmax(0,1fr)}
+@media(max-width:600px){
+.guide-reader-page.guide-page-profile{grid-template-columns:minmax(0,1fr);align-content:start;gap:10px;padding:12px}
+.guide-profile-art{height:auto;max-height:none;padding:10px}
+.guide-profile-art>img{height:auto;max-height:190px}
+.guide-page-profile .guide-page-copy{margin-block:0;padding:0 4px}
+.guide-profile-wide .guide-profile-list{grid-template-columns:minmax(0,1fr)}
+.guide-profile-list>div,.guide-profile-wide .guide-profile-list>div{grid-template-columns:88px minmax(0,1fr)}
+.guide-profile-list dd{font-size:13.5px}
+.guide-profile-poses li{font-size:11px}
+}
+@media(max-height:480px){.guide-profile-art>img{max-height:120px}.guide-page-profile .guide-page-lead{display:none}.guide-profile-list>div{padding:4px 0}}
