@@ -35,7 +35,7 @@ export const guidebooks: Guidebook[] = [
       row("함께하는 이유", "백령도에서 여행을 떠난 형제가 손님과 점주, 두 동네를 이어요."),
     ], note: "다음 장부터 한 명씩 자세히 소개할게요." },
     { title: "포물이, 정겨운 형", lead: "사람에게 먼저 다가가는 든든한 안내자예요.", image: "/brand/characters/character-pomuli-v7.webp", art: "pomuli", imageAlt: "항구 골목의 벤치에서 지도를 펼쳐 보는 포물이", steps: [step("map", "제물포", "이름에 제물포의 ‘포’를 담았어요"), step("heart", "책임감", "씩씩하지만 기술은 조금 서툴러요"), step("people", "정겨움", "정장과 회중시계가 잘 어울려요")] },
-    { layout: "profile", title: "포물이 프로필", lead: "처음 오는 사람의 눈높이에서 차근차근 안내해요.", image: "/brand/characters/porumi.png", imageSize: [198, 274], imageAlt: "한 손을 들어 반갑게 인사하는 포물이 전신 그림", profile: [
+    { layout: "profile", title: "포물이 프로필", lead: "처음 오는 사람의 눈높이에서 차근차근 안내해요.", image: "/brand/characters/pomuli-steps.webp", imageSize: [1200, 605], imageAlt: "모자챙을 잡고 인사하기, 차 한 잔 들고 웃기, 수첩 살펴보기, 주먹 쥐고 응원하기를 하는 포물이의 네 가지 포즈", poses: ["반갑게 인사", "차 한 잔", "꼼꼼히 확인", "힘내요!"], profile: [
       row("이름의 뜻", "제물포의 ‘포’에서 왔어요"),
       row("형제 순서", "형"),
       row("성격", "책임감 있고 정이 많아요. 기술은 조금 서툴러요"),

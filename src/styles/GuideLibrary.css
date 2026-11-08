@@ -123,8 +123,8 @@
 /* A wide pose sheet goes on top with its pose names; the profile list then uses two columns. */
 .guide-reader-page.guide-page-profile.guide-profile-wide{grid-template-columns:minmax(0,1fr);align-content:start;gap:10px}
 .guide-profile-wide .guide-profile-art{height:auto;padding:12px 16px 10px}
-/* Image and pose names share one width (140px tall x 636:258) so each name sits under its pose. */
-.guide-profile-wide .guide-profile-art>img,.guide-profile-wide .guide-profile-poses{width:min(100%,345px)}
+/* Image and pose names share one width (140px tall at the sheet's own ratio, set as --pose-width) so each name sits under its pose. */
+.guide-profile-wide .guide-profile-art>img,.guide-profile-wide .guide-profile-poses{width:min(100%,var(--pose-width,345px))}
 .guide-profile-wide .guide-profile-art>img{height:auto}
 .guide-profile-wide .guide-page-copy{margin-block:0;padding:0 6px}
 .guide-profile-wide .guide-profile-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}

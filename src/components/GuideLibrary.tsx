@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, type MouseEvent } from "react";
+﻿import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Check, LayoutGrid, MapPinned, ShieldCheck, Store, X } from "lucide-react";
 import { appUrl } from "../config/site";
 import { guidebooks, type GuidebookId } from "../data/guidebooks";
@@ -57,7 +57,8 @@ export default function GuideLibrary() {
         <nav className="guide-reader-nav" aria-label="가이드북 선택"><button type="button" onClick={() => select(null)}><LayoutGrid size={16} aria-hidden="true"/>전체 목차</button>{guidebooks.map(item => <button key={item.id} type="button" aria-current={selected === item.id ? "page" : undefined} onClick={() => select(item.id)}>{(() => { const Icon = coverIcons[item.id]; return <Icon size={22} aria-hidden="true"/>; })()}{item.label}</button>)}</nav>
         <div className="guide-reader-main">
           <div className="guide-reader-content" ref={reader} key={book.id} tabIndex={-1} aria-label={`${book.label} 안내서 본문`}>
-            {page.layout === "profile" ? <article className={`guide-reader-page guide-page-profile${page.imageSize && page.imageSize[0] / page.imageSize[1] >= 2 ? " guide-profile-wide" : ""}`}>
+            {page.layout === "profile" ? <article className={`guide-reader-page guide-page-profile${page.imageSize && page.imageSize[0] / page.imageSize[1] >= 1.8 ? " guide-profile-wide" : ""}`}
+              style={page.imageSize ? {"--pose-width": `${Math.round(140 * page.imageSize[0] / page.imageSize[1])}px`} as CSSProperties : undefined}>
               {page.image && <figure className="guide-profile-art"><img src={page.image} alt={page.imageAlt || ""} width={page.imageSize?.[0]} height={page.imageSize?.[1]}/>
                 {page.poses && <figcaption><ol className="guide-profile-poses" aria-label="포즈 이름">{page.poses.map(pose => <li key={pose}>{pose}</li>)}</ol></figcaption>}</figure>}
               <div className="guide-page-copy"><p className="guide-page-number" aria-live="polite">{book.label} · {pageIndex + 1} / {book.pages.length}</p><h3>{page.title}</h3><p className="guide-page-lead">{page.lead}</p>
