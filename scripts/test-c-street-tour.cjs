@@ -62,6 +62,9 @@ assert.deepEqual(replaced.nodes.map(node => node.number), [1, 2]);
 assert.deepEqual(replaced.media, {map:'maps/bg.png', photos:{}});
 assert.deepEqual(replaced.facades, []);
 assert.deepEqual(Object.keys(replaced.geometry.nodes).sort(), ['c-entry', 'c-street']);
+// The entrance photo shows the 2nd-floor 라비앙르로즈 sign, so the published site links it there.
+assert.ok(replaced.nodes[0].stores.includes(9202) && replaced.nodes[0].viewStores.forward.includes(9202));
+assert.ok(replaced.stores.some(store => store.id === 9202));
 assert.deepEqual(replaced.stores.slice(0, 3).map(store => store.id), [9101, 9102, 9103]);
 assert.deepEqual(replaced.stores, timespaceSite.stores);
 assert.deepEqual(replaced.geometry, timespaceSite.geometry);

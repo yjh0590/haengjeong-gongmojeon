@@ -188,12 +188,12 @@ export default function MapEditor() {
         <div className="map-editor-audit" aria-label="현장 자료 및 지점 연결 점검">
           <h3>현장 자료·연결 점검</h3>
           <p>현재 편집 중인 데이터의 확인 필요 항목입니다. 실제 위치와 도보 동선은 현장에서 검증해야 합니다.</p>
-          <div className="map-editor-audit-counts"><span>촬영 지점 <b>{nodes.length}</b></span><span>사진 없는 지점 <b>{photosMissing.length}</b></span><span>점포 연결 누락 <b>{unmappedStores.length}</b></span></div>
+          <div className="map-editor-audit-counts"><span>촬영 지점 <b>{nodes.length}</b></span><span>사진 없는 지점 <b>{photosMissing.length}</b></span><span>거리 사진 준비 중 가게 <b>{unmappedStores.length}</b></span></div>
           {missingCoordinates.length > 0 && <p className="audit-warning">지도 좌표 누락: {missingCoordinates.map(node=>`${node.number}번`).join(", ")}</p>}
           {networkWarnings.length > 0 && <ul>{networkWarnings.map((warning,i)=><li key={i}>{warning}</li>)}</ul>}
-          {unmappedStores.length > 0 && <p className="audit-warning">촬영 지점 미연결 가게: {unmappedStores.map(s=>s.name).join(", ")}</p>}
+          {unmappedStores.length > 0 && <details className="audit-info"><summary>거리 사진에 아직 나오지 않는 가게 {unmappedStores.length}곳</summary><p>아직 촬영하지 않은 거리의 가게라 촬영 지점에 연결하지 않았어요. 손님 화면에서는 지도와 목록으로 찾을 수 있고, 거리 사진 카드에는 나오지 않아요. 그 거리를 촬영해 거리 사진 편집에서 연결하면 줄어듭니다.</p><p>{unmappedStores.map(s=>s.name).join(", ")}</p></details>}
           {photosMissing.length > 0 && <p className="audit-warning">사진 미등록 지점: {photosMissing.map(n=>`${n.number}번`).join(", ")}</p>}
-          {networkWarnings.length===0 && unmappedStores.length===0 && photosMissing.length===0 && missingCoordinates.length===0 && <p className="audit-ok">현재 데이터에서 자동 점검 경고가 없습니다. 실제 위치 검증은 별도로 필요합니다.</p>}
+          {networkWarnings.length===0 && photosMissing.length===0 && missingCoordinates.length===0 && <p className="audit-ok">현재 데이터에서 자동 점검 경고가 없습니다. 실제 위치 검증은 별도로 필요합니다.</p>}
         </div>
         <button className="map-editor-data" type="button" onClick={exportShootPlan}><Download size={16}/> 촬영 계획표 CSV 내려받기</button>
         <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도·사진은 Supabase Storage 업로드 후 점포 관리의 전체 게시를 해야 손님용 화면에 반영됩니다. 서버 초안 연결은 이 브라우저에 보관되므로 왼쪽 메뉴의 백업·복원으로 백업해 두세요.</p>

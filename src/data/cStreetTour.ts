@@ -50,6 +50,10 @@ export const plannedStreetPaths: {name: string; points: {x: number; y: number}[]
 /** Customer site dataset: the C-block photo tour plus the photo-verified A-D block stores on floors 1-3. */
 export const timespaceSite: SitePublication = {
   ...cStreetTour,
+  // The entrance photo also shows the 2nd-floor LA VIE ENR ROSE (라비앙르로즈 헤어) sign above the arcade.
+  nodes: cStreetTour.nodes.map(node => node.id === 'c-entry'
+    ? {...node, stores: [...node.stores, 9202], viewStores: {...node.viewStores, forward: [...(node.viewStores?.forward || []), 9202]}}
+    : node),
   stores: [...cStreetTour.stores, ...timespaceStores],
   geometry: {...cStreetTour.geometry, stores: {...cStreetTour.geometry.stores, ...timespaceStorePositions}},
 };
@@ -65,7 +69,7 @@ export function replaceWithCStreetTour(existing: SitePublication): SitePublicati
   return {
     version: 1,
     stores: timespaceSite.stores.map(store => edited.get(store.id) || {...store, tags: [...store.tags]}),
-    nodes: cStreetTour.nodes.map(node => ({...node, stores: [...node.stores], viewStores: Object.fromEntries(Object.entries(node.viewStores || {}).map(([view, ids]) => [view, [...ids]]))})),
+    nodes: timespaceSite.nodes.map(node => ({...node, stores: [...node.stores], viewStores: Object.fromEntries(Object.entries(node.viewStores || {}).map(([view, ids]) => [view, [...ids]]))})),
     geometry: {boundary: [], passages: [], nodes: {...timespaceSite.geometry.nodes}, stores: {...timespaceSite.geometry.stores}},
     facades: [],
     ...(existing.media ? {media: {...(existing.media.map ? {map: existing.media.map} : {}), photos}} : {}),
