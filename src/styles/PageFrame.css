@@ -123,3 +123,19 @@ html:has(.owner-redesign),body:has(.owner-redesign) { background:#fff; }
   .app-shell .customer-banner h1,
   .owner-redesign .owner-portal-hero h1 { font-size:clamp(28px,min(4.2cqw,9cqh),44px); }
 }
+
+/* Phones (Android and iPhone). */
+@media (max-width: 600px) {
+  /* iPhone Safari zooms the whole page into any focused field whose text is under 16px. No field is larger on phones, so this only raises small ones. */
+  input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=color]), select, textarea { font-size: 16px !important; }
+}
+/* Touch screens: keep the small look but give each control a hit area of about 44px (iOS 44pt, Android 48dp). */
+@media (max-width: 600px), (pointer: coarse) {
+  .app-shell .store-card-top .favorite-button { position: relative; }
+  .app-shell .store-card-top .favorite-button::after { content: ""; position: absolute; inset: -10px; }
+  .service-studio .service-text-button { min-height: 44px; }
+  .owner-redesign .owner-portal-footer a, .app-shell .customer-footer a { min-height: 44px; }
+  .app-shell .search-field { min-height: 44px; }
+  /* The banner photo credit: a taller hit area without moving the text around it. */
+  .itda-landing small a { display: inline-block; padding: 14px 0; margin: -14px 0; }
+}
