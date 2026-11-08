@@ -67,13 +67,29 @@ try {
   assert.equal(publicRows[0].rows.length, 2); checks++;
   await denied(() => db.exec("select request_id from public.itda_live_promotions"), /permission denied/);
   await denied(() => db.exec("select * from public.itda_promotion_requests"), /permission denied/);
+  // Before 005 only administrators may stop a post.
   await identity(owner);
   await denied(() => db.query("select public.itda_withdraw_promotion($1)", [third.id]), /관리자/);
+  // 005 (applied twice to prove it is re-runnable): owners may stop posts of their own stores only.
+  await db.exec("reset role");
+  const withdrawSql = await readFile(new URL("../supabase/005_owner_withdraw.sql", import.meta.url), "utf8");
+  await db.exec(withdrawSql); await db.exec(withdrawSql);
+  await identity(null, "anon");
+  await denied(() => db.query("select public.itda_withdraw_promotion($1)", [third.id]), /permission denied/);
+  await identity(outsider);
+  await denied(() => db.query("select public.itda_withdraw_promotion($1)", [third.id]), /담당 점포/);
+  await identity(owner);
+  await denied(() => db.query("select public.itda_withdraw_promotion($1)", [independent.id]), /담당 점포/);
+  await denied(() => db.query("select public.itda_withdraw_promotion($1)", [randomUUID()]), /담당 점포/);
   await identity(admin);
   await db.query("select public.itda_withdraw_promotion($1)", [first.id]);
   assert.equal((await db.exec("select active from public.itda_live_promotions where store_id=1"))[0].rows[0].active, true); checks++;
+  await identity(owner);
   await db.query("select public.itda_withdraw_promotion($1)", [third.id]);
+  await identity(admin);
   assert.equal((await db.exec("select active from public.itda_live_promotions where store_id=1"))[0].rows[0].active, false); checks++;
+  assert.equal((await db.exec("select active from public.itda_live_promotions where store_id=2"))[0].rows[0].active, true); checks++;
+  assert.equal((await db.query("select status from public.itda_promotion_requests where id=$1", [third.id])).rows[0].status, "withdrawn"); checks++;
   assert.equal((await quota(1)).used, 3); checks++;
   await db.exec("select public.itda_set_promotion_policy(4,true)");
   await identity(owner);
@@ -114,7 +130,7 @@ try {
   assert.equal(applyPromotionOverrides(stores,[{store_id:1,street_copy:"New",ends_on:"2026-11-04",active:true}],"2026-11-05")[0].event,undefined); checks++;
   assert.equal(koreanDate(new Date("2026-11-05T14:59:59Z")),"2026-11-05");
   assert.equal(koreanDate(new Date("2026-11-05T15:00:00Z")),"2026-11-06"); checks++;
-  console.log(`Passed ${checks} PostgreSQL and publication checks (permissions, quotas, retries, KST reset, withdrawal, catalog overrides).`);
+  console.log(`Passed ${checks} PostgreSQL and publication checks (permissions, quotas, retries, KST reset, admin and owner withdrawal, catalog overrides).`);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;
