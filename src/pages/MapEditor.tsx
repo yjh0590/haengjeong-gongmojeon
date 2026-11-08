@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import { ArrowLeft, Camera, Download, FileJson, Info, MapPinned, Plus, Save, Trash2, Upload } from "lucide-react";
+import { Download, Info, MapPinned, Plus, Save, Trash2, Upload } from "lucide-react";
 import { streetNodes as defaultNodes } from "../data/streetNodes";
 import { useStoreDraft } from "../data/storeDraft";
 import { deleteDraftMap, listDraftPhotos, saveDraftMap, useDraftPhotoUrls } from "../data/localStreetPhotos";
@@ -11,8 +11,7 @@ import { moveStoreToPhotoPoint, readStreetNodes, saveStreetNodes } from "../data
 import { inspectStreetNetwork } from "../data/routeGuide";
 import type { StreetNode, ViewDirection } from "../types/street";
 import "../styles/MapEditor.css";
-import { appUrl, sameOriginPreview } from "../config/site";
-import SiteBrand from "../components/SiteBrand";
+import EditorShell from "../components/EditorShell";
 
 const vw: ViewDirection[] = ["forward","back","left","right"];
 const directionNames: Record<ViewDirection,string> = { forward:"앞",back:"뒤",left:"왼쪽",right:"오른쪽" };
@@ -30,14 +29,6 @@ function asXY(event: MouseEvent<SVGSVGElement>): XY {
     x: Math.max(0, Math.min(500, Math.round(local.x * 10) / 10)),
     y: Math.max(0, Math.min(374, Math.round(local.y * 10) / 10)),
   };
-}
-function downloadJSON(filename: string, data: unknown) {
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob); const a=document.createElement("a");
-  a.href=url; a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-function isPlainPoint(p: unknown): p is XY {
-  return !!p && typeof p==="object" && Number.isFinite((p as XY).x) && Number.isFinite((p as XY).y) && (p as XY).x>=0 && (p as XY).x<=500 && (p as XY).y>=0 && (p as XY).y<=374;
 }
 export default function MapEditor() {
   const stores = useStoreDraft();
@@ -148,24 +139,8 @@ export default function MapEditor() {
     }catch(e){setMessage(e instanceof Error?e.message:"지도 업로드 실패");}
     finally{setUploadBusy(false);}
   };
-  const importSetup=async(file?:File)=>{
-    if(!file)return;
-    try{
-      const parsed:unknown=JSON.parse(await file.text());
-      if(!parsed||typeof parsed!=="object") throw new Error("설정 형식을 확인해 주세요.");
-      const v=parsed as {geometry?:MapGeometry,nodes?:StreetNode[]};
-      if(!v.geometry||!Array.isArray(v.geometry.boundary)||!v.geometry.boundary.every(isPlainPoint)|| (v.geometry.passages!==undefined && (!Array.isArray(v.geometry.passages)||!v.geometry.passages.every(p=>Array.isArray(p)&&p.every(isPlainPoint)))) ||
-         !v.geometry.nodes||!Object.values(v.geometry.nodes).every(isPlainPoint)||
-         !v.geometry.stores||!Object.values(v.geometry.stores).every(isPlainPoint)||
-         !Array.isArray(v.nodes)||!v.nodes.length||!v.nodes.every(n=>n&&typeof n.id==="string"&&Array.isArray(n.connections))) throw new Error("설정 항목이 누락됐습니다.");
-      saveMapGeometry({...v.geometry,passages:v.geometry.passages||[]}); saveStreetNodes(v.nodes);
-      setGeometry(readMapGeometry());setNodes(readStreetNodes());setSelectedNode(v.nodes[0].id);
-      setMessage("설정 JSON을 가져왔어요. 지도 이미지·사진 파일은 별도로 등록해야 합니다.");
-    }catch(e){setMessage(e instanceof Error?e.message:"JSON 파일을 가져오지 못했어요.");}
-  };
-  return <main className="map-editor-page">
-    <header className="map-editor-top"><a href={sameOriginPreview()}><ArrowLeft size={16}/> 손님용 화면으로</a><SiteBrand role="editor" /><a href={appUrl("editor","/street-editor")}><Camera size={16}/> 거리 사진 편집</a></header>
-    <section className="map-editor-head"><span>AREA MAPPING · 현장 준비</span><h1>송도 타임스페이스 전체 지도</h1><p>선으로 둘러싼 상권 전체를 관리 범위로 설정하고, 건물·통로를 따라 촬영 지점과 가게 위치를 지정하는 도구입니다. 현재 기본 좌표는 시범용이며 실제 지형·거리·방향을 나타내지 않습니다.</p></section>
+  return <EditorShell title="지도 관리" active="map"><div className="map-editor-page">
+    <section className="map-editor-head"><p>선으로 둘러싼 상권 전체를 관리 범위로 설정하고, 건물·통로를 따라 촬영 지점과 가게 위치를 지정하는 도구입니다. 현재 기본 좌표는 시범용이며 실제 지형·거리·방향을 나타내지 않습니다.</p></section>
     <div className="map-editor-layout">
       <section className="map-editor-map-panel">
         <div className="map-editor-map-title"><h2><MapPinned size={18}/> 지도 위에서 위치 지정</h2><span>{mode==="boundary"?"상권 외곽선을 순서대로 클릭":mode==="passage"?"실제 보행 가능한 통로를 이어 클릭":mode==="node"?"선택한 촬영 지점의 위치를 클릭":"선택한 가게 위치를 클릭"}</span></div>
@@ -221,11 +196,8 @@ export default function MapEditor() {
           {networkWarnings.length===0 && unmappedStores.length===0 && photosMissing.length===0 && missingCoordinates.length===0 && <p className="audit-ok">현재 데이터에서 자동 점검 경고가 없습니다. 실제 위치 검증은 별도로 필요합니다.</p>}
         </div>
         <button className="map-editor-data" type="button" onClick={exportShootPlan}><Download size={16}/> 촬영 계획표 CSV 내려받기</button>
-        <h3>데이터 백업</h3><p className="map-editor-help">좌표·경계·연결 정보를 JSON으로 내려받아 보관하세요. 이미지는 JSON에 포함되지 않습니다.</p>
-        <button className="map-editor-data" onClick={()=>downloadJSON("matmeot-map-setup.json",{version:2,geometry,nodes})}><Download size={16}/> 지도 설정 JSON 내보내기</button>
-        <label className="map-editor-file full"><FileJson size={16}/> 설정 JSON 가져오기<input type="file" accept="application/json,.json" onChange={e=>{void importSetup(e.target.files?.[0]);e.target.value="";}}/></label>
-        <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도·사진은 Supabase Storage 업로드 후 점포 관리의 전체 게시를 해야 손님용 화면에 반영됩니다. 서버 초안 연결은 이 브라우저에 보관되므로 백업을 권장합니다.</p>
+        <p className="map-editor-help">편집 화면은 관리자 인증 뒤에 접근할 수 있습니다. 지도·사진은 Supabase Storage 업로드 후 점포 관리의 전체 게시를 해야 손님용 화면에 반영됩니다. 서버 초안 연결은 이 브라우저에 보관되므로 왼쪽 메뉴의 백업·복원으로 백업해 두세요.</p>
       </aside>
     </div>
-  </main>;
+  </div></EditorShell>;
 }

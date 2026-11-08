@@ -155,3 +155,8 @@
 .editor-shell .editor-panel .editor-source-folders { margin-top: 16px; font-size: 12px; color: #7a8f80; }
 /* Dashboard: a date is longer than a count, so it gets a smaller size in the same card. */
 .editor-dashboard-metric strong.editor-dashboard-date { font-size: 24px; line-height: 1.75; white-space: nowrap; }
+/* The store, map and street-photo editors sit inside the shared admin frame: drop their own page padding,
+   full-height background and fixed width so the sidebar layout decides the space. */
+.editor-shell .catalog-page, .editor-shell .map-editor-page, .editor-shell .street-editor { min-height: 0; width: auto; max-width: none; margin: 0; padding: 0; background: transparent; }
+.editor-shell .map-editor-page > * { width: auto; margin-inline: 0; }
+.editor-shell .catalog-heading, .editor-shell .map-editor-head, .editor-shell .editor-intro { margin-top: 0; padding-top: 0; }

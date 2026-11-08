@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
-import { ArrowLeft, ArrowDown, ArrowUp, Camera, Download, Info, Plus, RotateCcw, Save, Trash2, Upload } from "lucide-react";
+import { ArrowDown, ArrowUp, Camera, Info, Plus, RotateCcw, Save, Trash2, Upload } from "lucide-react";
 import { saveStreetNodes, useStreetNodes } from "../data/streetNetwork";
 import { storesForStreetView } from "../data/streetViewStores";
 import { photoKey, useDraftPhotoUrls, listDraftPhotos, saveDraftPhoto, deleteDraftPhoto } from "../data/localStreetPhotos";
@@ -10,21 +10,11 @@ import { useStoreDraft } from "../data/storeDraft";
 import { FACADE_KEY, getFacadeAnnotations, type FacadeAnnotation, type Point } from "../data/facadeAnnotations";
 import type { ViewDirection } from "../types/street";
 import "../styles/StreetEditor.css";
-import { appUrl, sameOriginPreview } from "../config/site";
-import SiteBrand from "../components/SiteBrand";
+import { appUrl } from "../config/site";
+import EditorShell from "../components/EditorShell";
 
 const views: ViewDirection[] = ["forward", "back", "left", "right"];
 const names: Record<ViewDirection, string> = { forward: "정면", back: "뒤", left: "왼쪽", right: "오른쪽" };
-
-function readJsonAnnotations(input: unknown, nodeIds: string[], storeIds: number[]): FacadeAnnotation[] | null {
-  if (!Array.isArray(input)) return null;
-  const valid = input.every((item) => item && typeof item === "object" &&
-    typeof item.nodeId === "string" && nodeIds.includes(item.nodeId) &&
-    views.includes(item.view) && typeof item.storeId === "number" && storeIds.includes(item.storeId) &&
-    Array.isArray(item.points) && item.points.length >= 3 && item.points.every((p: Point) =>
-      typeof p.x === "number" && typeof p.y === "number" && p.x >= 0 && p.x <= 100 && p.y >= 0 && p.y <= 100));
-  return valid ? input as FacadeAnnotation[] : null;
-}
 
 export default function StreetEditor() {
   const stores = useStoreDraft();
@@ -114,13 +104,6 @@ export default function StreetEditor() {
     setPoints([]);
     setMessage("선택한 점포의 저장된 영역을 삭제했어요.");
   };
-  const exportJson = () => {
-    const blob = new Blob([JSON.stringify(annotations, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = "matmeot-facade-annotations.json"; a.click();
-    URL.revokeObjectURL(url);
-  };
   const uploadPhoto = async (file?: File) => {
     if (!file) return;
     try {
@@ -162,21 +145,9 @@ export default function StreetEditor() {
     try { await deleteDraftPhoto(nodeId,view); setPoints([]); setMessage("임시 사진을 해제했어요. 프로젝트 기본 사진이 있다면 다시 표시됩니다."); }
     catch(e) { setMessage(e instanceof Error?e.message:"사진을 해제하지 못했습니다."); }
   };
-  const importJson = async (file?: File) => {
-    if (!file) return;
-    try {
-      const parsed = JSON.parse(await file.text());
-      const valid = readJsonAnnotations(parsed, streetNodes.map(n=>n.id), stores.map(s=>s.id));
-      if (!valid) { setMessage("파일 형식이 올바르지 않아요. 기존 데이터를 변경하지 않았습니다."); return; }
-      localStorage.setItem(FACADE_KEY, JSON.stringify(valid));
-      setAnnotations(valid);
-      setMessage(`${valid.length}개 가게 영역을 가져왔어요. 동일 브라우저의 손님 페이지에 반영됩니다.`);
-    } catch { setMessage("JSON 파일을 읽지 못했습니다."); }
-  };
 
-  return <main className="street-editor">
-    <header className="editor-header"><a href={sameOriginPreview()}><ArrowLeft size={18}/> 손님용 거리 탐색</a><SiteBrand role="editor" /><a href={appUrl("editor","/map-editor")}>전체 지도 편집</a></header>
-    <section className="editor-intro"><span><Camera size={16}/> PHOTO ANNOTATION</span><h1>거리 사진과 가게 연결하기</h1><p>촬영 지점과 방향을 고르고 가게 카드를 추가하세요. 사진 속 영역 표시는 선택 사항입니다. 저장한 초안은 전체 게시 후 손님에게 보여요.</p></section>
+  return <EditorShell title="거리 사진" active="street"><div className="street-editor">
+    <section className="editor-intro"><p>촬영 지점과 방향을 고르고 가게 카드를 추가하세요. 사진 속 영역 표시는 선택 사항입니다. 저장한 초안은 전체 게시 후 손님에게 보여요.</p></section>
     <div className="editor-layout"><section className="editor-main"><div className="editor-subheader"><h2>{node.name} · {names[view]} 사진</h2><span>{image ? "클릭해서 꼭짓점 추가" : "사진 미등록"}</span></div>
       <div className={`editor-canvas ${image?"has-photo":""}`} onClick={addPoint} role="presentation">
         {image ? <img src={image} alt={`${node.name} ${names[view]} 방향`} draggable={false}/> : <div className="editor-empty"><Camera size={36}/><strong>등록된 사진이 없습니다</strong><span>오른쪽에서 JPG·PNG·WEBP 사진을 등록해 주세요.</span></div>}
@@ -200,9 +171,7 @@ export default function StreetEditor() {
       {remotePath && <a className="editor-data" href={publicMediaUrl(remotePath)} target="_blank" rel="noopener noreferrer">업로드한 사진 확인</a>}
       <p>서버 업로드만으로 손님용 화면이 바뀌지 않습니다. <a href="/catalog">점포 관리에서 ‘전체 게시’</a>를 완료해야 반영돼요.</p>
       <div className="editor-actions"><button className="editor-primary" onClick={save} disabled={points.length < 3 || !image || !node.stores.includes(storeId)}><Save size={16}/> 영역 저장</button><button onClick={remove} disabled={!existing}><Trash2 size={16}/> 저장 영역 삭제</button></div>
-      <div className="editor-divider"/><h3>영역 데이터 관리</h3><p>현재 저장: <strong>{annotations.length}개</strong> · 같은 브라우저에만 반영됩니다.</p><button className="editor-data" onClick={exportJson}><Download size={16}/> JSON 내보내기</button>
-      <label className="editor-upload"><Upload size={16}/> JSON 가져오기<input type="file" accept="application/json,.json" onChange={(event) => { void importJson(event.target.files?.[0]); event.target.value = ""; }}/></label>
-      <p className="editor-warning">사진을 서버에 업로드하면 누구나 해당 파일 URL에 접근할 수 있습니다. 손님 페이지에는 전체 게시 이후부터 표시됩니다. 외곽선은 별도로 저장하고 전체 게시해야 반영됩니다.</p>
+            <p className="editor-warning">사진을 서버에 업로드하면 누구나 해당 파일 URL에 접근할 수 있습니다. 손님 페이지에는 전체 게시 이후부터 표시됩니다. 외곽선은 별도로 저장하고 전체 게시해야 반영됩니다.</p>
     </aside></div>
-  </main>;
+  </div></EditorShell>;
 }

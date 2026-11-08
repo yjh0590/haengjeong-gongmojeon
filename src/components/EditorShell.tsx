@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { BookOpenText, Camera, ClipboardList, DatabaseBackup, LayoutDashboard, MapPinned, NotebookPen, Settings, Store } from "lucide-react";
+import { BookOpenText, Camera, ClipboardList, DatabaseBackup, LayoutDashboard, MapPinned, NotebookPen, Store } from "lucide-react";
 import { appUrl, sameOriginPreview } from "../config/site";
 import "../styles/EditorShell.css";
 import SiteBrand from "./SiteBrand";
 
-export default function EditorShell({ children, title, active = "dashboard" }: { children: ReactNode; title: string; active?: "dashboard" | "promotions" | "devlog" | "sources" | "backup" }) {
+export default function EditorShell({ children, title, active = "dashboard" }: { children: ReactNode; title: string; active?: "dashboard" | "catalog" | "map" | "street" | "promotions" | "devlog" | "sources" | "backup" }) {
   const [mobile, setMobile] = useState(() => window.matchMedia("(max-width: 600px)").matches);
   const [expanded, setExpanded] = useState(() => !window.matchMedia("(max-width: 600px)").matches);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -22,11 +22,10 @@ export default function EditorShell({ children, title, active = "dashboard" }: {
   },[mobile,expanded]);
   const links = [
     { label: "대시보드", href: appUrl("editor"), icon: LayoutDashboard, selected: active === "dashboard" },
-    { label: "매장 관리", href: appUrl("editor","/catalog"), icon: Store },
-    { label: "지도 관리", href: appUrl("editor","/map-editor"), icon: MapPinned },
-    { label: "거리 사진", href: appUrl("editor","/street-editor"), icon: Camera },
+    { label: "매장 관리", href: appUrl("editor","/catalog"), icon: Store, selected: active === "catalog" },
+    { label: "지도 관리", href: appUrl("editor","/map-editor"), icon: MapPinned, selected: active === "map" },
+    { label: "거리 사진", href: appUrl("editor","/street-editor"), icon: Camera, selected: active === "street" },
     { label: "홍보 게시 관리", href: appUrl("editor","/promotions"), icon: ClipboardList, selected: active === "promotions" },
-    { label: "게시 정책 설정", href: `${appUrl("editor","/promotions")}#promotion-policy`, icon: Settings },
     { label: "정보 출처", href: appUrl("editor","/sources"), icon: BookOpenText, selected: active === "sources" },
     { label: "백업·복원", href: appUrl("editor","/backup"), icon: DatabaseBackup, selected: active === "backup" },
     { label: "개발일지", href: appUrl("editor","/devlog"), icon: NotebookPen, selected: active === "devlog" },
@@ -34,7 +33,7 @@ export default function EditorShell({ children, title, active = "dashboard" }: {
   return <div className={`editor-shell ${expanded ? "is-expanded" : "is-collapsed"}`}>
     <header className="editor-shell-header">
       <a className="editor-brand-link" href={appUrl("editor")} aria-label="맛&멋 AI Street 관리자 홈"><SiteBrand role="editor" /></a>
-      <nav aria-label="관리자 상단 메뉴"><a href={appUrl("editor")}>대시보드</a><a href={appUrl("editor","/catalog")}>매장 관리</a><a href={appUrl("editor","/promotions")}>홍보 게시</a><a href={sameOriginPreview()}>손님 미리보기</a><a href={appUrl("landing")}>메인</a></nav>
+      <nav aria-label="관리자 바로가기"><a href={sameOriginPreview()}>손님 미리보기</a><a href={appUrl("landing")}>메인</a></nav>
       <button ref={toggle} className="editor-shell-toggle" type="button" aria-label={expanded ? "관리 메뉴 접기" : "관리 메뉴 열기"} aria-controls="editor-sidebar" aria-expanded={expanded} onClick={() => setExpanded(value => !value)}><span /><span /><span /></button>
     </header>
     <div className="editor-shell-grid">
