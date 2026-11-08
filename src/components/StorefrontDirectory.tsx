@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, Camera, ChevronLeft, ChevronRight, MapPin, Search, Store, X, ZoomIn } from 'lucide-react';
 import catalog from '../data/storefrontCatalog.json';
 import signNames from '../data/storeSignNames.json';
+import { webImage } from '../data/webImage';
 import '../styles/StorefrontDirectory.css';
 
 type Entry = typeof catalog.records[number];
@@ -19,7 +20,7 @@ function EntryPhoto({ entry, framed = false, original = false }: { entry: Entry;
   if (!entry.photo || failed) return <div className="sign-photo-missing"><Store size={30}/><span>{failed ? '사진을 불러오지 못했어요' : '간판 사진 확인 전'}</span></div>;
   const photo = entry.photo;
   const retouch = photo.retouch;
-  return <img src={original ? photo.path : retouch?.path || photo.path} alt={`${entry.name} ${photo.kind}${!original && retouch ? ' · 인물 제거 보정' : ''}`} width={!original && retouch ? retouch.width : photo.width} height={!original && retouch ? retouch.height : photo.height} style={framed ? {objectPosition:photo.presentation.position,transform:`scale(${photo.presentation.scale})`,transformOrigin:photo.presentation.position} : undefined} loading="lazy" onError={() => setFailed(true)}/>;
+  return <img src={webImage(original ? photo.path : retouch?.path || photo.path)} alt={`${entry.name} ${photo.kind}${!original && retouch ? ' · 인물 제거 보정' : ''}`} width={!original && retouch ? retouch.width : photo.width} height={!original && retouch ? retouch.height : photo.height} style={framed ? {objectPosition:photo.presentation.position,transform:`scale(${photo.presentation.scale})`,transformOrigin:photo.presentation.position} : undefined} loading="lazy" onError={() => setFailed(true)}/>;
 }
 
 export default function StorefrontDirectory({embedded = false}: {embedded?: boolean}) {

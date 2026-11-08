@@ -4,6 +4,7 @@ import type { StoreGroupId } from "../data/storeGroups";
 import "../styles/CustomerBanner.css";
 import SceneBanner from "./SceneBanner";
 import { validStorefrontImage } from "../data/storefrontImage";
+import { webImage } from "../data/webImage";
 import StoreName from "./StoreName";
 
 // Shortcuts by the kind of store (see storeGroups.ts); the 맛/멋/이벤트 type filters live in the toolbar below.
@@ -51,7 +52,7 @@ export default function CustomerBanner({ stores, published, filter, group, query
     </div>
     {featured && <button className="customer-banner-featured" type="button" onClick={() => onSelectStore(featured.id)} aria-label={`${featured.name} 상세 보기`}>
       {validStorefrontImage(featured.storefrontImage)
-        ? <img src={featured.storefrontImage} alt={`${featured.name} 실제 외관`} width="115" height="137" style={{objectFit: "cover"}} />
+        ? <img src={webImage(featured.storefrontImage)} alt={`${featured.name} 실제 외관`} width="115" height="137" style={{objectFit: "cover"}} />
         : <img src={`/customer-banner/${photo}`} alt="가게 분위기 예시 사진" width="115" height="137" />}
       <span className="customer-banner-featured-info">
         <span className="customer-banner-chip">{published ? "등록 점포" : "시연용 점포"}</span>

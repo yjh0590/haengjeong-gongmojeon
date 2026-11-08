@@ -6,6 +6,7 @@ import "../styles/OwnerPortal.css";
 import SiteBrand from "./SiteBrand";
 import { storeMenuItems } from "../data/storeMenuItems";
 import { validStorefrontImage } from "../data/storefrontImage";
+import { webImage } from "../data/webImage";
 import { customerStoreUrl } from "../data/ownerPromotions";
 import type { PromotionRequest } from "../data/promotionWorkflow";
 import SceneBanner from "./SceneBanner";
@@ -127,7 +128,7 @@ export function OwnerPortalStores({ stores, selectedId, published, signedIn, own
       {/* The real storefront photo, never a generated illustration in its place. */}
       <article className="owner-store-profile owner-store-card">
         {validStorefrontImage(store.storefrontImage)
-          ? <img className="owner-store-photo" src={store.storefrontImage} alt={`${store.name} 실제 외관`} width="320" height="240" loading="lazy" decoding="async"/>
+          ? <img className="owner-store-photo" src={webImage(store.storefrontImage)} alt={`${store.name} 실제 외관`} width="320" height="240" loading="lazy" decoding="async"/>
           : <div className="owner-store-photo is-empty"><Camera size={30} aria-hidden="true"/><strong>가게 사진 준비 중</strong><small>아래 정보 수정 요청으로 사진 등록을 요청해 주세요.</small></div>}
         <div><span className="owner-profile-badge"><BadgeCheck size={16} aria-hidden="true"/>관리자 할당 매장</span><h2>{store.name}</h2><p>{store.description}</p><div className="owner-store-tags">{store.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
       </article>

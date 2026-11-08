@@ -114,4 +114,18 @@ assert(validStores(replaced.stores) && isValidStreetNodes(replaced.nodes));
 const edited = replaceWithCStreetTour({...published, stores:[...published.stores, {...tour.stores[1], name:'오봉집 수정'}]});
 assert.equal(edited.stores.find(store => store.id === 9102).name, '오봉집 수정');
 assert.equal(edited.stores.filter(store => store.id === 9102).length, 1);
-console.log('PASS actual photo assets, same-point front/back, entrance link, three-card expansion, safe photo URLs, legacy data and non-destructive admin import');
+// Phone display copies (npm run images:web): each listed original has a WebP copy that the screens swap in.
+const webImageExports = {};
+new Function('exports', 'require', ts.transpileModule(fs.readFileSync('src/data/webImage.ts', 'utf8'), {compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true}}).outputText)(webImageExports, name => name === './webImages.json' ? JSON.parse(fs.readFileSync('src/data/webImages.json', 'utf8')) : require(name));
+const {webImage} = webImageExports;
+const webList = JSON.parse(fs.readFileSync('src/data/webImages.json', 'utf8'));
+assert(webList.length > 0);
+for (const src of webList) {
+  assert(fs.existsSync(path.join('public', src)), src);
+  const copy = fs.readFileSync(path.join('public', webImage(src)));
+  assert.equal(copy.subarray(0, 4).toString(), 'RIFF'); assert.equal(copy.subarray(8, 12).toString(), 'WEBP');
+}
+assert.equal(webImage('/street/c-block/arcade.jpg'), '/street/c-block/arcade.web.webp');
+assert.equal(webImage('https://example.supabase.co/x.jpg'), 'https://example.supabase.co/x.jpg');
+assert.equal(webImage(undefined), undefined);
+console.log('PASS actual photo assets, phone WebP copies, same-point front/back, entrance link, three-card expansion, safe photo URLs, legacy data and non-destructive admin import');

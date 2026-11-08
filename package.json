@@ -12,7 +12,8 @@
     "test:street-view": "node scripts/test-street-view-stores.cjs",
     "test:street-tour": "node scripts/test-c-street-tour.cjs",
     "test:menu": "node scripts/test-store-menu.cjs",
-    "test:promotions": "node scripts/test-self-publication.mjs"
+    "test:promotions": "node scripts/test-self-publication.mjs",
+    "images:web": "node scripts/build-web-images.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.52.0",
