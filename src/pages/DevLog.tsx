@@ -28,7 +28,8 @@ export default function DevLog() {
 
   return <EditorShell title="개발일지" active="devlog">
     <section className="devlog-hero">
-      <img className="devlog-hero-art" src="/brand/characters/history-desktop-v7.webp" alt="" width="1600" height="667" aria-hidden="true" />
+      {/* guide-widget-v7 is used nowhere else; history-* already belongs to the owner account page. */}
+      <img className="devlog-hero-art" src="/brand/characters/guide-widget-v7.webp" alt="" width="360" height="360" aria-hidden="true" />
       <div className="devlog-hero-copy">
         <p>ITDA DEVELOPMENT LOG</p>
         <h2>맛&amp;멋 AI Street를 만든 기록</h2>

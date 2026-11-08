@@ -1,8 +1,8 @@
 /* Admin development log: hero over the desk illustration, then a dated timeline. */
-.devlog-hero { position: relative; overflow: hidden; border-radius: 19px; margin-bottom: 21px; min-height: 300px; display: flex; align-items: center; background: #4a2318; color: #fff7ec; }
-.devlog-hero-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; }
-.devlog-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #3d1c12f2 0%, #3d1c12c4 42%, #3d1c1200 68%); }
-.devlog-hero-copy { position: relative; z-index: 1; width: min(560px, 60%); padding: 32px 36px; }
+/* Copy on the left, the square illustration (brothers reading a book) as a framed picture on the right. */
+.devlog-hero { position: relative; overflow: hidden; border-radius: 19px; margin-bottom: 21px; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px 32px; background: radial-gradient(ellipse at 85% 50%, #7a3f22 0%, transparent 60%), linear-gradient(115deg, #3d1c12, #5a2c19); color: #fff7ec; }
+.devlog-hero-art { order: 2; flex: 0 0 auto; width: 250px; height: 250px; border-radius: 18px; border: 4px solid #fff3e2; box-shadow: 0 14px 30px #1d0b0566; object-fit: cover; transform: rotate(2deg); }
+.devlog-hero-copy { order: 1; position: relative; width: min(640px, 100%); padding: 4px 0; }
 .devlog-hero-copy > p { margin: 0 0 10px; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: #f3c99b; }
 .devlog-hero-copy h2 { margin: 0 0 10px; font-size: 30px; line-height: 1.3; letter-spacing: -1px; word-break: keep-all; }
 .devlog-hero-copy > span { display: block; font-size: 14px; line-height: 1.75; color: #f4e2cf; word-break: keep-all; }
@@ -69,19 +69,18 @@
 .devlog-next strong { display: block; color: #2f4637; font-size: 14px; }
 
 @media (max-width: 1100px) {
-  .devlog-hero-copy { width: min(560px, 68%); }
   .devlog-hero dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .devlog-bottom { grid-template-columns: 1fr; gap: 0; }
 }
 @media (max-width: 850px) {
+  .devlog-hero-art { width: 180px; height: 180px; }
   .devlog-day { grid-template-columns: 1fr; gap: 8px; }
 }
-/* Phones: the illustration becomes a strip above the copy instead of sitting behind it. */
+/* Phones: the picture sits above the copy. */
 @media (max-width: 600px) {
-  .devlog-hero { display: block; min-height: 0; border-radius: 16px; }
-  .devlog-hero-art { position: static; display: block; height: 170px; object-position: 88% center; }
-  .devlog-hero::after { display: none; }
-  .devlog-hero-copy { width: 100%; padding: 18px 18px 20px; }
+  .devlog-hero { flex-direction: column; align-items: stretch; gap: 16px; padding: 18px; border-radius: 16px; }
+  .devlog-hero-art { order: 0; align-self: center; width: 150px; height: 150px; border-width: 3px; }
+  .devlog-hero-copy { padding: 0; }
   .devlog-hero-copy h2 { font-size: 23px; }
   .devlog-hero-copy > span { font-size: 13px; }
   .devlog-hero dl { gap: 8px; margin-top: 16px; }
