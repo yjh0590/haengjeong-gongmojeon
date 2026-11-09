@@ -413,3 +413,8 @@ details.map-disclaimer p{margin:8px 0 0 20px;line-height:1.7}
   .app-shell .is-filter-panel .filter-chip{padding:6px 10px;font-size:12px}
   .app-shell .list-result-bar .recommended-button{padding:8px 12px;font-size:12px}
 }
+/* Phones paint a blue box over a tapped map path or button (the whole SVG bounding box on the map); the
+   buttons already show their own pressed and focus states, so hide the browser's tap highlight. */
+.app-shell{-webkit-tap-highlight-color:transparent}
+/* The store panel takes focus by script so screen readers start there; it is not a control, so no focus ring. */
+.app-shell .street-store-showcase:focus{outline:none}
